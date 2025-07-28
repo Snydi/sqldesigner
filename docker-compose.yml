@@ -8,6 +8,12 @@ services:
             - .:/var/www/html
         networks:
             - snydiagram_network
+        depends_on:
+            postgres:
+                condition: service_healthy
+        environment:
+            DB_HOST: postgres
+            DB_PORT: 5432
 
     node:
         build:
@@ -37,33 +43,40 @@ services:
         networks:
             - snydiagram_network
 
-    mysql:
-        image: mysql:8.0
-        container_name: mysql
+    postgres:
+        image: postgres:15
+        container_name: postgres
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
         volumes:
-            - dbdata:/var/lib/mysql
+            - pgdata:/var/lib/postgresql/data
         networks:
             - snydiagram_network
+        ports:
+            - "5432:5432"
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
+            interval: 5s
+            timeout: 5s
+            retries: 10
 
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: pgadmin
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@example.com}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
         ports:
             - "8081:80"
-        environment:
-            PMA_HOST: mysql
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
         depends_on:
-            - mysql
+            - postgres
         networks:
             - snydiagram_network
 
 volumes:
-    dbdata:
+    pgdata:
 
 networks:
     snydiagram_network:
