@@ -1,37 +1,47 @@
-.PHONY: install up down reinstall _wait_postgres _composer_install _npm_install _run_migrations
+.PHONY: install up down reinstall clean _wait_postgres _composer_install _npm_install _run_migrations _remove_volumes
 
 install:
-	@echo "Starting installation..."
-	$(MAKE) down
 	$(MAKE) up
 	$(MAKE) _wait_postgres
 	$(MAKE) _composer_install
-	$(MAKE) _npm_install
 	$(MAKE) _run_migrations
+	docker-compose -p snydiagram exec -T php sh -c "cd /var/www/html/backend && php artisan key:generate"
 	@echo "Installation complete."
 
 up:
-	@echo "Starting containers..."
-	docker-compose -p snydiagram up -d --build
+	docker-compose -p snydiagram build --no-cache --pull
+	docker-compose -p snydiagram up -d --force-recreate
 
 down:
-	@echo "Stopping containers..."
 	docker-compose -p snydiagram down
 
+clean:
+	-docker-compose -p snydiagram down --rmi all --volumes --remove-orphans
+	$(MAKE) _remove_volumes
+	docker system prune -a --volumes --force
+	@if exist backend\vendor rmdir /s /q backend\vendor
+	@if exist frontend\node_modules rmdir /s /q frontend\node_modules
+
+reinstall:
+	$(MAKE) clean
+	$(MAKE) install
+
 _wait_postgres:
-	@echo "Waiting for PostgreSQL to be ready..."
-	@docker-compose -p snydiagram exec -T postgres sh -c 'until pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}; do sleep 2; echo "Waiting for PostgreSQL..."; done'
-	@echo "PostgreSQL is ready!"
-	@docker-compose -p snydiagram exec -T postgres sh -c 'psql -U $${POSTGRES_USER:-postgres} -tc "SELECT 1 FROM pg_database WHERE datname = '\''$${POSTGRES_DB:-postgres}'\''" | grep -q 1 || psql -U $${POSTGRES_USER:-postgres} -c "CREATE DATABASE $${POSTGRES_DB:-postgres}"'
+	docker-compose -p snydiagram exec -T postgres sh -c 'until pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}; do sleep 2; echo "Waiting for PostgreSQL..."; done'
+	docker-compose -p snydiagram exec -T postgres sh -c 'psql -U $${POSTGRES_USER:-postgres} -tc "SELECT 1 FROM pg_database WHERE datname = '\''$${POSTGRES_DB:-snydiagram}'\''" | grep -q 1 || psql -U $${POSTGRES_USER:-postgres} -c "CREATE DATABASE $${POSTGRES_DB:-snydiagram}"'
 
 _composer_install:
-	@echo "Installing PHP dependencies..."
-	docker-compose -p snydiagram exec -T php sh -c "composer install && php artisan key:generate"
+	docker-compose -p snydiagram exec -T php sh -c "\
+		cd /var/www/html/backend && \
+		composer clear-cache && \
+		composer install --no-interaction --prefer-dist"
 
 _npm_install:
-	@echo "Installing Node dependencies..."
-	docker-compose -p snydiagram exec -T node npm install
+	docker-compose -p snydiagram exec -T node sh -c "npm install && npm run dev"
 
 _run_migrations:
-	@echo "Running migrations..."
-	docker-compose -p snydiagram exec -T php sh -c "php artisan migrate:fresh"
+	docker-compose -p snydiagram exec -T php sh -c "cd /var/www/html/backend && php artisan migrate:fresh"
+
+_remove_volumes:
+	@docker volume rm -f snydiagram_pgdata 2> nul || echo "Volume snydiagram_pgdata not found or already removed"
+

@@ -2,10 +2,11 @@ services:
     php:
         build:
             context: .
-            dockerfile: .docker/php/Dockerfile
+            dockerfile: docker/php/Dockerfile
         container_name: php
+        working_dir: /var/www/html/backend
         volumes:
-            - .:/var/www/html
+            - ./backend:/var/www/html/backend
         networks:
             - snydiagram_network
         depends_on:
@@ -16,18 +17,16 @@ services:
             DB_PORT: 5432
 
     node:
-        build:
-            context: .
-            dockerfile: .docker/node/Dockerfile
+        image: node:18-alpine
         container_name: node
         volumes:
-            - .:/var/www/html
-            - /var/www/html/node_modules
-        working_dir: /var/www/html
+            - ./frontend:/var/www/html/frontend
+        working_dir: /var/www/html/frontend
         ports:
             - "5173:5173"
         networks:
             - snydiagram_network
+        command: sh -c "npm install && npm run dev -- --host"
 
     nginx:
         image: nginx:alpine
@@ -35,8 +34,9 @@ services:
         ports:
             - "8080:80"
         volumes:
-            - .:/var/www/html
-            - ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./backend:/var/www/html/backend
+            - ./frontend:/var/www/html/frontend
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - php
             - node
@@ -52,8 +52,6 @@ services:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
         volumes:
             - pgdata:/var/lib/postgresql/data
-        networks:
-            - snydiagram_network
         ports:
             - "5432:5432"
         healthcheck:
@@ -61,6 +59,9 @@ services:
             interval: 5s
             timeout: 5s
             retries: 10
+        networks:
+            - snydiagram_network
+
 
     pgadmin:
         image: dpage/pgadmin4
