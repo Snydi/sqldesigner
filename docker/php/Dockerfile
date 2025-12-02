@@ -9,16 +9,27 @@ RUN apk add --no-cache \
     oniguruma-dev \
     zip \
     unzip \
-    libzip-dev
+    libzip-dev \
+    shadow
 
 RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+RUN addgroup -g ${GROUP_ID} -S www && \
+    adduser -u ${USER_ID} -S www -G www
+
 WORKDIR /var/www/html/backend
 
-RUN chown -R www-data:www-data /var/www/html/backend
+RUN mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache && \
+    chmod -R 777 storage bootstrap/cache
 
-USER www-data
+COPY backend/composer.json backend/composer.lock* ./
+RUN composer install --no-interaction --prefer-dist --no-scripts --no-autoloader --no-dev
 
-CMD ["sh", "-c", "composer install --no-interaction && php-fpm"]
+USER www
+
+CMD ["php-fpm"]

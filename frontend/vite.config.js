@@ -34,6 +34,10 @@ export default defineConfig({
       protocol: 'ws',
       host: 'localhost',
       port: 5173
+    },
+    watch: {
+      usePolling: true,
+      interval: 1000
     }
   }
 })
