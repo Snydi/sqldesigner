@@ -39,7 +39,6 @@ const userData = ref({
 });
 
 const register = async () => {
-    console.log('gang12345')
     await Auth.register(userData.value);
 };
 </script>

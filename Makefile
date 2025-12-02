@@ -6,8 +6,6 @@ install:
 	$(MAKE) _composer_install
 	docker-compose -p snydiagram exec -T php sh -c "cd /var/www/html/backend && php artisan key:generate"
 	docker-compose -p snydiagram exec -T php sh -c "cd /var/www/html/backend && php artisan migrate:fresh --force"
-	docker-compose -p snydiagram exec -T php sh -c "cd /var/www/html/backend && php artisan storage:link"
-	@echo "Installation complete."
 
 up:
 	docker-compose -p snydiagram build --no-cache --pull

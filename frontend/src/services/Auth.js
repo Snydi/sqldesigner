@@ -3,10 +3,11 @@ import router from '../router/index.js';
 import store from '@/store/index.js';
 
 const $toast = useToast();
+import axios from '@/axios';
 
 export const Auth = {
 
-    async register(userData) {//TODO add mail verification
+    async register(userData) {
         try {
             await axios.get('/sanctum/csrf-cookie');
             const response = await axios.post('/api/register', {

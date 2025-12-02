@@ -1,5 +1,6 @@
 /.phpunit.cache
 /node_modules
+.env
 .env.backup
 .env.production
 .phpunit.result.cache
@@ -11,7 +12,6 @@ yarn-error.log
 .idea
 *.log
 .DS_Store
-.env
 .phpactor.json
 /.idea
 /.nova

@@ -21,11 +21,14 @@ services:
         container_name: node
         volumes:
             - ./frontend:/var/www/html/frontend
+            - ./backend/.env:/var/www/html/frontend/.env:ro
         working_dir: /var/www/html/frontend
         ports:
             - "5173:5173"
         networks:
             - snydiagram_network
+        environment:
+            - APP_URL=${APP_URL}
         command: sh -c "npm install && npm run dev -- --host"
 
     nginx:
@@ -61,7 +64,6 @@ services:
             retries: 10
         networks:
             - snydiagram_network
-
 
     pgadmin:
         image: dpage/pgadmin4
