@@ -38,11 +38,11 @@
 </template>
 
 <script>
-import axios from "axios";
-import router from "../router/index.js";
-import { useToast } from "vue-toast-notification";
+import axios from 'axios'
+import router from '../router/index.js'
+import { useToast } from 'vue-toast-notification'
 
-const $toast = useToast();
+const $toast = useToast()
 
 export default {
 
@@ -50,76 +50,51 @@ export default {
         return {
             diagrams: [],
             newDiagramName: '',
-            originalName: null,
-        };
+            originalName: null
+        }
     },
     methods: {
         viewDiagram(id) {
-            router.push({ path: `/diagrams/${id}` });
+            router.push({ path: `/diagrams/${id}` })
         },
         async addDiagram() {
-            try {
-                const response = await axios.post('/api/diagrams', {
-                    name: this.newDiagramName
-                });
-                this.newDiagramName = '';
-                await this.fetchDiagrams();
-                $toast.success(response.data.message);
-            } catch (error) {
-                if (error.response) {
-                    $toast.error(error.response.data.message);
-                } else {
-                    $toast.error('Something went wrong!');
-                }
-            }
+            const response = await axios.post('/api/diagrams', {
+                name: this.newDiagramName
+            })
+            this.newDiagramName = ''
+            await this.fetchDiagrams()
+            response.status ? $toast.success(response.data.message) : $toast.error(response.data.message)
+
         },
         async updateDiagram(diagram) {
-            try {
-                await axios.put(`/api/diagrams/${diagram.id}`, { name: diagram.name });
-                await this.fetchDiagrams();
-                $toast.success('Diagram name updated successfully');
-            } catch (error) {
-                if (error.response) {
-                    $toast.error(error.response.data.message);
-                } else {
-                    $toast.error('Something went wrong!');
-                }
-                diagram.name = this.originalName;
-            } finally {
-                this.originalName = null;
-            }
+            const response = await axios.put(`/api/diagrams/${diagram.id}`, { name: diagram.name })
+            await this.fetchDiagrams()
+            this.originalName = null
+            response.status ? $toast.success(response.data.message) : $toast.error(response.data.message)
         },
         async deleteDiagram(id) {
-            try {
-                const response = await axios.delete(`/api/diagrams/${id}`);
-                await this.fetchDiagrams();
-                $toast.success(response.data.message);
-            } catch (error) {
-                if (error.response) {
-                    $toast.error(error.response.data.message);
-                } else {
-                    $toast.error('Something went wrong!');
-                }
-            }
+            const response = await axios.delete(`/api/diagrams/${id}`)
+            await this.fetchDiagrams()
+            response.status ? $toast.success(response.data.message) : $toast.error(response.data.message)
         },
         backupName(diagram) {
-            this.originalName = diagram.name;
+            this.originalName = diagram.name
         },
         async fetchDiagrams() {
             try {
-                const response = await axios.get(`/api/diagrams`);
-                this.diagrams = response.data;
+                const response = await axios.get(`/api/diagrams`)
+                this.diagrams = response.data.data
             } catch (error) {
                 if (error.response) {
-                    $toast.error(error.response.data.message);
+                    $toast.error(error.response.data.message)
                 } else {
-                    $toast.error('Something went wrong!');
+                    $toast.error('Something went wrong!')
                 }
             }
-        },
+        }
     },
     created() {
-        this.fetchDiagrams();
+        this.fetchDiagrams()
     }
-};
+}
 </script>

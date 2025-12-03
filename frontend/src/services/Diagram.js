@@ -10,7 +10,7 @@ export const Diagram = {
     async get(id) {
         try {
             const response = await axios.get(`/api/diagrams/${id}`);
-            return JSON.parse(response.data.schema);
+            return JSON.parse(response.data.data.schema);
         } catch (error) {
             if (error.response) {
                 $toast.error(error.response.data.message);
