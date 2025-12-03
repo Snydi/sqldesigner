@@ -14,7 +14,7 @@ class DiagramRequest extends FormRequest
             'name' => [
                 'string',
                 'max:255',
-                Rule::unique('diagrams')->where(function ($query) {
+                Rule::unique('diagrams')->where(function ($query) { //TODO move this validation to a Policy
                     return $query->where('user_id', auth()->id());
                 })
             ],

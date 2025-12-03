@@ -3,37 +3,37 @@
 namespace App\Repositories;
 
 use App\Models\Diagram;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
 class DiagramRepository implements DiagramRepositoryInterface
 {
-    public function all($request): Collection
+    public function all(User $user): Collection
     {
-        return $request->user()->diagrams()->get();
+        return $user->diagrams()->get();
     }
 
-    public function find($id)
+    public function find(int $id): Diagram //not used
     {
         return Diagram::find($id);
     }
 
-    public function create($request): void
+    public function create(array $data): Diagram
     {
-        Diagram::create([
-            'name' => $request->name,
+        return Diagram::create([
+            'name' => $data['name'],
             'schema' => NULL,
-            'user_id' => $request->user()->id
+            'user_id' => $data['user_id'],
         ]);
     }
 
-    public function update($id, $data): void
+    public function update(Diagram $diagram, $data): bool
     {
-        $diagram = $this->find($id);
-        $diagram->update($data);
+        return $diagram->update($data);
     }
 
-    public function delete($id): void
+    public function delete(Diagram $diagram): bool
     {
-        Diagram::destroy($id);
+        return $diagram->delete();
     }
 }

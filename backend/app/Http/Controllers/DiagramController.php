@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DiagramRequest;
+use App\Http\Resources\DiagramResource;
 use App\Models\Diagram;
 use App\Repositories\DiagramRepository;
 use App\Services\DiagramService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Routing\Controller;
 
 class DiagramController extends Controller
@@ -18,45 +20,40 @@ class DiagramController extends Controller
     {
         $this->diagramService = $diagramService;
     }
-    public function index(Request $request): JsonResponse
-    {
-        $diagrams = $this->diagramService->getUserDiagrams($request);
 
-        return response()->json($diagrams);
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        return DiagramResource::collection($this->diagramService->getUserDiagrams($request->user()));
     }
 
-    public function show($id): JsonResponse
+    public function show(Diagram $diagram): DiagramResource
     {
-        $diagram = $this->diagramService->getDiagramById($id);
-
-        return response()->json($diagram);
+        return new DiagramResource($diagram);
     }
 
     public function store(DiagramRequest $request): JsonResponse
     {
-        $this->diagramService->createDiagram($request);
+        $user = $request->user();
+        $data = $request->validated();
+        $data['user_id'] = $user->id;
 
-        return response()->json([
-            'message' => 'Diagram created!'
-        ]);
+        return $this->diagramService->createDiagram($data)
+            ? response()->json(['status' => true, 'message' => 'Diagram created'])
+            : response()->json(['status' => false, 'message' => 'Failed creating the diagram']);
     }
 
-    public function update(int $id, DiagramRequest $request): JsonResponse
+    public function update(Diagram $diagram, DiagramRequest $request): JsonResponse
     {
-        $this->diagramService->updateDiagram($id, $request->all());
-
-        return response()->json([
-            'message' => 'Diagram updated!'
-        ]);
+        return $this->diagramService->updateDiagram($diagram, $request->all())
+            ? response()->json(['status' => true, 'message' => 'Diagram updated'])
+            : response()->json(['status' => false, 'message' => 'Failed updating the diagram']);
     }
 
-    public function destroy($id): JsonResponse
+    public function destroy(Diagram $diagram): JsonResponse
     {
-        $this->diagramService->deleteDiagram($id);
-
-        return response()->json([
-            'message' => 'Diagram deleted!'
-        ]);
+        return $this->diagramService->deleteDiagram($diagram)
+            ? response()->json(['status' => true, 'message' => 'Diagram deleted'])
+            : response()->json(['status' => false, 'message' => 'Failed deleting the diagram']);
     }
 
 //    public function import($id, Request $request)
@@ -67,9 +64,8 @@ class DiagramController extends Controller
 //        $diagram->save();
 //    }
 
-    public function export($id): JsonResponse
+    public function export(Diagram $diagram): JsonResponse
     {
-        $diagram = $this->diagramService->getDiagramById($id);
         $diagram->script = json_encode($this->diagramService->createScript($diagram->schema));
         $diagram->save();
 

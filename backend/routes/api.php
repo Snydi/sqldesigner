@@ -12,14 +12,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::group(["prefix" => "diagrams"], function () {
         Route::get('/', [DiagramController::class, 'index']);
-        Route::get('/{id}', [DiagramController::class, 'show']);
+        Route::get('/{diagram}', [DiagramController::class, 'show']);
         Route::post('/', [DiagramController::class, 'store']);
-        Route::put('/{id}', [DiagramController::class, 'update']);
-        Route::delete('/{id}', [DiagramController::class, 'destroy']);
+        Route::put('/{diagram}', [DiagramController::class, 'update']);
+        Route::delete('/{diagram}', [DiagramController::class, 'destroy']);
 
         Route::group(["prefix" => "sql"], function () {
 //            Route::post('/import/{id}', [DiagramController::class, 'import']);
-            Route::get('/export/{id}', [DiagramController::class, 'export']);
+            Route::get('/export/{diagram}', [DiagramController::class, 'export']);
         });
     });
 });

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Diagram;
+use App\Models\User;
 use App\Repositories\DiagramRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -16,32 +17,27 @@ class DiagramService
         $this->diagramRepository = $diagramRepository;
     }
 
-    public function getUserDiagrams($request): Collection
+    public function getUserDiagrams(User $user): Collection
     {
-        return $this->diagramRepository->all($request);
+        return $this->diagramRepository->all($user);
     }
 
-    public function getDiagramById(int $id): Diagram
+    public function createDiagram(array $data): Diagram
     {
-        return $this->diagramRepository->find($id);
+        return $this->diagramRepository->create($data);
     }
 
-    public function createDiagram($request)
+    public function updateDiagram(Diagram $diagram, array $data): bool
     {
-        return $this->diagramRepository->create($request);
+        return $this->diagramRepository->update($diagram, $data);
     }
 
-    public function updateDiagram(int $id, array $data): void
+    public function deleteDiagram(Diagram $diagram): bool
     {
-        $this->diagramRepository->update($id, $data);
+        return $this->diagramRepository->delete($diagram);
     }
 
-    public function deleteDiagram(int $id): void
-    {
-        $this->diagramRepository->delete($id);
-    }
-
-    public function createScript($schema): string
+    public function createScript(string $schema): string
     {
         $script = '';
         $schema = json_decode($schema);
