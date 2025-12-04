@@ -5,7 +5,7 @@
                 <a href="/">Home</a>
             </button>
             <button class="btn btn-secondary" @click="openExportModal">Export</button>
-            <!--            <button class="btn btn-secondary" @click="openImportModal">Import</button>-->
+            <button class="btn btn-secondary" @click="openImportModal">Import</button>
             <button class="btn btn-secondary" @click="addTable">Add Table</button>
         </div>
         <div class="flex-items">
@@ -16,13 +16,13 @@
 </template>
 
 <script setup>
-import { Auth } from "@/services/Auth.js";
-import { useStore } from 'vuex';
+import { Auth } from '@/services/Auth.js'
+import { useStore } from 'vuex'
 
-const store = useStore();
+const store = useStore()
 
 const logout = () => {
-    Auth.logout(store);
+    Auth.logout(store)
 }
 
 const {
@@ -36,5 +36,5 @@ const {
     'openExportModal',
     'openImportModal',
     'saveDiagram'
-]);
+])
 </script>

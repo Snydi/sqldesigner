@@ -17,8 +17,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/{diagram}', [DiagramController::class, 'update']);
         Route::delete('/{diagram}', [DiagramController::class, 'destroy']);
 
-        Route::group(["prefix" => "sql"], function () {
-//            Route::post('/import/{id}', [DiagramController::class, 'import']);
+        Route::group(['prefix' => 'sql'], function () {
+            Route::post('/import/{diagram}', [DiagramController::class, 'import']);
             Route::get('/export/{diagram}', [DiagramController::class, 'export']);
         });
     });

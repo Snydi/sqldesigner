@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DiagramRequest;
 use App\Http\Resources\DiagramResource;
 use App\Models\Diagram;
-use App\Repositories\DiagramRepository;
 use App\Services\DiagramService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -56,13 +55,13 @@ class DiagramController extends Controller
             : response()->json(['status' => false, 'message' => 'Failed deleting the diagram']);
     }
 
-//    public function import($id, Request $request)
-//    {
-//        $script = $request->input("script");
-//        $diagram = DiagramRepository::getDiagramById($id);
-//        $diagram->schema = json_encode(DiagramRepository::createSchemaFromScript(json_decode($script)));
-//        $diagram->save();
-//    }
+    public function import(Diagram $diagram, Request $request): JsonResponse
+    {
+        $script = $request->input("script");
+        $diagram->schema = $this->diagramService->createSchema(json_decode($script));
+        $diagram->save();
+        return response()->json($diagram->schema);
+    }
 
     public function export(Diagram $diagram): JsonResponse
     {
