@@ -256,8 +256,8 @@ const openRelationshipModal = (params) => {
 const openImportModal = () => {
     showImportModal.value = true
 }
-const importSql = () => {
-    schema.value = Diagram.import(importContent.value)
+const importSql = async () => {
+    schema.value = await Diagram.import(diagramId, importContent.value)
 }
 const openExportModal = () => {
     showExportModal.value = true
