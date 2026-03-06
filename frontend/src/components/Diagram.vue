@@ -72,7 +72,7 @@
             </div>
 
             <!-- Options -->
-            <button class="table_button" @mousedown.stop @click="toggleOptionsModal(id, $event)">
+            <button class="table_button" @mousedown.stop @click="toggleOptionsModal(id)">
                 <img class="table_icon" src="../icons/dots.svg" alt="More options">
             </button>
 

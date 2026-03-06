@@ -27,19 +27,46 @@ export const TableActions = {
 
             tableName = `${tableName}_${suffix}`
         }
+        const existingTables = schema.filter(el => el.type === 'table')
+
+        let newX = 0
+        let newY = 0
+
+        if (existingTables.length > 0) {
+            const rightmostTable = existingTables.reduce((rightmost, table) => {
+                return (table.position.x > rightmost.position.x) ? table : rightmost
+            }, existingTables[0])
+            newX = rightmostTable.position.x + 400
+            newY = rightmostTable.position.y
+        }
 
         schemaRef.value = [...schema, {
-            id: tableId, type: 'table', label: tableName, data: {
-                toolbarPosition: Position.Top, toolbarVisible: true
-            }, position: { x: 0, y: 0 }, style: TableStyle
+            id: tableId,
+            type: 'table',
+            label: tableName,
+            data: {
+                toolbarPosition: Position.Top,
+                toolbarVisible: true
+            },
+            position: { x: newX, y: newY },
+            style: TableStyle
         }]
+
         this.addRow(schemaRef, {
-            id: tableId, data: {
-                'toolbarPosition': 'top', 'toolbarVisible': true
-            }, label: null
+            id: tableId,
+            data: {
+                'toolbarPosition': 'top',
+                'toolbarVisible': true
+            },
+            label: null
         }, {
-            rowName: 'id', keyMod: 'PRIMARY KEY', sqlType: 'INT(11)', nullable: false, unsigned: false
+            rowName: 'id',
+            keyMod: 'PRIMARY KEY',
+            sqlType: 'INT(11)',
+            nullable: false,
+            unsigned: false
         })
+
         return tableId
     },
 
@@ -115,7 +142,7 @@ export const TableActions = {
                 'one-to-one': { markerStart: 'none', markerEnd: 'none' },
                 'one-to-many': { markerStart: 'none', markerEnd: 'url(#chickenFoot)' },
                 'many-to-one': { markerStart: 'url(#chickenFoot)', markerEnd: 'none' },
-                'many-to-many': { markerStart: 'url(#chickenFoot)', markerEnd: 'url(#chickenFoot)' },
+                'many-to-many': { markerStart: 'url(#chickenFoot)', markerEnd: 'url(#chickenFoot)' }
             }
 
             const config = markerConfig[relationshipType]
