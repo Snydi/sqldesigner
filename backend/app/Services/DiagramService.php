@@ -43,29 +43,27 @@ class DiagramService
         $tables = [];
         $rows = [];
         $connections = [];
-
         foreach ($schema as $item) {
-            if (isset($item['type'])) {
-                if ($item['type'] === 'table') {
-                    $tables[] = [
-                        'id' => $item['id'],
-                        'name' => $item['label'],
-                    ];
-                } elseif ($item['type'] === 'row') {
-                    $rows[] = [
-                        'id' => $item['id'],
-                        'name' => $item['label'],
-                        'table_id' => $item['parentNode'],
-                        'key_mod' => isset($item['data']['keyMod']) && $item['data']['keyMod'] !== 'None' && $item['data']['keyMod'] !== null ? $item['data']['keyMod'] : null,
-                        'sql_type' => $item['data']['sqlType'] ?? 'VARCHAR(255)',
-                        'nullable' => isset($item['data']['nullable']) && $item['data']['nullable'] ? 'NULL' : 'NOT NULL',
-                        'unsigned' => isset($item['data']['unsigned']) && $item['data']['unsigned'] ? 'UNSIGNED' : null,
-                    ];
-                }
-            } elseif (isset($item['source']) && isset($item['target'])) {
+
+            if ($item['type'] === 'table') {
+                $tables[] = [
+                    'id' => $item['id'],
+                    'name' => $item['label'],
+                ];
+            } elseif ($item['type'] === 'row') {
+                $rows[] = [
+                    'id' => $item['id'],
+                    'name' => $item['label'],
+                    'table_id' => $item['parentNode'],
+                    'key_mod' => isset($item['data']['keyMod']) && $item['data']['keyMod'] !== 'None' && $item['data']['keyMod'] !== null ? $item['data']['keyMod'] : null,
+                    'sql_type' => $item['data']['sqlType'] ?? 'VARCHAR(255)',
+                    'nullable' => isset($item['data']['nullable']) && $item['data']['nullable'] ? 'NULL' : 'NOT NULL',
+                    'unsigned' => isset($item['data']['unsigned']) && $item['data']['unsigned'] ? 'UNSIGNED' : null,
+                ];
+            } else {
                 $connections[] = [
-                    'source_id' => $item['source'],
-                    'target_id' => $item['target'],
+                    'source_id' => $item['sourceNode']['id'],
+                    'target_id' => $item['targetNode']['id'],
                 ];
             }
         }
@@ -111,8 +109,8 @@ class DiagramService
             $tableName = $tables->where('id', $sourceRow['table_id'])->value('name');
             $targetTableName = $tables->where('id', $targetRow['table_id'])->value('name');
 
-            $script .= "ALTER TABLE `$tableName`\n";
-            $script .= "ADD FOREIGN KEY (`{$sourceRow['name']}`) REFERENCES `$targetTableName`(`{$targetRow['name']}`);\n\n";
+            $script .= "ALTER TABLE `$targetTableName`\n";
+            $script .= "ADD FOREIGN KEY (`{$targetRow['name']}`) REFERENCES `$tableName`(`{$sourceRow['name']}`);\n\n";
         }
 
         return $script;
@@ -256,7 +254,7 @@ class DiagramService
 
                         $typeParams = '';
                         if (isset($matches[3]) && $matches[3] !== '') {
-                            $typeParams = "({$matches[3]})";
+                            $typeParams = "($matches[3])";
                         }
                         $sqlType = $typeName . $typeParams;
 

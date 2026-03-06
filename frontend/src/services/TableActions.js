@@ -140,8 +140,8 @@ export const TableActions = {
 
             const markerConfig = {
                 'one-to-one': { markerStart: 'none', markerEnd: 'none' },
-                'one-to-many': { markerStart: 'none', markerEnd: 'url(#chickenFoot)' },
-                'many-to-one': { markerStart: 'url(#chickenFoot)', markerEnd: 'none' },
+                'one-to-many': { markerStart: 'url(#chickenFoot)', markerEnd: 'none' },
+                'many-to-one': { markerStart: 'none', markerEnd: 'url(#chickenFoot)' },
                 'many-to-many': { markerStart: 'url(#chickenFoot)', markerEnd: 'url(#chickenFoot)' }
             }
 

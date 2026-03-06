@@ -96,8 +96,13 @@
                 <img class="table_icon" src="../icons/cancel.svg" alt="Cancel">
             </button>
 
-            <Handle type="source" position="right" />
-            <Handle type="source" position="left" />
+            <!-- Left side handles -->
+            <Handle type="source" position="left" id="source-left" />
+            <Handle type="target" position="left" id="target-left" />
+
+            <!-- Right side handles -->
+            <Handle type="source" position="right" id="source-right" />
+            <Handle type="target" position="right" id="target-right" />
         </template>
 
     </VueFlow>
