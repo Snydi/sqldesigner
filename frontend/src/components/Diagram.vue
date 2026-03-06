@@ -141,6 +141,7 @@ import ChickenFootEdge from './ChickenFootEdge.vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { onClickOutside } from '@vueuse/core'
+import '@/css/diagram.css'
 
 const { updateEdge, addEdges } = useVueFlow()
 
@@ -163,6 +164,19 @@ const showExportModal = ref(false)
 const exportContent = ref('')
 
 const schema = ref()
+
+const TableStyle = {
+    display: 'flex',
+    border: '1px solid #10b981',
+    background: '#6c757d',
+    borderColor: '#6c757d',
+    color: 'white',
+    borderRadius: '5px',
+    width: '350px',
+    height: '40px',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+}
 
 const addTable = () => {
     TableActions.addTable(schema, TableStyle, 'new_table')
@@ -335,88 +349,3 @@ onUnmounted(() => {
     }
 })
 </script>
-
-<style scoped>
-.sql_modal_content {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    height: 500px;
-    width: 700px;
-}
-
-.sql_textarea {
-    width: 100%;
-    height: 500px;
-    margin-bottom: 10px;
-}
-
-.table_button {
-    width: 15%;
-    height: 80%;
-    margin-top: 5px;
-    padding: 0;
-    border: none;
-    background: none;
-}
-
-.table_icon {
-    width: 70%;
-    height: 70%;
-    color: white;
-}
-
-.relationship_modal {
-    position: absolute;
-    width: 200px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.relationship_modal button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ff6029;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.relationship_modal button:hover {
-    background-color: #ff6029;
-}
-
-select {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    color: #333;
-    cursor: pointer;
-}
-
-select:hover {
-    background-color: #f0f0f0;
-}
-
-.options_modal {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #ff6029;
-    border-radius: 5px;
-    width: 300px;
-}
-
-.modal_text {
-    margin: 0;
-    font-size: 15px;
-}
-</style>
