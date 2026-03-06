@@ -180,8 +180,7 @@ select:focus {
 .input_designer_table {
     text-align: center;
     color: white;
-    width: 30%;
-    max-width: 30%;
+    width: 70%;
     padding: 10px;
 }
 

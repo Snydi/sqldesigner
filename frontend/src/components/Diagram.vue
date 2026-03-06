@@ -176,7 +176,6 @@ const TableStyle = {
     background: '#6c757d',
     borderColor: '#6c757d',
     color: 'white',
-    borderRadius: '5px',
     width: '350px',
     height: '40px',
     alignItems: 'center',

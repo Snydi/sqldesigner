@@ -78,7 +78,6 @@ export const TableActions = {
             borderColor: '#898989',
             background: '#ffffff',
             color: '#000000',
-            borderRadius: '5px',
             width: '350px',
             height: '40px',
             alignItems: 'center',
