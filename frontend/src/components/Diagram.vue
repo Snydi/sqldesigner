@@ -101,13 +101,13 @@
 
     </VueFlow>
     <!--Relationship modal-->
-    <div v-if="showRelationshipModal" class="relationship_modal"
+    <div v-if="showRelationshipModal" class="relationship_modal"  ref="relationshipModal"
          :style="{ left: `${modalPosition.x}px`, top: `${modalPosition.y}px` }">
-        <button @click="updateConnectionLineType('one-to-one')">One to One</button>
-        <button @click="updateConnectionLineType('one-to-many')">One to Many</button>
-        <button @click="updateConnectionLineType('many-to-many')">Many to Many</button>
+        <button @click="updateConnectionLineType('one-to-one')">One to one</button>
+        <button @click="updateConnectionLineType('one-to-many')">One to many</button>
+        <button @click="updateConnectionLineType('many-to-one')">Many to one</button>
+        <button @click="updateConnectionLineType('many-to-many')">Many to many</button>
         <button @click="deleteEdge">Delete</button>
-        <button @click="showRelationshipModal = false">Close</button>
     </div>
     <!--Import modal-->
     <div v-if="showImportModal" class="modal flex-centered">
@@ -139,6 +139,7 @@ import Header from './Header.vue'
 import ChickenFootEdge from './ChickenFootEdge.vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { onClickOutside } from '@vueuse/core'
 
 const { updateEdge, addEdges } = useVueFlow()
 
@@ -212,7 +213,7 @@ const updateLabel = (id, newLabel) => {
     }
 }
 const updateKeyMod = (id, keyMod) => {
-    const element = schema.value.find(el => el.id === id)
+    const element = schema.value.find(el => el.id === id).data.keyMod = keyMod
     if (element) {
         element.data.keyMod = keyMod
     }
@@ -251,7 +252,7 @@ const openRelationshipModal = (params) => {
         x: edgeRect.left + window.scrollX + edgeRect.width / 2,
         y: edgeRect.top + window.scrollY + edgeRect.height / 2
     }
-    showRelationshipModal.value = true
+    showRelationshipModal.value = true;
 }
 const openImportModal = () => {
     showImportModal.value = true
@@ -276,7 +277,7 @@ const getDiagram = async (diagramId) => {
             {
                 id: '1',
                 type: 'table',
-                label: 'first_table',
+                label: 'users',
                 data: { toolbarPosition: Position.Top, toolbarVisible: true },
                 position: { x: 0, y: -100 },
                 style: TableStyle
@@ -284,6 +285,13 @@ const getDiagram = async (diagramId) => {
         ]
     }
 }
+
+const relationshipModal = ref(null)
+
+onClickOutside(relationshipModal, () => {
+    showRelationshipModal.value = false
+})
+
 onBeforeMount(() => {
     getDiagram(diagramId)
 })

@@ -9,8 +9,9 @@
             <button class="btn btn-secondary" @click="addTable">Add Table</button>
         </div>
         <div class="flex-items">
+            <button class="btn btn-secondary" @click="router.push({ name: 'diagrams' })">View diagrams</button>
             <button class="btn btn-secondary" @click="saveDiagram">Save</button>
-            <button class="btn btn-secondary" @click="logout">Log out</button>
+            <button class="btn btn-secondary" @click="Auth.logout(store)">Log out</button>
         </div>
     </header>
 </template>
@@ -18,12 +19,9 @@
 <script setup>
 import { Auth } from '@/services/Auth.js'
 import { useStore } from 'vuex'
+import router from '@/router/index.js'
 
 const store = useStore()
-
-const logout = () => {
-    Auth.logout(store)
-}
 
 const {
     addTable,
