@@ -4,6 +4,7 @@
         :openImportModal="openImportModal"
         :openExportModal="openExportModal"
         :saveDiagram="saveDiagram"
+        :isSaved="isSaved"
     >
     </Header>
 
@@ -101,7 +102,7 @@
 
     </VueFlow>
     <!--Relationship modal-->
-    <div v-if="showRelationshipModal" class="relationship_modal"  ref="relationshipModal"
+    <div v-if="showRelationshipModal" class="relationship_modal" ref="relationshipModal"
          :style="{ left: `${modalPosition.x}px`, top: `${modalPosition.y}px` }">
         <button @click="updateConnectionLineType('one-to-one')">One to one</button>
         <button @click="updateConnectionLineType('one-to-many')">One to many</button>
@@ -128,7 +129,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue'
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
 import { Handle, Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
 
@@ -148,6 +149,9 @@ store.dispatch('initializeAuth')
 const route = useRoute()
 const diagramId = route.params.id
 
+const isSaved = ref(true)
+const autoSaveTimer = ref(null)
+
 const modalPosition = ref({ x: 0, y: 0 })
 const selectedEdge = ref(null)
 const showRelationshipModal = ref(false)
@@ -160,22 +164,11 @@ const exportContent = ref('')
 
 const schema = ref()
 
-const TableStyle = {
-    display: 'flex',
-    border: '1px solid #10b981',
-    background: '#ff6029',
-    borderColor: '#ff6029',
-    color: 'white',
-    borderRadius: '5px',
-    width: '350px',
-    height: '40px',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-}
-
 const addTable = () => {
     TableActions.addTable(schema, TableStyle, 'new_table')
+    isSaved.value = false
 }
+
 const addRow = (nodeProps) => {
     TableActions.addRow(schema, nodeProps, {
         rowName: 'new_row',
@@ -184,52 +177,69 @@ const addRow = (nodeProps) => {
         nullable: false,
         unsigned: false
     })
+    isSaved.value = false
 }
+
 const deleteEdge = () => {
     TableActions.deleteEdge(schema, selectedEdge)
+    showRelationshipModal.value = false
+    isSaved.value = false
 }
+
 const deleteNode = (nodeId) => {
     TableActions.deleteNode(schema, nodeId)
+    isSaved.value = false
 }
 
 function onConnect(params) {
     params.updatable = true
-    return addEdges([params])
+    addEdges([params])
+    isSaved.value = false
 }
 
 function onEdgeUpdate({ edge, connection }) {
-    return updateEdge(edge, connection)
+    updateEdge(edge, connection)
+    isSaved.value = false
 }
 
 const updateConnectionLineType = (relationshipType) => {
     TableActions.updateConnectionLineType(schema, selectedEdge, relationshipType)
     showRelationshipModal.value = false
+    isSaved.value = false
 }
 
 const updateLabel = (id, newLabel) => {
     const element = schema.value.find(el => el.id === id)
     if (element) {
         element.label = newLabel.replace(' ', '_')
+        isSaved.value = false
     }
 }
+
 const updateKeyMod = (id, keyMod) => {
-    const element = schema.value.find(el => el.id === id).data.keyMod = keyMod
+    const element = schema.value.find(el => el.id === id)
     if (element) {
         element.data.keyMod = keyMod
+        isSaved.value = false
     }
 }
+
 const toggleNullable = (id) => {
     const element = schema.value.find(el => el.id === id)
     if (element) {
         element.data.nullable = !element.data.nullable
+        isSaved.value = false
     }
 }
+
 const toggleUnsigned = (id) => {
     const element = schema.value.find(el => el.id === id)
     if (element) {
         element.data.unsigned = !element.data.unsigned
+        isSaved.value = false
     }
 }
+
 const toggleOptionsModal = (id) => {
     const row = schema.value.find(el => el.id === id)
     const offsetX = 350
@@ -244,6 +254,7 @@ const toggleOptionsModal = (id) => {
     row.data.modalPosition = { x: documentX + offsetX, y: documentY - offsetY }
     row.data.showOptionsModal = !row.data.showOptionsModal
 }
+
 const openRelationshipModal = (params) => {
     selectedEdge.value = params.edge
     const edgeElement = document.querySelector(`[id="${params.edge.id}"]`)
@@ -252,24 +263,34 @@ const openRelationshipModal = (params) => {
         x: edgeRect.left + window.scrollX + edgeRect.width / 2,
         y: edgeRect.top + window.scrollY + edgeRect.height / 2
     }
-    showRelationshipModal.value = true;
+    showRelationshipModal.value = true
 }
+
 const openImportModal = () => {
     showImportModal.value = true
 }
+
 const importSql = async () => {
     schema.value = await Diagram.import(diagramId, importContent.value)
+    isSaved.value = false
 }
+
 const openExportModal = () => {
     showExportModal.value = true
 }
+
 const exportSql = async () => {
     await Diagram.save(diagramId, schema.value)
     exportContent.value = await Diagram.export(diagramId)
+    isSaved.value = false
 }
-const saveDiagram = () => {
-    Diagram.save(diagramId, schema.value)
+
+
+const saveDiagram = async () => {
+    await Diagram.save(diagramId, schema.value)
+    isSaved.value = true
 }
+
 const getDiagram = async (diagramId) => {
     schema.value = await Diagram.get(diagramId)
     if (schema.value == null) {
@@ -284,6 +305,7 @@ const getDiagram = async (diagramId) => {
             }
         ]
     }
+    isSaved.value = true
 }
 
 const relationshipModal = ref(null)
@@ -295,10 +317,22 @@ onClickOutside(relationshipModal, () => {
 onBeforeMount(() => {
     getDiagram(diagramId)
 })
+
 onMounted(() => {
-    setInterval(() => {
-        Diagram.save(diagramId, schema.value)
+    if (autoSaveTimer.value) {
+        clearInterval(autoSaveTimer.value)
+    }
+    autoSaveTimer.value = setInterval(() => {
+        if (!isSaved.value) {
+            saveDiagram()
+        }
     }, 60000)
+})
+
+onUnmounted(() => {
+    if (autoSaveTimer.value) {
+        clearInterval(autoSaveTimer.value)
+    }
 })
 </script>
 
