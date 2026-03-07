@@ -4,6 +4,7 @@
         :openImportModal="openImportModal"
         :openExportModal="openExportModal"
         :saveDiagram="saveDiagram"
+        :isSaved="isSaved"
     >
     </Header>
 
@@ -71,7 +72,7 @@
             </div>
 
             <!-- Options -->
-            <button class="table_button" @mousedown.stop @click="toggleOptionsModal(id, $event)">
+            <button class="table_button" @mousedown.stop @click="toggleOptionsModal(id)">
                 <img class="table_icon" src="../icons/dots.svg" alt="More options">
             </button>
 
@@ -95,19 +96,24 @@
                 <img class="table_icon" src="../icons/cancel.svg" alt="Cancel">
             </button>
 
-            <Handle type="source" position="right" />
-            <Handle type="source" position="left" />
+            <!-- Left side handles -->
+            <Handle type="source" position="left" id="source-left" />
+            <Handle type="target" position="left" id="target-left" />
+
+            <!-- Right side handles -->
+            <Handle type="source" position="right" id="source-right" />
+            <Handle type="target" position="right" id="target-right" />
         </template>
 
     </VueFlow>
     <!--Relationship modal-->
-    <div v-if="showRelationshipModal" class="relationship_modal"
+    <div v-if="showRelationshipModal" class="relationship_modal" ref="relationshipModal"
          :style="{ left: `${modalPosition.x}px`, top: `${modalPosition.y}px` }">
-        <button @click="updateConnectionLineType('one-to-one')">One to One</button>
-        <button @click="updateConnectionLineType('one-to-many')">One to Many</button>
-        <button @click="updateConnectionLineType('many-to-many')">Many to Many</button>
+        <button @click="updateConnectionLineType('one-to-one')">One to one</button>
+        <button @click="updateConnectionLineType('one-to-many')">One to many</button>
+        <button @click="updateConnectionLineType('many-to-one')">Many to one</button>
+        <button @click="updateConnectionLineType('many-to-many')">Many to many</button>
         <button @click="deleteEdge">Delete</button>
-        <button @click="showRelationshipModal = false">Close</button>
     </div>
     <!--Import modal-->
     <div v-if="showImportModal" class="modal flex-centered">
@@ -128,7 +134,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue'
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
 import { Handle, Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
 
@@ -139,6 +145,8 @@ import Header from './Header.vue'
 import ChickenFootEdge from './ChickenFootEdge.vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { onClickOutside } from '@vueuse/core'
+import '@/css/diagram.css'
 
 const { updateEdge, addEdges } = useVueFlow()
 
@@ -146,6 +154,9 @@ const store = useStore()
 store.dispatch('initializeAuth')
 const route = useRoute()
 const diagramId = route.params.id
+
+const isSaved = ref(true)
+const autoSaveTimer = ref(null)
 
 const modalPosition = ref({ x: 0, y: 0 })
 const selectedEdge = ref(null)
@@ -162,10 +173,9 @@ const schema = ref()
 const TableStyle = {
     display: 'flex',
     border: '1px solid #10b981',
-    background: '#ff6029',
-    borderColor: '#ff6029',
+    background: '#6c757d',
+    borderColor: '#6c757d',
     color: 'white',
-    borderRadius: '5px',
     width: '350px',
     height: '40px',
     alignItems: 'center',
@@ -174,7 +184,9 @@ const TableStyle = {
 
 const addTable = () => {
     TableActions.addTable(schema, TableStyle, 'new_table')
+    isSaved.value = false
 }
+
 const addRow = (nodeProps) => {
     TableActions.addRow(schema, nodeProps, {
         rowName: 'new_row',
@@ -183,52 +195,69 @@ const addRow = (nodeProps) => {
         nullable: false,
         unsigned: false
     })
+    isSaved.value = false
 }
+
 const deleteEdge = () => {
     TableActions.deleteEdge(schema, selectedEdge)
+    showRelationshipModal.value = false
+    isSaved.value = false
 }
+
 const deleteNode = (nodeId) => {
     TableActions.deleteNode(schema, nodeId)
+    isSaved.value = false
 }
 
 function onConnect(params) {
     params.updatable = true
-    return addEdges([params])
+    addEdges([params])
+    isSaved.value = false
 }
 
 function onEdgeUpdate({ edge, connection }) {
-    return updateEdge(edge, connection)
+    updateEdge(edge, connection)
+    isSaved.value = false
 }
 
 const updateConnectionLineType = (relationshipType) => {
     TableActions.updateConnectionLineType(schema, selectedEdge, relationshipType)
     showRelationshipModal.value = false
+    isSaved.value = false
 }
 
 const updateLabel = (id, newLabel) => {
     const element = schema.value.find(el => el.id === id)
     if (element) {
         element.label = newLabel.replace(' ', '_')
+        isSaved.value = false
     }
 }
+
 const updateKeyMod = (id, keyMod) => {
     const element = schema.value.find(el => el.id === id)
     if (element) {
         element.data.keyMod = keyMod
+        isSaved.value = false
     }
 }
+
 const toggleNullable = (id) => {
     const element = schema.value.find(el => el.id === id)
     if (element) {
         element.data.nullable = !element.data.nullable
+        isSaved.value = false
     }
 }
+
 const toggleUnsigned = (id) => {
     const element = schema.value.find(el => el.id === id)
     if (element) {
         element.data.unsigned = !element.data.unsigned
+        isSaved.value = false
     }
 }
+
 const toggleOptionsModal = (id) => {
     const row = schema.value.find(el => el.id === id)
     const offsetX = 350
@@ -243,6 +272,7 @@ const toggleOptionsModal = (id) => {
     row.data.modalPosition = { x: documentX + offsetX, y: documentY - offsetY }
     row.data.showOptionsModal = !row.data.showOptionsModal
 }
+
 const openRelationshipModal = (params) => {
     selectedEdge.value = params.edge
     const edgeElement = document.querySelector(`[id="${params.edge.id}"]`)
@@ -253,22 +283,32 @@ const openRelationshipModal = (params) => {
     }
     showRelationshipModal.value = true
 }
+
 const openImportModal = () => {
     showImportModal.value = true
 }
+
 const importSql = async () => {
     schema.value = await Diagram.import(diagramId, importContent.value)
+    isSaved.value = false
 }
+
 const openExportModal = () => {
     showExportModal.value = true
 }
+
 const exportSql = async () => {
     await Diagram.save(diagramId, schema.value)
     exportContent.value = await Diagram.export(diagramId)
+    isSaved.value = false
 }
-const saveDiagram = () => {
-    Diagram.save(diagramId, schema.value)
+
+
+const saveDiagram = async () => {
+    await Diagram.save(diagramId, schema.value)
+    isSaved.value = true
 }
+
 const getDiagram = async (diagramId) => {
     schema.value = await Diagram.get(diagramId)
     if (schema.value == null) {
@@ -276,105 +316,40 @@ const getDiagram = async (diagramId) => {
             {
                 id: '1',
                 type: 'table',
-                label: 'first_table',
+                label: 'users',
                 data: { toolbarPosition: Position.Top, toolbarVisible: true },
                 position: { x: 0, y: -100 },
                 style: TableStyle
             }
         ]
     }
+    isSaved.value = true
 }
+
+const relationshipModal = ref(null)
+
+onClickOutside(relationshipModal, () => {
+    showRelationshipModal.value = false
+})
+
 onBeforeMount(() => {
     getDiagram(diagramId)
 })
+
 onMounted(() => {
-    setInterval(() => {
-        Diagram.save(diagramId, schema.value)
+    if (autoSaveTimer.value) {
+        clearInterval(autoSaveTimer.value)
+    }
+    autoSaveTimer.value = setInterval(() => {
+        if (!isSaved.value) {
+            saveDiagram()
+        }
     }, 60000)
 })
+
+onUnmounted(() => {
+    if (autoSaveTimer.value) {
+        clearInterval(autoSaveTimer.value)
+    }
+})
 </script>
-
-<style scoped>
-.sql_modal_content {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    height: 500px;
-    width: 700px;
-}
-
-.sql_textarea {
-    width: 100%;
-    height: 500px;
-    margin-bottom: 10px;
-}
-
-.table_button {
-    width: 15%;
-    height: 80%;
-    margin-top: 5px;
-    padding: 0;
-    border: none;
-    background: none;
-}
-
-.table_icon {
-    width: 70%;
-    height: 70%;
-    color: white;
-}
-
-.relationship_modal {
-    position: absolute;
-    width: 200px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.relationship_modal button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ff6029;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.relationship_modal button:hover {
-    background-color: #ff6029;
-}
-
-select {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    color: #333;
-    cursor: pointer;
-}
-
-select:hover {
-    background-color: #f0f0f0;
-}
-
-.options_modal {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #ff6029;
-    border-radius: 5px;
-    width: 300px;
-}
-
-.modal_text {
-    margin: 0;
-    font-size: 15px;
-}
-</style>
