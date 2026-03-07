@@ -16,11 +16,11 @@ down:
 
 clean:
 	-docker-compose -p snydiagram down --rmi all --volumes --remove-orphans
-	docker volume rm -f snydiagram_pgdata 2> nul
+	docker volume rm -f snydiagram_pgdata 2>nul || (exit 0)
 	docker system prune -a --volumes --force
-	@if exist backend\storage\logs\laravel.log del /f /q backend\storage\logs\laravel.log
-	@if exist backend\vendor rmdir /s /q backend\vendor 2> nul
-	@if exist frontend\node_modules rmdir /s /q frontend\node_modules 2> nul
+	if exist backend\storage\logs\laravel.log del /f /q backend\storage\logs\laravel.log
+	if exist backend\vendor rmdir /s /q backend\vendor
+	if exist frontend\node_modules rmdir /s /q frontend\node_modules
 
 reinstall:
 	$(MAKE) clean
