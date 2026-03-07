@@ -10,6 +10,7 @@ export default defineConfig({
         'src/main.js',
         'src/css/app.css'
       ],
+      hotFile: '/var/www/html/backend/public/hot',
       refresh: true
     }),
     vue({

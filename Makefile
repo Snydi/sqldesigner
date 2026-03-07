@@ -1,3 +1,17 @@
+ifeq ($(OS),Windows_NT)
+    RM = del /f /q
+    RMDIR = rmdir /s /q
+    SEP = \\
+    DEVNULL = nul
+    TRUE = (exit 0)
+else
+    RM = rm -f
+    RMDIR = rm -rf
+    SEP = /
+    DEVNULL = /dev/null
+    TRUE = true
+endif
+
 .PHONY: install up down reinstall clean _wait_postgres _composer_install phpunit
 
 install:
@@ -16,11 +30,11 @@ down:
 
 clean:
 	-docker-compose -p snydiagram down --rmi all --volumes --remove-orphans
-	docker volume rm -f snydiagram_pgdata 2>nul || (exit 0)
+	docker volume rm -f snydiagram_pgdata 2>$(DEVNULL) || $(TRUE)
 	docker system prune -a --volumes --force
-	if exist backend\storage\logs\laravel.log del /f /q backend\storage\logs\laravel.log
-	if exist backend\vendor rmdir /s /q backend\vendor
-	if exist frontend\node_modules rmdir /s /q frontend\node_modules
+	$(RM) backend$(SEP)storage$(SEP)logs$(SEP)laravel.log
+	$(RMDIR) backend$(SEP)vendor
+	$(RMDIR) frontend$(SEP)node_modules
 
 reinstall:
 	$(MAKE) clean
