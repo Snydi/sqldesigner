@@ -1,65 +1,79 @@
 import { Position } from '@vue-flow/core'
 
+export const TABLE_STYLE = {
+    display: 'flex',
+    border: '1px solid #10b981',
+    background: '#6c757d',
+    borderColor: '#6c757d',
+    color: 'white',
+    width: '350px',
+    height: '40px',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+}
+
+const ROW_STYLE = {
+    display: 'flex',
+    border: '1px solid #10b981',
+    borderColor: '#898989',
+    background: '#ffffff',
+    color: '#000000',
+    width: '350px',
+    height: '40px',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+}
+
+const MARKER = {
+    'one-to-one':   { markerStart: 'none',              markerEnd: 'none' },
+    'one-to-many':  { markerStart: 'url(#chickenFoot)', markerEnd: 'none' },
+    'many-to-one':  { markerStart: 'none',              markerEnd: 'url(#chickenFoot)' },
+    'many-to-many': { markerStart: 'url(#chickenFoot)', markerEnd: 'url(#chickenFoot)' },
+}
+
+function uniqueName(name, existingNames) {
+    if (!existingNames.includes(name)) return name
+
+    const regex = new RegExp(`^${name}_(\\d+)$`)
+    let suffix = 1
+
+    existingNames.forEach(n => {
+        const match = n.match(regex)
+        if (match) {
+            const num = parseInt(match[1], 10)
+            if (num >= suffix) suffix = num + 1
+        }
+    })
+
+    return `${name}_${suffix}`
+}
+
 export const TableActions = {
 
-    addTable(schemaRef, TableStyle, name) {
+    addTable(schemaRef, name) {
         const schema = schemaRef.value
         const tableId = Math.random().toString()
-
-        let tableName = name
-        const existingTableNames = schema
-            .filter(el => el.type === 'table')
-            .map(table => table.label)
-
-        if (existingTableNames.includes(tableName)) {
-            let suffix = 1
-            const nameRegex = new RegExp(`^${tableName}_(\\d+)$`)
-
-            existingTableNames.forEach(name => {
-                const match = name.match(nameRegex)
-                if (match) {
-                    const num = parseInt(match[1], 10)
-                    if (num >= suffix) {
-                        suffix = num + 1
-                    }
-                }
-            })
-
-            tableName = `${tableName}_${suffix}`
-        }
         const existingTables = schema.filter(el => el.type === 'table')
 
-        let newX = 0
-        let newY = 0
+        const tableName = uniqueName(name, existingTables.map(t => t.label))
 
-        if (existingTables.length > 0) {
-            const rightmostTable = existingTables.reduce((rightmost, table) => {
-                return (table.position.x > rightmost.position.x) ? table : rightmost
-            }, existingTables[0])
-            newX = rightmostTable.position.x + 400
-            newY = rightmostTable.position.y
-        }
+        // Use x: -400 as sentinel so the first table lands at x: 0 without a separate if-check
+        const rightmost = existingTables.reduce(
+            (best, t) => t.position.x > best.position.x ? t : best,
+            { position: { x: -400, y: 0 } }
+        )
+        const position = { x: rightmost.position.x + 400, y: rightmost.position.y }
 
         schemaRef.value = [...schema, {
             id: tableId,
             type: 'table',
             label: tableName,
-            data: {
-                toolbarPosition: Position.Top,
-                toolbarVisible: true
-            },
-            position: { x: newX, y: newY },
-            style: TableStyle
+            data: { toolbarPosition: Position.Top, toolbarVisible: true },
+            position,
+            style: TABLE_STYLE
         }]
 
-        this.addRow(schemaRef, {
-            id: tableId,
-            data: {
-                'toolbarPosition': 'top',
-                'toolbarVisible': true
-            },
-            label: null
-        }, {
+        this.addRow(schemaRef, { id: tableId, data: {} }, {
             rowName: 'id',
             keyMod: 'PRIMARY KEY',
             sqlType: 'INT(11)',
@@ -72,47 +86,17 @@ export const TableActions = {
 
     addRow(schemaRef, nodeProps, rowProps) {
         const schema = schemaRef.value
-        const RowStyle = {
-            display: 'flex',
-            border: '1px solid #10b981',
-            borderColor: '#898989',
-            background: '#ffffff',
-            color: '#000000',
-            width: '350px',
-            height: '40px',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-        }
         const existingRows = schema.filter(el => el.parentNode === nodeProps.id)
         const position = nodeProps.data.position || { x: 0, y: 0 }
-
-        let rowName = rowProps.rowName
-        const existingRowNames = existingRows.map(row => row.label)
-        if (existingRowNames.includes(rowName)) {
-            let suffix = 1
-            const nameRegex = new RegExp(`^${rowName}_(\\d+)$`)
-
-            existingRowNames.forEach(name => {
-                const match = name.match(nameRegex)
-                if (match) {
-                    const num = parseInt(match[1], 10)
-                    if (num >= suffix) {
-                        suffix = num + 1
-                    }
-                }
-            })
-
-            rowName = `${rowName}_${suffix}`
-        }
-
+        const rowName = uniqueName(rowProps.rowName, existingRows.map(r => r.label))
         const id = Math.floor(Math.random() * 100000).toString()
 
         schemaRef.value = [...schema, {
-            id: id,
+            id,
             type: 'row',
             label: rowName,
             position: { x: position.x, y: position.y + 40 + 40 * existingRows.length },
-            style: RowStyle,
+            style: ROW_STYLE,
             draggable: false,
             parentNode: nodeProps.id,
             data: {
@@ -125,31 +109,18 @@ export const TableActions = {
                 unsigned: rowProps.unsigned
             }
         }]
+
         return id
     },
 
     updateConnectionLineType(schemaRef, selectedEdgeRef, relationshipType) {
         const schema = schemaRef.value
-        const selectedEdge = selectedEdgeRef.value
+        const edgeIndex = schema.findIndex(el => el.id === selectedEdgeRef.value.id)
+        if (edgeIndex === -1) return
 
-        const edgeIndex = schema.findIndex(el => el.id === selectedEdge.id)
-        if (edgeIndex !== -1) {
-            schema[edgeIndex].data.relationshipType = relationshipType
-            schema[edgeIndex].type = 'chickenFoot'
-
-            const markerConfig = {
-                'one-to-one': { markerStart: 'none', markerEnd: 'none' },
-                'one-to-many': { markerStart: 'url(#chickenFoot)', markerEnd: 'none' },
-                'many-to-one': { markerStart: 'none', markerEnd: 'url(#chickenFoot)' },
-                'many-to-many': { markerStart: 'url(#chickenFoot)', markerEnd: 'url(#chickenFoot)' }
-            }
-
-            const config = markerConfig[relationshipType]
-            if (config) {
-                schema[edgeIndex].data.markerStart = config.markerStart
-                schema[edgeIndex].data.markerEnd = config.markerEnd
-            }
-        }
+        const edge = schema[edgeIndex]
+        edge.type = 'chickenFoot'
+        Object.assign(edge.data, { relationshipType, ...MARKER[relationshipType] })
     },
 
     deleteEdge(schemaRef, selectedEdgeRef) {
@@ -164,11 +135,9 @@ export const TableActions = {
             schemaRef.value = schema.filter(el => el.id !== nodeId && (el.type !== 'row' || el.parentNode !== nodeId))
         } else if (nodeToDelete.type === 'row') {
             schemaRef.value = schema.filter(el => el.id !== nodeId)
-            const siblingRows = schema.filter(el => el.parentNode === nodeToDelete.parentNode && el.position.y > nodeToDelete.position.y)
-
-            siblingRows.forEach((row, index) => {
-                row.position.y = nodeToDelete.position.y + 40 * index
-            })
+            schema
+                .filter(el => el.parentNode === nodeToDelete.parentNode && el.position.y > nodeToDelete.position.y)
+                .forEach((row, index) => { row.position.y = nodeToDelete.position.y + 40 * index })
         }
     }
 }

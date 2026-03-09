@@ -4,6 +4,7 @@ import Login from '../components/Auth/Login.vue';
 import Logout from "../components/Auth/Logout.vue";
 import DiagramList from '../components/DiagramList.vue';
 import Diagram from '../components/Diagram.vue';
+import Layout from '../components/Layout.vue';
 import store from '@/store/index.js';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -27,11 +28,17 @@ function requireAuth(to, from, next) {
 }
 
 const routes = [
-    { path: '/register', name: 'register', component: Register },
-    { path: '/login', name: 'login', component: Login },
-    { path: '/logout', name: 'logout', component: Logout },
-    { path: '/diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth },
-    { path: '/diagrams/:id', name: 'diagram.show', component: Diagram, beforeEnter: requireAuth, props: true },
+    {
+        path: '/',
+        component: Layout,
+        children: [
+            { path: 'register', name: 'register', component: Register },
+            { path: 'login', name: 'login', component: Login },
+            { path: 'logout', name: 'logout', component: Logout },
+            { path: 'diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth },
+            { path: 'diagrams/:id', name: 'diagram.show', component: Diagram, beforeEnter: requireAuth },
+        ]
+    },
 ];
 
 const router = createRouter({

@@ -1,63 +1,38 @@
 import axios from '@/axios'
 import { useToast } from 'vue-toast-notification'
-import store from '@/store/index.js'
 
 const $toast = useToast()
-store.dispatch('initializeAuth')
+
+async function request(fn) {
+    try {
+        return await fn()
+    } catch (error) {
+        $toast.error(error.response?.data.message ?? 'Something went wrong!')
+    }
+}
 
 export const Diagram = {
-    async get(id) {
-        try {
+    get: (id) =>
+        request(async () => {
             const response = await axios.get(`/api/diagrams/${id}`)
             return JSON.parse(response.data.data.schema)
-        } catch (error) {
-            if (error.response) {
-                $toast.error(error.response.data.message)
-            } else {
-                $toast.error('Something went wrong!')
-            }
-        }
-    },
-    async import(id, script) {
-        try {
-            const response = await axios.post(`/api/diagrams/sql/import/${id}`,
-                {
-                    script: JSON.stringify(script)
-                })
+        }),
+
+    import: (id, script) =>
+        request(async () => {
+            const response = await axios.post(`/api/diagrams/sql/import/${id}`, { script: JSON.stringify(script) })
             return JSON.parse(response.data)
-        } catch (error) {
-            if (error.response) {
-                $toast.error(error.response.data.message)
-            } else {
-                $toast.error('Something went wrong!')
-            }
-        }
-    },
-    async export(id) {
-        try {
+        }),
+
+    export: (id) =>
+        request(async () => {
             const response = await axios.get(`/api/diagrams/sql/export/${id}`)
             return JSON.parse(response.data)
-        } catch (error) {
-            if (error.response) {
-                $toast.error(error.response.data.message)
-            } else {
-                $toast.error('Something went wrong!')
-            }
-        }
-    },
-    async save(id, schema) {
-        try {
-            const response = await axios.put(`/api/diagrams/${id}`, {
-                id: id,
-                schema: JSON.stringify(schema)
-            })
+        }),
+
+    save: (id, schema) =>
+        request(async () => {
+            const response = await axios.put(`/api/diagrams/${id}`, { id, schema: JSON.stringify(schema) })
             $toast.success(response.data.message)
-        } catch (error) {
-            if (error.response) {
-                $toast.error(error.response.data.message)
-            } else {
-                $toast.error('Something went wrong!')
-            }
-        }
-    }
+        }),
 }
