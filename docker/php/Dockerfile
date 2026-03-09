@@ -10,10 +10,11 @@ RUN apk add --no-cache \
     zip \
     unzip \
     libzip-dev \
+    mariadb-dev \
     shadow \
     $PHPIZE_DEPS
 
-RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd zip
+RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql mbstring exif pcntl bcmath gd zip
 
 RUN pecl install pcov && docker-php-ext-enable pcov
 

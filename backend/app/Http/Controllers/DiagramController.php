@@ -55,6 +55,15 @@ class DiagramController extends Controller
             : response()->json(['status' => false, 'message' => 'Failed deleting the diagram']);
     }
 
+    public function validateSQL(Request $request): JsonResponse
+    {
+        $request->validate(['sql' => 'required|string']);
+
+        $result = $this->diagramService->validateSQL($request->input('sql'));
+
+        return response()->json($result, $result['valid'] ? 200 : 422);
+    }
+
     public function import(Diagram $diagram, Request $request): JsonResponse
     {
         $script = $request->input("script");

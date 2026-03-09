@@ -6,6 +6,7 @@ use App\Models\Diagram;
 use App\Models\User;
 use App\Repositories\DiagramRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class DiagramService
 {
@@ -36,6 +37,44 @@ class DiagramService
         return $this->diagramRepository->delete($diagram);
     }
 
+    public function validateSQL(string $sql): array
+    {
+        $connection = DB::connection('mysql_validation');
+        $createdTables = [];
+
+        try {
+            $statements = array_filter(array_map('trim', explode(';', $sql)));
+
+            foreach ($statements as $statement) {
+                if (empty($statement)) {
+                    continue;
+                }
+
+                try {
+                    $connection->statement($statement);
+                } catch (\Exception $e) {
+                    return [
+                        'valid' => false,
+                        'error' => $e->getMessage(),
+                        'statement' => $statement,
+                    ];
+                }
+
+                if (preg_match('/CREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?(\w+)`?/i', $statement, $matches)) {
+                    $createdTables[] = $matches[1];
+                }
+            }
+
+            return ['valid' => true];
+        } finally {
+            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
+            foreach (array_reverse($createdTables) as $table) {
+                $connection->statement("DROP TABLE IF EXISTS `$table`");
+            }
+            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
+        }
+    }
+
     public function createScript(string $schema): string
     {
         $script = '';
@@ -45,12 +84,12 @@ class DiagramService
         $connections = [];
         foreach ($schema as $item) {
 
-            if ($item['type'] === 'table') {
+            if (($item['type'] ?? null) === 'table') {
                 $tables[] = [
                     'id' => $item['id'],
                     'name' => $item['label'],
                 ];
-            } elseif ($item['type'] === 'row') {
+            } elseif (($item['type'] ?? null) === 'row') {
                 $rows[] = [
                     'id' => $item['id'],
                     'name' => $item['label'],
@@ -109,8 +148,8 @@ class DiagramService
             $tableName = $tables->where('id', $sourceRow['table_id'])->value('name');
             $targetTableName = $tables->where('id', $targetRow['table_id'])->value('name');
 
-            $script .= "ALTER TABLE `$targetTableName`\n";
-            $script .= "ADD FOREIGN KEY (`{$targetRow['name']}`) REFERENCES `$tableName`(`{$sourceRow['name']}`);\n\n";
+            $script .= "ALTER TABLE `$tableName`\n";
+            $script .= "ADD FOREIGN KEY (`{$sourceRow['name']}`) REFERENCES `$targetTableName`(`{$targetRow['name']}`);\n\n";
         }
 
         return $script;
