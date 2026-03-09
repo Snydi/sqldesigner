@@ -22,6 +22,7 @@ services:
         volumes:
             - ./frontend:/var/www/html/frontend
             - ./backend/.env:/var/www/html/frontend/.env:ro
+            - ./backend/public:/var/www/html/backend/public
         working_dir: /var/www/html/frontend
         ports:
             - "5173:5173"
