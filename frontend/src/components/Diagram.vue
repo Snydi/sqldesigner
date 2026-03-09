@@ -1,12 +1,21 @@
 <template>
-    <Header
-        :addTable="addTable"
-        :openImportModal="openImportModal"
-        :openExportModal="openExportModal"
-        :saveDiagram="saveDiagram"
-        :isSaved="isSaved"
-    >
-    </Header>
+    <header class="header">
+        <div class="flex-items">
+            <button class="btn btn-secondary" @click="addTable">Add Table</button>
+            <button class="btn btn-secondary" @click="openImportModal">Import</button>
+            <button class="btn btn-secondary" @click="openExportModal">Export</button>
+        </div>
+        <div class="flex-items">
+            <div class="save-button-wrapper">
+                <button class="btn btn-secondary" @click="saveDiagram">Save</button>
+                <div
+                    class="save-indicator"
+                    :class="{ 'saved': isSaved, 'unsaved': !isSaved }"
+                    :title="isSaved ? 'All changes saved' : 'Unsaved changes'"
+                ></div>
+            </div>
+        </div>
+    </header>
 
     <VueFlow
         :default-edge-options="{ type:'chickenFoot' }"
@@ -88,7 +97,6 @@ import { Background, BackgroundVariant } from '@vue-flow/background'
 import { TableActions } from '@/services/TableActions.js'
 import { Diagram } from '@/services/Diagram.js'
 
-import Header from './Header.vue'
 import ChickenFootEdge from './ChickenFootEdge.vue'
 import TableNode from './TableNode.vue'
 import RowNode from './RowNode.vue'
@@ -97,6 +105,7 @@ import SqlModal from './SqlModal.vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import '@/css/diagram.css'
+import '@/css/header.css'
 
 const { updateEdge, addEdges } = useVueFlow()
 
