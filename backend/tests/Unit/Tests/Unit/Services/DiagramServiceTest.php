@@ -6,6 +6,7 @@ use App\Models\Diagram;
 use App\Models\User;
 use App\Services\DiagramService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class DiagramServiceTest extends TestCase
@@ -58,108 +59,75 @@ class DiagramServiceTest extends TestCase
         $this->assertDatabaseMissing(Diagram::class, $diagram->toArray());
     }
 
-    public function testCreateScriptGeneratesValidSQL()
+    public function testCreateScriptSingleTableIsExecutable()
     {
         $schema = json_encode([
-            [
-                'id' => 'users_table',
-                'type' => 'table',
-                'label' => 'users'
-            ],
-            [
-                'id' => 'posts_table',
-                'type' => 'table',
-                'label' => 'posts'
-            ],
-            [
-                'id' => 'users_id',
-                'type' => 'row',
-                'label' => 'id',
-                'parentNode' => 'users_table',
-                'data' => [
-                    'keyMod' => 'PRIMARY KEY',
-                    'sqlType' => 'INT',
-                    'nullable' => false,
-                    'unsigned' => true
-                ]
-            ],
-            [
-                'id' => 'users_email',
-                'type' => 'row',
-                'label' => 'email',
-                'parentNode' => 'users_table',
-                'data' => [
-                    'keyMod' => 'UNIQUE',
-                    'sqlType' => 'VARCHAR(255)',
-                    'nullable' => false,
-                    'unsigned' => false
-                ]
-            ],
-            [
-                'id' => 'users_name',
-                'type' => 'row',
-                'label' => 'name',
-                'parentNode' => 'users_table',
-                'data' => [
-                    'keyMod' => null,
-                    'sqlType' => 'VARCHAR(255)',
-                    'nullable' => false,
-                    'unsigned' => false
-                ]
-            ],
-            [
-                'id' => 'posts_id',
-                'type' => 'row',
-                'label' => 'id',
-                'parentNode' => 'posts_table',
-                'data' => [
-                    'keyMod' => 'PRIMARY KEY',
-                    'sqlType' => 'INT',
-                    'nullable' => false,
-                    'unsigned' => true
-                ]
-            ],
-            [
-                'id' => 'posts_user_id',
-                'type' => 'row',
-                'label' => 'user_id',
-                'parentNode' => 'posts_table',
-                'data' => [
-                    'keyMod' => null,
-                    'sqlType' => 'INT',
-                    'nullable' => false,
-                    'unsigned' => true
-                ]
-            ],
-            [
-                'id' => 'posts_title',
-                'type' => 'row',
-                'label' => 'title',
-                'parentNode' => 'posts_table',
-                'data' => [
-                    'keyMod' => null,
-                    'sqlType' => 'VARCHAR(255)',
-                    'nullable' => false,
-                    'unsigned' => false
-                ]
-            ],
-            [
-                'source' => 'posts_user_id',
-                'target' => 'users_id'
-            ]
+            ['id' => 't1', 'type' => 'table', 'label' => 'products'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
+            ['id' => 'r2', 'type' => 'row', 'label' => 'name', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'VARCHAR(255)', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r3', 'type' => 'row', 'label' => 'price', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'DECIMAL(10,2)', 'nullable' => false, 'unsigned' => false]],
         ]);
 
         $script = $this->service->createScript($schema);
 
-        $this->validateSQLStructure($script);
+        $this->assertNotEmpty($script);
+        $this->executeSQLAndValidate($script);
+    }
 
-        $statements = array_filter(array_map('trim', explode(';', $script)));
-        $this->assertCount(3, $statements, 'Should generate 3 SQL statements');
+    public function testCreateScriptColumnModifiersAreExecutable()
+    {
+        $schema = json_encode([
+            ['id' => 't1', 'type' => 'table', 'label' => 'orders'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'BIGINT', 'nullable' => false, 'unsigned' => true]],
+            ['id' => 'r2', 'type' => 'row', 'label' => 'ref_code', 'parentNode' => 't1', 'data' => ['keyMod' => 'UNIQUE', 'sqlType' => 'VARCHAR(64)', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r3', 'type' => 'row', 'label' => 'total', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'DECIMAL(12,4)', 'nullable' => false, 'unsigned' => true]],
+            ['id' => 'r4', 'type' => 'row', 'label' => 'note', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'TEXT', 'nullable' => true, 'unsigned' => false]],
+        ]);
 
-        $this->assertStringContainsString('CREATE TABLE IF NOT EXISTS `users`', $script);
-        $this->assertStringContainsString('CREATE TABLE IF NOT EXISTS `posts`', $script);
-        $this->assertStringContainsString('ALTER TABLE `posts`', $script);
-        $this->assertStringContainsString('ADD FOREIGN KEY', $script);
+        $script = $this->service->createScript($schema);
+
+        $this->assertNotEmpty($script);
+        $this->executeSQLAndValidate($script);
+    }
+
+    public function testCreateScriptForeignKeyIsExecutable()
+    {
+        $schema = json_encode([
+            ['id' => 't1', 'type' => 'table', 'label' => 'users'],
+            ['id' => 't2', 'type' => 'table', 'label' => 'posts'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
+            ['id' => 'r2', 'type' => 'row', 'label' => 'name', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'VARCHAR(255)', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r3', 'type' => 'row', 'label' => 'id', 'parentNode' => 't2', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
+            ['id' => 'r4', 'type' => 'row', 'label' => 'user_id', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
+            ['id' => 'r5', 'type' => 'row', 'label' => 'title', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'VARCHAR(255)', 'nullable' => false, 'unsigned' => false]],
+            ['sourceNode' => ['id' => 'r4'], 'targetNode' => ['id' => 'r1']],
+        ]);
+
+        $script = $this->service->createScript($schema);
+
+        $this->assertNotEmpty($script);
+        $this->executeSQLAndValidate($script);
+    }
+
+    public function testCreateScriptMultipleForeignKeysAreExecutable()
+    {
+        $schema = json_encode([
+            ['id' => 't1', 'type' => 'table', 'label' => 'authors'],
+            ['id' => 't2', 'type' => 'table', 'label' => 'categories'],
+            ['id' => 't3', 'type' => 'table', 'label' => 'books'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r2', 'type' => 'row', 'label' => 'id', 'parentNode' => 't2', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r3', 'type' => 'row', 'label' => 'id', 'parentNode' => 't3', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r4', 'type' => 'row', 'label' => 'author_id', 'parentNode' => 't3', 'data' => ['keyMod' => null, 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r5', 'type' => 'row', 'label' => 'category_id', 'parentNode' => 't3', 'data' => ['keyMod' => null, 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => false]],
+            ['sourceNode' => ['id' => 'r4'], 'targetNode' => ['id' => 'r1']],
+            ['sourceNode' => ['id' => 'r5'], 'targetNode' => ['id' => 'r2']],
+        ]);
+
+        $script = $this->service->createScript($schema);
+
+        $this->assertNotEmpty($script);
+        $this->executeSQLAndValidate($script);
     }
 
     public function testCreateSchemaFromBasicSQL()
@@ -484,13 +452,15 @@ class DiagramServiceTest extends TestCase
                 ]
             ],
             [
-                'source' => 'r4',
-                'target' => 'r1'
+                'sourceNode' => ['id' => 'r4'],
+                'targetNode' => ['id' => 'r1'],
             ]
         ]);
 
 
         $sql = $this->service->createScript($originalSchema);
+
+        $this->executeSQLAndValidate($sql);
 
         $newSchema = $this->service->createSchema($sql);
 
@@ -511,65 +481,44 @@ class DiagramServiceTest extends TestCase
 
         $this->assertCount(count($originalRows), $newRows, "Should have same number of rows. Original: " . count($originalRows) . ", New: " . count($newRows));
 
-        $originalConnections = array_filter($originalArray, fn($item) => isset($item['source']) && isset($item['target']));
-        $newConnections = array_filter($newArray, fn($item) => isset($item['source']) && isset($item['target']));
+        $isConnection = fn($item) => (isset($item['sourceNode']) && isset($item['targetNode']))
+            || (isset($item['source']) && isset($item['target']) && !isset($item['type']));
+        $originalConnections = array_filter($originalArray, $isConnection);
+        $newConnections = array_filter($newArray, $isConnection);
 
         $this->assertCount(count($originalConnections), $newConnections, "Should have same number of foreign key connections");
     }
 
 
-    private function validateSQLStructure(string $sql): void
+    private function executeSQLAndValidate(string $sql): void
     {
-        $statements = array_filter(array_map('trim', explode(';', $sql)));
+        $connection = DB::connection('mysql_validation');
+        $createdTables = [];
 
-        foreach ($statements as $statement) {
-            if (empty($statement)) {
-                continue;
-            }
+        try {
+            $statements = array_filter(array_map('trim', explode(';', $sql)));
 
-            try {
-                if (str_starts_with(strtoupper($statement), 'CREATE TABLE')) {
-                    if (!preg_match('/CREATE TABLE (?:IF NOT EXISTS )?`?(\w+)`?\s*\((.*)\)/is', $statement, $matches)) {
-                        $this->fail("Invalid CREATE TABLE syntax: $statement");
-                    }
-
-                    $columnsPart = trim($matches[2]);
-
-                    $this->assertNotEmpty($columnsPart, "CREATE TABLE must have column definitions");
-
-                    $columnLines = preg_split('/,\s*\n/', $columnsPart);
-                    $hasColumns = false;
-
-                    foreach ($columnLines as $line) {
-                        $line = trim($line);
-                        if (!empty($line)) {
-                            $hasColumns = true;
-
-                            if (preg_match('/^`?(\w+)`?\s+(\w+(?:\(\d+(?:,\d+)?\))?)/', $line)) {
-                                continue;
-                            } elseif (preg_match('/^(PRIMARY KEY|UNIQUE|FOREIGN KEY)/i', $line)) {
-                                continue;
-                            } else {
-                                $this->fail("Invalid line in CREATE TABLE: $line");
-                            }
-                        }
-                    }
-
-                    $this->assertTrue($hasColumns, "CREATE TABLE must have at least one column or constraint");
-                } elseif (str_starts_with(strtoupper($statement), 'ALTER TABLE')) {
-                    $pattern = '/ALTER TABLE `?(\w+)`?\s+ADD FOREIGN KEY\s*\(`?(\w+)`?\)\s+REFERENCES `?(\w+)`?\s*\(`?(\w+)`?\)/i';
-
-                    $this->assertMatchesRegularExpression(
-                        $pattern,
-                        $statement,
-                        "Invalid ALTER TABLE (foreign key) syntax: $statement"
-                    );
-                } else {
-                    $this->fail("Unexpected SQL statement type: $statement");
+            foreach ($statements as $statement) {
+                if (empty($statement)) {
+                    continue;
                 }
-            } catch (\Exception $e) {
-                $this->fail("Invalid SQL structure in statement: '$statement'\nError: " . $e->getMessage());
+
+                try {
+                    $connection->statement($statement);
+                } catch (\Exception $e) {
+                    $this->fail("MySQL rejected statement:\n\n$statement\n\nError: " . $e->getMessage());
+                }
+
+                if (preg_match('/CREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?(\w+)`?/i', $statement, $matches)) {
+                    $createdTables[] = $matches[1];
+                }
             }
+        } finally {
+            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
+            foreach (array_reverse($createdTables) as $table) {
+                $connection->statement("DROP TABLE IF EXISTS `$table`");
+            }
+            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
         }
     }
 }
