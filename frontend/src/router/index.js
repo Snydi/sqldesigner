@@ -36,7 +36,7 @@ const routes = [
             { path: 'login', name: 'login', component: Login },
             { path: 'logout', name: 'logout', component: Logout },
             { path: 'diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth },
-            { path: 'diagrams/:id', name: 'diagram.show', component: Diagram, beforeEnter: requireAuth, props: true },
+            { path: 'diagrams/:id', name: 'diagram.show', component: Diagram, beforeEnter: requireAuth },
         ]
     },
 ];
