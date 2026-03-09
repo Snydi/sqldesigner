@@ -7,7 +7,7 @@
         </div>
         <div class="flex-items">
             <button v-if="store.state.auth_token" class="btn btn-secondary" @click="router.push({ name: 'diagrams' })">View diagrams</button>
-            <button v-if="store.state.auth_token" class="btn btn-secondary" @click="Auth.logout(store)">Log out</button>
+            <button v-if="store.state.auth_token" class="btn btn-secondary" @click="Auth.logout()">Log out</button>
         </div>
     </header>
 </template>

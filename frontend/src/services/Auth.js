@@ -5,29 +5,17 @@ import axios from '@/axios'
 
 const $toast = useToast()
 
+async function authenticate(endpoint, userData) {
+    await axios.get('/sanctum/csrf-cookie')
+    const response = await axios.post(endpoint, { email: userData.email, password: userData.password })
+    store.commit('login', response.data.token)
+    $toast.success(response.data.message)
+    await router.push({ name: 'diagrams' })
+}
+
 export const Auth = {
-
-    async register(userData) {
-        await axios.get('/sanctum/csrf-cookie')
-        const response = await axios.post('/api/register', {
-            email: userData.email,
-            password: userData.password
-        })
-        store.commit('login', response.data.token)
-        response.status ? $toast.success(response.data.message) : $toast.error(response.data.message)
-        await router.push({ name: 'diagrams' })
-    },
-
-    async login(userData) {
-        await axios.get('/sanctum/csrf-cookie')
-        const response = await axios.post('/api/login', {
-            email: userData.email,
-            password: userData.password
-        })
-        store.commit('login', response.data.token)
-        response.status ? $toast.success(response.data.message) : $toast.error(response.data.message)
-        await router.push({ name: 'diagrams' })
-    },
+    register: (userData) => authenticate('/api/register', userData),
+    login: (userData) => authenticate('/api/login', userData),
 
     async logout() {
         const response = await axios.post('/api/logout')
