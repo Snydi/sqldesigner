@@ -26,7 +26,7 @@ class AuthService
     public function login(array $data): string
     {
         $user = $this->authRepository->findUser($data['email']);
-        return preg_replace('/(\d\|)(.+)/', '$2', $user->createToken("API TOKEN")->plainTextToken);
+        return $user->createToken("API TOKEN")->plainTextToken;
     }
 
     public function logout(User $user): true
