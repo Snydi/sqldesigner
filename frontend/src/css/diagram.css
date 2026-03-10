@@ -43,27 +43,27 @@
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #6c757d;
+    background-color: var(--color-primary);
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .relationship_modal button:hover {
-    background-color: #6c757d;
+    background-color: var(--color-primary-hover);
 }
 
 select {
     padding: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-primary-border);
     border-radius: 4px;
-    background-color: #f9f9f9;
+    background-color: var(--color-primary-light);
     color: #333;
     cursor: pointer;
 }
 
 select:hover {
-    background-color: #f0f0f0;
+    background-color: #fde8e8;
 }
 
 .options_modal {
@@ -71,7 +71,7 @@ select:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #6c757d;
+    border: 1px solid var(--color-primary);
     border-radius: 5px;
     width: 300px;
 }
