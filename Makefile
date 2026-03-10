@@ -1,5 +1,6 @@
 .PHONY: install up down reinstall clean _wait_postgres _composer_install phpunit \
-        install-prod up-prod down-prod build-frontend _wait_postgres_prod _composer_install_prod
+        install-prod up-prod down-prod build-frontend _wait_postgres_prod _composer_install_prod \
+        clean-prod reinstall-prod
 
 ifeq ($(OS),Windows_NT)
     RM = del /f /q
@@ -107,3 +108,12 @@ _composer_install_prod:
 	docker exec php sh -c "\
 		cd /var/www/html/backend && \
 		composer install --no-interaction --prefer-dist --no-dev --no-suggest --no-progress --optimize-autoloader"
+
+clean-prod:
+	-docker compose -f docker-compose.prod.yml -p snydiagram down --rmi all --volumes --remove-orphans
+	docker volume rm -f snydiagram_pgdata 2>$(DEVNULL) || $(TRUE)
+	docker system prune -a --volumes --force
+
+reinstall-prod:
+	$(MAKE) clean-prod
+	$(MAKE) install-prod
