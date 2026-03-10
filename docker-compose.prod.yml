@@ -65,7 +65,7 @@ services:
             MYSQL_USER: validator
             MYSQL_PASSWORD: validator
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot", "--silent"]
+            test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
             interval: 5s
             timeout: 5s
             retries: 20
