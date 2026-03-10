@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="yandex-verification" content="ebdef4d5d4512d71" />
     <title>SQL-designer</title>
     @vite(['src/css/app.css'])
 </head>
