@@ -44,8 +44,8 @@ class DiagramController extends Controller
     public function update(Diagram $diagram, DiagramRequest $request): JsonResponse
     {
         return $this->diagramService->updateDiagram($diagram, $request->all())
-            ? response()->json(['status' => true, 'message' => 'Diagram updated'])
-            : response()->json(['status' => false, 'message' => 'Failed updating the diagram']);
+            ? response()->json(['status' => true, 'message' => 'Diagram saved'])
+            : response()->json(['status' => false, 'message' => 'Failed saving the diagram']);
     }
 
     public function destroy(Diagram $diagram): JsonResponse
