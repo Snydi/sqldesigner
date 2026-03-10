@@ -15,9 +15,24 @@ services:
         depends_on:
             postgres:
                 condition: service_healthy
+            mysql_test:
+                condition: service_healthy
         environment:
             DB_HOST: postgres
             DB_PORT: 5432
+
+
+    node:
+        image: node:18-alpine
+        container_name: node
+        volumes:
+            - ./frontend:/var/www/html/frontend
+            - ./backend/public:/var/www/html/backend/public
+        working_dir: /var/www/html/frontend
+        networks:
+            - snydiagram_network
+        command: sh -c "npm install && npm run build"
+        restart: no
 
     nginx:
         image: nginx:alpine
@@ -33,7 +48,27 @@ services:
             # - ./docker/nginx/certs:/etc/nginx/certs:ro
             - ./docker/nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro
         depends_on:
-            - php
+            php:
+                condition: service_started
+            node:
+                condition: service_completed_successfully
+        networks:
+            - snydiagram_network
+
+    mysql_test:
+        image: mysql:8
+        container_name: mysql_test
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: sql_validation
+            MYSQL_USER: validator
+            MYSQL_PASSWORD: validator
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot", "--silent"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
         networks:
             - snydiagram_network
 
