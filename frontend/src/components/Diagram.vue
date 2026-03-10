@@ -1,13 +1,21 @@
 <template>
     <header class="header">
         <div class="flex-items">
-            <button class="btn btn-secondary" @click="addTable">Add Table</button>
-            <button class="btn btn-secondary" @click="showImportModal = true">Import</button>
-            <button class="btn btn-secondary" @click="showExportModal = true">Export</button>
+            <button class="btn btn-secondary" @click="addTable" title="Add Table">
+                <img src="../icons/table-add.svg" alt="Add Table" class="icon">
+            </button>
+            <button class="btn btn-secondary" @click="showImportModal = true" title="Import">
+                <img src="../icons/import.svg" alt="Import" class="icon">
+            </button>
+            <button class="btn btn-secondary" @click="showExportModal = true" title="Export">
+                <img src="../icons/export.svg" alt="Export" class="icon">
+            </button>
         </div>
         <div class="flex-items">
             <div class="save-button-wrapper">
-                <button class="btn btn-secondary" @click="saveDiagram">Save</button>
+                <button class="btn btn-secondary" @click="saveDiagram" title="Save">
+                    <img src="../icons/save.svg" alt="Save" class="icon">
+                </button>
                 <div
                     class="save-indicator"
                     :class="{ 'saved': isSaved, 'unsaved': !isSaved }"

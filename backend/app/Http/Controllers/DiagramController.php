@@ -58,8 +58,8 @@ class DiagramController extends Controller
         $this->authorize('update', $diagram);
 
         return $this->diagramService->updateDiagram($diagram, $request->all())
-            ? response()->json(['status' => true, 'message' => 'Diagram updated'])
-            : response()->json(['status' => false, 'message' => 'Failed updating the diagram']);
+            ? response()->json(['status' => true, 'message' => 'Diagram saved'])
+            : response()->json(['status' => false, 'message' => 'Failed saving the diagram']);
     }
 
     /**
