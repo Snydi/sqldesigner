@@ -1,3 +1,6 @@
+.PHONY: install up down reinstall clean _wait_postgres _composer_install phpunit \
+        install-prod up-prod down-prod build-frontend _wait_postgres_prod _composer_install_prod
+
 ifeq ($(OS),Windows_NT)
     RM = del /f /q
     RMDIR = rmdir /s /q
@@ -11,8 +14,6 @@ else
     DEVNULL = /dev/null
     TRUE = true
 endif
-
-.PHONY: install up down reinstall clean _wait_postgres _wait_mysql _composer_install phpunit
 
 install:
 	docker-compose -p snydiagram build --no-cache --pull
@@ -59,3 +60,50 @@ _composer_install:
 		cd /var/www/html/backend && \
 		composer clear-cache && \
 		composer install --no-interaction --prefer-dist --no-suggest --no-progress --optimize-autoloader"
+
+# ── Production ────────────────────────────────────────────────────────────────
+
+build-frontend:
+	docker run --rm \
+		-v "$(CURDIR)/frontend":/app \
+		-w /app \
+		node:18-alpine \
+		sh -c "npm ci && npm run build"
+	mkdir -p backend/public/build
+	cp -r frontend/public/build/. backend/public/build/
+
+install-prod:
+	$(MAKE) build-frontend
+	docker compose -f docker-compose.prod.yml -p snydiagram build --no-cache --pull
+	docker compose -f docker-compose.prod.yml -p snydiagram up -d --force-recreate
+	$(MAKE) _wait_postgres_prod
+	$(MAKE) _composer_install_prod
+	docker compose -f docker-compose.prod.yml -p snydiagram exec -T php sh -c "\
+		cd /var/www/html/backend && \
+		php artisan key:generate --no-interaction && \
+		php artisan migrate --force && \
+		php artisan optimize"
+
+up-prod:
+	docker compose -f docker-compose.prod.yml -p snydiagram up -d
+
+down-prod:
+	docker compose -f docker-compose.prod.yml -p snydiagram down
+
+deploy:
+	$(MAKE) build-frontend
+	docker compose -f docker-compose.prod.yml -p snydiagram exec -T php sh -c "\
+		cd /var/www/html/backend && \
+		composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader && \
+		php artisan migrate --force && \
+		php artisan optimize"
+	docker compose -f docker-compose.prod.yml -p snydiagram restart php
+
+_wait_postgres_prod:
+	docker compose -f docker-compose.prod.yml -p snydiagram exec -T postgres sh -c \
+		'until pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}; do sleep 2; echo "Waiting for PostgreSQL..."; done'
+
+_composer_install_prod:
+	docker compose -f docker-compose.prod.yml -p snydiagram exec -T php sh -c "\
+		cd /var/www/html/backend && \
+		composer install --no-interaction --prefer-dist --no-dev --no-suggest --no-progress --optimize-autoloader"

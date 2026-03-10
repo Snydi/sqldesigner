@@ -1,0 +1,62 @@
+services:
+    php:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile.prod
+        container_name: php
+        restart: unless-stopped
+        working_dir: /var/www/html/backend
+        volumes:
+            - ./backend:/var/www/html/backend
+            - /var/www/html/backend/vendor
+        networks:
+            - snydiagram_network
+        depends_on:
+            postgres:
+                condition: service_healthy
+        environment:
+            DB_HOST: postgres
+            DB_PORT: 5432
+
+    nginx:
+        image: nginx:alpine
+        container_name: nginx
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            # Uncomment after enabling HTTPS in nginx.prod.conf:
+            # - "443:443"
+        volumes:
+            - ./backend:/var/www/html/backend:ro
+            # Uncomment for HTTPS:
+            # - ./docker/nginx/certs:/etc/nginx/certs:ro
+            - ./docker/nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro
+        depends_on:
+            - php
+        networks:
+            - snydiagram_network
+
+    postgres:
+        image: postgres:15
+        container_name: postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+        networks:
+            - snydiagram_network
+
+volumes:
+    pgdata:
+
+networks:
+    snydiagram_network:
+        driver: bridge
