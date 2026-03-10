@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header class="header header--diagram">
         <div class="flex-items">
             <button class="btn btn-secondary" @click="addTable" title="Add Table">
                 <img src="../icons/table-add.svg" alt="Add Table" class="icon">
@@ -13,12 +13,10 @@
         </div>
         <div class="flex-items">
             <div class="save-button-wrapper">
-                <button class="btn btn-secondary" @click="saveDiagram" title="Save">
+                <button class="btn btn-secondary" @click="saveDiagram" title="Save" :disabled="isSaved">
                     <img src="../icons/save.svg" alt="Save" class="icon">
                 </button>
                 <div
-                    class="save-indicator"
-                    :class="{ 'saved': isSaved, 'unsaved': !isSaved }"
                     :title="isSaved ? 'All changes saved' : 'Unsaved changes'"
                 ></div>
             </div>

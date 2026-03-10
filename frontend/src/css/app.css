@@ -11,7 +11,7 @@
 :root {
     --color-primary:        #c05252;
     --color-primary-hover:  #a84444;
-    --color-primary-light:  #fdf4f4;
+    --color-primary-light: #ffffff;
     --color-primary-border: #f0d0d0;
     --color-text-on-primary: #fff;
 }
@@ -52,7 +52,8 @@ select:focus {
 }
 
 .logo {
-    height: 22px;
+    margin-top: 4px;
+    height: 24px;
     width: auto;
 }
 
@@ -181,7 +182,7 @@ select:focus {
 
 .input:focus {
     outline: none;
-    border-bottom: 1px solid var(--color-primary);
+    border-bottom: 1px solid #898989;
 }
 
 .input-underline {
@@ -212,9 +213,9 @@ select:focus {
 .icon {
     cursor: pointer;
     margin: 0;
-    font-size: 20px;
-    width: 30px;
-    height: 30px;
+    font-size: 16px;
+    width: 20px;
+    height: 20px;
 }
 
 /* ── Utilities ───────────────────────────────────────────────── */
