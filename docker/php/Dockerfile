@@ -12,6 +12,7 @@ RUN apk add --no-cache \
     libzip-dev \
     mariadb-dev \
     shadow \
+    su-exec \
     $PHPIZE_DEPS
 
 RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql mbstring exif pcntl bcmath gd zip
@@ -34,6 +35,7 @@ RUN mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cac
 COPY backend/composer.json backend/composer.lock* ./
 RUN composer install --no-interaction --prefer-dist --no-scripts --no-autoloader --no-dev
 
-USER www
+COPY docker/php/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["php-fpm"]
+ENTRYPOINT ["/entrypoint.sh"]
