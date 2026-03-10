@@ -9,8 +9,7 @@ RUN apk add --no-cache \
     zip \
     unzip \
     libzip-dev \
-    shadow \
-    su-exec
+    shadow
 
 RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd zip opcache
 

@@ -12,7 +12,6 @@ RUN apk add --no-cache \
     libzip-dev \
     mariadb-dev \
     shadow \
-    su-exec \
     $PHPIZE_DEPS
 
 RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql mbstring exif pcntl bcmath gd zip
