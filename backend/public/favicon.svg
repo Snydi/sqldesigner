@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <rect width="24" height="24" rx="4" fill="#ffffff"/>
+  <!-- 3x3 table grid -->
+  <rect x="2" y="2" width="20" height="20" rx="2" stroke="#1e293b" stroke-width="1.5" fill="none"/>
+  <line x1="2" y1="8.67" x2="22" y2="8.67" stroke="#1e293b" stroke-width="1.5"/>
+  <line x1="2" y1="15.33" x2="22" y2="15.33" stroke="#1e293b" stroke-width="1.5"/>
+  <line x1="8.67" y1="2" x2="8.67" y2="22" stroke="#1e293b" stroke-width="1.5"/>
+  <line x1="15.33" y1="2" x2="15.33" y2="22" stroke="#1e293b" stroke-width="1.5"/>
+</svg>

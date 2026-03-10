@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snydiagram</title>
+    <title>SQL-designer</title>
     @vite(['src/css/app.css'])
 </head>
 <body>
