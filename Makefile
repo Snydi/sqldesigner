@@ -78,7 +78,7 @@ install-prod:
 	docker compose -f docker-compose.prod.yml -p snydiagram up -d --force-recreate
 	$(MAKE) _wait_postgres_prod
 	$(MAKE) _composer_install_prod
-	docker compose -f docker-compose.prod.yml -p snydiagram exec -T php sh -c "\
+	docker exec php sh -c "\
 		cd /var/www/html/backend && \
 		php artisan key:generate --no-interaction && \
 		php artisan migrate --force && \
@@ -92,7 +92,7 @@ down-prod:
 
 deploy:
 	$(MAKE) build-frontend
-	docker compose -f docker-compose.prod.yml -p snydiagram exec -T php sh -c "\
+	docker exec php sh -c "\
 		cd /var/www/html/backend && \
 		composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader && \
 		php artisan migrate --force && \
@@ -100,10 +100,10 @@ deploy:
 	docker compose -f docker-compose.prod.yml -p snydiagram restart php
 
 _wait_postgres_prod:
-	docker compose -f docker-compose.prod.yml -p snydiagram exec -T postgres sh -c \
+	docker exec postgres sh -c \
 		'until pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}; do sleep 2; echo "Waiting for PostgreSQL..."; done'
 
 _composer_install_prod:
-	docker compose -f docker-compose.prod.yml -p snydiagram exec -T php sh -c "\
+	docker exec php sh -c "\
 		cd /var/www/html/backend && \
 		composer install --no-interaction --prefer-dist --no-dev --no-suggest --no-progress --optimize-autoloader"
