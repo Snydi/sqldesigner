@@ -31,6 +31,7 @@ RUN mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cac
 COPY backend/composer.json backend/composer.lock* ./
 RUN composer install --no-interaction --prefer-dist --no-scripts --no-autoloader --no-dev
 
-USER www
+COPY docker/php/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["php-fpm"]
+ENTRYPOINT ["/entrypoint.sh"]

@@ -3,6 +3,7 @@ services:
         build:
             context: .
             dockerfile: docker/php/Dockerfile.prod
+            network: host
         container_name: php
         restart: unless-stopped
         working_dir: /var/www/html/backend

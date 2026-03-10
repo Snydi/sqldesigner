@@ -6,13 +6,17 @@ use App\Http\Requests\DiagramRequest;
 use App\Http\Resources\DiagramResource;
 use App\Models\Diagram;
 use App\Services\DiagramService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
 
 class DiagramController extends Controller
 {
+    use AuthorizesRequests;
+
     protected DiagramService $diagramService;
 
     public function __construct(DiagramService $diagramService)
@@ -25,8 +29,13 @@ class DiagramController extends Controller
         return DiagramResource::collection($this->diagramService->getUserDiagrams($request->user()));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function show(Diagram $diagram): DiagramResource
     {
+        $this->authorize('view', $diagram);
+
         return new DiagramResource($diagram);
     }
 
@@ -41,15 +50,25 @@ class DiagramController extends Controller
             : response()->json(['status' => false, 'message' => 'Failed creating the diagram']);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function update(Diagram $diagram, DiagramRequest $request): JsonResponse
     {
+        $this->authorize('update', $diagram);
+
         return $this->diagramService->updateDiagram($diagram, $request->all())
             ? response()->json(['status' => true, 'message' => 'Diagram saved'])
             : response()->json(['status' => false, 'message' => 'Failed saving the diagram']);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Diagram $diagram): JsonResponse
     {
+        $this->authorize('delete', $diagram);
+
         return $this->diagramService->deleteDiagram($diagram)
             ? response()->json(['status' => true, 'message' => 'Diagram deleted'])
             : response()->json(['status' => false, 'message' => 'Failed deleting the diagram']);
@@ -64,16 +83,26 @@ class DiagramController extends Controller
         return response()->json($result, $result['valid'] ? 200 : 422);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function import(Diagram $diagram, Request $request): JsonResponse
     {
+        $this->authorize('import', $diagram);
+
         $script = $request->input("script");
         $diagram->schema = $this->diagramService->createSchema(json_decode($script));
         $diagram->save();
         return response()->json($diagram->schema);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function export(Diagram $diagram): JsonResponse
     {
+        $this->authorize('export', $diagram);
+
         $diagram->script = json_encode($this->diagramService->createScript($diagram->schema));
         $diagram->save();
 
