@@ -206,6 +206,11 @@ select:focus {
     height: 30px;
 }
 
+.logo {
+    height: 22px;
+    width: auto;
+}
+
 /*universal styles*/
 .no-margin {
     margin: 0;

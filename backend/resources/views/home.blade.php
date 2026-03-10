@@ -8,7 +8,7 @@
 </head>
 <body>
 <header class="header">
-    <img class="logo" src="/logo.png" alt="logo">
+    <img class="logo" src="{{ Vite::asset('src/icons/logo.svg') }}" alt="sql-designer">
     <div class="flex-items">
         @if(Auth::check())
             <a class="btn btn-secondary" href="/diagrams">View Diagrams</a>

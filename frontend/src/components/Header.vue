@@ -1,9 +1,9 @@
 <template>
     <header class="header">
         <div class="flex-items">
-            <button class="btn btn-secondary">
-                <a href="/">Home</a>
-            </button>
+            <a href="/">
+                <img src="../icons/logo.svg" alt="sql-designer" class="logo">
+            </a>
         </div>
         <div class="flex-items">
             <button v-if="store.state.auth_token" class="btn btn-secondary" @click="router.push({ name: 'diagrams' })">View diagrams</button>

@@ -1,7 +1,9 @@
 <template>
     <div class="centered-container">
         <div class="form-container">
-            <a href="/" class="btn btn-secondary float-left">Home</a>
+            <a href="/" class="float-left">
+                <img src="../icons/logo.svg" alt="sql-designer" class="logo">
+            </a>
             <br>
             <h2 class="form-title">Diagrams</h2>
 
