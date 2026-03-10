@@ -1,5 +1,17 @@
 import { Position } from '@vue-flow/core'
 
+export const ADD_ROW_BUTTON_STYLE = {
+    display: 'flex',
+    border: '1px solid #898989',
+    borderColor: '#898989',
+    background: '#898989',
+    color: 'white',
+    width: '350px',
+    height: '30px',
+    alignItems: 'center',
+    justifyContent: 'center'
+}
+
 export const TABLE_STYLE = {
     display: 'flex',
     border: '1px solid #898989',
@@ -81,21 +93,34 @@ export const TableActions = {
             unsigned: false
         })
 
+        const buttonId = Math.floor(Math.random() * 100000).toString()
+        schemaRef.value = [...schemaRef.value, {
+            id: buttonId,
+            type: 'add-row-button',
+            label: '',
+            position: { x: 0, y: 80 },
+            style: ADD_ROW_BUTTON_STYLE,
+            draggable: false,
+            parentNode: tableId,
+            data: { tableId }
+        }]
+
         return tableId
     },
 
     addRow(schemaRef, nodeProps, rowProps) {
         const schema = schemaRef.value
-        const existingRows = schema.filter(el => el.parentNode === nodeProps.id)
+        const existingRows = schema.filter(el => el.parentNode === nodeProps.id && el.type === 'row')
         const position = nodeProps.data.position || { x: 0, y: 0 }
         const rowName = uniqueName(rowProps.rowName, existingRows.map(r => r.label))
         const id = Math.floor(Math.random() * 100000).toString()
 
+        const newRowY = position.y + 40 + 40 * existingRows.length
         schemaRef.value = [...schema, {
             id,
             type: 'row',
             label: rowName,
-            position: { x: position.x, y: position.y + 40 + 40 * existingRows.length },
+            position: { x: position.x, y: newRowY },
             style: ROW_STYLE,
             draggable: false,
             parentNode: nodeProps.id,
@@ -109,6 +134,9 @@ export const TableActions = {
                 unsigned: rowProps.unsigned
             }
         }]
+
+        const button = schemaRef.value.find(el => el.type === 'add-row-button' && el.parentNode === nodeProps.id)
+        if (button) button.position = { x: position.x, y: newRowY + 40 }
 
         return id
     },
@@ -132,12 +160,16 @@ export const TableActions = {
         const nodeToDelete = schema.find(el => el.id === nodeId)
 
         if (nodeToDelete.type === 'table') {
-            schemaRef.value = schema.filter(el => el.id !== nodeId && (el.type !== 'row' || el.parentNode !== nodeId))
+            schemaRef.value = schema.filter(el => el.id !== nodeId && el.parentNode !== nodeId)
         } else if (nodeToDelete.type === 'row') {
             schemaRef.value = schema.filter(el => el.id !== nodeId)
             schema
-                .filter(el => el.parentNode === nodeToDelete.parentNode && el.position.y > nodeToDelete.position.y)
+                .filter(el => el.parentNode === nodeToDelete.parentNode && el.type === 'row' && el.position.y > nodeToDelete.position.y)
                 .forEach((row, index) => { row.position.y = nodeToDelete.position.y + 40 * index })
+
+            const remainingRows = schemaRef.value.filter(el => el.parentNode === nodeToDelete.parentNode && el.type === 'row')
+            const button = schemaRef.value.find(el => el.type === 'add-row-button' && el.parentNode === nodeToDelete.parentNode)
+            if (button) button.position = { x: 0, y: 40 + 40 * remainingRows.length }
         }
     }
 }
