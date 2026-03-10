@@ -1,7 +1,7 @@
 <template>
     <div class="centered-container">
         <div class="form-container">
-            <a href="/" class="btn btn-secondary float-left">Home</a>
+            <button class="btn btn-secondary float-left" @click="router.push({ name: 'login' })">Login</button>
             <br>
             <h2 class="form-title">Register</h2>
             <form @submit.prevent="register">
@@ -32,6 +32,7 @@
 <script setup>
 import { ref } from "vue";
 import { Auth } from "@/services/Auth.js";
+import router from '@/router/index.js'
 
 const userData = ref({
     email: '',

@@ -1,189 +1,124 @@
 <template>
-    <Header
-        :addTable="addTable"
-        :openImportModal="openImportModal"
-        :openExportModal="openExportModal"
-        :saveDiagram="saveDiagram"
-        :isSaved="isSaved"
-    >
-    </Header>
+    <header class="header">
+        <div class="flex-items">
+            <button class="btn btn-secondary" @click="addTable">Add Table</button>
+            <button class="btn btn-secondary" @click="showImportModal = true">Import</button>
+            <button class="btn btn-secondary" @click="showExportModal = true">Export</button>
+        </div>
+        <div class="flex-items">
+            <div class="save-button-wrapper">
+                <button class="btn btn-secondary" @click="saveDiagram">Save</button>
+                <div
+                    class="save-indicator"
+                    :class="{ 'saved': isSaved, 'unsaved': !isSaved }"
+                    :title="isSaved ? 'All changes saved' : 'Unsaved changes'"
+                ></div>
+            </div>
+        </div>
+    </header>
 
     <VueFlow
-        :default-edge-options="{ type:'chickenFoot' }"
+        :default-edge-options="{ type: 'chickenFoot' }"
         @edge-update="onEdgeUpdate"
         @edge-click="openRelationshipModal"
         @connect="onConnect"
         v-model="schema"
         fit-view-on-init
-        :zoomOnDoubleClick=false
-        :controlled=false
+        :zoomOnDoubleClick="false"
+        :controlled="false"
         class=".vue-flow"
     >
-        <!--Chicken foot custom edge component -->
         <template #edge-chickenFoot="props">
-            <ChickenFootEdge v-bind="props"></ChickenFootEdge>
+            <ChickenFootEdge v-bind="props" />
         </template>
 
         <Background :variant="BackgroundVariant.Lines" />
-        <!-- Table -->
-        <template #node-table="{ id, data, label }">
-            <button class="table_button" @mousedown.stop @click="addRow({ id, data, label })">
-                <img class="table_icon" src="../icons/plus.svg" alt="Add row">
-            </button>
 
-            <input
-                class="input input_designer_table"
-                :value="label"
-                @click="data.editing = true"
-                @blur="() => { data.editing = false; updateLabel(id, label); }"
-                @input="updateLabel(id, $event.target.value)"
-                :readonly="!data.editing"
+        <template #node-table="nodeProps">
+            <TableNode
+                :id="nodeProps.id"
+                :data="nodeProps.data"
+                :label="nodeProps.label"
+                @add-row="addRow(nodeProps)"
+                @delete-node="deleteNode"
+                @update-label="updateLabel"
             />
-
-            <button class="table_button" @mousedown.stop @click="deleteNode(id)">
-                <img class="table_icon" src="../icons/cancel.svg" alt="Cancel">
-            </button>
-        </template>
-        <!-- Row -->
-        <template #node-row="{ id, data, label }">
-            <input
-                class="input input_designer_row ml-5 mr-5"
-                :value="label"
-                @click="data.editing = true"
-                @blur="() => { data.editing = false; updateLabel(id, label); }"
-                @input="updateLabel(id, $event.target.value)"
-                :readonly="!data.editing"
-            />
-
-            <!-- SQL Type -->
-            <div>
-                <select v-model="data.sqlType">
-                    <option value="TINYINT(1)">TINYINT</option>
-                    <option value="BIGINT">BIGINT</option>
-                    <option value="CHAR(255)">CHAR</option>
-                    <option value="VARCHAR(255)">VARCHAR</option>
-                    <option value="TEXT">TEXT</option>
-                    <option value="DATE">DATE</option>
-                    <option value="DATETIME">DATETIME</option>
-                    <option value="TIME">TIME</option>
-                    <option value="TIMESTAMP">TIMESTAMP</option>
-                    <option v-bind:value="data.sqlType">{{ data.sqlType }}</option>
-                </select>
-            </div>
-
-            <!-- Options -->
-            <button class="table_button" @mousedown.stop @click="toggleOptionsModal(id)">
-                <img class="table_icon" src="../icons/dots.svg" alt="More options">
-            </button>
-
-            <!-- Options modal -->
-            <div v-if="data.showOptionsModal" class="options_modal"
-                 :style="{ left: `${data.modalPosition.x}px`, top: `${data.modalPosition.y}px` }">
-                <select v-model="data.keyMod" @change="updateKeyMod(id, data.keyMod)">
-                    <option selected="selected" value="None">None</option>
-                    <option value="PRIMARY KEY">Primary</option>
-                    <option value="UNIQUE">Unique</option>
-                    <option value="INDEX">Index</option>
-                </select>
-                <p class="modal_text">Unsigned</p>
-                <input type="checkbox" @mousedown.stop :checked="data.unsigned" @change="toggleUnsigned(id)">
-                <p class="modal_text">Nullable</p>
-                <input type="checkbox" @mousedown.stop :checked="data.nullable" @change="toggleNullable(id)">
-            </div>
-
-            <!-- Delete row -->
-            <button class="table_button" @mousedown.stop @click="deleteNode(id)">
-                <img class="table_icon" src="../icons/cancel.svg" alt="Cancel">
-            </button>
-
-            <!-- Left side handles -->
-            <Handle type="source" position="left" id="source-left" />
-            <Handle type="target" position="left" id="target-left" />
-
-            <!-- Right side handles -->
-            <Handle type="source" position="right" id="source-right" />
-            <Handle type="target" position="right" id="target-right" />
         </template>
 
+        <template #node-row="nodeProps">
+            <RowNode
+                :id="nodeProps.id"
+                :data="nodeProps.data"
+                :label="nodeProps.label"
+                @update-label="updateLabel"
+                @toggle-options-modal="toggleOptionsModal"
+                @delete-node="deleteNode"
+                @change="isSaved = false"
+            />
+        </template>
     </VueFlow>
-    <!--Relationship modal-->
-    <div v-if="showRelationshipModal" class="relationship_modal" ref="relationshipModal"
-         :style="{ left: `${modalPosition.x}px`, top: `${modalPosition.y}px` }">
-        <button @click="updateConnectionLineType('one-to-one')">One to one</button>
-        <button @click="updateConnectionLineType('one-to-many')">One to many</button>
-        <button @click="updateConnectionLineType('many-to-one')">Many to one</button>
-        <button @click="updateConnectionLineType('many-to-many')">Many to many</button>
-        <button @click="deleteEdge">Delete</button>
-    </div>
-    <!--Import modal-->
-    <div v-if="showImportModal" class="modal flex-centered">
-        <div class="sql_modal_content">
-            <textarea class="sql_textarea" v-model="importContent"></textarea>
-            <button class="btn btn-primary" @click="importSql">Import</button>
-            <button class="btn btn-primary" @click="showImportModal = false">Close</button>
-        </div>
-    </div>
-    <!--Export modal-->
-    <div v-if="showExportModal" class="modal sql_modal flex-centered">
-        <div class="sql_modal_content ">
-            <textarea class="sql_textarea" v-model="exportContent"></textarea>
-            <button class="btn btn-primary" @click="exportSql">Export</button>
-            <button class="btn btn-primary" @click="showExportModal = false">Close</button>
-        </div>
-    </div>
+
+    <RelationshipModal
+        v-if="showRelationshipModal"
+        :position="modalPosition"
+        @update-type="updateConnectionLineType"
+        @delete="deleteEdge"
+        @close="showRelationshipModal = false"
+    />
+
+    <SqlModal
+        v-if="showImportModal"
+        v-model="importContent"
+        primaryLabel="Import"
+        @primary-action="importSql"
+        @close="showImportModal = false"
+    />
+
+    <SqlModal
+        v-if="showExportModal"
+        v-model="exportContent"
+        primaryLabel="Export"
+        @primary-action="exportSql"
+        @close="showExportModal = false"
+    />
 </template>
 
 <script setup>
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
-import { Handle, Position, useVueFlow, VueFlow } from '@vue-flow/core'
+import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
-
-import { TableActions } from '@/services/TableActions.js'
+import { TableActions, TABLE_STYLE } from '@/services/TableActions.js'
 import { Diagram } from '@/services/Diagram.js'
-
-import Header from './Header.vue'
 import ChickenFootEdge from './ChickenFootEdge.vue'
+import TableNode from './TableNode.vue'
+import RowNode from './RowNode.vue'
+import RelationshipModal from './RelationshipModal.vue'
+import SqlModal from './SqlModal.vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import { onClickOutside } from '@vueuse/core'
 import '@/css/diagram.css'
+import '@/css/header.css'
 
 const { updateEdge, addEdges } = useVueFlow()
-
 const store = useStore()
 store.dispatch('initializeAuth')
-const route = useRoute()
-const diagramId = route.params.id
+
+const diagramId = useRoute().params.id
 
 const isSaved = ref(true)
-const autoSaveTimer = ref(null)
+let autoSaveTimer = null
 
+const schema = ref()
 const modalPosition = ref({ x: 0, y: 0 })
 const selectedEdge = ref(null)
 const showRelationshipModal = ref(false)
-
 const showImportModal = ref(false)
 const importContent = ref('')
-
 const showExportModal = ref(false)
 const exportContent = ref('')
 
-const schema = ref()
-
-const TableStyle = {
-    display: 'flex',
-    border: '1px solid #10b981',
-    background: '#6c757d',
-    borderColor: '#6c757d',
-    color: 'white',
-    width: '350px',
-    height: '40px',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-}
-
 const addTable = () => {
-    TableActions.addTable(schema, TableStyle, 'new_table')
+    TableActions.addTable(schema, 'new_table')
     isSaved.value = false
 }
 
@@ -209,13 +144,13 @@ const deleteNode = (nodeId) => {
     isSaved.value = false
 }
 
-function onConnect(params) {
+const onConnect = (params) => {
     params.updatable = true
     addEdges([params])
     isSaved.value = false
 }
 
-function onEdgeUpdate({ edge, connection }) {
+const onEdgeUpdate = ({ edge, connection }) => {
     updateEdge(edge, connection)
     isSaved.value = false
 }
@@ -234,58 +169,21 @@ const updateLabel = (id, newLabel) => {
     }
 }
 
-const updateKeyMod = (id, keyMod) => {
-    const element = schema.value.find(el => el.id === id)
-    if (element) {
-        element.data.keyMod = keyMod
-        isSaved.value = false
-    }
-}
-
-const toggleNullable = (id) => {
-    const element = schema.value.find(el => el.id === id)
-    if (element) {
-        element.data.nullable = !element.data.nullable
-        isSaved.value = false
-    }
-}
-
-const toggleUnsigned = (id) => {
-    const element = schema.value.find(el => el.id === id)
-    if (element) {
-        element.data.unsigned = !element.data.unsigned
-        isSaved.value = false
-    }
-}
-
 const toggleOptionsModal = (id) => {
     const row = schema.value.find(el => el.id === id)
-    const offsetX = 350
-
-    const documentX = row.position.x
-    const documentY = row.position.y
-
-    const rowHeight = 60
-    const rowIndex = schema.value.find(el => el.id === id)
-    const offsetY = rowIndex * (rowHeight - 20)
-
-    row.data.modalPosition = { x: documentX + offsetX, y: documentY - offsetY }
+    const rowIndex = schema.value.findIndex(el => el.id === id)
+    row.data.modalPosition = { x: row.position.x + 350, y: row.position.y - rowIndex * 40 }
     row.data.showOptionsModal = !row.data.showOptionsModal
 }
 
-const openRelationshipModal = (params) => {
-    selectedEdge.value = params.edge
-    const edgeElement = document.querySelector(`[id="${params.edge.id}"]`)
-    const edgeRect = edgeElement.getBoundingClientRect()
+const openRelationshipModal = ({ edge }) => {
+    selectedEdge.value = edge
+    const { left, top, width, height } = document.querySelector(`[id="${edge.id}"]`).getBoundingClientRect()
     modalPosition.value = {
-        x: edgeRect.left + window.scrollX + edgeRect.width / 2,
-        y: edgeRect.top + window.scrollY + edgeRect.height / 2
+        x: left + window.scrollX + width / 2,
+        y: top + window.scrollY + height / 2
     }
     showRelationshipModal.value = true
-}
-
-const openImportModal = () => {
-    showImportModal.value = true
 }
 
 const importSql = async () => {
@@ -293,63 +191,35 @@ const importSql = async () => {
     isSaved.value = false
 }
 
-const openExportModal = () => {
-    showExportModal.value = true
-}
-
 const exportSql = async () => {
     await Diagram.save(diagramId, schema.value)
     exportContent.value = await Diagram.export(diagramId)
-    isSaved.value = false
 }
-
 
 const saveDiagram = async () => {
     await Diagram.save(diagramId, schema.value)
     isSaved.value = true
 }
 
-const getDiagram = async (diagramId) => {
-    schema.value = await Diagram.get(diagramId)
-    if (schema.value == null) {
-        schema.value = [
-            {
-                id: '1',
-                type: 'table',
-                label: 'users',
-                data: { toolbarPosition: Position.Top, toolbarVisible: true },
-                position: { x: 0, y: -100 },
-                style: TableStyle
-            }
-        ]
-    }
+const getDiagram = async () => {
+    schema.value = await Diagram.get(diagramId) ?? [{
+        id: '1',
+        type: 'table',
+        label: 'users',
+        data: { toolbarPosition: Position.Top, toolbarVisible: true },
+        position: { x: 0, y: -100 },
+        style: TABLE_STYLE
+    }]
     isSaved.value = true
 }
 
-const relationshipModal = ref(null)
-
-onClickOutside(relationshipModal, () => {
-    showRelationshipModal.value = false
-})
-
-onBeforeMount(() => {
-    getDiagram(diagramId)
-})
+onBeforeMount(getDiagram)
 
 onMounted(() => {
-    if (autoSaveTimer.value) {
-        clearInterval(autoSaveTimer.value)
-    }
-    autoSaveTimer.value = setInterval(() => {
-        if (!isSaved.value) {
-            saveDiagram()
-        }
+    autoSaveTimer = setInterval(() => {
+        if (!isSaved.value) saveDiagram()
     }, 60000)
 })
 
-onUnmounted(() => {
-    if (autoSaveTimer.value) {
-        clearInterval(autoSaveTimer.value)
-    }
-})
+onUnmounted(() => clearInterval(autoSaveTimer))
 </script>

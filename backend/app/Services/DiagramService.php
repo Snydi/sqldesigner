@@ -6,6 +6,7 @@ use App\Models\Diagram;
 use App\Models\User;
 use App\Repositories\DiagramRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class DiagramService
 {
@@ -36,380 +37,253 @@ class DiagramService
         return $this->diagramRepository->delete($diagram);
     }
 
+    public function validateSQL(string $sql): array
+    {
+        $connection = DB::connection('mysql_validation');
+        $createdTables = [];
+
+        try {
+            foreach ($this->parseStatements($sql) as $statement) {
+                try {
+                    $connection->statement($statement);
+                } catch (\Exception $e) {
+                    return ['valid' => false, 'error' => $e->getMessage(), 'statement' => $statement];
+                }
+
+                if (preg_match('/CREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?(\w+)`?/i', $statement, $m)) {
+                    $createdTables[] = $m[1];
+                }
+            }
+
+            return ['valid' => true];
+        } finally {
+            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
+            foreach (array_reverse($createdTables) as $table) {
+                $connection->statement("DROP TABLE IF EXISTS `$table`");
+            }
+            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
+        }
+    }
+
     public function createScript(string $schema): string
     {
-        $script = '';
-        $schema = json_decode($schema, true);
-        $tables = [];
-        $rows = [];
-        $connections = [];
-        foreach ($schema as $item) {
+        $tables = collect();
+        $rows = collect();
+        $connections = collect();
 
-            if ($item['type'] === 'table') {
-                $tables[] = [
-                    'id' => $item['id'],
-                    'name' => $item['label'],
-                ];
-            } elseif ($item['type'] === 'row') {
-                $rows[] = [
-                    'id' => $item['id'],
-                    'name' => $item['label'],
+        foreach (json_decode($schema, true) as $item) {
+            match ($item['type'] ?? null) {
+                'table' => $tables->push(['id' => $item['id'], 'name' => $item['label']]),
+                'row'   => $rows->push([
+                    'id'       => $item['id'],
+                    'name'     => $item['label'],
                     'table_id' => $item['parentNode'],
-                    'key_mod' => isset($item['data']['keyMod']) && $item['data']['keyMod'] !== 'None' && $item['data']['keyMod'] !== null ? $item['data']['keyMod'] : null,
+                    'key_mod'  => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
                     'sql_type' => $item['data']['sqlType'] ?? 'VARCHAR(255)',
-                    'nullable' => isset($item['data']['nullable']) && $item['data']['nullable'] ? 'NULL' : 'NOT NULL',
-                    'unsigned' => isset($item['data']['unsigned']) && $item['data']['unsigned'] ? 'UNSIGNED' : null,
-                ];
-            } else {
-                $connections[] = [
+                    'nullable' => ($item['data']['nullable'] ?? false) ? 'NULL' : 'NOT NULL',
+                    'unsigned' => ($item['data']['unsigned'] ?? false) ? 'UNSIGNED' : null,
+                ]),
+                default => $connections->push([
                     'source_id' => $item['sourceNode']['id'],
                     'target_id' => $item['targetNode']['id'],
-                ];
-            }
+                ]),
+            };
         }
 
-        $tables = collect($tables);
-        $rows = collect($rows);
-        $connections = collect($connections);
+        $tablesById = $tables->keyBy('id');
+        $rowsById   = $rows->keyBy('id');
+        $script     = '';
 
         foreach ($tables as $table) {
+            $columnDefs = $rows->where('table_id', $table['id'])->map(
+                fn($row) => implode(' ', array_filter(["  `{$row['name']}` {$row['sql_type']}", $row['unsigned'], $row['nullable'], $row['key_mod']]))
+            );
+
             $script .= "CREATE TABLE IF NOT EXISTS `{$table['name']}` (\n";
-            $tableRows = $rows->where('table_id', $table['id'])->all();
-
-            $columnDefinitions = [];
-
-            foreach ($tableRows as $row) {
-                $columnDef = "  `{$row['name']}` {$row['sql_type']}";
-
-                if ($row['unsigned']) {
-                    $columnDef .= " UNSIGNED";
-                }
-
-                $columnDef .= " {$row['nullable']}";
-
-                if ($row['key_mod']) {
-                    $columnDef .= " {$row['key_mod']}";
-                }
-
-                $columnDefinitions[] = $columnDef;
-            }
-
-            $script .= implode(",\n", $columnDefinitions) . "\n";
+            $script .= $columnDefs->implode(",\n") . "\n";
             $script .= ");\n\n";
         }
 
         foreach ($connections as $connection) {
-            $sourceRow = $rows->where('id', $connection['source_id'])->first();
-            $targetRow = $rows->where('id', $connection['target_id'])->first();
+            $sourceRow = $rowsById->get($connection['source_id']);
+            $targetRow = $rowsById->get($connection['target_id']);
 
-            if (!$sourceRow || !$targetRow) {
-                continue;
-            }
+            if (!$sourceRow || !$targetRow) continue;
 
-            $tableName = $tables->where('id', $sourceRow['table_id'])->value('name');
-            $targetTableName = $tables->where('id', $targetRow['table_id'])->value('name');
+            $tableName       = $tablesById->get($sourceRow['table_id'])['name'];
+            $targetTableName = $tablesById->get($targetRow['table_id'])['name'];
 
-            $script .= "ALTER TABLE `$targetTableName`\n";
-            $script .= "ADD FOREIGN KEY (`{$targetRow['name']}`) REFERENCES `$tableName`(`{$sourceRow['name']}`);\n\n";
+            $script .= "ALTER TABLE `$tableName`\nADD FOREIGN KEY (`{$sourceRow['name']}`) REFERENCES `$targetTableName`(`{$targetRow['name']}`);\n\n";
         }
 
         return $script;
     }
 
-    public function createSchema($script): string
+    public function createSchema(string $script): string
     {
         $tables = [];
         $rows = [];
         $connections = [];
-
-        $statements = array_filter(array_map('trim', explode(";", $script)));
-
         $tableX = 50;
-        $tableY = 50;
-        $tableSpacing = 400;
 
-        $rowYOffset = 40;
-
-        foreach ($statements as $statement) {
-            $statement = trim($statement);
-            if (empty($statement)) continue;
-
-
-            if (preg_match('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?`?(\w+)`?\s*\((.*)\)/is', $statement, $matches)) {
-                $tableName = $matches[1];
-                $tableContent = $matches[2];
-
-                $tableId = uniqid();
-                $tableX += $tableSpacing;
-
-                $tables[] = [
-                    'id' => $tableId,
-                    'type' => 'table',
-                    'dimensions' => [
-                        'width' => 350,
-                        'height' => 40
-                    ],
-                    'computedPosition' => [
-                        'x' => $tableX,
-                        'y' => $tableY,
-                        'z' => 1000
-                    ],
-                    'handleBounds' => [
-                        'source' => null,
-                        'target' => null
-                    ],
-                    'selected' => false,
-                    'dragging' => false,
-                    'resizing' => false,
-                    'initialized' => false,
-                    'isParent' => true,
-                    'position' => [
-                        'x' => $tableX,
-                        'y' => $tableY
-                    ],
-                    'data' => [
-                        'toolbarPosition' => 'top',
-                        'toolbarVisible' => true,
-                        'editing' => false
-                    ],
-                    'events' => (object)[],
-                    'label' => $tableName,
-                    'style' => [
-                        'display' => 'flex',
-                        'border' => '1px solid #10b981',
-                        'background' => '#ff6029',
-                        'borderColor' => '#ff6029',
-                        'color' => 'white',
-                        'borderRadius' => '5px',
-                        'width' => '350px',
-                        'height' => '40px',
-                        'alignItems' => 'center',
-                        'justifyContent' => 'space-between'
-                    ]
-                ];
-
-
-                $tableContent = preg_replace('/\s+/', ' ', $tableContent);
-                $tableContent = trim($tableContent);
-
-                $lines = [];
-                $current = '';
-                $parenCount = 0;
-
-                for ($i = 0; $i < strlen($tableContent); $i++) {
-                    $char = $tableContent[$i];
-
-                    if ($char === '(') {
-                        $parenCount++;
-                    } elseif ($char === ')') {
-                        $parenCount--;
-                    }
-
-                    if ($char === ',' && $parenCount === 0) {
-                        $lines[] = trim($current);
-                        $current = '';
-                    } else {
-                        $current .= $char;
-                    }
-                }
-
-                if (!empty($current)) {
-                    $lines[] = trim($current);
-                }
-
-
-                $constraints = [];
-                foreach ($lines as $line) {
-                    if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(\s*`?(\w+)`?\s*\)$/i', $line, $matches)) {
-                        $constraintType = strtoupper(preg_replace('/\s+/', ' ', $matches[1]));
-                        $columnName = $matches[2];
-                        $constraints[$columnName] = $constraintType;
-                    }
-                }
-
-
-                $rowIndex = 0;
-                $usedColumnNames = [];
-
-                foreach ($lines as $line) {
-                    if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(/i', $line)) {
-                        continue;
-                    }
-
-
-                    if (preg_match('/^`?(\w+)`?\s+([a-zA-Z]+)(?:\(([^)]+)\))?(?:\s+(UNSIGNED))?(?:\s+(NOT\s+NULL|NULL))?(?:\s+(PRIMARY\s+KEY|UNIQUE))?/i', $line, $matches)) {
-                        $columnName = $matches[1];
-
-
-                        $baseName = $columnName;
-                        $counter = 1;
-                        while (in_array($columnName, $usedColumnNames)) {
-                            $columnName = $baseName . '_' . $counter;
-                            $counter++;
-                        }
-                        $usedColumnNames[] = $columnName;
-
-                        $typeName = strtoupper($matches[2]);
-
-
-                        $typeParams = '';
-                        if (isset($matches[3]) && $matches[3] !== '') {
-                            $typeParams = "($matches[3])";
-                        }
-                        $sqlType = $typeName . $typeParams;
-
-
-                        $unsigned = isset($matches[4]) && strtoupper($matches[4]) === 'UNSIGNED';
-
-
-                        $nullable = true;
-                        if (isset($matches[5])) {
-                            $nullable = strtoupper($matches[5]) === 'NULL';
-                        }
-
-
-                        $keyMod = null;
-                        if (isset($matches[6])) {
-                            $keyMod = strtoupper(preg_replace('/\s+/', ' ', $matches[6]));
-                        }
-
-
-                        if (!$keyMod && isset($constraints[$baseName])) {
-                            $keyMod = $constraints[$baseName];
-                        }
-
-                        $rowId = uniqid();
-                        $rowY = $tableY + 40 + ($rowIndex * $rowYOffset);
-
-                        $rows[] = [
-                            'id' => $rowId,
-                            'type' => 'row',
-                            'dimensions' => [
-                                'width' => 350,
-                                'height' => 40
-                            ],
-                            'computedPosition' => [
-                                'x' => $tableX,
-                                'y' => $rowY,
-                                'z' => 1001
-                            ],
-                            'handleBounds' => [
-                                'source' => [
-                                    [
-                                        'id' => null,
-                                        'type' => 'source',
-                                        'nodeId' => $rowId,
-                                        'position' => 'right',
-                                        'x' => 345,
-                                        'y' => 16,
-                                        'width' => 8,
-                                        'height' => 8
-                                    ],
-                                    [
-                                        'id' => null,
-                                        'type' => 'source',
-                                        'nodeId' => $rowId,
-                                        'position' => 'left',
-                                        'x' => -3,
-                                        'y' => 16,
-                                        'width' => 8,
-                                        'height' => 8
-                                    ]
-                                ],
-                                'target' => null
-                            ],
-                            'draggable' => false,
-                            'selected' => false,
-                            'dragging' => false,
-                            'resizing' => false,
-                            'initialized' => false,
-                            'isParent' => false,
-                            'position' => [
-                                'x' => 0,
-                                'y' => 40 + ($rowIndex * 40)
-                            ],
-                            'data' => [
-                                'editing' => false,
-                                'showModal' => false,
-                                'showOptionsModal' => false,
-                                'keyMod' => $keyMod ?? 'None',
-                                'sqlType' => $sqlType,
-                                'nullable' => $nullable,
-                                'unsigned' => $unsigned
-                            ],
-                            'events' => (object)[],
-                            'label' => $columnName,
-                            'style' => [
-                                'display' => 'flex',
-                                'border' => '1px solid #10b981',
-                                'borderColor' => '#898989',
-                                'background' => '#ffffff',
-                                'color' => '#000000',
-                                'borderRadius' => '5px',
-                                'width' => '350px',
-                                'height' => '40px',
-                                'alignItems' => 'center',
-                                'justifyContent' => 'space-between'
-                            ],
-                            'parentNode' => $tableId
-                        ];
-
-                        $rowIndex++;
-                    }
-                }
-            } elseif (preg_match('/ALTER\s+TABLE\s+`?(\w+)`?\s+ADD\s+FOREIGN\s+KEY\s*\(`?(\w+)`?\)\s+REFERENCES\s+`?(\w+)`?\s*\(`?(\w+)`?\)/i', $statement, $fkMatches)) {
-                $sourceTable = $fkMatches[1];
-                $sourceColumn = $fkMatches[2];
-                $targetTable = $fkMatches[3];
-                $targetColumn = $fkMatches[4];
-
-                $sourceTableId = null;
-                foreach ($tables as $table) {
-                    if ($table['label'] === $sourceTable) {
-                        $sourceTableId = $table['id'];
-                        break;
-                    }
-                }
-
-                $targetTableId = null;
-                foreach ($tables as $table) {
-                    if ($table['label'] === $targetTable) {
-                        $targetTableId = $table['id'];
-                        break;
-                    }
-                }
-
-                $sourceRow = null;
-                $targetRow = null;
-
-                if ($sourceTableId) {
-                    foreach ($rows as $row) {
-                        if ($row['parentNode'] === $sourceTableId && $row['label'] === $sourceColumn) {
-                            $sourceRow = $row;
-                            break;
-                        }
-                    }
-                }
-
-                if ($targetTableId) {
-                    foreach ($rows as $row) {
-                        if ($row['parentNode'] === $targetTableId && $row['label'] === $targetColumn) {
-                            $targetRow = $row;
-                            break;
-                        }
-                    }
-                }
-
-                if ($sourceRow && $targetRow) {
-                    $connections[] = [
-                        'source' => $sourceRow['id'],
-                        'target' => $targetRow['id'],
-                    ];
-                }
+        foreach ($this->parseStatements($script) as $statement) {
+            if (preg_match('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?`?(\w+)`?\s*\((.*)\)/is', $statement, $m)) {
+                $tableX += 400;
+                $tableId  = uniqid();
+                $tables[] = $this->buildTableNode($tableId, $m[1], $tableX);
+                array_push($rows, ...$this->parseColumns($m[2], $tableId, $tableX));
+            } elseif (preg_match('/ALTER\s+TABLE\s+`?(\w+)`?\s+ADD\s+FOREIGN\s+KEY\s*\(`?(\w+)`?\)\s+REFERENCES\s+`?(\w+)`?\s*\(`?(\w+)`?\)/i', $statement, $m)) {
+                $connection = $this->resolveConnection($tables, $rows, $m[1], $m[2], $m[3], $m[4]);
+                if ($connection) $connections[] = $connection;
             }
         }
 
-        $schema = array_merge($tables, $rows, $connections);
-        return json_encode($schema, JSON_PRETTY_PRINT);
+        return json_encode(array_merge($tables, $rows, $connections), JSON_PRETTY_PRINT);
+    }
+
+    // --- Private helpers ---
+
+    private function parseStatements(string $sql): array
+    {
+        return array_filter(array_map('trim', explode(';', $sql)));
+    }
+
+    private function buildTableNode(string $id, string $name, int $x, int $y = 50): array
+    {
+        return [
+            'id'               => $id,
+            'type'             => 'table',
+            'dimensions'       => ['width' => 350, 'height' => 40],
+            'computedPosition' => ['x' => $x, 'y' => $y, 'z' => 1000],
+            'handleBounds'     => ['source' => null, 'target' => null],
+            'selected'         => false,
+            'dragging'         => false,
+            'resizing'         => false,
+            'initialized'      => false,
+            'isParent'         => true,
+            'position'         => ['x' => $x, 'y' => $y],
+            'data'             => ['toolbarPosition' => 'top', 'toolbarVisible' => true, 'editing' => false],
+            'events'           => (object)[],
+            'label'            => $name,
+            'style'            => [
+                'display' => 'flex', 'border' => '1px solid #10b981',
+                'background' => '#ff6029', 'borderColor' => '#ff6029', 'color' => 'white',
+                'borderRadius' => '5px', 'width' => '350px', 'height' => '40px',
+                'alignItems' => 'center', 'justifyContent' => 'space-between',
+            ],
+        ];
+    }
+
+    private function buildRowNode(string $id, string $tableId, string $name, int $x, int $y, int $index, array $data): array
+    {
+        return [
+            'id'               => $id,
+            'type'             => 'row',
+            'dimensions'       => ['width' => 350, 'height' => 40],
+            'computedPosition' => ['x' => $x, 'y' => $y, 'z' => 1001],
+            'handleBounds'     => [
+                'source' => [
+                    ['id' => null, 'type' => 'source', 'nodeId' => $id, 'position' => 'right', 'x' => 345, 'y' => 16, 'width' => 8, 'height' => 8],
+                    ['id' => null, 'type' => 'source', 'nodeId' => $id, 'position' => 'left',  'x' => -3,  'y' => 16, 'width' => 8, 'height' => 8],
+                ],
+                'target' => null,
+            ],
+            'draggable'        => false,
+            'selected'         => false,
+            'dragging'         => false,
+            'resizing'         => false,
+            'initialized'      => false,
+            'isParent'         => false,
+            'position'         => ['x' => 0, 'y' => 40 + ($index * 40)],
+            'data'             => $data,
+            'events'           => (object)[],
+            'label'            => $name,
+            'style'            => [
+                'display' => 'flex', 'border' => '1px solid #10b981',
+                'borderColor' => '#898989', 'background' => '#ffffff', 'color' => '#000000',
+                'borderRadius' => '5px', 'width' => '350px', 'height' => '40px',
+                'alignItems' => 'center', 'justifyContent' => 'space-between',
+            ],
+            'parentNode'       => $tableId,
+        ];
+    }
+
+    private function splitColumnDefinitions(string $content): array
+    {
+        $lines  = [];
+        $current = '';
+        $depth  = 0;
+
+        foreach (str_split(preg_replace('/\s+/', ' ', trim($content))) as $char) {
+            if ($char === '(') $depth++;
+            elseif ($char === ')') $depth--;
+
+            if ($char === ',' && $depth === 0) {
+                $lines[]  = trim($current);
+                $current = '';
+            } else {
+                $current .= $char;
+            }
+        }
+
+        if ($current !== '') $lines[] = trim($current);
+
+        return $lines;
+    }
+
+    private function parseColumns(string $tableContent, string $tableId, int $tableX, int $tableY = 50): array
+    {
+        $lines       = $this->splitColumnDefinitions($tableContent);
+        $constraints = [];
+        $usedNames   = [];
+        $rows        = [];
+        $index       = 0;
+
+        foreach ($lines as $line) {
+            if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(\s*`?(\w+)`?\s*\)$/i', $line, $m)) {
+                $constraints[$m[2]] = strtoupper(preg_replace('/\s+/', ' ', $m[1]));
+            }
+        }
+
+        foreach ($lines as $line) {
+            if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(/i', $line)) continue;
+            if (!preg_match('/^`?(\w+)`?\s+([a-zA-Z]+)(?:\(([^)]+)\))?(?:\s+(UNSIGNED))?(?:\s+(NOT\s+NULL|NULL))?(?:\s+(PRIMARY\s+KEY|UNIQUE))?/i', $line, $m)) continue;
+
+            $baseName = $m[1];
+            $name     = $baseName;
+            $counter  = 1;
+            while (in_array($name, $usedNames)) $name = $baseName . '_' . $counter++;
+            $usedNames[] = $name;
+
+            $sqlType  = strtoupper($m[2]) . (isset($m[3]) && $m[3] !== '' ? "($m[3])" : '');
+            $unsigned = isset($m[4]) && strtoupper($m[4]) === 'UNSIGNED';
+            $nullable = isset($m[5]) ? strtoupper($m[5]) === 'NULL' : true;
+            $keyMod   = isset($m[6]) ? strtoupper(preg_replace('/\s+/', ' ', $m[6])) : ($constraints[$baseName] ?? null);
+
+            $rowId = uniqid();
+            $rows[] = $this->buildRowNode($rowId, $tableId, $name, $tableX, $tableY + 40 + ($index * 40), $index, [
+                'editing' => false, 'showModal' => false, 'showOptionsModal' => false,
+                'keyMod'  => $keyMod ?? 'None',
+                'sqlType' => $sqlType, 'nullable' => $nullable, 'unsigned' => $unsigned,
+            ]);
+            $index++;
+        }
+
+        return $rows;
+    }
+
+    private function resolveConnection(array $tables, array $rows, string $sourceTable, string $sourceCol, string $targetTable, string $targetCol): ?array
+    {
+        $findTableId = fn(string $name) => collect($tables)->where('label', $name)->value('id');
+        $findRow     = fn(?string $tableId, string $col) => $tableId
+            ? collect($rows)->first(fn($r) => $r['parentNode'] === $tableId && $r['label'] === $col)
+            : null;
+
+        $sourceRow = $findRow($findTableId($sourceTable), $sourceCol);
+        $targetRow = $findRow($findTableId($targetTable), $targetCol);
+
+        if (!$sourceRow || !$targetRow) return null;
+
+        return ['source' => $sourceRow['id'], 'target' => $targetRow['id']];
     }
 }
