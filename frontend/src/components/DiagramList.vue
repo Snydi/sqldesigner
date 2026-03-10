@@ -1,7 +1,6 @@
 <template>
     <div class="centered-container">
         <div class="form-container">
-            <a href="/" class="btn btn-secondary float-left">Home</a>
             <br>
             <h2 class="form-title">Diagrams</h2>
 

@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header class="header header--diagram">
         <div class="flex-items">
             <button class="btn btn-secondary" @click="addTable" title="Add Table">
                 <img src="../icons/table-add.svg" alt="Add Table" class="icon">
@@ -13,12 +13,10 @@
         </div>
         <div class="flex-items">
             <div class="save-button-wrapper">
-                <button class="btn btn-secondary" @click="saveDiagram" title="Save">
+                <button class="btn btn-secondary" @click="saveDiagram" title="Save" :disabled="isSaved">
                     <img src="../icons/save.svg" alt="Save" class="icon">
                 </button>
                 <div
-                    class="save-indicator"
-                    :class="{ 'saved': isSaved, 'unsaved': !isSaved }"
                     :title="isSaved ? 'All changes saved' : 'Unsaved changes'"
                 ></div>
             </div>
@@ -47,7 +45,6 @@
                 :id="nodeProps.id"
                 :data="nodeProps.data"
                 :label="nodeProps.label"
-                @add-row="addRow(nodeProps)"
                 @delete-node="deleteNode"
                 @update-label="updateLabel"
             />
@@ -62,6 +59,12 @@
                 @toggle-options-modal="toggleOptionsModal"
                 @delete-node="deleteNode"
                 @change="isSaved = false"
+            />
+        </template>
+
+        <template #node-add-row-button="nodeProps">
+            <AddRowNode
+                @add-row="addRow({ id: nodeProps.data.tableId, data: {} })"
             />
         </template>
     </VueFlow>
@@ -95,11 +98,12 @@
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
 import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
-import { TableActions, TABLE_STYLE } from '@/services/TableActions.js'
+import { TableActions, TABLE_STYLE, ADD_ROW_BUTTON_STYLE } from '@/services/TableActions.js'
 import { Diagram } from '@/services/Diagram.js'
 import ChickenFootEdge from './ChickenFootEdge.vue'
 import TableNode from './TableNode.vue'
 import RowNode from './RowNode.vue'
+import AddRowNode from './AddRowNode.vue'
 import RelationshipModal from './RelationshipModal.vue'
 import SqlModal from './SqlModal.vue'
 import { useRoute } from 'vue-router'
@@ -210,7 +214,7 @@ const saveDiagram = async () => {
 }
 
 const getDiagram = async () => {
-    schema.value = await Diagram.get(diagramId) ?? [{
+    const rawSchema = await Diagram.get(diagramId) ?? [{
         id: '1',
         type: 'table',
         label: 'users',
@@ -218,6 +222,26 @@ const getDiagram = async () => {
         position: { x: 0, y: -100 },
         style: TABLE_STYLE
     }]
+
+    const buttons = []
+    rawSchema.filter(el => el.type === 'table').forEach(table => {
+        const hasButton = rawSchema.some(el => el.type === 'add-row-button' && el.parentNode === table.id)
+        if (!hasButton) {
+            const rows = rawSchema.filter(el => el.parentNode === table.id && el.type === 'row')
+            buttons.push({
+                id: Math.floor(Math.random() * 100000).toString(),
+                type: 'add-row-button',
+                label: '',
+                position: { x: 0, y: 40 + 40 * rows.length },
+                style: ADD_ROW_BUTTON_STYLE,
+                draggable: false,
+                parentNode: table.id,
+                data: { tableId: table.id }
+            })
+        }
+    })
+
+    schema.value = [...rawSchema, ...buttons]
     isSaved.value = true
 }
 

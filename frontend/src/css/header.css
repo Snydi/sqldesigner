@@ -2,9 +2,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
+    padding: 0 1rem;
+    height: 48px;
+    box-sizing: border-box;
+    background-color:  var(--color-primary);
+    border-bottom: 1px solid var(--color-primary-border);
+}
+
+.header .btn {
+    padding: 0.25rem 0.5rem;
+}
+
+.header .btn:disabled {
+    opacity: 0.35;
+    cursor: default;
 }
 
 .flex-items {
@@ -22,25 +33,4 @@
 .save-button-wrapper {
     position: relative;
     display: inline-block;
-}
-
-.save-indicator {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid white;
-    transition: background-color 0.3s ease;
-}
-
-.save-indicator.saved {
-    background-color: #10b981;
-    box-shadow: 0 0 5px #10b981;
-}
-
-.save-indicator.unsaved {
-    background-color: #f59e0b;
-    box-shadow: 0 0 5px #f59e0b;
 }

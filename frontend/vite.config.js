@@ -8,7 +8,8 @@ export default defineConfig({
     laravel({
       input: [
         'src/main.js',
-        'src/css/app.css'
+        'src/css/app.css',
+        'src/icons/logo.svg'
       ],
       hotFile: '/var/www/html/backend/public/hot',
       refresh: true

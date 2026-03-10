@@ -1,8 +1,4 @@
 <template>
-    <button class="table_button" @mousedown.stop @click="$emit('add-row')">
-        <img class="table_icon" src="../icons/plus.svg" alt="Add row">
-    </button>
-
     <input
         class="input input_designer_table"
         :value="label"
@@ -24,5 +20,5 @@ defineProps({
     label: String,
 })
 
-defineEmits(['add-row', 'delete-node', 'update-label'])
+defineEmits(['delete-node', 'update-label'])
 </script>
