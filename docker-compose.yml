@@ -18,6 +18,27 @@ services:
             DB_HOST: postgres
             DB_PORT: 5432
 
+    queue:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+        container_name: queue
+        restart: unless-stopped
+        working_dir: /var/www/html/backend
+        volumes:
+            - ./backend:/var/www/html/backend
+        networks:
+            - snydiagram_network
+        depends_on:
+            postgres:
+                condition: service_healthy
+            mysql_test:
+                condition: service_healthy
+        environment:
+            DB_HOST: postgres
+            DB_PORT: 5432
+        command: ["php", "artisan", "queue:work", "--tries=3", "--sleep=3"]
+
     node:
         image: node:18-alpine
         container_name: node
