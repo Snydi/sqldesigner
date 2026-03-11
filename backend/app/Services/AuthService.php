@@ -19,7 +19,7 @@ class AuthService
     public function register(array $data): true
     {
         $this->authRepository->createNewUser($data);
-        Mail::to(config('mail.from.address'))->send(new NewUserRegistrationMail($data['email'])); //TODO add this to queue, so the is no load time on register
+//        Mail::to(config('mail.from.address'))->send(new NewUserRegistrationMail($data['email'])); //TODO add this to queue, so the is no load time on register
         return true;
     }
 
