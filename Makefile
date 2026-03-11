@@ -73,6 +73,7 @@ build-frontend:
 	mkdir -p backend/public/build backend/public/images
 	cp -r frontend/public/build/. backend/public/build/
 	cp frontend/src/icons/logo.svg backend/public/images/logo.svg
+	cp frontend/src/icons/screenshot.png backend/public/images/screenshot.png
 	-$(RM) backend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 	-$(RM) frontend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 
