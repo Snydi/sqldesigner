@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="yandex-verification" content="ebdef4d5d4512d71" />
     <title>@yield('title', 'SQL Designer — Free Online MySQL Database Schema Designer')</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
     @vite(['src/css/app.css'])
     @yield('head')
 </head>
 <body class="home-page">
 
 <header class="header" role="banner">
-    <img class="logo" src="{{ Vite::asset('src/icons/logo.svg') }}" alt="SQL Designer logo">
+    <img class="logo" src="{{ Vite::asset('src/icons/logo.svg') }}" alt="SQL Designer logo" width="148" height="24">
     <nav class="flex-items" aria-label="Main navigation">
         <div id="nav-authed" style="display:none; gap:1rem;">
             <a class="btn btn-secondary" href="/diagrams">My Diagrams</a>

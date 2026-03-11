@@ -1,2 +1,5 @@
 User-agent: *
-Disallow:
+Disallow: /diagrams
+Disallow: /logout
+
+Sitemap: https://sql-designer.com/sitemap.xml

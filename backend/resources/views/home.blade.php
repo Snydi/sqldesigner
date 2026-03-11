@@ -292,7 +292,7 @@
     <!-- Screenshot -->
     <section class="screenshot-section">
         <div class="screenshot-wrapper">
-            <img src="{{ Vite::asset('src/icons/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas">
+            <img src="{{ Vite::asset('src/icons/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2556" height="1271" loading="lazy">
         </div>
     </section>
 
