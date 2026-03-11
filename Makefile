@@ -95,6 +95,7 @@ down-prod:
 	docker compose -f docker-compose.prod.yml -p snydiagram down
 
 deploy:
+	git pull
 	$(MAKE) build-frontend
 	docker exec php sh -c "\
 		cd /var/www/html/backend && \
@@ -103,7 +104,7 @@ deploy:
 		cd /var/www/html/backend && \
 		php artisan migrate --force && \
 		php artisan optimize"
-	docker compose -f docker-compose.prod.yml -p snydiagram restart php
+	docker compose -f docker-compose.prod.yml -p snydiagram restart php queue
 
 _wait_postgres_prod:
 	docker exec postgres sh -c \
