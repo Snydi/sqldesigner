@@ -7,6 +7,8 @@ import store from '@/store/index.js'
 import router from '@/router/index.js';
 import App from '@/App.vue';
 
+store.dispatch('initializeAuth');
+
 const app = createApp(App);
 
 app.config.globalProperties.$http = axios;
