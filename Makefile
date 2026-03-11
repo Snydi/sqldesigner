@@ -70,8 +70,11 @@ build-frontend:
 		-w /app \
 		node:18-alpine \
 		sh -c "npm ci && npm run build"
-	mkdir -p backend/public/build
+	mkdir -p backend/public/build backend/public/images
 	cp -r frontend/public/build/. backend/public/build/
+	cp frontend/src/icons/logo.svg backend/public/images/logo.svg
+	-$(RM) backend$(SEP)public$(SEP)hot 2>$(DEVNULL)
+	-$(RM) frontend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 
 install-prod:
 	$(MAKE) build-frontend
@@ -79,7 +82,7 @@ install-prod:
 	docker compose -f docker-compose.prod.yml -p snydiagram up -d --force-recreate
 	$(MAKE) _wait_postgres_prod
 	$(MAKE) _composer_install_prod
-	docker exec php sh -c "\
+	docker exec --user www php sh -c "\
 		cd /var/www/html/backend && \
 		php artisan key:generate --no-interaction && \
 		php artisan migrate --force && \
@@ -95,7 +98,9 @@ deploy:
 	$(MAKE) build-frontend
 	docker exec php sh -c "\
 		cd /var/www/html/backend && \
-		composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader && \
+		composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader"
+	docker exec --user www php sh -c "\
+		cd /var/www/html/backend && \
 		php artisan migrate --force && \
 		php artisan optimize"
 	docker compose -f docker-compose.prod.yml -p snydiagram restart php
