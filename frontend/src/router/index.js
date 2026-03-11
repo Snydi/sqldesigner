@@ -46,4 +46,15 @@ const router = createRouter({
     routes,
 });
 
+const pageTitles = {
+    'register': 'Register — SQL Designer',
+    'login': 'Login — SQL Designer',
+    'diagrams': 'My Diagrams — SQL Designer',
+    'diagram.show': 'Diagram Editor — SQL Designer',
+};
+
+router.afterEach((to) => {
+    document.title = pageTitles[to.name] || 'SQL Designer — Free Online MySQL Database Schema Designer';
+});
+
 export default router;

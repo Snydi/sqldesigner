@@ -1,3 +1,5 @@
-@include('mail.header')
-<p>New user just registered with email: {{ $userEmail }}</p>
-@include('mail.footer')
+@extends('mail.layout')
+
+@section('content')
+    <p>New user just registered with email: {{ $userEmail }}</p>
+@endsection

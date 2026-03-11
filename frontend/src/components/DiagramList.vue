@@ -8,6 +8,8 @@
                 <img @click="addDiagram" src="../icons/checkmark.svg" class="icon" alt="checkmark">
                 <input
                     type="text"
+                    id="new-diagram-name"
+                    name="new-diagram-name"
                     v-model="newDiagramName"
                     placeholder="Enter diagram name"
                     class="input input-underline"
@@ -22,6 +24,8 @@
                         <img @click="viewDiagram(diagram.id)" src="../icons/eye.svg" class="icon" alt="eye">
                         <input
                             type="text"
+                            :id="'diagram-' + diagram.id"
+                            :name="'diagram-' + diagram.id"
                             v-model="diagram.name"
                             @focus="backupName(diagram)"
                             @change="updateDiagram(diagram)"

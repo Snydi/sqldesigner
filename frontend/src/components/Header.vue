@@ -2,7 +2,7 @@
     <header class="header">
         <div class="flex-items">
             <a href="/">
-                <img src="../icons/logo.svg" alt="sql-designer" class="logo">
+                <img src="../icons/logo.svg" alt="sql-designer" class="logo" width="148" height="24">
             </a>
         </div>
         <div class="flex-items">
