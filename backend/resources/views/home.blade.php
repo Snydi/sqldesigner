@@ -21,6 +21,16 @@
     </div>
 </header>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-4L116MPX4C');
+</script>
+
 <div class="centered-container text-center">
     <div class="text-center">
         <h2>Design, Visualize, and Manage Your MySQL Database Schemas</h2>
