@@ -83,10 +83,12 @@ class DiagramService
                     'nullable' => ($item['data']['nullable'] ?? false) ? 'NULL' : 'NOT NULL',
                     'unsigned' => ($item['data']['unsigned'] ?? false) ? 'UNSIGNED' : null,
                 ]),
-                default => $connections->push([
-                    'source_id' => $item['sourceNode']['id'],
-                    'target_id' => $item['targetNode']['id'],
-                ]),
+                default => isset($item['sourceNode']['id'], $item['targetNode']['id'])
+                    ? $connections->push([
+                        'source_id' => $item['sourceNode']['id'],
+                        'target_id' => $item['targetNode']['id'],
+                    ])
+                    : null,
             };
         }
 
