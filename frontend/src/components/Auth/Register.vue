@@ -10,6 +10,8 @@
                     <input
                         type="email"
                         class="input input-underline"
+                        id="email"
+                        name="email"
                         v-model="userData.email"
                         required
                     />
@@ -19,6 +21,8 @@
                     <input
                         type="password"
                         class="input input-underline"
+                        id="password"
+                        name="password"
                         v-model="userData.password"
                         required
                     />
