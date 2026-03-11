@@ -22,6 +22,27 @@ services:
             DB_PORT: 5432
 
 
+    queue:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile.prod
+            network: host
+        container_name: queue
+        restart: unless-stopped
+        working_dir: /var/www/html/backend
+        volumes:
+            - ./backend:/var/www/html/backend
+            - /var/www/html/backend/vendor
+        networks:
+            - snydiagram_network
+        depends_on:
+            postgres:
+                condition: service_healthy
+        environment:
+            DB_HOST: postgres
+            DB_PORT: 5432
+        command: ["php", "artisan", "queue:work", "--tries=3", "--sleep=3"]
+
     node:
         build:
             context: .
