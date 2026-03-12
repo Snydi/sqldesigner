@@ -7,7 +7,7 @@
             <button class="btn btn-secondary" @click="showImportModal = true" title="Import">
                 <img src="../icons/import.svg" alt="Import" class="icon">
             </button>
-            <button class="btn btn-secondary" @click="showExportModal = true" title="Export">
+            <button class="btn btn-secondary" @click="openExportModal" title="Export">
                 <img src="../icons/export.svg" alt="Export" class="icon">
             </button>
         </div>
@@ -201,6 +201,11 @@ const openRelationshipModal = ({ edge }) => {
 const importSql = async () => {
     schema.value = await Diagram.import(diagramId, importContent.value)
     isSaved.value = false
+}
+
+const openExportModal = async () => {
+    await saveDiagram()
+    showExportModal.value = true
 }
 
 const exportSql = async () => {
