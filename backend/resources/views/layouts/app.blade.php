@@ -8,6 +8,7 @@
     <meta name="robots" content="noindex, follow">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="manifest" href="/manifest.json">
     @vite(['src/css/app.css', 'src/main.js'])
 </head>
 <body>

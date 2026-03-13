@@ -3,33 +3,138 @@
 @section('title', 'SQL Designer — Free Online MySQL Database Schema Designer')
 
 @section('head')
-    <meta name="description" content="SQL Designer is a free online MySQL database schema designer. Visually create, edit, and export your database schemas with a drag-and-drop interface — no SQL knowledge required.">
+    <meta name="description" content="Free online MySQL database schema designer. Create tables, define relationships, and export SQL scripts with a visual drag-and-drop interface. No installation required.">
     <meta name="keywords" content="MySQL schema designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
+    <meta name="theme-color" content="#c05252">
+    <meta property="og:site_name" content="SQL Designer">
+    <meta property="og:locale" content="en_US">
     <meta property="og:title" content="SQL Designer — Free Online MySQL Database Schema Designer">
     <meta property="og:description" content="Visually design and export MySQL database schemas with a drag-and-drop interface. Free, fast, and browser-based.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
+    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image:width" content="2556">
+    <meta property="og:image:height" content="1271">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL Designer — Free MySQL Schema Designer">
     <meta name="twitter:description" content="Design, visualize, and export your MySQL database schemas online for free.">
+    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "SQL Designer",
-        "url": "https://sql-designer.com",
-        "description": "Free online MySQL database schema designer with a visual drag-and-drop interface and SQL export.",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Any",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
+    [
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "SQL Designer",
+            "url": "https://sql-designer.com",
+            "description": "Free online MySQL database schema designer with a visual drag-and-drop interface and SQL export.",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "screenshot": "https://sql-designer.com/images/screenshot.png",
+            "featureList": [
+                "Visual drag-and-drop schema editor",
+                "MySQL CREATE TABLE SQL export",
+                "Foreign key relationship modelling",
+                "PRIMARY KEY, UNIQUE, NOT NULL constraints",
+                "Multiple diagrams per account",
+                "Auto-save"
+            ],
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to design a MySQL database schema with SQL Designer",
+            "description": "Step-by-step guide to creating a visual MySQL database schema and exporting a SQL script.",
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Create a Diagram",
+                    "text": "Sign up for free and create a new diagram for your project or database."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Add Tables and Columns",
+                    "text": "Drag tables onto the canvas, add columns, choose data types, and set constraints."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Draw Relationships",
+                    "text": "Connect tables with foreign key lines to define your relational structure."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 4,
+                    "name": "Export SQL",
+                    "text": "Click export to generate a clean MySQL CREATE TABLE script ready to run in your database."
+                }
+            ]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Is SQL Designer free?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, completely free. There is no subscription, no credit card required, and no hidden fees. Create an account with your email and start designing immediately."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Do I need to install anything?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "No. SQL Designer runs entirely in your browser. There is nothing to download or install — just open the site and start designing."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What SQL does it generate?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "SQL Designer generates MySQL CREATE TABLE scripts, including column definitions, data types, constraints (PRIMARY KEY, UNIQUE, NOT NULL), and foreign key relationships."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Do I need to know SQL to use it?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "No. The visual interface lets you build your schema by clicking and dragging — no SQL knowledge required. The SQL is generated for you automatically."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Is my work saved automatically?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. Changes to your diagram are saved automatically to your account. You can close the browser and pick up where you left off at any time."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How many diagrams can I create?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "There is no limit. Create as many diagrams as you need — one per project, service, or database."
+                    }
+                }
+            ]
         }
-    }
+    ]
     </script>
     <style>
         body { overflow-y: auto; margin: 0; }
@@ -233,6 +338,64 @@
             margin: 0;
         }
 
+        /* FAQ */
+        .faq {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        .faq-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            overflow: hidden;
+        }
+
+        .faq-item summary {
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--color-primary);
+            padding: 1.1rem 1.5rem;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-item summary::-webkit-details-marker { display: none; }
+
+        .faq-item summary::after {
+            content: '+';
+            font-size: 1.2rem;
+            font-weight: normal;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+
+        .faq-item[open] summary::after { content: '−'; }
+
+        .faq-item p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #444;
+            text-transform: none;
+            margin: 0;
+            padding: 0 1.5rem 1.2rem;
+        }
+
         /* CTA banner */
         .cta-banner {
             background: var(--color-primary);
@@ -352,6 +515,49 @@
                 <p>Click export to generate a clean MySQL script ready to run in your database.</p>
             </div>
         </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" aria-labelledby="faq-heading">
+        <h2 class="section-title" id="faq-heading">Frequently Asked Questions</h2>
+        <ul class="faq-list">
+            <li class="faq-item">
+                <details>
+                    <summary>Is SQL Designer free?</summary>
+                    <p>Yes, completely free. There is no subscription, no credit card required, and no hidden fees. Create an account with your email and start designing immediately.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>Do I need to install anything?</summary>
+                    <p>No. SQL Designer runs entirely in your browser. There is nothing to download or install — just open the site and start designing.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>What SQL does it generate?</summary>
+                    <p>SQL Designer generates MySQL <code>CREATE TABLE</code> scripts, including column definitions, data types, constraints (PRIMARY KEY, UNIQUE, NOT NULL), and foreign key relationships.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>Do I need to know SQL to use it?</summary>
+                    <p>No. The visual interface lets you build your schema by clicking and dragging — no SQL knowledge required. The SQL is generated for you automatically.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>Is my work saved automatically?</summary>
+                    <p>Yes. Changes to your diagram are saved automatically to your account. You can close the browser and pick up where you left off at any time.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>How many diagrams can I create?</summary>
+                    <p>There is no limit. Create as many diagrams as you need — one per project, service, or database.</p>
+                </details>
+            </li>
+        </ul>
     </section>
 
     <!-- CTA -->

@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="yandex-verification" content="ebdef4d5d4512d71" />
     <title>@yield('title', 'SQL Designer — Free Online MySQL Database Schema Designer')</title>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.google-analytics.com">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="manifest" href="/manifest.json">
     @vite(['src/css/app.css'])
     @yield('head')
 </head>

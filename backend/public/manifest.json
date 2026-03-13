@@ -1,0 +1,21 @@
+{
+    "name": "SQL Designer",
+    "short_name": "SQL Designer",
+    "description": "Free online MySQL database schema designer with drag-and-drop interface and SQL export.",
+    "start_url": "/",
+    "display": "browser",
+    "background_color": "#ffffff",
+    "theme_color": "#c05252",
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        },
+        {
+            "src": "/favicon.ico",
+            "sizes": "48x48",
+            "type": "image/x-icon"
+        }
+    ]
+}
