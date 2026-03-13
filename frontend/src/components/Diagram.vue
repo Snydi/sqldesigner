@@ -183,8 +183,7 @@ const updateLabel = (id, newLabel) => {
 
 const toggleOptionsModal = (id) => {
     const row = schema.value.find(el => el.id === id)
-    const rowIndex = schema.value.findIndex(el => el.id === id)
-    row.data.modalPosition = { x: row.position.x + 350, y: row.position.y - rowIndex * 40 }
+    row.data.modalPosition = { x: 350, y: 0 }
     row.data.showOptionsModal = !row.data.showOptionsModal
 }
 
