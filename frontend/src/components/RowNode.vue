@@ -11,15 +11,45 @@
     <!-- SQL Type -->
     <div>
         <select v-model="data.sqlType" @change="$emit('change')">
-            <option value="TINYINT(1)">TINYINT</option>
-            <option value="BIGINT">BIGINT</option>
-            <option value="CHAR(255)">CHAR</option>
-            <option value="VARCHAR(255)">VARCHAR</option>
-            <option value="TEXT">TEXT</option>
-            <option value="DATE">DATE</option>
-            <option value="DATETIME">DATETIME</option>
-            <option value="TIME">TIME</option>
-            <option value="TIMESTAMP">TIMESTAMP</option>
+            <optgroup label="Numeric">
+                <option value="TINYINT">TINYINT</option>
+                <option value="SMALLINT">SMALLINT</option>
+                <option value="MEDIUMINT">MEDIUMINT</option>
+                <option value="INT">INT</option>
+                <option value="BIGINT">BIGINT</option>
+                <option value="DECIMAL(10,2)">DECIMAL</option>
+                <option value="FLOAT">FLOAT</option>
+                <option value="DOUBLE">DOUBLE</option>
+                <option value="BIT">BIT</option>
+            </optgroup>
+            <optgroup label="String">
+                <option value="CHAR(255)">CHAR</option>
+                <option value="VARCHAR(255)">VARCHAR</option>
+                <option value="TINYTEXT">TINYTEXT</option>
+                <option value="TEXT">TEXT</option>
+                <option value="MEDIUMTEXT">MEDIUMTEXT</option>
+                <option value="LONGTEXT">LONGTEXT</option>
+                <option value="BINARY(255)">BINARY</option>
+                <option value="VARBINARY(255)">VARBINARY</option>
+                <option value="TINYBLOB">TINYBLOB</option>
+                <option value="BLOB">BLOB</option>
+                <option value="MEDIUMBLOB">MEDIUMBLOB</option>
+                <option value="LONGBLOB">LONGBLOB</option>
+                <option value="ENUM('')">ENUM</option>
+                <option value="SET('')">SET</option>
+            </optgroup>
+            <optgroup label="Date & Time">
+                <option value="DATE">DATE</option>
+                <option value="TIME">TIME</option>
+                <option value="DATETIME">DATETIME</option>
+                <option value="TIMESTAMP">TIMESTAMP</option>
+                <option value="YEAR">YEAR</option>
+            </optgroup>
+            <optgroup label="Other">
+                <option value="JSON">JSON</option>
+                <option value="UUID">UUID</option>
+                <option value="BOOLEAN">BOOLEAN</option>
+            </optgroup>
             <option v-bind:value="data.sqlType">{{ data.sqlType }}</option>
         </select>
     </div>
@@ -46,7 +76,7 @@
 
     <!-- Delete row -->
     <button class="table_button" @mousedown.stop @click="$emit('delete-node', id)">
-        <img class="table_icon" src="../icons/cancel.svg" alt="Cancel">
+        <img class="table_icon" src="../icons/trash.svg" alt="Delete">
     </button>
 
     <!-- Left side handles -->
