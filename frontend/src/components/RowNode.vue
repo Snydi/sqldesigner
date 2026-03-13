@@ -1,4 +1,12 @@
 <template>
+    <!-- Drag handle -->
+    <img
+        class="drag_handle_icon"
+        src="../icons/drag.svg"
+        alt="Drag to reorder"
+        @mousedown.stop.prevent="$emit('row-drag-start', id)"
+    />
+
     <input
         class="input input_designer_row ml-5 mr-5"
         :value="label"
@@ -97,7 +105,7 @@ const props = defineProps({
     label: String,
 })
 
-const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change'])
+const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start'])
 
 const toggleNullable = () => {
     props.data.nullable = !props.data.nullable

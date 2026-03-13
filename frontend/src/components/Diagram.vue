@@ -59,6 +59,7 @@
                 @toggle-options-modal="toggleOptionsModal"
                 @delete-node="deleteNode"
                 @change="isSaved = false"
+                @row-drag-start="startRowDrag"
             />
         </template>
 
@@ -179,6 +180,40 @@ const updateLabel = (id, newLabel) => {
         element.label = newLabel.replace(' ', '_')
         isSaved.value = false
     }
+}
+
+const draggingRowId = ref(null)
+
+const startRowDrag = (id) => {
+    draggingRowId.value = id
+
+    const onMouseMove = (e) => {
+        const rowNodeEl = document.elementsFromPoint(e.clientX, e.clientY)
+            .find(el => el.classList.contains('vue-flow__node-row') && el.getAttribute('data-id') !== draggingRowId.value)
+
+        if (!rowNodeEl) return
+        const targetId = rowNodeEl.getAttribute('data-id')
+
+        const sourceNode = schema.value.find(el => el.id === draggingRowId.value)
+        const targetNode = schema.value.find(el => el.id === targetId)
+
+        if (!sourceNode || !targetNode || sourceNode.type !== 'row' || targetNode.type !== 'row' || sourceNode.parentNode !== targetNode.parentNode) return
+
+        const tempY = sourceNode.position.y
+        sourceNode.position.y = targetNode.position.y
+        targetNode.position.y = tempY
+
+        isSaved.value = false
+    }
+
+    const onMouseUp = () => {
+        draggingRowId.value = null
+        document.removeEventListener('mousemove', onMouseMove)
+        document.removeEventListener('mouseup', onMouseUp)
+    }
+
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
 }
 
 const toggleOptionsModal = (id) => {
