@@ -35,9 +35,9 @@ clean:
 	-docker-compose -p snydiagram down --rmi all --volumes --remove-orphans
 	docker volume rm -f snydiagram_pgdata 2>$(DEVNULL) || $(TRUE)
 	docker system prune -a --volumes --force
-	$(RM) backend$(SEP)storage$(SEP)logs$(SEP)laravel.log
-	$(RMDIR) backend$(SEP)vendor
-	$(RMDIR) frontend$(SEP)node_modules
+	-$(RM) backend$(SEP)storage$(SEP)logs$(SEP)laravel.log
+	-$(RMDIR) backend$(SEP)vendor
+	-$(RMDIR) frontend$(SEP)node_modules
 
 reinstall:
 	$(MAKE) clean
