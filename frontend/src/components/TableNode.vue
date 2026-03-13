@@ -9,7 +9,7 @@
     />
 
     <button class="table_button" @mousedown.stop @click="$emit('delete-node', id)">
-        <img class="table_icon" src="../icons/cancel.svg" alt="Cancel">
+        <img class="table_icon" src="../icons/trash.svg" alt="Delete">
     </button>
 </template>
 

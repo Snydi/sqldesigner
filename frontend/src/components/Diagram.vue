@@ -7,7 +7,7 @@
             <button class="btn btn-secondary" @click="showImportModal = true" title="Import">
                 <img src="../icons/import.svg" alt="Import" class="icon">
             </button>
-            <button class="btn btn-secondary" @click="showExportModal = true" title="Export">
+            <button class="btn btn-secondary" @click="openExportModal" title="Export">
                 <img src="../icons/export.svg" alt="Export" class="icon">
             </button>
         </div>
@@ -59,6 +59,7 @@
                 @toggle-options-modal="toggleOptionsModal"
                 @delete-node="deleteNode"
                 @change="isSaved = false"
+                @row-drag-start="startRowDrag"
             />
         </template>
 
@@ -181,10 +182,43 @@ const updateLabel = (id, newLabel) => {
     }
 }
 
+const draggingRowId = ref(null)
+
+const startRowDrag = (id) => {
+    draggingRowId.value = id
+
+    const onMouseMove = (e) => {
+        const rowNodeEl = document.elementsFromPoint(e.clientX, e.clientY)
+            .find(el => el.classList.contains('vue-flow__node-row') && el.getAttribute('data-id') !== draggingRowId.value)
+
+        if (!rowNodeEl) return
+        const targetId = rowNodeEl.getAttribute('data-id')
+
+        const sourceNode = schema.value.find(el => el.id === draggingRowId.value)
+        const targetNode = schema.value.find(el => el.id === targetId)
+
+        if (!sourceNode || !targetNode || sourceNode.type !== 'row' || targetNode.type !== 'row' || sourceNode.parentNode !== targetNode.parentNode) return
+
+        const tempY = sourceNode.position.y
+        sourceNode.position.y = targetNode.position.y
+        targetNode.position.y = tempY
+
+        isSaved.value = false
+    }
+
+    const onMouseUp = () => {
+        draggingRowId.value = null
+        document.removeEventListener('mousemove', onMouseMove)
+        document.removeEventListener('mouseup', onMouseUp)
+    }
+
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+}
+
 const toggleOptionsModal = (id) => {
     const row = schema.value.find(el => el.id === id)
-    const rowIndex = schema.value.findIndex(el => el.id === id)
-    row.data.modalPosition = { x: row.position.x + 350, y: row.position.y - rowIndex * 40 }
+    row.data.modalPosition = { x: 350, y: 0 }
     row.data.showOptionsModal = !row.data.showOptionsModal
 }
 
@@ -201,6 +235,11 @@ const openRelationshipModal = ({ edge }) => {
 const importSql = async () => {
     schema.value = await Diagram.import(diagramId, importContent.value)
     isSaved.value = false
+}
+
+const openExportModal = async () => {
+    await saveDiagram()
+    showExportModal.value = true
 }
 
 const exportSql = async () => {
