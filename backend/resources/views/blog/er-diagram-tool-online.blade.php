@@ -10,7 +10,22 @@
     <meta property="og:description" content="Create entity-relationship diagrams for MySQL entirely in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/er-diagram-tool-online">
+    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image:width" content="2556">
+    <meta property="og:image:height" content="1271">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
+    [
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sql-designer.com/blog" },
+            { "@type": "ListItem", "position": 3, "name": "Free ER Diagram Tool Online for MySQL", "item": "https://sql-designer.com/blog/er-diagram-tool-online" }
+        ]
+    },
     {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -21,6 +36,7 @@
         "author": { "@type": "Organization", "name": "SQL Designer" },
         "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" }
     }
+    ]
     </script>
     <style>
         body { overflow-y: auto; }
@@ -191,6 +207,14 @@
     <p>
         Use a generic tool (draw.io, Lucidchart, Figma) when you need a high-level conceptual model to discuss with stakeholders who don't need to see SQL syntax. Use a MySQL-specific tool when you're designing the actual schema that will be implemented — you want the diagram to map 1:1 to your DDL and be able to export it directly.
     </p>
+
+    <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
+        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
+        <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
+            <li><a href="/blog/how-to-design-mysql-database-schema" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">How to Design a MySQL Database Schema &rarr;</a></li>
+            <li><a href="/blog/mysql-workbench-alternative" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Workbench Alternative Online &rarr;</a></li>
+        </ul>
+    </nav>
 
     <div class="cta-box">
         <h3>Draw your MySQL ER diagram for free</h3>
