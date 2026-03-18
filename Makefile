@@ -79,7 +79,7 @@ build-frontend:
 		-v "$(CURDIR)/backend/public/images":/out \
 		-w /src \
 		node:18-alpine \
-		sh -c "npm install -g sharp-cli 2>/dev/null; npx sharp -i screenshot.png -o /out/screenshot.webp --webp"
+		sh -c "npm install -g sharp-cli 2>/dev/null; sharp -i screenshot.png -o /out/screenshot.webp"
 	-$(RM) backend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 	-$(RM) frontend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 
