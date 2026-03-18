@@ -98,6 +98,41 @@
                     <p>MySQL Workbench is powerful but heavy. If you need to design a schema quickly without installing anything, here are your options — including a fully free browser-based tool.</p>
                 </a>
             </li>
+            <li>
+                <a class="post-card" href="/blog/mysql-foreign-key">
+                    <p class="post-meta">March 2026 &mdash; 6 min read</p>
+                    <h2>MySQL Foreign Key — Syntax, Examples, and Best Practices</h2>
+                    <p>A complete guide to MySQL foreign keys: syntax, ON DELETE and ON UPDATE options, practical examples for e-commerce schemas, and common mistakes to avoid.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/mysql-data-types">
+                    <p class="post-meta">March 2026 &mdash; 7 min read</p>
+                    <h2>MySQL Data Types Explained — Which to Use and When</h2>
+                    <p>A practical guide to MySQL data types: numeric, string, date/time, and JSON types — with advice on which to choose for each use case and what to avoid.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/database-normalization">
+                    <p class="post-meta">March 2026 &mdash; 8 min read</p>
+                    <h2>Database Normalization Explained — 1NF, 2NF, and 3NF with Examples</h2>
+                    <p>Learn database normalization with concrete before-and-after examples. Understand 1NF, 2NF, and 3NF, why they matter, and when it's acceptable to denormalize.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/how-to-draw-er-diagram">
+                    <p class="post-meta">March 2026 &mdash; 6 min read</p>
+                    <h2>How to Draw an ER Diagram Step by Step</h2>
+                    <p>A step-by-step guide to drawing entity-relationship diagrams from a blank page to a complete design — with cardinality notation, common mistakes, and a practical blog platform example.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/mysql-vs-postgresql">
+                    <p class="post-meta">March 2026 &mdash; 7 min read</p>
+                    <h2>MySQL vs PostgreSQL — Key Differences for Schema Design</h2>
+                    <p>Comparing MySQL and PostgreSQL for database schema design: data types, constraints, auto-increment, JSON support, and which to choose for your next project.</p>
+                </a>
+            </li>
         </ul>
     </div>
 @endsection
