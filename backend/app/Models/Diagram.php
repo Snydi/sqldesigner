@@ -12,6 +12,7 @@ class Diagram extends Model
 
     protected $fillable = [
         'name',
+        'db_type',
         'schema',
         'script',
         'user_id'
