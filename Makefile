@@ -106,6 +106,7 @@ deploy:
 		php artisan migrate --force && \
 		php artisan optimize"
 	docker compose -f docker-compose.prod.yml -p snydiagram restart php queue
+	docker exec nginx nginx -s reload
 
 _wait_postgres_prod:
 	docker exec postgres sh -c \
