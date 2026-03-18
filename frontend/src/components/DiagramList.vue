@@ -35,7 +35,7 @@
                     </div>
                     <div class="diagram-card__footer" @click.stop>
                         <img
-                            :src="diagram.db_type === 'postgresql' ? '../icons/postgresql.svg' : '../icons/mysql.svg'"
+                            :src="diagram.db_type === 'postgresql' ? postgresqlIcon : mysqlIcon"
                             :alt="diagram.db_type"
                             class="diagram-card__db-icon"
                         />
@@ -105,6 +105,8 @@ import axios from 'axios'
 import router from '../router/index.js'
 import { useToast } from 'vue-toast-notification'
 import DiagramPreview from './DiagramPreview.vue'
+import mysqlIcon from '../icons/mysql.svg'
+import postgresqlIcon from '../icons/postgresql.svg'
 
 const $toast = useToast()
 
@@ -117,7 +119,9 @@ export default {
             newDiagramDbType: 'mysql',
             showNewForm: false,
             renamingId: null,
-            originalName: null
+            originalName: null,
+            mysqlIcon,
+            postgresqlIcon
         }
     },
     methods: {
@@ -320,7 +324,7 @@ export default {
     padding: 0.55rem 0.8rem;
     display: flex;
     align-items: center;
-    min-height: 36px;
+    min-height: 48px;
 }
 
 .diagram-card__name {
@@ -334,11 +338,11 @@ export default {
 }
 
 .diagram-card__db-icon {
-    width: 16px;
-    height: 16px;
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
-    margin-right: 6px;
-    opacity: 0.8;
+    margin-right: 10px;
+    opacity: 0.85;
 }
 
 .diagram-card__name-input {
