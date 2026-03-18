@@ -165,14 +165,13 @@
             font-size: 1rem;
             max-width: 560px;
             margin: 0 auto 1.2rem;
-            opacity: 0.9;
             text-transform: none;
             line-height: 1.7;
         }
 
         .hero-free-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.22);
             border: 1px solid rgba(255,255,255,0.5);
             border-radius: 999px;
             padding: 0.3rem 1rem;
