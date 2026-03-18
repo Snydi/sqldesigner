@@ -23,6 +23,7 @@
     <meta name="twitter:description" content="Design, visualize, and export your MySQL database schemas online for free.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
+    <link rel="preload" as="image" href="/images/screenshot.webp" imagesrcset="/images/screenshot.webp" fetchpriority="high">
     <script type="application/ld+json">
     [
         {
@@ -454,7 +455,10 @@
     <!-- Screenshot -->
     <section class="screenshot-section">
         <div class="screenshot-wrapper">
-            <img src="{{ asset('images/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2556" height="1271" loading="lazy">
+            <picture>
+                <source srcset="{{ asset('images/screenshot.webp') }}" type="image/webp">
+                <img src="{{ asset('images/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2556" height="1271" loading="eager" fetchpriority="high">
+            </picture>
         </div>
     </section>
 

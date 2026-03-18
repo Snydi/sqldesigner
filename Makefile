@@ -74,6 +74,12 @@ build-frontend:
 	cp -r frontend/public/build/. backend/public/build/
 	cp frontend/src/icons/logo.svg backend/public/images/logo.svg
 	cp frontend/src/icons/screenshot.png backend/public/images/screenshot.png
+	docker run --rm \
+		-v "$(CURDIR)/frontend/src/icons":/src \
+		-v "$(CURDIR)/backend/public/images":/out \
+		-w /src \
+		node:18-alpine \
+		sh -c "npm install -g sharp-cli 2>/dev/null; npx sharp -i screenshot.png -o /out/screenshot.webp --webp"
 	-$(RM) backend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 	-$(RM) frontend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 
