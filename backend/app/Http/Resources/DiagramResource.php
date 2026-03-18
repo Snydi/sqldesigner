@@ -11,6 +11,7 @@ class DiagramResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'db_type' => $this->db_type ?? 'mysql',
             'schema' => $this->schema,
             'script' => $this->script,
         ];

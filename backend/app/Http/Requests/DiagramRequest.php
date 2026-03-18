@@ -18,6 +18,7 @@ class DiagramRequest extends FormRequest
                     return $query->where('user_id', auth()->id());
                 })
             ],
+            'db_type' => ['sometimes', 'string', 'in:mysql,postgresql'],
         ];
     }
 }
