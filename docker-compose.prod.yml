@@ -9,7 +9,7 @@ services:
         working_dir: /var/www/html/backend
         volumes:
             - ./backend:/var/www/html/backend
-            - /var/www/html/backend/vendor
+            - vendor_data:/var/www/html/backend/vendor
         networks:
             - snydiagram_network
         depends_on:
@@ -32,7 +32,7 @@ services:
         working_dir: /var/www/html/backend
         volumes:
             - ./backend:/var/www/html/backend
-            - /var/www/html/backend/vendor
+            - vendor_data:/var/www/html/backend/vendor
         networks:
             - snydiagram_network
         depends_on:
@@ -117,6 +117,7 @@ services:
 
 volumes:
     pgdata:
+    vendor_data:
 
 networks:
     snydiagram_network:
