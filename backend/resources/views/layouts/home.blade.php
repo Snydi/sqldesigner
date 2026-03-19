@@ -25,7 +25,7 @@
             <a class="btn btn-secondary" href="/diagrams">My Diagrams</a>
             <a class="btn btn-secondary" href="/logout">Logout</a>
         </div>
-        <div id="nav-guest" style="display:none; gap:1rem;">
+        <div id="nav-guest" style="display:flex; gap:1rem;">
             <a class="btn btn-secondary" href="/register">Register</a>
             <a class="btn btn-secondary" href="/login">Login</a>
         </div>
@@ -33,8 +33,7 @@
     <script>
         if (localStorage.getItem('auth_token')) {
             document.getElementById('nav-authed').style.display = 'flex';
-        } else {
-            document.getElementById('nav-guest').style.display = 'flex';
+            document.getElementById('nav-guest').style.display = 'none';
         }
     </script>
 </header>

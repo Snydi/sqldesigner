@@ -109,6 +109,8 @@ import RelationshipModal from './RelationshipModal.vue'
 import SqlModal from './SqlModal.vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import '@vue-flow/core/dist/style.css'
+import '@vue-flow/core/dist/theme-default.css'
 import '@/css/diagram.css'
 import '@/css/header.css'
 

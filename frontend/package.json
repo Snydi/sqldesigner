@@ -15,7 +15,6 @@
         "@vue-flow/core": "^1.33.6",
         "@vueuse/core": "^14.2.1",
         "axios": "^1.11.0",
-        "pinia": "^3.0.3",
         "vue": "^3.5.18",
         "vue-router": "^4.5.1",
         "vue-toast-notification": "^3.1.3",

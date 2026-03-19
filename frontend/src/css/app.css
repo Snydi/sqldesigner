@@ -1,6 +1,3 @@
-@import '../../node_modules/@vue-flow/core/dist/style.css';
-@import '../../node_modules/@vue-flow/core/dist/theme-default.css';
-
 /* ── Theme variables ─────────────────────────────────────────── */
 :root {
     --color-primary:        #c05252;

@@ -27,6 +27,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vue-flow': ['@vue-flow/core', '@vue-flow/background'],
+          'vendor': ['vue', 'vue-router', 'vuex', 'axios'],
+        }
+      }
+    }
+  },
   server: {
     host: '0.0.0.0',
     port: 5173,

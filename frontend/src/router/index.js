@@ -1,12 +1,13 @@
 import axios from '@/axios';
-import Register from '../components/Auth/Register.vue';
-import Login from '../components/Auth/Login.vue';
-import Logout from "../components/Auth/Logout.vue";
-import DiagramList from '../components/DiagramList.vue';
-import Diagram from '../components/Diagram.vue';
-import Layout from '../components/Layout.vue';
 import store from '@/store/index.js';
 import { createRouter, createWebHistory } from 'vue-router';
+
+const Layout = () => import('../components/Layout.vue');
+const Register = () => import('../components/Auth/Register.vue');
+const Login = () => import('../components/Auth/Login.vue');
+const Logout = () => import('../components/Auth/Logout.vue');
+const DiagramList = () => import('../components/DiagramList.vue');
+const Diagram = () => import('../components/Diagram.vue');
 
 function requireAuth(to, from, next) {
     if (!store.state.auth_token) {

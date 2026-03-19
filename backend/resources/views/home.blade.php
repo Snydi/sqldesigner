@@ -439,15 +439,14 @@
         </p>
         <div class="hero-actions">
             <a id="hero-btn-authed" class="btn-hero-primary" href="/diagrams" style="display:none">Open My Diagrams</a>
-            <a id="hero-btn-register" class="btn-hero-primary" href="/register" style="display:none">Create Free Account</a>
-            <a id="hero-btn-login" class="btn-hero-secondary" href="/login" style="display:none">Log In</a>
+            <a id="hero-btn-register" class="btn-hero-primary" href="/register">Create Free Account</a>
+            <a id="hero-btn-login" class="btn-hero-secondary" href="/login">Log In</a>
         </div>
         <script>
             if (localStorage.getItem('auth_token')) {
                 document.getElementById('hero-btn-authed').style.display = 'inline-block';
-            } else {
-                document.getElementById('hero-btn-register').style.display = 'inline-block';
-                document.getElementById('hero-btn-login').style.display = 'inline-block';
+                document.getElementById('hero-btn-register').style.display = 'none';
+                document.getElementById('hero-btn-login').style.display = 'none';
             }
         </script>
     </section>
@@ -598,12 +597,11 @@
             No subscription. No credit card. Just register with your email and you're in.
         </p>
         <a id="cta-btn-authed" class="btn-hero-primary" href="/diagrams" style="display:none">Go to My Diagrams</a>
-        <a id="cta-btn-guest" class="btn-hero-primary" href="/register" style="display:none">Create a Free Account</a>
+        <a id="cta-btn-guest" class="btn-hero-primary" href="/register">Create a Free Account</a>
         <script>
             if (localStorage.getItem('auth_token')) {
                 document.getElementById('cta-btn-authed').style.display = 'inline-block';
-            } else {
-                document.getElementById('cta-btn-guest').style.display = 'inline-block';
+                document.getElementById('cta-btn-guest').style.display = 'none';
             }
         </script>
     </section>
