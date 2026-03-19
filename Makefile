@@ -80,6 +80,12 @@ build-frontend:
 		-w /src \
 		node:18-alpine \
 		sh -c "npm install -g sharp-cli 2>/dev/null; sharp -i screenshot.png -o /out/screenshot.webp"
+	docker run --rm \
+		-v "$(CURDIR)/backend/public":/out \
+		node:18-alpine \
+		sh -c "npm install -g sharp-cli 2>/dev/null; \
+			sharp -i /out/favicon.svg -o /out/favicon-48x48.png resize 48 48; \
+			sharp -i /out/favicon.svg -o /out/favicon-96x96.png resize 96 96"
 	-$(RM) backend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 	-$(RM) frontend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 

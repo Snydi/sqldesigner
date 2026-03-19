@@ -6,8 +6,8 @@
     <meta name="yandex-verification" content="ebdef4d5d4512d71" />
     <title>@yield('title', 'SQL Designer — Free Online MySQL Database Schema Designer')</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
     @vite(['src/css/app.css'])
