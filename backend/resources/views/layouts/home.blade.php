@@ -24,6 +24,7 @@
             <a class="btn btn-secondary" href="/logout">Logout</a>
         </div>
         <div id="nav-guest" style="display:flex; gap:1rem;">
+            <a class="btn btn-primary" href="/demo">Try Demo</a>
             <a class="btn btn-secondary" href="/register">Register</a>
             <a class="btn btn-secondary" href="/login">Login</a>
         </div>

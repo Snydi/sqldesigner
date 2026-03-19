@@ -59,7 +59,7 @@
                     "@type": "HowToStep",
                     "position": 1,
                     "name": "Create a Diagram",
-                    "text": "Sign up for free and create a new diagram for your project or database."
+                    "text": "Register for free and create a new diagram for your project or database."
                 },
                 {
                     "@type": "HowToStep",
@@ -502,7 +502,7 @@
             <div class="step">
                 <div class="step-number">1</div>
                 <h3>Create a Diagram</h3>
-                <p>Sign up for free and create a new diagram for your project or database.</p>
+                <p>Register for free and create a new diagram for your project or database.</p>
             </div>
             <div class="step">
                 <div class="step-number">2</div>

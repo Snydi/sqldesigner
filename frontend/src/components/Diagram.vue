@@ -4,19 +4,19 @@
             <button class="btn btn-secondary" @click="addTable" title="Add Table">
                 <img src="../icons/table-add.svg" alt="Add Table" class="icon">
             </button>
-            <button class="btn btn-secondary" @click="showImportModal = true" title="Import">
+            <button class="btn btn-secondary" @click="isDemo ? router.push({ name: 'register' }) : showImportModal = true" title="Import">
                 <img src="../icons/import.svg" alt="Import" class="icon">
             </button>
-            <button class="btn btn-secondary" @click="openExportModal" title="Export">
+            <button class="btn btn-secondary" @click="isDemo ? router.push({ name: 'register' }) : openExportModal()" title="Export">
                 <img src="../icons/export.svg" alt="Export" class="icon">
             </button>
         </div>
         <div class="flex-items">
             <div class="save-button-wrapper">
-                <button class="btn btn-secondary" @click="saveDiagram" title="Save" :disabled="isSaved">
+                <button class="btn btn-secondary" @click="saveDiagram" title="Save" :disabled="!isDemo && isSaved">
                     <img src="../icons/save.svg" alt="Save" class="icon">
                 </button>
-                <div
+                <div v-if="!isDemo"
                     :title="isSaved ? 'All changes saved' : 'Unsaved changes'"
                 ></div>
             </div>
@@ -99,7 +99,7 @@
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
 import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
-import { TableActions, TABLE_STYLE, ADD_ROW_BUTTON_STYLE } from '@/services/TableActions.js'
+import { TableActions, TABLE_STYLE, ADD_ROW_BUTTON_STYLE, ROW_STYLE } from '@/services/TableActions.js'
 import { Diagram } from '@/services/Diagram.js'
 import ChickenFootEdge from './ChickenFootEdge.vue'
 import TableNode from './TableNode.vue'
@@ -107,18 +107,50 @@ import RowNode from './RowNode.vue'
 import AddRowNode from './AddRowNode.vue'
 import RelationshipModal from './RelationshipModal.vue'
 import SqlModal from './SqlModal.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
 import '@/css/diagram.css'
 import '@/css/header.css'
 
+const props = defineProps({ isDemo: { type: Boolean, default: false } })
+
 const { updateEdge, addEdges } = useVueFlow()
 const store = useStore()
 store.dispatch('initializeAuth')
+const router = useRouter()
 
 const diagramId = useRoute().params.id
+
+const DEMO_SCHEMA = [
+    { id: 'dt1', type: 'table', label: 'users', data: { toolbarPosition: Position.Top, toolbarVisible: true }, position: { x: 0, y: 0 }, style: TABLE_STYLE },
+    { id: 'dr1', type: 'row', label: 'id', position: { x: 0, y: 40 }, style: ROW_STYLE, draggable: false, parentNode: 'dt1', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'PRIMARY KEY', sqlType: 'INT(11)', nullable: false, unsigned: false } },
+    { id: 'dr2', type: 'row', label: 'username', position: { x: 0, y: 80 }, style: ROW_STYLE, draggable: false, parentNode: 'dt1', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'VARCHAR(255)', nullable: false, unsigned: false } },
+    { id: 'dr3', type: 'row', label: 'email', position: { x: 0, y: 120 }, style: ROW_STYLE, draggable: false, parentNode: 'dt1', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'VARCHAR(255)', nullable: false, unsigned: false } },
+    { id: 'dr4', type: 'row', label: 'created_at', position: { x: 0, y: 160 }, style: ROW_STYLE, draggable: false, parentNode: 'dt1', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TIMESTAMP', nullable: false, unsigned: false } },
+    { id: 'dbtn1', type: 'add-row-button', label: '', position: { x: 0, y: 200 }, style: ADD_ROW_BUTTON_STYLE, draggable: false, parentNode: 'dt1', data: { tableId: 'dt1' } },
+
+    { id: 'dt2', type: 'table', label: 'posts', data: { toolbarPosition: Position.Top, toolbarVisible: true }, position: { x: 450, y: 0 }, style: TABLE_STYLE },
+    { id: 'dr5', type: 'row', label: 'id', position: { x: 0, y: 40 }, style: ROW_STYLE, draggable: false, parentNode: 'dt2', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'PRIMARY KEY', sqlType: 'INT(11)', nullable: false, unsigned: false } },
+    { id: 'dr6', type: 'row', label: 'user_id', position: { x: 0, y: 80 }, style: ROW_STYLE, draggable: false, parentNode: 'dt2', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'FOREIGN KEY', sqlType: 'INT(11)', nullable: false, unsigned: false } },
+    { id: 'dr7', type: 'row', label: 'title', position: { x: 0, y: 120 }, style: ROW_STYLE, draggable: false, parentNode: 'dt2', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'VARCHAR(255)', nullable: false, unsigned: false } },
+    { id: 'dr8', type: 'row', label: 'body', position: { x: 0, y: 160 }, style: ROW_STYLE, draggable: false, parentNode: 'dt2', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TEXT', nullable: false, unsigned: false } },
+    { id: 'dr9', type: 'row', label: 'created_at', position: { x: 0, y: 200 }, style: ROW_STYLE, draggable: false, parentNode: 'dt2', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TIMESTAMP', nullable: false, unsigned: false } },
+    { id: 'dbtn2', type: 'add-row-button', label: '', position: { x: 0, y: 240 }, style: ADD_ROW_BUTTON_STYLE, draggable: false, parentNode: 'dt2', data: { tableId: 'dt2' } },
+
+    { id: 'dt3', type: 'table', label: 'comments', data: { toolbarPosition: Position.Top, toolbarVisible: true }, position: { x: 225, y: 380 }, style: TABLE_STYLE },
+    { id: 'dr10', type: 'row', label: 'id', position: { x: 0, y: 40 }, style: ROW_STYLE, draggable: false, parentNode: 'dt3', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'PRIMARY KEY', sqlType: 'INT(11)', nullable: false, unsigned: false } },
+    { id: 'dr11', type: 'row', label: 'post_id', position: { x: 0, y: 80 }, style: ROW_STYLE, draggable: false, parentNode: 'dt3', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'FOREIGN KEY', sqlType: 'INT(11)', nullable: false, unsigned: false } },
+    { id: 'dr12', type: 'row', label: 'user_id', position: { x: 0, y: 120 }, style: ROW_STYLE, draggable: false, parentNode: 'dt3', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'FOREIGN KEY', sqlType: 'INT(11)', nullable: false, unsigned: false } },
+    { id: 'dr13', type: 'row', label: 'body', position: { x: 0, y: 160 }, style: ROW_STYLE, draggable: false, parentNode: 'dt3', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TEXT', nullable: false, unsigned: false } },
+    { id: 'dr14', type: 'row', label: 'created_at', position: { x: 0, y: 200 }, style: ROW_STYLE, draggable: false, parentNode: 'dt3', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TIMESTAMP', nullable: false, unsigned: false } },
+    { id: 'dbtn3', type: 'add-row-button', label: '', position: { x: 0, y: 240 }, style: ADD_ROW_BUTTON_STYLE, draggable: false, parentNode: 'dt3', data: { tableId: 'dt3' } },
+
+    { id: 'de1', source: 'dr1', target: 'dr6', type: 'chickenFoot', updatable: true, data: { relationshipType: 'one-to-many', markerStart: 'url(#chickenFoot)', markerEnd: 'none' } },
+    { id: 'de2', source: 'dr1', target: 'dr12', type: 'chickenFoot', updatable: true, data: { relationshipType: 'one-to-many', markerStart: 'url(#chickenFoot)', markerEnd: 'none' } },
+    { id: 'de3', source: 'dr5', target: 'dr11', type: 'chickenFoot', updatable: true, data: { relationshipType: 'one-to-many', markerStart: 'url(#chickenFoot)', markerEnd: 'none' } },
+]
 
 const isSaved = ref(true)
 let autoSaveTimer = null
@@ -250,11 +282,20 @@ const exportSql = async () => {
 }
 
 const saveDiagram = async () => {
+    if (props.isDemo) {
+        router.push({ name: 'register' })
+        return
+    }
     await Diagram.save(diagramId, schema.value)
     isSaved.value = true
 }
 
 const getDiagram = async () => {
+    if (props.isDemo) {
+        schema.value = DEMO_SCHEMA
+        return
+    }
+
     const rawSchema = await Diagram.get(diagramId) ?? [{
         id: '1',
         type: 'table',
@@ -289,9 +330,11 @@ const getDiagram = async () => {
 onBeforeMount(getDiagram)
 
 onMounted(() => {
-    autoSaveTimer = setInterval(() => {
-        if (!isSaved.value) saveDiagram()
-    }, 60000)
+    if (!props.isDemo) {
+        autoSaveTimer = setInterval(() => {
+            if (!isSaved.value) saveDiagram()
+        }, 60000)
+    }
 })
 
 onUnmounted(() => clearInterval(autoSaveTimer))
