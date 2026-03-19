@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="yandex-verification" content="ebdef4d5d4512d71" />
     <title>@yield('title', 'SQL Designer — Free Online MySQL Database Schema Designer')</title>
+    <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
