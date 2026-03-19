@@ -102,7 +102,8 @@ down-prod:
 	docker compose -f docker-compose.prod.yml -p snydiagram down
 
 deploy:
-	git pull
+	git fetch origin
+	git reset --hard origin/master
 	$(MAKE) build-frontend
 	docker exec php sh -c "\
 		cd /var/www/html/backend && \
