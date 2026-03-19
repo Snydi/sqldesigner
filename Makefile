@@ -85,7 +85,7 @@ build-frontend:
 
 install-prod:
 	$(MAKE) build-frontend
-	docker compose -f docker-compose.prod.yml -p snydiagram build --no-cache --pull
+	docker compose -f docker-compose.prod.yml -p snydiagram build --no-cache
 	docker compose -f docker-compose.prod.yml -p snydiagram up -d --force-recreate
 	$(MAKE) _wait_postgres_prod
 	$(MAKE) _composer_install_prod
