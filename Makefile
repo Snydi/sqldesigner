@@ -113,6 +113,7 @@ deploy:
 		php artisan migrate --force && \
 		php artisan optimize"
 	docker compose -f docker-compose.prod.yml -p snydiagram restart php queue
+	docker exec nginx sh -c "rm -rf /var/cache/nginx/fastcgi_cache/* 2>/dev/null || true"
 	docker exec nginx nginx -s reload
 
 _wait_postgres_prod:

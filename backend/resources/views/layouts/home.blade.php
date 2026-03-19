@@ -6,7 +6,6 @@
     <meta name="yandex-verification" content="ebdef4d5d4512d71" />
     <title>@yield('title', 'SQL Designer — Free Online MySQL Database Schema Designer')</title>
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://www.google-analytics.com">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" href="/favicon.ico" sizes="any">
