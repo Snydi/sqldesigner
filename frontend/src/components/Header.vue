@@ -6,6 +6,8 @@
             </a>
         </div>
         <div class="flex-items">
+            <button v-if="!store.state.auth_token && route.name !== 'demo'" class="btn btn-primary" @click="router.push({ name: 'demo' })">Try Demo</button>
+            <button v-if="!store.state.auth_token && route.name === 'demo'" class="btn btn-primary" @click="router.push({ name: 'register' })">Register for free</button>
             <button v-if="store.state.auth_token" class="btn btn-secondary" @click="router.push({ name: 'diagrams' })">View diagrams</button>
             <button v-if="store.state.auth_token" class="btn btn-secondary" @click="Auth.logout()">Log out</button>
         </div>
@@ -16,10 +18,12 @@
 import { onMounted } from 'vue'
 import { Auth } from '@/services/Auth.js'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 import router from '@/router/index.js'
 import '@/css/header.css'
 
 const store = useStore()
+const route = useRoute()
 
 onMounted(() => {
     if (document.querySelector('script[src*="googletagmanager"]')) return

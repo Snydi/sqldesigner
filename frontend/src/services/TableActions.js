@@ -24,7 +24,7 @@ export const TABLE_STYLE = {
     justifyContent: 'space-between'
 }
 
-const ROW_STYLE = {
+export const ROW_STYLE = {
     display: 'flex',
     border: '1px solid #10b981',
     borderColor: '#898989',

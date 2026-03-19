@@ -15,15 +15,15 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
-    <meta property="og:image:width" content="2556">
-    <meta property="og:image:height" content="1271">
+    <meta property="og:image:width" content="2557">
+    <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL Designer — Free MySQL Schema Designer">
     <meta name="twitter:description" content="Design, visualize, and export your MySQL database schemas online for free.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
-    <link rel="preload" as="image" href="/images/screenshot-1000.webp" imagesrcset="/images/screenshot-600.webp 600w, /images/screenshot-1000.webp 1000w, /images/screenshot.webp 2556w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/screenshot-1000.webp" imagesrcset="/images/screenshot-600.webp 600w, /images/screenshot-1000.webp 1000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
     <script type="application/ld+json">
     [
         {
@@ -59,7 +59,7 @@
                     "@type": "HowToStep",
                     "position": 1,
                     "name": "Create a Diagram",
-                    "text": "Sign up for free and create a new diagram for your project or database."
+                    "text": "Register for free and create a new diagram for your project or database."
                 },
                 {
                     "@type": "HowToStep",
@@ -457,9 +457,9 @@
             <picture>
                 <source
                     type="image/webp"
-                    srcset="{{ asset('images/screenshot-600.webp') }} 600w, {{ asset('images/screenshot-1000.webp') }} 1000w, {{ asset('images/screenshot.webp') }} 2556w"
+                    srcset="{{ asset('images/screenshot-600.webp') }} 600w, {{ asset('images/screenshot-1000.webp') }} 1000w, {{ asset('images/screenshot.webp') }} 2557w"
                     sizes="(max-width: 660px) calc(100vw - 3rem), 1000px">
-                <img src="{{ asset('images/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2556" height="1271" loading="eager" fetchpriority="high">
+                <img src="{{ asset('images/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2557" height="1269" loading="eager" fetchpriority="high">
             </picture>
         </div>
     </section>
@@ -502,7 +502,7 @@
             <div class="step">
                 <div class="step-number">1</div>
                 <h3>Create a Diagram</h3>
-                <p>Sign up for free and create a new diagram for your project or database.</p>
+                <p>Register for free and create a new diagram for your project or database.</p>
             </div>
             <div class="step">
                 <div class="step-number">2</div>

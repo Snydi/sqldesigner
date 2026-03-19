@@ -38,6 +38,7 @@ const routes = [
             { path: 'logout', name: 'logout', component: Logout },
             { path: 'diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth },
             { path: 'diagrams/:id', name: 'diagram.show', component: Diagram, beforeEnter: requireAuth },
+            { path: 'demo', name: 'demo', component: Diagram, props: { isDemo: true } },
         ]
     },
 ];
@@ -52,6 +53,7 @@ const pageTitles = {
     'login': 'Login — SQL Designer',
     'diagrams': 'My Diagrams — SQL Designer',
     'diagram.show': 'Diagram Editor — SQL Designer',
+    'demo': 'Try Demo — SQL Designer',
 };
 
 router.afterEach((to) => {

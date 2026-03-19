@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="yandex-verification" content="ebdef4d5d4512d71" />
     <title>@yield('title', 'SQL Designer — Free Online MySQL Database Schema Designer')</title>
+    <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
@@ -24,6 +25,7 @@
             <a class="btn btn-secondary" href="/logout">Logout</a>
         </div>
         <div id="nav-guest" style="display:flex; gap:1rem;">
+            <a class="btn btn-primary" href="/demo">Try Demo</a>
             <a class="btn btn-secondary" href="/register">Register</a>
             <a class="btn btn-secondary" href="/login">Login</a>
         </div>
