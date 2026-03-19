@@ -38,8 +38,11 @@ select:focus {
     outline: none;
 }
 
-.vue-flow {
-    position: absolute;
+.app-wrapper {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .logo {
