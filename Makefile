@@ -113,8 +113,10 @@ deploy:
 		php artisan migrate --force && \
 		php artisan optimize"
 	docker compose -f docker-compose.prod.yml -p snydiagram restart php queue
-	docker exec nginx sh -c "rm -rf /var/cache/nginx/fastcgi_cache/* 2>/dev/null || true"
-	docker exec nginx nginx -s reload
+	docker exec nginx sh -c "mkdir -p /tmp/nginx_fastcgi_cache && nginx -s reload"
+	sleep 2
+	curl -s -o /dev/null https://sql-designer.com/ || true
+	curl -s -o /dev/null https://sql-designer.com/blog || true
 
 _wait_postgres_prod:
 	docker exec postgres sh -c \

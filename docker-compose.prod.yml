@@ -61,6 +61,7 @@ services:
         image: nginx:alpine
         container_name: nginx
         restart: unless-stopped
+        command: sh -c "mkdir -p /tmp/nginx_fastcgi_cache && nginx -g 'daemon off;'"
         ports:
             - "80:80"
             - "443:443"
@@ -68,7 +69,6 @@ services:
             - ./backend:/var/www/html/backend:ro
             - ./docker/nginx/certs:/etc/nginx/certs:ro
             - ./docker/nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro
-            - nginx_cache:/var/cache/nginx/fastcgi_cache
         depends_on:
             php:
                 condition: service_started
@@ -117,7 +117,6 @@ services:
 
 volumes:
     pgdata:
-    nginx_cache:
 
 networks:
     snydiagram_network:
