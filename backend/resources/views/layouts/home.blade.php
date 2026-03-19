@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="yandex-verification" content="ebdef4d5d4512d71" />
     <title>@yield('title', 'SQL Designer — Free Online MySQL Database Schema Designer')</title>
-    <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" href="/favicon.ico" sizes="any">
@@ -37,13 +36,20 @@
     </script>
 </header>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C"></script>
+<!-- Google tag (gtag.js) — deferred until after page load to avoid blocking LCP -->
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-4L116MPX4C');
+    function _loadGtag() {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C';
+        document.head.appendChild(s);
+    }
+    if (document.readyState === 'complete') { _loadGtag(); }
+    else { window.addEventListener('load', _loadGtag); }
 </script>
 
 <main>
