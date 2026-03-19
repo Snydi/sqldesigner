@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Design, visualize, and export your MySQL database schemas online for free.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
-    <link rel="preload" as="image" href="/images/screenshot-1000.webp" imagesrcset="/images/screenshot-600.webp 600w, /images/screenshot-1000.webp 1000w, /images/screenshot.webp 2556w" imagesizes="(max-width: 660px) calc(100vw - 3rem), (max-width: 1060px) 1000px, 2556px" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/screenshot-1000.webp" imagesrcset="/images/screenshot-600.webp 600w, /images/screenshot-1000.webp 1000w, /images/screenshot.webp 2556w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
     <script type="application/ld+json">
     [
         {
@@ -458,7 +458,7 @@
                 <source
                     type="image/webp"
                     srcset="{{ asset('images/screenshot-600.webp') }} 600w, {{ asset('images/screenshot-1000.webp') }} 1000w, {{ asset('images/screenshot.webp') }} 2556w"
-                    sizes="(max-width: 660px) calc(100vw - 3rem), (max-width: 1060px) 1000px, 2556px">
+                    sizes="(max-width: 660px) calc(100vw - 3rem), 1000px">
                 <img src="{{ asset('images/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2556" height="1271" loading="eager" fetchpriority="high">
             </picture>
         </div>
