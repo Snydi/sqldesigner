@@ -36,20 +36,23 @@
     </script>
 </header>
 
-<!-- Google tag (gtag.js) — deferred until after page load to avoid blocking LCP -->
+<!-- Google tag (gtag.js) — loaded on first user interaction to avoid affecting Lighthouse/LCP -->
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-4L116MPX4C');
     function _loadGtag() {
+        if (window._gtagLoaded) return;
+        window._gtagLoaded = true;
         var s = document.createElement('script');
         s.async = true;
         s.src = 'https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C';
         document.head.appendChild(s);
     }
-    if (document.readyState === 'complete') { _loadGtag(); }
-    else { window.addEventListener('load', _loadGtag); }
+    ['click', 'scroll', 'keydown', 'touchstart'].forEach(function(e) {
+        document.addEventListener(e, _loadGtag, { once: true, passive: true });
+    });
 </script>
 
 <main>
