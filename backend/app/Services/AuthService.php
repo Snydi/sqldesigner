@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Jobs\SendNewUserRegistrationEmail;
+use App\Jobs\SendVerificationEmail;
 use App\Models\User;
 use App\Repositories\AuthRepository;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,9 @@ class AuthService
     }
     public function register(array $data): true
     {
-        $this->authRepository->createNewUser($data);
+        $user = $this->authRepository->createNewUser($data);
         SendNewUserRegistrationEmail::dispatch($data['email']);
+        SendVerificationEmail::dispatch($user);
         return true;
     }
 
