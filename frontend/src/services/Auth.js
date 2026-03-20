@@ -3,21 +3,21 @@ import router from '../router/index.js'
 import store from '@/store/index.js'
 import axios from '@/axios'
 
-async function authenticate(endpoint, userData) {
+async function authenticate(endpoint, userData, redirectTo) {
     const $toast = useToast({ position: 'bottom-right' })
     try {
         const response = await axios.post(endpoint, { email: userData.email, password: userData.password })
         $toast.success(response.data.message)
         store.commit('login', response.data.token)
-        await router.push({ name: 'diagrams' })
+        await router.push({ name: redirectTo })
     } catch (error) {
         $toast.error(error.response?.data?.message ?? 'An error occurred')
     }
 }
 
 export const Auth = {
-    register: (userData) => authenticate('/api/register', userData),
-    login: (userData) => authenticate('/api/login', userData),
+    register: (userData) => authenticate('/api/register', userData, 'verify-email'),
+    login: (userData) => authenticate('/api/login', userData, 'diagrams'),
 
     async logout() {
         const $toast = useToast({ position: 'bottom-right' })

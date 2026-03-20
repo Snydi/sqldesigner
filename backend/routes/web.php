@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,6 +16,10 @@ Route::get('/blog/mysql-data-types', fn() => view('blog.mysql-data-types'));
 Route::get('/blog/database-normalization', fn() => view('blog.database-normalization'));
 Route::get('/blog/how-to-draw-er-diagram', fn() => view('blog.how-to-draw-er-diagram'));
 Route::get('/blog/mysql-vs-postgresql', fn() => view('blog.mysql-vs-postgresql'));
+
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 Route::get('/{any}', function () {
     return view('layouts.app');
