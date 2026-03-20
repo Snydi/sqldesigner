@@ -116,7 +116,7 @@ deploy:
 		composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader"
 	docker exec --user www php sh -c "\
 		cd /var/www/html/backend && \
-		php artisan migrate --force && \
+		php artisan migrate && \
 		php artisan optimize"
 	docker compose -f docker-compose.prod.yml -p snydiagram restart php queue
 	docker exec nginx sh -c "mkdir -p /tmp/nginx_fastcgi_cache && nginx -s reload"

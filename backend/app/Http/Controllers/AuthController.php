@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Jobs\SendVerificationEmail;
+use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -61,8 +64,31 @@ class AuthController extends Controller
         ]);
     }
 
-    private function checkCredentials(array $credentials)
+    public function verifyEmail(Request $request, string $id, string $hash): RedirectResponse
     {
-        //TODO доделать
+        $user = User::findOrFail($id);
+
+        if (!hash_equals(sha1($user->email), $hash)) {
+            abort(403);
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
+        return redirect('/diagrams?verified=1');
+    }
+
+    public function resendVerification(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Email already verified']);
+        }
+
+        SendVerificationEmail::dispatch($user);
+
+        return response()->json(['message' => 'Verification email sent']);
     }
 }
