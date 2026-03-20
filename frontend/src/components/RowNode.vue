@@ -19,46 +19,10 @@
     <!-- SQL Type -->
     <div>
         <select v-model="data.sqlType" @change="$emit('change')">
-            <optgroup label="Numeric">
-                <option value="TINYINT">TINYINT</option>
-                <option value="SMALLINT">SMALLINT</option>
-                <option value="MEDIUMINT">MEDIUMINT</option>
-                <option value="INT">INT</option>
-                <option value="BIGINT">BIGINT</option>
-                <option value="DECIMAL(10,2)">DECIMAL</option>
-                <option value="FLOAT">FLOAT</option>
-                <option value="DOUBLE">DOUBLE</option>
-                <option value="BIT">BIT</option>
+            <optgroup v-for="(options, groupLabel) in typeGroups" :key="groupLabel" :label="groupLabel">
+                <option v-for="opt in options" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
             </optgroup>
-            <optgroup label="String">
-                <option value="CHAR(255)">CHAR</option>
-                <option value="VARCHAR(255)">VARCHAR</option>
-                <option value="TINYTEXT">TINYTEXT</option>
-                <option value="TEXT">TEXT</option>
-                <option value="MEDIUMTEXT">MEDIUMTEXT</option>
-                <option value="LONGTEXT">LONGTEXT</option>
-                <option value="BINARY(255)">BINARY</option>
-                <option value="VARBINARY(255)">VARBINARY</option>
-                <option value="TINYBLOB">TINYBLOB</option>
-                <option value="BLOB">BLOB</option>
-                <option value="MEDIUMBLOB">MEDIUMBLOB</option>
-                <option value="LONGBLOB">LONGBLOB</option>
-                <option value="ENUM('')">ENUM</option>
-                <option value="SET('')">SET</option>
-            </optgroup>
-            <optgroup label="Date & Time">
-                <option value="DATE">DATE</option>
-                <option value="TIME">TIME</option>
-                <option value="DATETIME">DATETIME</option>
-                <option value="TIMESTAMP">TIMESTAMP</option>
-                <option value="YEAR">YEAR</option>
-            </optgroup>
-            <optgroup label="Other">
-                <option value="JSON">JSON</option>
-                <option value="UUID">UUID</option>
-                <option value="BOOLEAN">BOOLEAN</option>
-            </optgroup>
-            <option v-bind:value="data.sqlType">{{ data.sqlType }}</option>
+            <option :value="data.sqlType">{{ data.sqlType }}</option>
         </select>
     </div>
 
@@ -76,8 +40,10 @@
             <option value="UNIQUE">Unique</option>
             <option value="INDEX">Index</option>
         </select>
-        <p class="modal_text">Unsigned</p>
-        <input type="checkbox" @mousedown.stop :checked="data.unsigned" @change="toggleUnsigned">
+        <template v-if="dbType !== 'postgresql'">
+            <p class="modal_text">Unsigned</p>
+            <input type="checkbox" @mousedown.stop :checked="data.unsigned" @change="toggleUnsigned">
+        </template>
         <p class="modal_text">Nullable</p>
         <input type="checkbox" @mousedown.stop :checked="data.nullable" @change="toggleNullable">
     </div>
@@ -97,15 +63,95 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { Handle } from '@vue-flow/core'
 
 const props = defineProps({
     id: String,
     data: Object,
     label: String,
+    dbType: { type: String, default: 'mysql' },
 })
 
 const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start'])
+
+const MYSQL_TYPES = {
+    'Numeric': [
+        { value: 'TINYINT', label: 'TINYINT' },
+        { value: 'SMALLINT', label: 'SMALLINT' },
+        { value: 'MEDIUMINT', label: 'MEDIUMINT' },
+        { value: 'INT', label: 'INT' },
+        { value: 'BIGINT', label: 'BIGINT' },
+        { value: 'DECIMAL(10,2)', label: 'DECIMAL' },
+        { value: 'FLOAT', label: 'FLOAT' },
+        { value: 'DOUBLE', label: 'DOUBLE' },
+        { value: 'BIT', label: 'BIT' },
+    ],
+    'String': [
+        { value: 'CHAR(255)', label: 'CHAR' },
+        { value: 'VARCHAR(255)', label: 'VARCHAR' },
+        { value: 'TINYTEXT', label: 'TINYTEXT' },
+        { value: 'TEXT', label: 'TEXT' },
+        { value: 'MEDIUMTEXT', label: 'MEDIUMTEXT' },
+        { value: 'LONGTEXT', label: 'LONGTEXT' },
+        { value: 'BINARY(255)', label: 'BINARY' },
+        { value: 'VARBINARY(255)', label: 'VARBINARY' },
+        { value: 'TINYBLOB', label: 'TINYBLOB' },
+        { value: 'BLOB', label: 'BLOB' },
+        { value: 'MEDIUMBLOB', label: 'MEDIUMBLOB' },
+        { value: 'LONGBLOB', label: 'LONGBLOB' },
+        { value: "ENUM('')", label: 'ENUM' },
+        { value: "SET('')", label: 'SET' },
+    ],
+    'Date & Time': [
+        { value: 'DATE', label: 'DATE' },
+        { value: 'TIME', label: 'TIME' },
+        { value: 'DATETIME', label: 'DATETIME' },
+        { value: 'TIMESTAMP', label: 'TIMESTAMP' },
+        { value: 'YEAR', label: 'YEAR' },
+    ],
+    'Other': [
+        { value: 'JSON', label: 'JSON' },
+        { value: 'UUID', label: 'UUID' },
+        { value: 'BOOLEAN', label: 'BOOLEAN' },
+    ],
+}
+
+const POSTGRESQL_TYPES = {
+    'Numeric': [
+        { value: 'SMALLINT', label: 'SMALLINT' },
+        { value: 'INTEGER', label: 'INTEGER' },
+        { value: 'BIGINT', label: 'BIGINT' },
+        { value: 'DECIMAL(10,2)', label: 'DECIMAL' },
+        { value: 'NUMERIC(10,2)', label: 'NUMERIC' },
+        { value: 'REAL', label: 'REAL' },
+        { value: 'DOUBLE PRECISION', label: 'DOUBLE PRECISION' },
+        { value: 'SMALLSERIAL', label: 'SMALLSERIAL' },
+        { value: 'SERIAL', label: 'SERIAL' },
+        { value: 'BIGSERIAL', label: 'BIGSERIAL' },
+    ],
+    'String': [
+        { value: 'CHAR(255)', label: 'CHAR' },
+        { value: 'VARCHAR(255)', label: 'VARCHAR' },
+        { value: 'TEXT', label: 'TEXT' },
+        { value: 'BYTEA', label: 'BYTEA' },
+    ],
+    'Date & Time': [
+        { value: 'DATE', label: 'DATE' },
+        { value: 'TIME', label: 'TIME' },
+        { value: 'TIMESTAMP', label: 'TIMESTAMP' },
+        { value: 'TIMESTAMPTZ', label: 'TIMESTAMPTZ' },
+        { value: 'INTERVAL', label: 'INTERVAL' },
+    ],
+    'Other': [
+        { value: 'BOOLEAN', label: 'BOOLEAN' },
+        { value: 'JSON', label: 'JSON' },
+        { value: 'JSONB', label: 'JSONB' },
+        { value: 'UUID', label: 'UUID' },
+    ],
+}
+
+const typeGroups = computed(() => props.dbType === 'postgresql' ? POSTGRESQL_TYPES : MYSQL_TYPES)
 
 const toggleNullable = () => {
     props.data.nullable = !props.data.nullable

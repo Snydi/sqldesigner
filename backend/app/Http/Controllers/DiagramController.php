@@ -76,9 +76,15 @@ class DiagramController extends Controller
 
     public function validateSQL(Request $request): JsonResponse
     {
-        $request->validate(['sql' => 'required|string']);
+        $request->validate([
+            'sql' => 'required|string',
+            'db_type' => 'nullable|in:mysql,postgresql',
+        ]);
 
-        $result = $this->diagramService->validateSQL($request->input('sql'));
+        $result = $this->diagramService->validateSQL(
+            $request->input('sql'),
+            $request->input('db_type', 'mysql')
+        );
 
         return response()->json($result, $result['valid'] ? 200 : 422);
     }
@@ -103,7 +109,7 @@ class DiagramController extends Controller
     {
         $this->authorize('export', $diagram);
 
-        $diagram->script = json_encode($this->diagramService->createScript($diagram->schema));
+        $diagram->script = json_encode($this->diagramService->createScript($diagram->schema, $diagram->db_type ?? 'mysql'));
         $diagram->save();
 
         return response()->json($diagram->script);

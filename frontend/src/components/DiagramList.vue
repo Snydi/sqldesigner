@@ -83,9 +83,10 @@
                         <span>MySQL</span>
                     </button>
                     <button
-                        class="db-option db-option--disabled"
-                        disabled
-                        title="PostgreSQL (coming soon)"
+                        class="db-option"
+                        :class="{ 'db-option--active': newDiagramDbType === 'postgresql' }"
+                        @click="newDiagramDbType = 'postgresql'"
+                        title="PostgreSQL"
                     >
                         <img src="../icons/postgresql.svg" alt="PostgreSQL" />
                         <span>PostgreSQL</span>
