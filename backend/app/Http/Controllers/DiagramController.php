@@ -8,6 +8,7 @@ use App\Models\Diagram;
 use App\Services\DiagramService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\ValidateSQLRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -74,11 +75,12 @@ class DiagramController extends Controller
             : response()->json(['status' => false, 'message' => 'Failed deleting the diagram']);
     }
 
-    public function validateSQL(Request $request): JsonResponse
+    public function validateSQL(ValidateSQLRequest $request): JsonResponse
     {
-        $request->validate(['sql' => 'required|string']);
-
-        $result = $this->diagramService->validateSQL($request->input('sql'));
+        $result = $this->diagramService->validateSQL(
+            $request->input('sql'),
+            $request->input('db_type', 'mysql')
+        );
 
         return response()->json($result, $result['valid'] ? 200 : 422);
     }
@@ -103,7 +105,7 @@ class DiagramController extends Controller
     {
         $this->authorize('export', $diagram);
 
-        $diagram->script = json_encode($this->diagramService->createScript($diagram->schema));
+        $diagram->script = json_encode($this->diagramService->createScript($diagram->schema, $diagram->db_type ?? 'mysql'));
         $diagram->save();
 
         return response()->json($diagram->script);

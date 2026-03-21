@@ -37,7 +37,14 @@ class DiagramService
         return $this->diagramRepository->delete($diagram);
     }
 
-    public function validateSQL(string $sql): array
+    public function validateSQL(string $sql, string $dbType = 'mysql'): array
+    {
+        return $dbType === 'postgresql'
+            ? $this->validatePostgreSQL($sql)
+            : $this->validateMySQL($sql);
+    }
+
+    private function validateMySQL(string $sql): array
     {
         $connection = DB::connection('mysql_validation');
         $createdTables = [];
@@ -65,8 +72,34 @@ class DiagramService
         }
     }
 
-    public function createScript(string $schema): string
+    private function validatePostgreSQL(string $sql): array
     {
+        $connection = DB::connection('pgsql');
+        $connection->beginTransaction();
+
+        try {
+            foreach ($this->parseStatements($sql) as $statement) {
+                try {
+                    $connection->statement($statement);
+                } catch (\Exception $e) {
+                    $connection->rollBack();
+                    return ['valid' => false, 'error' => $e->getMessage(), 'statement' => $statement];
+                }
+            }
+
+            $connection->rollBack();
+            return ['valid' => true];
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            return ['valid' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    public function createScript(string $schema, string $dbType = 'mysql'): string
+    {
+        $isPg = $dbType === 'postgresql';
+        $q    = $isPg ? '"' : '`';
+
         $tables = collect();
         $rows = collect();
         $connections = collect();
@@ -97,11 +130,15 @@ class DiagramService
         $script     = '';
 
         foreach ($tables as $table) {
-            $columnDefs = $rows->where('table_id', $table['id'])->map(
-                fn($row) => implode(' ', array_filter(["  `{$row['name']}` {$row['sql_type']}", $row['unsigned'], $row['nullable'], $row['key_mod']]))
-            );
+            $columnDefs = $rows->where('table_id', $table['id'])->map(function ($row) use ($isPg, $q) {
+                $parts = ["  {$q}{$row['name']}{$q} {$row['sql_type']}"];
+                if (!$isPg && $row['unsigned']) $parts[] = $row['unsigned'];
+                $parts[] = $row['nullable'];
+                if ($row['key_mod']) $parts[] = $row['key_mod'];
+                return implode(' ', array_filter($parts));
+            });
 
-            $script .= "CREATE TABLE IF NOT EXISTS `{$table['name']}` (\n";
+            $script .= "CREATE TABLE IF NOT EXISTS {$q}{$table['name']}{$q} (\n";
             $script .= $columnDefs->implode(",\n") . "\n";
             $script .= ");\n\n";
         }
@@ -115,7 +152,7 @@ class DiagramService
             $tableName       = $tablesById->get($sourceRow['table_id'])['name'];
             $targetTableName = $tablesById->get($targetRow['table_id'])['name'];
 
-            $script .= "ALTER TABLE `$tableName`\nADD FOREIGN KEY (`{$sourceRow['name']}`) REFERENCES `$targetTableName`(`{$targetRow['name']}`);\n\n";
+            $script .= "ALTER TABLE {$q}$tableName{$q}\nADD FOREIGN KEY ({$q}{$sourceRow['name']}{$q}) REFERENCES {$q}$targetTableName{$q}({$q}{$targetRow['name']}{$q});\n\n";
         }
 
         return $script;
@@ -129,12 +166,12 @@ class DiagramService
         $tableX = 50;
 
         foreach ($this->parseStatements($script) as $statement) {
-            if (preg_match('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?`?(\w+)`?\s*\((.*)\)/is', $statement, $m)) {
+            if (preg_match('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?["`]?(\w+)["`]?\s*\((.*)\)/is', $statement, $m)) {
                 $tableX += 400;
                 $tableId  = uniqid();
                 $tables[] = $this->buildTableNode($tableId, $m[1], $tableX);
                 array_push($rows, ...$this->parseColumns($m[2], $tableId, $tableX));
-            } elseif (preg_match('/ALTER\s+TABLE\s+`?(\w+)`?\s+ADD\s+FOREIGN\s+KEY\s*\(`?(\w+)`?\)\s+REFERENCES\s+`?(\w+)`?\s*\(`?(\w+)`?\)/i', $statement, $m)) {
+            } elseif (preg_match('/ALTER\s+TABLE\s+["`]?(\w+)["`]?\s+ADD\s+FOREIGN\s+KEY\s*\(["`]?(\w+)["`]?\)\s+REFERENCES\s+["`]?(\w+)["`]?\s*\(["`]?(\w+)["`]?\)/i', $statement, $m)) {
                 $connection = $this->resolveConnection($tables, $rows, $m[1], $m[2], $m[3], $m[4]);
                 if ($connection) $connections[] = $connection;
             }
@@ -242,14 +279,14 @@ class DiagramService
         $index       = 0;
 
         foreach ($lines as $line) {
-            if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(\s*`?(\w+)`?\s*\)$/i', $line, $m)) {
+            if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(\s*["`]?(\w+)["`]?\s*\)$/i', $line, $m)) {
                 $constraints[$m[2]] = strtoupper(preg_replace('/\s+/', ' ', $m[1]));
             }
         }
 
         foreach ($lines as $line) {
             if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(/i', $line)) continue;
-            if (!preg_match('/^`?(\w+)`?\s+([a-zA-Z]+)(?:\(([^)]+)\))?(?:\s+(UNSIGNED))?(?:\s+(NOT\s+NULL|NULL))?(?:\s+(PRIMARY\s+KEY|UNIQUE))?/i', $line, $m)) continue;
+            if (!preg_match('/^["`]?(\w+)["`]?\s+([a-zA-Z]+)(?:\(([^)]+)\))?(?:\s+(UNSIGNED))?(?:\s+(NOT\s+NULL|NULL))?(?:\s+(PRIMARY\s+KEY|UNIQUE))?/i', $line, $m)) continue;
 
             $baseName = $m[1];
             $name     = $baseName;

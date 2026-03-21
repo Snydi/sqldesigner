@@ -15,7 +15,7 @@ export const Diagram = {
     get: (id) =>
         request(async () => {
             const response = await axios.get(`/api/diagrams/${id}`)
-            return JSON.parse(response.data.data.schema)
+            return response.data.data
         }),
 
     import: (id, script) =>

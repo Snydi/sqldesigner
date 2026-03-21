@@ -1,26 +1,26 @@
 @extends('layouts.home')
 
-@section('title', 'SQL Designer — Free Online MySQL Database Schema Designer')
+@section('title', 'SQL Designer — Free Online MySQL & PostgreSQL Schema Designer')
 
 @section('head')
-    <meta name="description" content="Free online MySQL database schema designer. Create tables, define relationships, and export SQL scripts with a visual drag-and-drop interface. No installation required.">
-    <meta name="keywords" content="MySQL schema designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative">
+    <meta name="description" content="Free online database schema designer for MySQL and PostgreSQL. Create tables, define relationships, and export SQL scripts with a visual drag-and-drop interface. No installation required.">
+    <meta name="keywords" content="MySQL schema designer, PostgreSQL schema designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, PostgreSQL database designer">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#c05252">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="SQL Designer — Free Online MySQL Database Schema Designer">
-    <meta property="og:description" content="Visually design and export MySQL database schemas with a drag-and-drop interface. Free, fast, and browser-based.">
+    <meta property="og:title" content="SQL Designer — Free Online MySQL & PostgreSQL Schema Designer">
+    <meta property="og:description" content="Visually design and export MySQL and PostgreSQL database schemas with a drag-and-drop interface. Free, fast, and browser-based.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
-    <meta property="og:image:alt" content="SQL Designer — visual MySQL schema editor">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SQL Designer — Free MySQL Schema Designer">
-    <meta name="twitter:description" content="Design, visualize, and export your MySQL database schemas online for free.">
+    <meta name="twitter:title" content="SQL Designer — Free MySQL & PostgreSQL Schema Designer">
+    <meta name="twitter:description" content="Design, visualize, and export your MySQL and PostgreSQL database schemas online for free.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
     <link rel="preload" as="image" href="/images/screenshot-1000.webp" imagesrcset="/images/screenshot-600.webp 600w, /images/screenshot-1000.webp 1000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
@@ -31,13 +31,13 @@
             "@type": "WebApplication",
             "name": "SQL Designer",
             "url": "https://sql-designer.com",
-            "description": "Free online MySQL database schema designer with a visual drag-and-drop interface and SQL export.",
+            "description": "Free online database schema designer for MySQL and PostgreSQL with a visual drag-and-drop interface and SQL export.",
             "applicationCategory": "DeveloperApplication",
             "operatingSystem": "Any",
             "screenshot": "https://sql-designer.com/images/screenshot.png",
             "featureList": [
                 "Visual drag-and-drop schema editor",
-                "MySQL CREATE TABLE SQL export",
+                "MySQL and PostgreSQL CREATE TABLE SQL export",
                 "Foreign key relationship modelling",
                 "PRIMARY KEY, UNIQUE, NOT NULL constraints",
                 "Multiple diagrams per account",
@@ -52,8 +52,8 @@
         {
             "@context": "https://schema.org",
             "@type": "HowTo",
-            "name": "How to design a MySQL database schema with SQL Designer",
-            "description": "Step-by-step guide to creating a visual MySQL database schema and exporting a SQL script.",
+            "name": "How to design a database schema with SQL Designer",
+            "description": "Step-by-step guide to creating a visual MySQL or PostgreSQL database schema and exporting a SQL script.",
             "step": [
                 {
                     "@type": "HowToStep",
@@ -77,7 +77,7 @@
                     "@type": "HowToStep",
                     "position": 4,
                     "name": "Export SQL",
-                    "text": "Click export to generate a clean MySQL CREATE TABLE script ready to run in your database."
+                    "text": "Click export to generate a clean MySQL or PostgreSQL CREATE TABLE script ready to run in your database."
                 }
             ]
         },
@@ -106,7 +106,7 @@
                     "name": "What SQL does it generate?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "SQL Designer generates MySQL CREATE TABLE scripts, including column definitions, data types, constraints (PRIMARY KEY, UNIQUE, NOT NULL), and foreign key relationships."
+                        "text": "SQL Designer generates MySQL and PostgreSQL CREATE TABLE scripts, including column definitions, data types, constraints (PRIMARY KEY, UNIQUE, NOT NULL), and foreign key relationships."
                     }
                 },
                 {
@@ -427,7 +427,7 @@
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-heading">
         <div class="hero-free-badge">100% Free &mdash; No subscription, no credit card</div>
-        <h1 id="hero-heading">Design Your MySQL Database Schema — Visually</h1>
+        <h1 id="hero-heading">Design Your MySQL or PostgreSQL Database Schema — Visually</h1>
         <p>
             SQL Designer is a free, browser-based database schema designer.
             Drag and drop tables, define columns and relationships,
@@ -474,7 +474,7 @@
             </article>
             <article class="feature-card">
                 <h3>SQL Export</h3>
-                <p>Generate a valid MySQL <code>CREATE TABLE</code> script from your diagram at any time. Copy it directly into your database client or migration tool.</p>
+                <p>Generate a valid MySQL or PostgreSQL <code>CREATE TABLE</code> script from your diagram at any time. Copy it directly into your database client or migration tool.</p>
             </article>
             <article class="feature-card">
                 <h3>Multiple Diagrams</h3>
@@ -517,7 +517,7 @@
             <div class="step">
                 <div class="step-number">4</div>
                 <h3>Export SQL</h3>
-                <p>Click export to generate a clean MySQL script ready to run in your database.</p>
+                <p>Click export to generate a clean MySQL or PostgreSQL script ready to run in your database.</p>
             </div>
         </div>
     </section>
@@ -541,7 +541,7 @@
             <li class="faq-item">
                 <details>
                     <summary>What SQL does it generate?</summary>
-                    <p>SQL Designer generates MySQL <code>CREATE TABLE</code> scripts, including column definitions, data types, constraints (PRIMARY KEY, UNIQUE, NOT NULL), and foreign key relationships.</p>
+                    <p>SQL Designer generates MySQL and PostgreSQL <code>CREATE TABLE</code> scripts, including column definitions, data types, constraints (PRIMARY KEY, UNIQUE, NOT NULL), and foreign key relationships.</p>
                 </details>
             </li>
             <li class="faq-item">

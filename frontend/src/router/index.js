@@ -60,7 +60,7 @@ const pageTitles = {
 };
 
 router.afterEach((to) => {
-    document.title = pageTitles[to.name] || 'SQL Designer — Free Online MySQL Database Schema Designer';
+    document.title = pageTitles[to.name] || 'SQL Designer — Free Online MySQL & PostgreSQL Schema Designer';
 });
 
 export default router;
