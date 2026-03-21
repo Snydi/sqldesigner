@@ -22,6 +22,7 @@ class DiagramRepository implements DiagramRepositoryInterface
     {
         return Diagram::create([
             'name' => $data['name'],
+            'db_type' => $data['db_type'] ?? 'mysql',
             'schema' => NULL,
             'user_id' => $data['user_id'],
         ]);

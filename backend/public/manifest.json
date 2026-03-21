@@ -1,7 +1,7 @@
 {
     "name": "SQL Designer",
     "short_name": "SQL Designer",
-    "description": "Free online MySQL database schema designer with drag-and-drop interface and SQL export.",
+    "description": "Free online MySQL and PostgreSQL database schema designer with drag-and-drop interface and SQL export.",
     "start_url": "/",
     "display": "browser",
     "background_color": "#ffffff",

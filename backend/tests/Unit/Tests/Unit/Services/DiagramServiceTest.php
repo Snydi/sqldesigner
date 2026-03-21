@@ -490,6 +490,242 @@ class DiagramServiceTest extends TestCase
     }
 
 
+    // --- PostgreSQL: createScript ---
+
+    public function testCreateScriptPostgresqlUsesDoubleQuoteIdentifiers(): void
+    {
+        $schema = json_encode([
+            ['id' => 't1', 'type' => 'table', 'label' => 'users'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r2', 'type' => 'row', 'label' => 'email', 'parentNode' => 't1', 'data' => ['keyMod' => 'UNIQUE', 'sqlType' => 'VARCHAR(255)', 'nullable' => false, 'unsigned' => false]],
+        ]);
+
+        $script = $this->service->createScript($schema, 'postgresql');
+
+        $this->assertStringContainsString('"users"', $script);
+        $this->assertStringContainsString('"id"', $script);
+        $this->assertStringContainsString('"email"', $script);
+        $this->assertStringNotContainsString('`', $script);
+    }
+
+    public function testCreateScriptPostgresqlStripsUnsigned(): void
+    {
+        $schema = json_encode([
+            ['id' => 't1', 'type' => 'table', 'label' => 'products'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INTEGER', 'nullable' => false, 'unsigned' => true]],
+        ]);
+
+        $script = $this->service->createScript($schema, 'postgresql');
+
+        $this->assertStringNotContainsString('UNSIGNED', $script);
+    }
+
+    public function testCreateScriptPostgresqlSingleTableIsExecutable(): void
+    {
+        $schema = json_encode([
+            ['id' => 't1', 'type' => 'table', 'label' => 'products'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r2', 'type' => 'row', 'label' => 'name', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'VARCHAR(255)', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r3', 'type' => 'row', 'label' => 'price', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'DECIMAL(10,2)', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r4', 'type' => 'row', 'label' => 'description', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'TEXT', 'nullable' => true, 'unsigned' => false]],
+            ['id' => 'r5', 'type' => 'row', 'label' => 'metadata', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'JSONB', 'nullable' => true, 'unsigned' => false]],
+        ]);
+
+        $script = $this->service->createScript($schema, 'postgresql');
+
+        $this->assertNotEmpty($script);
+        $this->executePostgresqlAndValidate($script);
+    }
+
+    public function testCreateScriptPostgresqlForeignKeyIsExecutable(): void
+    {
+        $schema = json_encode([
+            ['id' => 't1', 'type' => 'table', 'label' => 'users'],
+            ['id' => 't2', 'type' => 'table', 'label' => 'posts'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r2', 'type' => 'row', 'label' => 'name', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'VARCHAR(255)', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r3', 'type' => 'row', 'label' => 'id', 'parentNode' => 't2', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r4', 'type' => 'row', 'label' => 'user_id', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'INTEGER', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r5', 'type' => 'row', 'label' => 'title', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'TEXT', 'nullable' => false, 'unsigned' => false]],
+            ['sourceNode' => ['id' => 'r4'], 'targetNode' => ['id' => 'r1']],
+        ]);
+
+        $script = $this->service->createScript($schema, 'postgresql');
+
+        $this->assertNotEmpty($script);
+        $this->executePostgresqlAndValidate($script);
+    }
+
+    public function testCreateScriptPostgresqlMultipleForeignKeysAreExecutable(): void
+    {
+        $schema = json_encode([
+            ['id' => 't1', 'type' => 'table', 'label' => 'authors'],
+            ['id' => 't2', 'type' => 'table', 'label' => 'categories'],
+            ['id' => 't3', 'type' => 'table', 'label' => 'books'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r2', 'type' => 'row', 'label' => 'id', 'parentNode' => 't2', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r3', 'type' => 'row', 'label' => 'id', 'parentNode' => 't3', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r4', 'type' => 'row', 'label' => 'author_id', 'parentNode' => 't3', 'data' => ['keyMod' => null, 'sqlType' => 'INTEGER', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r5', 'type' => 'row', 'label' => 'category_id', 'parentNode' => 't3', 'data' => ['keyMod' => null, 'sqlType' => 'INTEGER', 'nullable' => false, 'unsigned' => false]],
+            ['sourceNode' => ['id' => 'r4'], 'targetNode' => ['id' => 'r1']],
+            ['sourceNode' => ['id' => 'r5'], 'targetNode' => ['id' => 'r2']],
+        ]);
+
+        $script = $this->service->createScript($schema, 'postgresql');
+
+        $this->assertNotEmpty($script);
+        $this->executePostgresqlAndValidate($script);
+    }
+
+    // --- PostgreSQL: createSchema ---
+
+    public function testCreateSchemaFromPostgresqlSQL(): void
+    {
+        $sql = 'CREATE TABLE IF NOT EXISTS "users" (
+                    "id" SERIAL NOT NULL PRIMARY KEY,
+                    "name" VARCHAR(255) NOT NULL,
+                    "email" VARCHAR(255) NOT NULL UNIQUE
+                );
+
+                CREATE TABLE IF NOT EXISTS "posts" (
+                    "id" SERIAL NOT NULL PRIMARY KEY,
+                    "user_id" INTEGER NOT NULL,
+                    "title" TEXT NOT NULL
+                );
+
+                ALTER TABLE "posts"
+                ADD FOREIGN KEY ("user_id") REFERENCES "users"("id");';
+
+        $schema = $this->service->createSchema($sql);
+
+        $this->assertJson($schema);
+
+        $arr = json_decode($schema, true);
+
+        $tables = array_filter($arr, fn($item) => ($item['type'] ?? null) === 'table');
+        $this->assertCount(2, $tables);
+        $this->assertEqualsCanonicalizing(['users', 'posts'], array_column($tables, 'label'));
+
+        $rows = array_filter($arr, fn($item) => ($item['type'] ?? null) === 'row');
+        $this->assertCount(6, $rows);
+
+        $primaryKeys = array_filter($rows, fn($r) => ($r['data']['keyMod'] ?? null) === 'PRIMARY KEY');
+        $this->assertCount(2, $primaryKeys);
+
+        $connections = array_filter($arr, fn($item) => isset($item['source'], $item['target']));
+        $this->assertCount(1, $connections);
+    }
+
+    public function testCreateSchemaFromPostgresqlSQLPreservesTypes(): void
+    {
+        $sql = 'CREATE TABLE "items" (
+                    "id" BIGSERIAL NOT NULL PRIMARY KEY,
+                    "name" VARCHAR(100) NOT NULL,
+                    "score" NUMERIC(10,2) NOT NULL,
+                    "active" BOOLEAN NOT NULL,
+                    "meta" JSONB NULL,
+                    "token" UUID NOT NULL
+                );';
+
+        $schema = $this->service->createSchema($sql);
+        $arr = json_decode($schema, true);
+
+        $rows = array_column(
+            array_filter($arr, fn($item) => ($item['type'] ?? null) === 'row'),
+            null,
+            'label'
+        );
+
+        $this->assertEquals('BIGSERIAL', $rows['id']['data']['sqlType']);
+        $this->assertEquals('NUMERIC(10,2)', $rows['score']['data']['sqlType']);
+        $this->assertEquals('BOOLEAN', $rows['active']['data']['sqlType']);
+        $this->assertEquals('JSONB', $rows['meta']['data']['sqlType']);
+        $this->assertTrue($rows['meta']['data']['nullable']);
+        $this->assertFalse($rows['active']['data']['nullable']);
+    }
+
+    public function testCreateSchemaFromPostgresqlSQLWithTableLevelConstraints(): void
+    {
+        $sql = 'CREATE TABLE "products" (
+                    "id" INTEGER NOT NULL,
+                    "sku" VARCHAR(64) NOT NULL,
+                    "price" NUMERIC(12,4) NOT NULL,
+                    PRIMARY KEY ("id"),
+                    UNIQUE ("sku")
+                );';
+
+        $schema = $this->service->createSchema($sql);
+        $arr = json_decode($schema, true);
+
+        $rows = array_column(
+            array_filter($arr, fn($item) => ($item['type'] ?? null) === 'row'),
+            null,
+            'label'
+        );
+
+        $this->assertEquals('PRIMARY KEY', $rows['id']['data']['keyMod']);
+        $this->assertEquals('UNIQUE', $rows['sku']['data']['keyMod']);
+    }
+
+    // --- PostgreSQL: round-trip ---
+
+    public function testRoundTripConversionPostgresql(): void
+    {
+        $originalSchema = json_encode([
+            ['id' => 't1', 'type' => 'table', 'label' => 'customers'],
+            ['id' => 't2', 'type' => 'table', 'label' => 'orders'],
+            ['id' => 'r1', 'type' => 'row', 'label' => 'id',    'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL',       'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r2', 'type' => 'row', 'label' => 'email', 'parentNode' => 't1', 'data' => ['keyMod' => 'UNIQUE',      'sqlType' => 'VARCHAR(255)',   'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r3', 'type' => 'row', 'label' => 'id',    'parentNode' => 't2', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL',       'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r4', 'type' => 'row', 'label' => 'customer_id', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'INTEGER', 'nullable' => false, 'unsigned' => false]],
+            ['id' => 'r5', 'type' => 'row', 'label' => 'total', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'NUMERIC(12,2)', 'nullable' => false, 'unsigned' => false]],
+            ['sourceNode' => ['id' => 'r4'], 'targetNode' => ['id' => 'r1']],
+        ]);
+
+        $sql = $this->service->createScript($originalSchema, 'postgresql');
+
+        $this->assertStringNotContainsString('`', $sql, 'PostgreSQL script must not use backticks');
+        $this->assertStringNotContainsString('UNSIGNED', $sql, 'PostgreSQL script must not contain UNSIGNED');
+
+        $this->executePostgresqlAndValidate($sql);
+
+        $newSchema = $this->service->createSchema($sql);
+        $newArr    = json_decode($newSchema, true);
+
+        $newTables = array_filter($newArr, fn($i) => ($i['type'] ?? null) === 'table');
+        $this->assertEqualsCanonicalizing(
+            ['customers', 'orders'],
+            array_column($newTables, 'label'),
+            'Table names must survive round-trip'
+        );
+
+        $newRows = array_filter($newArr, fn($i) => ($i['type'] ?? null) === 'row');
+        $this->assertCount(5, $newRows, 'Row count must survive round-trip');
+
+        $newConnections = array_filter($newArr, fn($i) => isset($i['source'], $i['target']));
+        $this->assertCount(1, $newConnections, 'Foreign key connection must survive round-trip');
+    }
+
+    private function executePostgresqlAndValidate(string $sql): void
+    {
+        $connection = DB::connection('pgsql');
+        $connection->beginTransaction();
+
+        try {
+            $statements = array_filter(array_map('trim', explode(';', $sql)));
+
+            foreach ($statements as $statement) {
+                try {
+                    $connection->statement($statement);
+                } catch (\Exception $e) {
+                    $this->fail("PostgreSQL rejected statement:\n\n$statement\n\nError: " . $e->getMessage());
+                }
+            }
+        } finally {
+            $connection->rollBack();
+        }
+    }
+
     private function executeSQLAndValidate(string $sql): void
     {
         $connection = DB::connection('mysql_validation');

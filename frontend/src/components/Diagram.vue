@@ -55,6 +55,7 @@
                 :id="nodeProps.id"
                 :data="nodeProps.data"
                 :label="nodeProps.label"
+                :dbType="diagramDbType"
                 @update-label="updateLabel"
                 @toggle-options-modal="toggleOptionsModal"
                 @delete-node="deleteNode"
@@ -156,6 +157,7 @@ const isSaved = ref(true)
 let autoSaveTimer = null
 
 const schema = ref()
+const diagramDbType = ref('mysql')
 const modalPosition = ref({ x: 0, y: 0 })
 const selectedEdge = ref(null)
 const showRelationshipModal = ref(false)
@@ -173,7 +175,7 @@ const addRow = (nodeProps) => {
     TableActions.addRow(schema, nodeProps, {
         rowName: 'new_row',
         keyMod: 'None',
-        sqlType: 'INT(11)',
+        sqlType: diagramDbType.value === 'postgresql' ? 'INTEGER' : 'INT(11)',
         nullable: false,
         unsigned: false
     })
@@ -296,7 +298,10 @@ const getDiagram = async () => {
         return
     }
 
-    const rawSchema = await Diagram.get(diagramId) ?? [{
+    const diagramInfo = await Diagram.get(diagramId)
+    diagramDbType.value = diagramInfo?.db_type ?? 'mysql'
+
+    const rawSchema = diagramInfo?.schema ? JSON.parse(diagramInfo.schema) : [{
         id: '1',
         type: 'table',
         label: 'users',
