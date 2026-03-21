@@ -91,6 +91,7 @@
         v-if="showExportModal"
         v-model="exportContent"
         primaryLabel="Export"
+        :filename="diagramName"
         @primary-action="exportSql"
         @close="showExportModal = false"
     />
@@ -157,6 +158,7 @@ const isSaved = ref(true)
 let autoSaveTimer = null
 
 const schema = ref()
+const diagramName = ref('schema')
 const diagramDbType = ref('mysql')
 const modalPosition = ref({ x: 0, y: 0 })
 const selectedEdge = ref(null)
@@ -275,11 +277,11 @@ const importSql = async () => {
 
 const openExportModal = async () => {
     await saveDiagram()
+    exportContent.value = await Diagram.export(diagramId)
     showExportModal.value = true
 }
 
 const exportSql = async () => {
-    await Diagram.save(diagramId, schema.value)
     exportContent.value = await Diagram.export(diagramId)
 }
 
@@ -300,6 +302,7 @@ const getDiagram = async () => {
 
     const diagramInfo = await Diagram.get(diagramId)
     diagramDbType.value = diagramInfo?.db_type ?? 'mysql'
+    diagramName.value = diagramInfo?.name ?? 'schema'
 
     const rawSchema = diagramInfo?.schema ? JSON.parse(diagramInfo.schema) : [{
         id: '1',
