@@ -25,6 +25,7 @@
 ## License
 
 This project is source-available. See [LICENSE](./LICENSE) for details.
+Author: Snyatkov Dmitriy Andreevich. Feel free to message me any questions and suggestions about this project on snydi611@gmail.com
 
 ---
 
@@ -57,3 +58,4 @@ This project is source-available. See [LICENSE](./LICENSE) for details.
 ## Лицензия
 
 Исходный код проекта открыт для просмотра. Подробности — в файле [LICENSE](./LICENSE).
+Автор: Снятков Дмитрий Андреевич. По любым вопросам и предложениям относительно проекта, пишите на мою почту - snydi611@gmail.com
