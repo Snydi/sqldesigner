@@ -39,24 +39,24 @@
     </script>
 </header>
 
-<!-- Google tag (gtag.js) — loaded on first user interaction to avoid affecting Lighthouse/LCP -->
+<!-- Google Tag Manager — deferred until first user interaction to avoid affecting LCP -->
 <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-4L116MPX4C');
-    function _loadGtag() {
-        if (window._gtagLoaded) return;
-        window._gtagLoaded = true;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C';
-        document.head.appendChild(s);
+    function _loadGTM() {
+        if (window._gtmLoaded) return;
+        window._gtmLoaded = true;
+        window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+        var f = document.getElementsByTagName('script')[0];
+        var j = document.createElement('script');
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5JFWWW2F';
+        f.parentNode.insertBefore(j, f);
     }
     ['click', 'scroll', 'keydown', 'touchstart'].forEach(function(e) {
-        document.addEventListener(e, _loadGtag, { once: true, passive: true });
+        document.addEventListener(e, _loadGTM, { once: true, passive: true });
     });
 </script>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JFWWW2F" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <main>
     @yield('content')
