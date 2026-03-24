@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'MySQL Workbench Alternative Online — Free & No Install Required')
 

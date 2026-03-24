@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'How to Draw an ER Diagram Step by Step')
 

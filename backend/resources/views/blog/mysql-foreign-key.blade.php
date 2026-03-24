@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'MySQL Foreign Key — Syntax, Examples, and Best Practices')
 

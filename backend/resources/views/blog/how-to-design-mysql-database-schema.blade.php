@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'How to Design a MySQL Database Schema — A Step-by-Step Guide')
 
