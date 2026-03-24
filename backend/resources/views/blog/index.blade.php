@@ -63,7 +63,7 @@
             margin: 0;
         }
         .post-meta {
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             color: #aaa;
             text-transform: none;
             margin-bottom: 0.4rem;
