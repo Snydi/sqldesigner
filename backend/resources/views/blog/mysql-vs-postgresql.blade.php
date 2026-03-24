@@ -43,9 +43,9 @@
     <style>
         body { overflow-y: auto; }
         .blog-post { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
-        .blog-post .breadcrumb { font-size: 0.8rem; color: #aaa; text-transform: none; margin-bottom: 1.5rem; }
+        .blog-post .breadcrumb { font-size: 0.875rem; color: #aaa; text-transform: none; margin-bottom: 1.5rem; }
         .blog-post .breadcrumb a { color: var(--color-primary); text-decoration: none; }
-        .blog-post .post-meta { font-size: 0.8rem; color: #aaa; text-transform: none; margin-bottom: 1rem; }
+        .blog-post .post-meta { font-size: 0.875rem; color: #aaa; text-transform: none; margin-bottom: 1rem; }
         .blog-post h1 { font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.04em; color: #1e293b; margin: 0 0 1rem; line-height: 1.3; }
         .blog-post .intro { font-size: 1rem; color: #444; text-transform: none; line-height: 1.8; margin-bottom: 2.5rem; border-left: 3px solid var(--color-primary); padding-left: 1.2rem; }
         .blog-post h2 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-primary); margin: 2.5rem 0 0.8rem; }
@@ -53,10 +53,10 @@
         .blog-post ul, .blog-post ol { margin: 0 0 1rem 1.5rem; padding: 0; }
         .blog-post li { font-size: 0.9rem; color: #444; text-transform: none; line-height: 1.8; margin-bottom: 0.4rem; }
         .blog-post code { background: #f1f5f9; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.85em; color: #1e293b; }
-        .blog-post pre { background: #1e293b; color: #e2e8f0; border-radius: 6px; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 1rem 0 1.5rem; font-size: 0.82rem; line-height: 1.6; }
+        .blog-post pre { background: #1e293b; color: #e2e8f0; border-radius: 6px; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 1rem 0 1.5rem; font-size: 0.875rem; line-height: 1.6; }
         .blog-post pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
         .blog-post table { width: 100%; border-collapse: collapse; margin: 0 0 1.5rem; font-size: 0.85rem; }
-        .blog-post th { background: #1e293b; color: #e2e8f0; padding: 0.6rem 1rem; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .blog-post th { background: #1e293b; color: #e2e8f0; padding: 0.6rem 1rem; text-align: left; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.04em; }
         .blog-post td { padding: 0.55rem 1rem; border-bottom: 1px solid #e5e7eb; color: #444; vertical-align: top; }
         .blog-post tr:nth-child(even) td { background: #f9f9f9; }
         .blog-post .verdict { background: #f0fdf4; border-left: 4px solid #16a34a; padding: 1rem 1.2rem; border-radius: 4px; margin: 1.5rem 0; }
@@ -159,7 +159,7 @@ CREATE TABLE users (
     </p>
 
     <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
-        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
+        <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
         <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
             <li><a href="/blog/mysql-data-types" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Data Types Explained &rarr;</a></li>
             <li><a href="/blog/how-to-design-mysql-database-schema" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">How to Design a MySQL Database Schema &rarr;</a></li>

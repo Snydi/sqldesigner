@@ -329,7 +329,7 @@ export default {
 }
 
 .diagram-card__name {
-    font-size: 0.72rem;
+    font-size: 0.875rem;
     color: #444;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -348,7 +348,7 @@ export default {
 
 .diagram-card__name-input {
     flex: 1;
-    font-size: 0.72rem;
+    font-size: 0.875rem;
     border: none;
     border-bottom: 1px solid var(--color-primary);
     background: transparent;
@@ -407,7 +407,7 @@ export default {
 }
 
 .create-modal__db-label {
-    font-size: 0.7rem;
+    font-size: 0.875rem;
     color: #999;
     letter-spacing: 0.5px;
     margin-bottom: 0.25rem;
@@ -438,7 +438,7 @@ export default {
 }
 
 .db-option span {
-    font-size: 0.65rem;
+    font-size: 0.875rem;
     color: #555;
     font-family: inherit;
     text-transform: uppercase;

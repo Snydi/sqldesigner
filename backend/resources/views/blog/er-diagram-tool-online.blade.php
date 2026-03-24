@@ -48,7 +48,7 @@
             padding: 3rem 1.5rem 5rem;
         }
         .blog-post .breadcrumb {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             color: #aaa;
             text-transform: none;
             margin-bottom: 1.5rem;
@@ -56,7 +56,7 @@
         .blog-post .breadcrumb a { color: var(--color-primary); text-decoration: none; }
         .blog-post .breadcrumb a:hover { text-decoration: underline; }
         .blog-post .post-meta {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             color: #aaa;
             text-transform: none;
             margin-bottom: 1rem;
@@ -211,7 +211,7 @@
     </p>
 
     <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
-        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
+        <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
         <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
             <li><a href="/blog/how-to-design-mysql-database-schema" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">How to Design a MySQL Database Schema &rarr;</a></li>
             <li><a href="/blog/mysql-workbench-alternative" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Workbench Alternative Online &rarr;</a></li>

@@ -13,7 +13,7 @@
         .sitemap ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
         .sitemap li a { font-size: 0.9rem; color: #2c3e50; text-decoration: none; text-transform: none; border-bottom: 1px solid transparent; }
         .sitemap li a:hover { border-bottom-color: var(--color-primary); color: var(--color-primary); }
-        .sitemap li .desc { font-size: 0.8rem; color: #888; display: block; margin-top: 0.15rem; text-transform: none; }
+        .sitemap li .desc { font-size: 0.875rem; color: #888; display: block; margin-top: 0.15rem; text-transform: none; }
     </style>
 @endsection
 

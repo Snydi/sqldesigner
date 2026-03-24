@@ -43,9 +43,9 @@
     <style>
         body { overflow-y: auto; }
         .blog-post { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
-        .blog-post .breadcrumb { font-size: 0.8rem; color: #aaa; text-transform: none; margin-bottom: 1.5rem; }
+        .blog-post .breadcrumb { font-size: 0.875rem; color: #aaa; text-transform: none; margin-bottom: 1.5rem; }
         .blog-post .breadcrumb a { color: var(--color-primary); text-decoration: none; }
-        .blog-post .post-meta { font-size: 0.8rem; color: #aaa; text-transform: none; margin-bottom: 1rem; }
+        .blog-post .post-meta { font-size: 0.875rem; color: #aaa; text-transform: none; margin-bottom: 1rem; }
         .blog-post h1 { font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.04em; color: #1e293b; margin: 0 0 1rem; line-height: 1.3; }
         .blog-post .intro { font-size: 1rem; color: #444; text-transform: none; line-height: 1.8; margin-bottom: 2.5rem; border-left: 3px solid var(--color-primary); padding-left: 1.2rem; }
         .blog-post h2 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-primary); margin: 2.5rem 0 0.8rem; }
@@ -153,7 +153,7 @@
     </ul>
 
     <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
-        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
+        <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
         <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
             <li><a href="/blog/er-diagram-tool-online" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">Free ER Diagram Tool Online for MySQL &rarr;</a></li>
             <li><a href="/blog/database-normalization" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">Database Normalization Explained &rarr;</a></li>
