@@ -605,7 +605,7 @@
                     <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">Heavy desktop tool not cutting it? Here are the best free browser-based alternatives.</p>
                 </a>
             </div>
-            <p style="text-align:center; margin:2rem 0 0;"><a href="/blog" style="color:var(--color-primary); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">View All Posts &rarr;</a></p>
+            <p style="text-align:center; margin:2rem 0 0;"><a href="/blog" style="color:var(--color-primary-hover); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">View All Posts &rarr;</a></p>
         </div>
     </section>
 

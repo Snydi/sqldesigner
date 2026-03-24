@@ -1,7 +1,7 @@
 /* ── Theme variables ─────────────────────────────────────────── */
 :root {
-    --color-primary:        #c05252;
-    --color-primary-hover:  #a84444;
+    --color-primary:        #8f2f2f;
+    --color-primary-hover:  #7a2222;
     --color-primary-light: #ffffff;
     --color-primary-border: #f0d0d0;
     --color-text-on-primary: #fff;
@@ -23,10 +23,12 @@ body,
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+    background-color: #fff;
 }
 
 a {
     color: inherit;
+    background-color: transparent;
     text-decoration: inherit;
 }
 
