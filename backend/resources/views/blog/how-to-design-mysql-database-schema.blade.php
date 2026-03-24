@@ -28,13 +28,15 @@
     },
     {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "TechArticle",
         "headline": "How to Design a MySQL Database Schema — A Step-by-Step Guide",
         "description": "A practical step-by-step guide covering entities, columns, data types, primary keys, foreign keys, and normalization for MySQL.",
+        "image": "https://sql-designer.com/images/screenshot.png",
         "url": "https://sql-designer.com/blog/how-to-design-mysql-database-schema",
         "datePublished": "2026-03-18",
+        "dateModified": "2026-03-24",
         "author": { "@type": "Organization", "name": "SQL Designer" },
-        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" }
+        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
     }
     ]
     </script>
@@ -46,7 +48,7 @@
             padding: 3rem 1.5rem 5rem;
         }
         .blog-post .breadcrumb {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             color: #aaa;
             text-transform: none;
             margin-bottom: 1.5rem;
@@ -54,7 +56,7 @@
         .blog-post .breadcrumb a { color: var(--color-primary); text-decoration: none; }
         .blog-post .breadcrumb a:hover { text-decoration: underline; }
         .blog-post .post-meta {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             color: #aaa;
             text-transform: none;
             margin-bottom: 1rem;
@@ -115,7 +117,7 @@
             padding: 1.2rem 1.5rem;
             overflow-x: auto;
             margin: 1rem 0 1.5rem;
-            font-size: 0.82rem;
+            font-size: 0.875rem;
             line-height: 1.6;
         }
         .blog-post pre code {
@@ -251,7 +253,7 @@
     </p>
 
     <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
-        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
+        <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
         <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
             <li><a href="/blog/er-diagram-tool-online" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">Free ER Diagram Tool Online for MySQL &rarr;</a></li>
             <li><a href="/blog/mysql-workbench-alternative" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Workbench Alternative Online &rarr;</a></li>

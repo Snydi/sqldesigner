@@ -134,6 +134,25 @@
                     }
                 }
             ]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "SQL Designer",
+            "url": "https://sql-designer.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://sql-designer.com/favicon-192x192.png"
+            },
+            "sameAs": [
+                "https://gitlab.com/Snydi/sql-designer"
+            ]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "SQL Designer",
+            "url": "https://sql-designer.com"
         }
     ]
     </script>
@@ -176,7 +195,7 @@
             border: 1px solid rgba(255,255,255,0.5);
             border-radius: 999px;
             padding: 0.3rem 1rem;
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             margin-bottom: 1.8rem;
@@ -331,7 +350,7 @@
         }
 
         .step p {
-            font-size: 0.82rem;
+            font-size: 0.875rem;
             color: #555;
             text-transform: none;
             line-height: 1.6;
@@ -415,8 +434,8 @@
         .home-footer {
             text-align: center;
             padding: 1.5rem;
-            font-size: 0.75rem;
-            color: #999;
+            font-size: 0.875rem;
+            color: #666;
             text-transform: none;
             background: #f9f9f9;
         }
@@ -452,7 +471,7 @@
     </section>
 
     <!-- Screenshot -->
-    <section class="screenshot-section">
+    <div class="screenshot-section">
         <div class="screenshot-wrapper">
             <picture>
                 <source
@@ -462,7 +481,7 @@
                 <img src="{{ asset('images/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2557" height="1269" loading="eager" fetchpriority="high">
             </picture>
         </div>
-    </section>
+    </div>
 
     <!-- Features -->
     <section class="features" aria-labelledby="features-heading">
@@ -571,19 +590,19 @@
             <h2 class="section-title" id="blog-heading">From the Blog</h2>
             <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem;">
                 <a href="/blog/how-to-design-mysql-database-schema" style="background:#fff; border-radius:6px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); text-decoration:none; display:block;">
-                    <p style="font-size:0.75rem; color:#aaa; text-transform:none; margin:0 0 0.5rem;">Schema Design</p>
+                    <p style="font-size:0.875rem; color:#666; text-transform:none; margin:0 0 0.5rem;">Schema Design</p>
                     <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--color-primary); margin:0 0 0.5rem;">How to Design a MySQL Database Schema</h3>
-                    <p style="font-size:0.83rem; color:#555; text-transform:none; line-height:1.7; margin:0;">A step-by-step guide covering entities, data types, primary keys, foreign keys, and normalization.</p>
+                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">A step-by-step guide covering entities, data types, primary keys, foreign keys, and normalization.</p>
                 </a>
                 <a href="/blog/er-diagram-tool-online" style="background:#fff; border-radius:6px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); text-decoration:none; display:block;">
-                    <p style="font-size:0.75rem; color:#aaa; text-transform:none; margin:0 0 0.5rem;">ER Diagrams</p>
+                    <p style="font-size:0.875rem; color:#666; text-transform:none; margin:0 0 0.5rem;">ER Diagrams</p>
                     <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--color-primary); margin:0 0 0.5rem;">Free ER Diagram Tool Online for MySQL</h3>
-                    <p style="font-size:0.83rem; color:#555; text-transform:none; line-height:1.7; margin:0;">What ER diagrams are, why they matter, and how to create one in the browser for free.</p>
+                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">What ER diagrams are, why they matter, and how to create one in the browser for free.</p>
                 </a>
                 <a href="/blog/mysql-workbench-alternative" style="background:#fff; border-radius:6px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); text-decoration:none; display:block;">
-                    <p style="font-size:0.75rem; color:#aaa; text-transform:none; margin:0 0 0.5rem;">Tools</p>
+                    <p style="font-size:0.875rem; color:#666; text-transform:none; margin:0 0 0.5rem;">Tools</p>
                     <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--color-primary); margin:0 0 0.5rem;">MySQL Workbench Alternative Online</h3>
-                    <p style="font-size:0.83rem; color:#555; text-transform:none; line-height:1.7; margin:0;">Heavy desktop tool not cutting it? Here are the best free browser-based alternatives.</p>
+                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">Heavy desktop tool not cutting it? Here are the best free browser-based alternatives.</p>
                 </a>
             </div>
             <p style="text-align:center; margin:2rem 0 0;"><a href="/blog" style="color:var(--color-primary); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">View All Posts &rarr;</a></p>
@@ -593,7 +612,7 @@
     <!-- CTA -->
     <section class="cta-banner" aria-labelledby="cta-heading">
         <h2 id="cta-heading">Start Designing Your Database Schema Today</h2>
-        <p style="opacity:0.85; font-size:0.9rem; text-transform:none; margin: 0 auto 1.5rem; max-width:480px; line-height:1.6;">
+        <p style="font-size:0.9rem; text-transform:none; margin: 0 auto 1.5rem; max-width:480px; line-height:1.6;">
             No subscription. No credit card. Just register with your email and you're in.
         </p>
         <a id="cta-btn-authed" class="btn-hero-primary" href="/diagrams" style="display:none">Go to My Diagrams</a>
