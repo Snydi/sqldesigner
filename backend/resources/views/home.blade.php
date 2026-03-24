@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'SQL Designer — Free Online MySQL & PostgreSQL Schema Designer')
 
