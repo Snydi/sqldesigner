@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'MySQL Data Types Explained — Which to Use and When')
 

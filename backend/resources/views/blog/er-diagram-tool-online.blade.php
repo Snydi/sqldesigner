@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'Free ER Diagram Tool Online for MySQL — No Download Required')
 

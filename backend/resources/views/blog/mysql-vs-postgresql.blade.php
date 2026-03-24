@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'MySQL vs PostgreSQL — Key Differences for Schema Design')
 
