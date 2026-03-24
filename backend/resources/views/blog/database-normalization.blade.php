@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'Database Normalization Explained — 1NF, 2NF, and 3NF with Examples')
 
