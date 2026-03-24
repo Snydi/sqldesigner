@@ -28,13 +28,15 @@
     },
     {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "TechArticle",
         "headline": "Free ER Diagram Tool Online for MySQL — No Download Required",
         "description": "Create entity-relationship diagrams for MySQL entirely in your browser — free, no installation required.",
+        "image": "https://sql-designer.com/images/screenshot.png",
         "url": "https://sql-designer.com/blog/er-diagram-tool-online",
         "datePublished": "2026-03-18",
+        "dateModified": "2026-03-24",
         "author": { "@type": "Organization", "name": "SQL Designer" },
-        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" }
+        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
     }
     ]
     </script>

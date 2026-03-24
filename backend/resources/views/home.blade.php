@@ -134,6 +134,25 @@
                     }
                 }
             ]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "SQL Designer",
+            "url": "https://sql-designer.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://sql-designer.com/favicon-192x192.png"
+            },
+            "sameAs": [
+                "https://gitlab.com/Snydi/sql-designer"
+            ]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "SQL Designer",
+            "url": "https://sql-designer.com"
         }
     ]
     </script>

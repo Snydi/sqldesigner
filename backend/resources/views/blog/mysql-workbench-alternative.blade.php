@@ -28,13 +28,15 @@
     },
     {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "TechArticle",
         "headline": "MySQL Workbench Alternative Online — Free & No Install Required",
         "description": "Looking for a MySQL Workbench alternative you can use in the browser? The best free online MySQL schema design tools.",
+        "image": "https://sql-designer.com/images/screenshot.png",
         "url": "https://sql-designer.com/blog/mysql-workbench-alternative",
         "datePublished": "2026-03-18",
+        "dateModified": "2026-03-24",
         "author": { "@type": "Organization", "name": "SQL Designer" },
-        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" }
+        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
     }
     ]
     </script>
