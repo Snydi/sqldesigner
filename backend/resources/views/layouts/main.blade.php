@@ -76,9 +76,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer class="home-footer">
     &copy; {{ date('Y') }} SQL Designer. Free MySQL database schema designer.
     &mdash;
-    <a href="/sitemap" style="color:#999;text-decoration:none;" onmouseover="this.style.color='#c05252'" onmouseout="this.style.color='#999'">Site Map</a>
+    <a href="/sitemap" style="color:#666;text-decoration:none;" onmouseover="this.style.color='#c05252'" onmouseout="this.style.color='#666'">Site Map</a>
     &mdash;
-    <a href="https://gitlab.com/Snydi/sql-designer" target="_blank" rel="noopener noreferrer" aria-label="View source on GitLab" style="display:inline-flex;align-items:center;gap:0.3rem;color:#999;text-decoration:none;vertical-align:middle;" onmouseover="this.style.color='#FC6D26'" onmouseout="this.style.color='#999'">
+    <a href="https://gitlab.com/Snydi/sql-designer" target="_blank" rel="noopener noreferrer" aria-label="View source on GitLab" style="display:inline-flex;align-items:center;gap:0.3rem;color:#666;text-decoration:none;vertical-align:middle;" onmouseover="this.style.color='#FC6D26'" onmouseout="this.style.color='#666'">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.845.904A.98.98 0 004 1.475L.046 13.645a.995.995 0 00.361 1.115l11.6 8.43a.984.984 0 001.186 0l11.6-8.43a.995.995 0 00.361-1.115L21.2 1.476a.98.98 0 00-1.785-.127L16.56 9.42H7.442L4.63 1.35A.98.98 0 004.845.904z"/></svg>
         GitLab
     </a>
