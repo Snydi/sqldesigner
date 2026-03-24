@@ -3,15 +3,15 @@
 @section('title', 'SQL Designer — Free Online MySQL & PostgreSQL Schema Designer')
 
 @section('head')
-    <meta name="description" content="Free online database schema designer for MySQL and PostgreSQL. Create tables, define relationships, and export SQL scripts with a visual drag-and-drop interface. No installation required.">
-    <meta name="keywords" content="MySQL schema designer, PostgreSQL schema designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, PostgreSQL database designer">
+    <meta name="description" content="Free online schema designer for MySQL and PostgreSQL (postgres). Create tables, define relationships, and export SQL scripts with a visual drag-and-drop interface. No installation required.">
+    <meta name="keywords" content="MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, pgAdmin alternative, PostgreSQL database designer, free postgres designer">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#c05252">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
     <meta property="og:title" content="SQL Designer — Free Online MySQL & PostgreSQL Schema Designer">
-    <meta property="og:description" content="Visually design and export MySQL and PostgreSQL database schemas with a drag-and-drop interface. Free, fast, and browser-based.">
+    <meta property="og:description" content="Visually design and export MySQL and PostgreSQL (postgres) database schemas with a drag-and-drop interface. Free, fast, and browser-based.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
@@ -427,9 +427,9 @@
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-heading">
         <div class="hero-free-badge">100% Free &mdash; No subscription, no credit card</div>
-        <h1 id="hero-heading">Design Your MySQL or PostgreSQL Database Schema — Visually</h1>
+        <h1 id="hero-heading">Design Your MySQL or Postgres Database Schema — Visually</h1>
         <p>
-            SQL Designer is a free, browser-based database schema designer.
+            SQL Designer is a free, browser-based database schema designer for MySQL and PostgreSQL.
             Drag and drop tables, define columns and relationships,
             then export a ready-to-run SQL script in seconds.
         </p>
@@ -474,7 +474,7 @@
             </article>
             <article class="feature-card">
                 <h3>SQL Export</h3>
-                <p>Generate a valid MySQL or PostgreSQL <code>CREATE TABLE</code> script from your diagram at any time. Copy it directly into your database client or migration tool.</p>
+                <p>Generate a valid MySQL or PostgreSQL (postgres) <code>CREATE TABLE</code> script from your diagram at any time. Copy it directly into your database client, psql, or migration tool.</p>
             </article>
             <article class="feature-card">
                 <h3>Multiple Diagrams</h3>
