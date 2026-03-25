@@ -3,7 +3,7 @@
 @section('title', 'How to Draw an ER Diagram Step by Step')
 
 @section('head')
-    <meta name="description" content="A step-by-step guide to drawing entity-relationship (ER) diagrams: entities, attributes, relationships, cardinality notation, and practical tips for MySQL databases.">
+    <meta name="description" content="A step-by-step guide to drawing ER diagrams: entities, attributes, relationships, cardinality notation, and practical tips for MySQL.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/how-to-draw-er-diagram">
     <meta property="og:title" content="How to Draw an ER Diagram Step by Step">

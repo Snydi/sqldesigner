@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
-@section('title', 'Database Normalization Explained — 1NF, 2NF, and 3NF with Examples')
+@section('title', 'Database Normalization — 1NF, 2NF, and 3NF Explained')
 
 @section('head')
     <meta name="description" content="Learn database normalization with clear examples. Understand 1NF, 2NF, and 3NF, why they matter, and when it's acceptable to denormalize.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-normalization">
-    <meta property="og:title" content="Database Normalization Explained — 1NF, 2NF, and 3NF with Examples">
+    <meta property="og:title" content="Database Normalization — 1NF, 2NF, and 3NF Explained">
     <meta property="og:description" content="Learn database normalization with clear examples. Understand 1NF, 2NF, and 3NF, why they matter, and when it's acceptable to denormalize.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/database-normalization">

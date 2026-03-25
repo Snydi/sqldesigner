@@ -3,11 +3,11 @@
 @section('title', 'Free ER Diagram Tool Online for MySQL — No Download Required')
 
 @section('head')
-    <meta name="description" content="Create entity-relationship diagrams for MySQL entirely in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
+    <meta name="description" content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/er-diagram-tool-online">
     <meta property="og:title" content="Free ER Diagram Tool Online for MySQL — No Download Required">
-    <meta property="og:description" content="Create entity-relationship diagrams for MySQL entirely in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
+    <meta property="og:description" content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/er-diagram-tool-online">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">

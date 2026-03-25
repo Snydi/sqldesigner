@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
-@section('title', 'MySQL Workbench Alternative Online — Free & No Install Required')
+@section('title', 'MySQL Workbench Alternative — Free Online, No Install')
 
 @section('head')
-    <meta name="description" content="Looking for a MySQL Workbench alternative you can use in the browser? Compare the best free online MySQL schema design tools — no download or installation needed.">
+    <meta name="description" content="Looking for a MySQL Workbench alternative? Compare the best free online MySQL schema design tools — no download or installation needed.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-workbench-alternative">
-    <meta property="og:title" content="MySQL Workbench Alternative Online — Free & No Install Required">
+    <meta property="og:title" content="MySQL Workbench Alternative — Free Online, No Install">
     <meta property="og:description" content="The best free online alternatives to MySQL Workbench for database schema design — no installation required.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/mysql-workbench-alternative">

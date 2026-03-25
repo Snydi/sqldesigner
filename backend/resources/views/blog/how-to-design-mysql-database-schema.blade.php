@@ -3,7 +3,7 @@
 @section('title', 'How to Design a MySQL Database Schema — A Step-by-Step Guide')
 
 @section('head')
-    <meta name="description" content="Learn how to design a MySQL database schema from scratch. A practical step-by-step guide covering entities, columns, data types, primary keys, foreign keys, and normalization.">
+    <meta name="description" content="Learn how to design a MySQL database schema from scratch — covering entities, data types, primary keys, foreign keys, and normalization.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/how-to-design-mysql-database-schema">
     <meta property="og:title" content="How to Design a MySQL Database Schema — A Step-by-Step Guide">
