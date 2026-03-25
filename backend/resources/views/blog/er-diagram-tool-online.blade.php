@@ -3,11 +3,11 @@
 @section('title', 'Free ER Diagram Tool Online for MySQL — No Download Required')
 
 @section('head')
-    <meta name="description" content="Create entity-relationship diagrams for MySQL entirely in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
+    <meta name="description" content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/er-diagram-tool-online">
     <meta property="og:title" content="Free ER Diagram Tool Online for MySQL — No Download Required">
-    <meta property="og:description" content="Create entity-relationship diagrams for MySQL entirely in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
+    <meta property="og:description" content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/er-diagram-tool-online">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
@@ -49,15 +49,16 @@
         }
         .blog-post .breadcrumb {
             font-size: 0.875rem;
-            color: #aaa;
+            color: #767676;
+            background-color: transparent;
             text-transform: none;
             margin-bottom: 1.5rem;
         }
-        .blog-post .breadcrumb a { color: var(--color-primary); text-decoration: none; }
-        .blog-post .breadcrumb a:hover { text-decoration: underline; }
+        .blog-post .breadcrumb a { color: var(--color-primary); }
         .blog-post .post-meta {
             font-size: 0.875rem;
-            color: #aaa;
+            color: #767676;
+            background-color: transparent;
             text-transform: none;
             margin-bottom: 1rem;
         }
@@ -66,12 +67,14 @@
             text-transform: uppercase;
             letter-spacing: 0.04em;
             color: #1e293b;
+            background-color: transparent;
             margin: 0 0 1rem;
             line-height: 1.3;
         }
         .blog-post .intro {
             font-size: 1rem;
             color: #444;
+            background-color: transparent;
             text-transform: none;
             line-height: 1.8;
             margin-bottom: 2.5rem;
@@ -83,11 +86,13 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--color-primary);
+            background-color: transparent;
             margin: 2.5rem 0 0.8rem;
         }
         .blog-post p {
             font-size: 0.9rem;
             color: #444;
+            background-color: transparent;
             text-transform: none;
             line-height: 1.8;
             margin: 0 0 1rem;
@@ -99,6 +104,7 @@
         .blog-post li {
             font-size: 0.9rem;
             color: #444;
+            background-color: transparent;
             text-transform: none;
             line-height: 1.8;
             margin-bottom: 0.3rem;
@@ -111,7 +117,7 @@
             color: #1e293b;
         }
         .blog-post .cta-box {
-            background: var(--color-primary);
+            background: var(--color-primary-hover);
             color: #fff;
             border-radius: 6px;
             padding: 2rem;
@@ -125,7 +131,8 @@
             margin: 0 0 0.8rem;
         }
         .blog-post .cta-box p {
-            color: rgba(255,255,255,0.85);
+            color: #fff;
+            background-color: transparent;
             margin: 0 0 1.2rem;
             font-size: 0.85rem;
         }
@@ -211,7 +218,7 @@
     </p>
 
     <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
-        <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
+        <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#767676; margin:0 0 0.8rem;">Related Articles</p>
         <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
             <li><a href="/blog/how-to-design-mysql-database-schema" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">How to Design a MySQL Database Schema &rarr;</a></li>
             <li><a href="/blog/mysql-workbench-alternative" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Workbench Alternative Online &rarr;</a></li>
