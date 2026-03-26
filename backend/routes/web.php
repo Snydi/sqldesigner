@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,15 @@ Route::get('/sitemap', fn() => view('sitemap'));
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
+
+Route::get('/admin/login', [AdminController::class, 'showLogin'])->name('admin.login');
+Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.post');
+
+Route::middleware('admin')->group(function () {
+    Route::get('/admin', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
+    Route::post('/admin/impersonate/{user}', [AdminController::class, 'impersonate'])->name('admin.impersonate');
+    Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+});
 
 Route::get('/{any}', function () {
     return view('layouts.app');
