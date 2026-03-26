@@ -22,11 +22,13 @@
             text-transform: uppercase;
             letter-spacing: 0.06em;
             color: var(--color-primary);
+            background-color: transparent;
             margin: 0 0 0.5rem;
         }
         .blog-index .subtitle {
             font-size: 0.9rem;
             color: #666;
+            background-color: transparent;
             text-transform: none;
             margin: 0 0 3rem;
         }
@@ -64,7 +66,7 @@
         }
         .post-meta {
             font-size: 0.875rem;
-            color: #aaa;
+            color: #767676;
             text-transform: none;
             margin-bottom: 0.4rem;
         }

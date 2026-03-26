@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SQL Designer</title>
-    <meta name="description" content="Visually design MySQL and PostgreSQL database schemas with a drag-and-drop interface. Create tables, define relationships, and export SQL scripts — free and browser-based.">
+    <meta name="description" content="Visually design MySQL and PostgreSQL schemas with drag-and-drop. Create tables, define relationships, and export SQL scripts — free and browser-based.">
     <meta name="robots" content="noindex, follow">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="/favicon.ico" sizes="any">

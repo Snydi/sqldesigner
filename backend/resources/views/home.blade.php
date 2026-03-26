@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'SQL Designer — Free Online MySQL & PostgreSQL Schema Designer')
+@section('title', 'SQL Designer — MySQL & PostgreSQL Schema Designer')
 
 @section('head')
-    <meta name="description" content="Free online schema designer for MySQL and PostgreSQL (postgres). Create tables, define relationships, and export SQL scripts with a visual drag-and-drop interface. No installation required.">
+    <meta name="description" content="Free online schema designer for MySQL and PostgreSQL. Create tables, define relationships, and export SQL scripts with a visual drag-and-drop interface.">
     <meta name="keywords" content="MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, pgAdmin alternative, PostgreSQL database designer, free postgres designer">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#c05252">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="SQL Designer — Free Online MySQL & PostgreSQL Schema Designer">
+    <meta property="og:title" content="SQL Designer — MySQL & PostgreSQL Schema Designer">
     <meta property="og:description" content="Visually design and export MySQL and PostgreSQL (postgres) database schemas with a drag-and-drop interface. Free, fast, and browser-based.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
@@ -605,7 +605,7 @@
                     <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">Heavy desktop tool not cutting it? Here are the best free browser-based alternatives.</p>
                 </a>
             </div>
-            <p style="text-align:center; margin:2rem 0 0;"><a href="/blog" style="color:var(--color-primary); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">View All Posts &rarr;</a></p>
+            <p style="text-align:center; margin:2rem 0 0;"><a href="/blog" style="color:var(--color-primary-hover); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">View All Posts &rarr;</a></p>
         </div>
     </section>
 
