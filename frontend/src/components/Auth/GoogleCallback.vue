@@ -16,12 +16,14 @@ const $toast = useToast({ position: 'bottom-right' })
 
 onMounted(() => {
     const token = route.query.token
+    const driver = route.query.driver ?? 'provider'
+    const label = driver.charAt(0).toUpperCase() + driver.slice(1)
     if (token) {
         store.commit('login', token)
-        $toast.success('Signed in with Google')
+        $toast.success(`Signed in with ${label}`)
         router.push({ name: 'diagrams' })
     } else {
-        $toast.error('Google sign-in failed')
+        $toast.error(`${label} sign-in failed`)
         router.push({ name: 'login' })
     }
 })

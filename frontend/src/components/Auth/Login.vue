@@ -45,14 +45,25 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { Auth } from "@/services/Auth.js";
+import { useToast } from 'vue-toast-notification';
+import { useRoute } from 'vue-router';
 import router from '@/router/index.js'
+
+const route = useRoute()
+const $toast = useToast({ position: 'bottom-right' })
 
 const userData = ref({
     email: '',
     password: ''
 });
+
+onMounted(() => {
+    if (route.query.oauth_error) {
+        $toast.error('Sign-in was cancelled or failed')
+    }
+})
 
 const login = async () => {
     await Auth.login(userData.value);

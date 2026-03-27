@@ -72,9 +72,14 @@ class AuthController extends Controller
 
     public function oauthCallback(string $driver): RedirectResponse
     {
-        $oauthUser = Socialite::driver($driver)->user();
+        try {
+            $oauthUser = Socialite::driver($driver)->user();
+        } catch (\Exception $e) {
+            return redirect(config('app.url') . '/login?oauth_error=1');
+        }
+
         $token = $this->authService->loginWithOAuth($driver, $oauthUser);
-        return redirect(config('app.url') . '/auth/callback?token=' . $token);
+        return redirect(config('app.url') . '/auth/callback?token=' . $token . '&driver=' . $driver);
     }
 
     public function verifyEmail(Request $request, string $id, string $hash): RedirectResponse
