@@ -299,6 +299,12 @@ const getDiagram = async () => {
     }
 
     const diagramInfo = await Diagram.get(diagramId)
+
+    if (!diagramInfo) {
+        router.push({ name: 'diagrams' })
+        return
+    }
+
     diagramDbType.value = diagramInfo?.db_type ?? 'mysql'
 
     const rawSchema = diagramInfo?.schema ? JSON.parse(diagramInfo.schema) : [{
