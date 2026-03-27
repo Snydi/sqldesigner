@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -47,6 +48,15 @@ class AdminController extends Controller
         $token = $user->createToken('admin-impersonate')->plainTextToken;
 
         return response()->json(['token' => $token]);
+    }
+
+    public function destroy(User $user): JsonResponse
+    {
+        $user->diagrams()->delete();
+        $user->tokens()->delete();
+        $user->delete();
+
+        return response()->json(['message' => 'User deleted']);
     }
 
     public function logout(Request $request)
