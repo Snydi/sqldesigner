@@ -29,6 +29,11 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <div class="google-divider">or</div>
+            <a href="/auth/google" class="btn btn-google">
+                <img src="../../icons/google.svg" alt="Google" class="google-icon" />
+                Continue with Google
+            </a>
         </div>
     </div>
 </template>

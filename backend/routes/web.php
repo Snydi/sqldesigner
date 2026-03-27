@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SocialiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,6 +32,9 @@ Route::middleware('admin')->group(function () {
     Route::post('/admin/impersonate/{user}', [AdminController::class, 'impersonate'])->name('admin.impersonate');
     Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 });
+
+Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 
 Route::get('/{any}', function () {
     return view('layouts.app');
