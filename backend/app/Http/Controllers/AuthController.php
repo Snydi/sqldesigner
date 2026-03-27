@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -62,6 +63,23 @@ class AuthController extends Controller
             'status' => $this->authService->logout($request->user()),
             'message' => 'Logged out successfully'
         ]);
+    }
+
+    public function oauthRedirect(string $driver): RedirectResponse
+    {
+        return Socialite::driver($driver)->redirect();
+    }
+
+    public function oauthCallback(string $driver): RedirectResponse
+    {
+        try {
+            $oauthUser = Socialite::driver($driver)->user();
+        } catch (\Exception $e) {
+            return redirect(config('app.url') . '/login?oauth_error=1');
+        }
+
+        $token = $this->authService->loginWithOAuth($driver, $oauthUser);
+        return redirect(config('app.url') . '/auth/callback?token=' . $token . '&driver=' . $driver);
     }
 
     public function verifyEmail(Request $request, string $id, string $hash): RedirectResponse

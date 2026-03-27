@@ -165,6 +165,36 @@ select:focus {
     top: 1rem;
 }
 
+.btn-oauth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #fff;
+    color: #444;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0.5rem;
+}
+
+.btn-oauth:hover {
+    background-color: #f5f5f5;
+}
+
+.oauth-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.google-divider {
+    text-align: center;
+    margin: 1rem 0;
+    color: #888;
+    font-size: 0.9rem;
+}
+
 /* ── Inputs ──────────────────────────────────────────────────── */
 .input {
     flex-grow: 1;

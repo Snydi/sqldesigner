@@ -29,6 +29,19 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <div class="google-divider">or</div>
+            <a href="/auth/google" class="btn btn-oauth">
+                <img src="../../icons/google.svg" alt="Google" class="oauth-icon" />
+                Continue with Google
+            </a>
+            <a href="/auth/github" class="btn btn-oauth">
+                <img src="../../icons/github.svg" alt="GitHub" class="oauth-icon" />
+                Continue with GitHub
+            </a>
+            <a href="/auth/gitlab" class="btn btn-oauth">
+                <img src="../../icons/gitlab.svg" alt="GitLab" class="oauth-icon" />
+                Continue with GitLab
+            </a>
         </div>
     </div>
 </template>

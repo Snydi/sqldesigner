@@ -100,6 +100,24 @@
         }
         .impersonate-btn:hover { background: #7a2222; }
         .impersonate-btn:disabled { background: #ccc; color: #999; cursor: default; }
+        .delete-btn {
+            background: none;
+            border: 1px solid #e0b0b0;
+            border-radius: 4px;
+            color: #8f2f2f;
+            padding: 7px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: background .2s, border-color .2s;
+        }
+        .delete-btn:hover { background: #fff0f0; border-color: #8f2f2f; }
+        .delete-btn:disabled { opacity: .4; cursor: default; }
         .diagrams-section {
             border-top: 1px solid #f0eded;
             padding: 10px 18px;
@@ -179,12 +197,20 @@
                             Diagrams: {{ $user->diagrams->count() }}
                         </div>
                     </div>
-                    <button
-                        class="impersonate-btn"
-                        onclick="impersonate({{ $user->id }}, this)"
-                    >
-                        Login As
-                    </button>
+                    <div style="display:flex;gap:8px">
+                        <button
+                            class="impersonate-btn"
+                            onclick="impersonate({{ $user->id }}, this)"
+                        >
+                            Login As
+                        </button>
+                        <button
+                            class="delete-btn"
+                            onclick="deleteUser({{ $user->id }}, '{{ addslashes($user->email) }}', this)"
+                        >
+                            Delete
+                        </button>
+                    </div>
                 </div>
 
                 <div class="diagrams-section">
@@ -231,6 +257,27 @@
                 showToast('Error: ' + e.message, true);
                 btn.disabled = false;
                 btn.textContent = 'Login As';
+            }
+        }
+
+        async function deleteUser(userId, email, btn) {
+            if (!confirm(`Delete ${email} and all their diagrams? This cannot be undone.`)) return;
+
+            btn.disabled = true;
+            btn.textContent = '...';
+
+            try {
+                const res = await fetch(`/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                });
+                if (!res.ok) throw new Error('Server error');
+                showToast('User deleted');
+                btn.closest('.user-card').remove();
+            } catch (e) {
+                showToast('Error: ' + e.message, true);
+                btn.disabled = false;
+                btn.textContent = 'Delete';
             }
         }
 
