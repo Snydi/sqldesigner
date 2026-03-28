@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 
 class DiagramController extends Controller
 {
@@ -109,5 +110,68 @@ class DiagramController extends Controller
         $diagram->save();
 
         return response()->json($diagram->script);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function share(Diagram $diagram): JsonResponse
+    {
+        $this->authorize('update', $diagram);
+
+        $diagram->share_token = Str::uuid()->toString();
+        $diagram->save();
+
+        return response()->json(['share_token' => $diagram->share_token]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function unshare(Diagram $diagram): JsonResponse
+    {
+        $this->authorize('update', $diagram);
+
+        $diagram->share_token = null;
+        $diagram->save();
+
+        return response()->json(['status' => true]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function updateShareAccess(Diagram $diagram, Request $request): JsonResponse
+    {
+        $this->authorize('update', $diagram);
+
+        $access = $request->input('access');
+        if (!in_array($access, ['read', 'write'])) {
+            return response()->json(['message' => 'Invalid access type'], 422);
+        }
+
+        $diagram->share_access = $access;
+        $diagram->save();
+
+        return response()->json(['share_access' => $diagram->share_access]);
+    }
+
+    public function showShared(string $token): DiagramResource
+    {
+        $diagram = Diagram::where('share_token', $token)->firstOrFail();
+
+        return new DiagramResource($diagram);
+    }
+
+    public function saveShared(string $token, Request $request): JsonResponse
+    {
+        $diagram = Diagram::where('share_token', $token)
+            ->where('share_access', 'write')
+            ->firstOrFail();
+
+        $diagram->schema = $request->input('schema');
+        $diagram->save();
+
+        return response()->json(['status' => true]);
     }
 }

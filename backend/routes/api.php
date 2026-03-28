@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/shared/{token}', [DiagramController::class, 'showShared']);
+Route::patch('/shared/{token}', [DiagramController::class, 'saveShared']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
@@ -22,6 +24,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [DiagramController::class, 'store']);
         Route::put('/{diagram}', [DiagramController::class, 'update']);
         Route::delete('/{diagram}', [DiagramController::class, 'destroy']);
+
+        Route::post('/{diagram}/share', [DiagramController::class, 'share']);
+        Route::delete('/{diagram}/share', [DiagramController::class, 'unshare']);
+        Route::patch('/{diagram}/share', [DiagramController::class, 'updateShareAccess']);
 
         Route::group(['prefix' => 'sql'], function () {
             Route::post('/validate', [DiagramController::class, 'validateSQL']);

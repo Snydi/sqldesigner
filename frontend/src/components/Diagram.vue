@@ -20,8 +20,71 @@
                     :title="isSaved ? 'All changes saved' : 'Unsaved changes'"
                 ></div>
             </div>
+            <button v-if="!isDemo" class="btn btn-secondary" @click="showShareModal = true" title="Share">
+                <img src="../icons/share.svg" alt="Share" class="icon">
+            </button>
         </div>
     </header>
+
+    <!-- Share Modal -->
+    <div v-if="showShareModal" class="share-modal-overlay" @click.self="showShareModal = false">
+        <div class="share-modal">
+            <div class="share-modal__header">
+                <span class="share-modal__title">Share Diagram</span>
+                <button class="share-modal__close" @click="showShareModal = false">
+                    <img src="../icons/close.svg" alt="Close" style="width:14px;height:14px;" />
+                </button>
+            </div>
+
+            <div class="share-modal__body">
+                <div class="share-modal__toggle-row">
+                    <span class="share-modal__toggle-label">{{ diagramShareToken ? 'Sharing enabled' : 'Sharing disabled' }}</span>
+                    <button
+                        class="share-toggle"
+                        :class="{ 'share-toggle--on': diagramShareToken }"
+                        @click="toggleShare"
+                        :disabled="shareLoading"
+                    >
+                        <span class="share-toggle__knob"></span>
+                    </button>
+                </div>
+
+                <div v-if="diagramShareToken" class="share-modal__access-row">
+                    <span class="share-modal__toggle-label">Access</span>
+                    <div class="share-modal__access-options">
+                        <button
+                            class="share-modal__access-btn"
+                            :class="{ 'share-modal__access-btn--active': diagramShareAccess === 'read' }"
+                            @click="setShareAccess('read')"
+                            :disabled="shareLoading"
+                        >Read-only</button>
+                        <button
+                            class="share-modal__access-btn"
+                            :class="{ 'share-modal__access-btn--active': diagramShareAccess === 'write' }"
+                            @click="setShareAccess('write')"
+                            :disabled="shareLoading"
+                        >Can edit</button>
+                    </div>
+                </div>
+
+                <div v-if="diagramShareToken" class="share-modal__link-row">
+                    <input
+                        class="share-modal__link-input"
+                        :value="shareUrl"
+                        readonly
+                        ref="shareLinkInput"
+                    />
+                    <button class="btn btn-primary share-modal__copy-btn" @click="copyShareLink">
+                        {{ copied ? 'Copied!' : 'Copy' }}
+                    </button>
+                </div>
+
+                <p v-if="diagramShareToken" class="share-modal__hint">
+                    Anyone with this link can {{ diagramShareAccess === 'write' ? 'edit' : 'view' }} this diagram.
+                </p>
+            </div>
+        </div>
+    </div>
 
     <VueFlow
         :default-edge-options="{ type: 'chickenFoot' }"
@@ -97,7 +160,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
 import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
 import { TableActions, TABLE_STYLE, ADD_ROW_BUTTON_STYLE, ROW_STYLE } from '@/services/TableActions.js'
@@ -165,6 +228,17 @@ const showImportModal = ref(false)
 const importContent = ref('')
 const showExportModal = ref(false)
 const exportContent = ref('')
+const showShareModal = ref(false)
+const diagramShareToken = ref(null)
+const diagramShareAccess = ref('read')
+const shareLoading = ref(false)
+const copied = ref(false)
+const shareLinkInput = ref(null)
+
+const shareUrl = computed(() => diagramShareToken.value
+    ? `${window.location.origin}/shared/${diagramShareToken.value}`
+    : ''
+)
 
 const addTable = () => {
     TableActions.addTable(schema, 'new_table')
@@ -292,6 +366,30 @@ const saveDiagram = async () => {
     isSaved.value = true
 }
 
+const toggleShare = async () => {
+    shareLoading.value = true
+    if (diagramShareToken.value) {
+        await Diagram.unshare(diagramId)
+        diagramShareToken.value = null
+        copied.value = false
+    } else {
+        diagramShareToken.value = await Diagram.share(diagramId)
+    }
+    shareLoading.value = false
+}
+
+const copyShareLink = async () => {
+    await navigator.clipboard.writeText(shareUrl.value)
+    copied.value = true
+    setTimeout(() => { copied.value = false }, 2000)
+}
+
+const setShareAccess = async (access) => {
+    shareLoading.value = true
+    diagramShareAccess.value = await Diagram.updateShareAccess(diagramId, access) ?? access
+    shareLoading.value = false
+}
+
 const getDiagram = async () => {
     if (props.isDemo) {
         schema.value = DEMO_SCHEMA
@@ -305,6 +403,8 @@ const getDiagram = async () => {
         return
     }
 
+    diagramShareToken.value = diagramInfo.share_token ?? null
+    diagramShareAccess.value = diagramInfo.share_access ?? 'read'
     diagramDbType.value = diagramInfo?.db_type ?? 'mysql'
 
     const rawSchema = diagramInfo?.schema ? JSON.parse(diagramInfo.schema) : [{
@@ -350,3 +450,187 @@ onMounted(() => {
 
 onUnmounted(() => clearInterval(autoSaveTimer))
 </script>
+
+<style scoped>
+.share-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.share-modal {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    width: 380px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.share-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.share-modal__title {
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.share-modal__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+}
+
+.share-modal__close:hover {
+    opacity: 1;
+}
+
+.share-modal__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.share-modal__toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.share-modal__toggle-label {
+    font-size: 0.8rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.share-toggle {
+    width: 44px;
+    height: 24px;
+    background: #ddd;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.share-toggle--on {
+    background: var(--color-primary);
+}
+
+.share-toggle:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.share-toggle__knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.share-toggle--on .share-toggle__knob {
+    transform: translateX(20px);
+}
+
+.share-modal__link-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.share-modal__link-input {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    font-family: inherit;
+    color: #555;
+    background: #f9f9f9;
+    outline: none;
+    min-width: 0;
+    text-transform: none;
+}
+
+.share-modal__copy-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    flex-shrink: 0;
+    font-family: inherit;
+    letter-spacing: 0.5px;
+}
+
+.share-modal__hint {
+    margin: 0;
+    font-size: 0.72rem;
+    color: #999;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.share-modal__access-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.share-modal__access-options {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.share-modal__access-btn {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.75rem;
+    font-family: inherit;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    color: #666;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.share-modal__access-btn:hover:not(:disabled) {
+    border-color: #bbb;
+    background: #f5f5f5;
+}
+
+.share-modal__access-btn--active {
+    border-color: var(--color-primary) !important;
+    background: var(--color-primary) !important;
+    color: white !important;
+}
+
+.share-modal__access-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+</style>

@@ -10,6 +10,7 @@ const VerifyEmail = () => import('../components/Auth/VerifyEmail.vue');
 const GoogleCallback = () => import('../components/Auth/GoogleCallback.vue');
 const DiagramList = () => import('../components/DiagramList.vue');
 const Diagram = () => import('../components/Diagram.vue');
+const SharedDiagram = () => import('../components/SharedDiagram.vue');
 
 function requireAuth(to, from, next) {
     if (!store.state.auth_token) {
@@ -43,6 +44,7 @@ const routes = [
             { path: 'diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth },
             { path: 'diagrams/:id', name: 'diagram.show', component: Diagram, beforeEnter: requireAuth },
             { path: 'demo', name: 'demo', component: Diagram, props: { isDemo: true } },
+            { path: 'shared/:token', name: 'shared.diagram', component: SharedDiagram },
         ]
     },
 ];
@@ -59,6 +61,7 @@ const pageTitles = {
     'diagrams': 'My Diagrams — SQL Designer',
     'diagram.show': 'Diagram Editor — SQL Designer',
     'demo': 'Try Demo — SQL Designer',
+    'shared.diagram': 'Shared Diagram — SQL Designer',
 };
 
 router.afterEach((to) => {

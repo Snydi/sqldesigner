@@ -15,7 +15,9 @@ class Diagram extends Model
         'db_type',
         'schema',
         'script',
-        'user_id'
+        'user_id',
+        'share_token',
+        'share_access',
     ];
 
     public function user(): BelongsTo
