@@ -29,7 +29,9 @@
                         <img src="../icons/import.svg" alt="Upload" class="icon">
                         <input type="file" accept=".sql,.txt,.json" @change="handleFileUpload" hidden>
                     </label>
-                    <button class="btn btn-primary" @click="$emit('primary-action')">{{ primaryLabel }}</button>
+                    <button class="btn btn-primary" @click="$emit('primary-action')" :disabled="loading">
+                        {{ loading ? 'Importing...' : primaryLabel }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -46,6 +48,7 @@ const props = defineProps({
     primaryLabel: String,
     filename: { type: String, default: 'schema' },
     jsonContent: { type: String, default: null },
+    loading: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['update:modelValue', 'primary-action', 'close'])

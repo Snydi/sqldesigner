@@ -172,6 +172,7 @@
             v-if="showImportModal"
             v-model="importContent"
             primaryLabel="Import"
+            :loading="importLoading"
             @primary-action="importSql"
             @close="showImportModal = false"
         />
@@ -274,6 +275,7 @@ const selectedEdge = ref(null)
 const showRelationshipModal = ref(false)
 const showImportModal = ref(false)
 const importContent = ref('')
+const importLoading = ref(false)
 const showExportModal = ref(false)
 const exportContent = ref('')
 const exportJsonContent = ref('')
@@ -584,8 +586,13 @@ const importSql = async () => {
         $toast.error('Cannot import empty SQL')
         return
     }
+    importLoading.value = true
     schema.value = await Diagram.import(diagramId.value, importContent.value)
-    isSaved.value = false
+    importLoading.value = false
+    if (schema.value) {
+        $toast.success('Imported successfully')
+        isSaved.value = false
+    }
 }
 
 const openExportModal = async () => {
