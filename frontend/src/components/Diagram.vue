@@ -585,10 +585,20 @@ const startRowDrag = (id) => {
     document.addEventListener('mouseup', onMouseUp)
 }
 
+const closeAllOptionsModals = () => {
+    schema.value.filter(el => el.type === 'row' && el.data.showOptionsModal).forEach(row => {
+        row.data.showOptionsModal = false
+    })
+}
+
 const toggleOptionsModal = (id) => {
     const row = schema.value.find(el => el.id === id)
-    row.data.modalPosition = { x: 350, y: 0 }
-    row.data.showOptionsModal = !row.data.showOptionsModal
+    const willOpen = !row.data.showOptionsModal
+    closeAllOptionsModals()
+    if (willOpen) {
+        row.data.modalPosition = { x: 350, y: 0 }
+        row.data.showOptionsModal = true
+    }
     presenceChannel?.whisper('schema-patch', {
         update: [{ id, data: { showOptionsModal: row.data.showOptionsModal, modalPosition: row.data.modalPosition } }]
     })
@@ -736,6 +746,7 @@ const getDiagram = async () => {
 onBeforeMount(getDiagram)
 
 onMounted(() => {
+    document.addEventListener('mousedown', closeAllOptionsModals)
     if (!props.isDemo) {
         autoSaveTimer = setInterval(() => {
             if (!isSaved.value && canEdit.value) saveDiagram()
@@ -745,6 +756,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+    document.removeEventListener('mousedown', closeAllOptionsModals)
     clearInterval(autoSaveTimer)
     cleanupEcho()
     document.removeEventListener('keydown', onEscapeKey)

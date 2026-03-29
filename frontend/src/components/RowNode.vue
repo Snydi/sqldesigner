@@ -34,19 +34,33 @@
 
     <!-- Options modal -->
     <div v-if="data.showOptionsModal" class="options_modal"
-         :style="{ left: `${data.modalPosition?.x}px`, top: `${data.modalPosition?.y}px` }">
-        <select v-model="data.keyMod" @change="emitChange()">
-            <option selected="selected" value="None">None</option>
-            <option value="PRIMARY KEY">Primary</option>
-            <option value="UNIQUE">Unique</option>
-            <option value="INDEX">Index</option>
-        </select>
-        <template v-if="dbType !== 'postgresql'">
+         :style="{ left: `${data.modalPosition?.x}px`, top: `${data.modalPosition?.y}px` }"
+         @mousedown.stop>
+        <div class="options_modal_row">
+            <p class="modal_text">Key</p>
+            <select v-model="data.keyMod" @change="emitChange()">
+                <option selected="selected" value="None">None</option>
+                <option value="PRIMARY KEY">Primary</option>
+                <option value="UNIQUE">Unique</option>
+                <option value="INDEX">Index</option>
+            </select>
+        </div>
+        <div v-if="dbType !== 'postgresql'" class="options_modal_row">
             <p class="modal_text">Unsigned</p>
             <input type="checkbox" @mousedown.stop :checked="data.unsigned" @change="toggleUnsigned">
-        </template>
-        <p class="modal_text">Nullable</p>
-        <input type="checkbox" @mousedown.stop :checked="data.nullable" @change="toggleNullable">
+        </div>
+        <div class="options_modal_row">
+            <p class="modal_text">Nullable</p>
+            <input type="checkbox" @mousedown.stop :checked="data.nullable" @change="toggleNullable">
+        </div>
+        <div class="options_modal_row">
+            <p class="modal_text">Default</p>
+            <input type="text" class="modal_text_input" @mousedown.stop v-model="data.defaultValue" @change="emitChange()" placeholder="NULL">
+        </div>
+        <div v-if="dbType !== 'postgresql'" class="options_modal_row">
+            <p class="modal_text">Comment</p>
+            <input type="text" class="modal_text_input" @mousedown.stop v-model="data.comment" @change="emitChange()" placeholder="">
+        </div>
     </div>
 
     <!-- Delete row -->

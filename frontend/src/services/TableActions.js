@@ -125,7 +125,9 @@ export const TableActions = {
                 keyMod: rowProps.keyMod,
                 sqlType: rowProps.sqlType,
                 nullable: rowProps.nullable,
-                unsigned: rowProps.unsigned
+                unsigned: rowProps.unsigned,
+                defaultValue: rowProps.defaultValue ?? '',
+                comment: rowProps.comment ?? ''
             }
         }]
 

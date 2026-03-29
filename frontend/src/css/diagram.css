@@ -274,17 +274,37 @@ select:focus {
 .options_modal {
     position: absolute;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 12px;
     border: 1px solid #898989;
     border-radius: 5px;
-    width: 350px;
-    height: 100%;
+    background: #fff;
+    z-index: 10;
+    min-width: 200px;
+}
+
+.options_modal_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .modal_text {
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.modal_text_input {
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 2px 6px;
+    width: 110px;
+    box-sizing: border-box;
 }
 
 .vue-flow__node-row {

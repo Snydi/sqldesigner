@@ -108,13 +108,15 @@ class DiagramService
             match ($item['type'] ?? null) {
                 'table' => $tables->push(['id' => $item['id'], 'name' => $item['label']]),
                 'row'   => $rows->push([
-                    'id'       => $item['id'],
-                    'name'     => $item['label'],
-                    'table_id' => $item['parentNode'],
-                    'key_mod'  => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
-                    'sql_type' => $item['data']['sqlType'] ?? 'VARCHAR(255)',
-                    'nullable' => ($item['data']['nullable'] ?? false) ? 'NULL' : 'NOT NULL',
-                    'unsigned' => ($item['data']['unsigned'] ?? false) ? 'UNSIGNED' : null,
+                    'id'           => $item['id'],
+                    'name'         => $item['label'],
+                    'table_id'     => $item['parentNode'],
+                    'key_mod'      => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
+                    'sql_type'     => $item['data']['sqlType'] ?? 'VARCHAR(255)',
+                    'nullable'     => ($item['data']['nullable'] ?? false) ? 'NULL' : 'NOT NULL',
+                    'unsigned'     => ($item['data']['unsigned'] ?? false) ? 'UNSIGNED' : null,
+                    'default_value' => $item['data']['defaultValue'] ?? null,
+                    'comment'      => $item['data']['comment'] ?? null,
                 ]),
                 default => isset($item['sourceNode']['id'], $item['targetNode']['id'])
                     ? $connections->push([
@@ -135,6 +137,8 @@ class DiagramService
                 if (!$isPg && $row['unsigned']) $parts[] = $row['unsigned'];
                 $parts[] = $row['nullable'];
                 if ($row['key_mod']) $parts[] = $row['key_mod'];
+                if ($row['default_value'] !== null && $row['default_value'] !== '') $parts[] = "DEFAULT '{$row['default_value']}'";
+                if (!$isPg && $row['comment'] !== null && $row['comment'] !== '') $parts[] = "COMMENT '{$row['comment']}'";
                 return implode(' ', array_filter($parts));
             });
 
@@ -168,13 +172,15 @@ class DiagramService
             match ($item['type'] ?? null) {
                 'table' => $tables->push(['id' => $item['id'], 'name' => $item['label']]),
                 'row'   => $rows->push([
-                    'id'       => $item['id'],
-                    'name'     => $item['label'],
-                    'table_id' => $item['parentNode'],
-                    'key'      => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
-                    'type'     => $item['data']['sqlType'] ?? 'VARCHAR(255)',
-                    'nullable' => $item['data']['nullable'] ?? false,
-                    'unsigned' => $item['data']['unsigned'] ?? false,
+                    'id'            => $item['id'],
+                    'name'          => $item['label'],
+                    'table_id'      => $item['parentNode'],
+                    'key'           => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
+                    'type'          => $item['data']['sqlType'] ?? 'VARCHAR(255)',
+                    'nullable'      => $item['data']['nullable'] ?? false,
+                    'unsigned'      => $item['data']['unsigned'] ?? false,
+                    'default_value' => $item['data']['defaultValue'] ?? null,
+                    'comment'       => $item['data']['comment'] ?? null,
                 ]),
                 default => isset($item['sourceNode']['id'], $item['targetNode']['id'])
                     ? $connections->push([
@@ -200,8 +206,10 @@ class DiagramService
                     'type'     => $row['type'],
                     'nullable' => $row['nullable'],
                 ];
-                if ($row['unsigned']) $col['unsigned'] = true;
-                if ($row['key'])      $col['key']      = $row['key'];
+                if ($row['unsigned'])      $col['unsigned']      = true;
+                if ($row['key'])           $col['key']           = $row['key'];
+                if ($row['default_value']) $col['default_value'] = $row['default_value'];
+                if ($row['comment'])       $col['comment']       = $row['comment'];
                 return $col;
             })->values()->all();
 
@@ -356,7 +364,7 @@ class DiagramService
 
         foreach ($lines as $line) {
             if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(/i', $line)) continue;
-            if (!preg_match('/^["`]?(\w+)["`]?\s+([a-zA-Z]+)(?:\(([^)]+)\))?(?:\s+(UNSIGNED))?(?:\s+(NOT\s+NULL|NULL))?(?:\s+(PRIMARY\s+KEY|UNIQUE))?/i', $line, $m)) continue;
+            if (!preg_match('/^["`]?(\w+)["`]?\s+([a-zA-Z]+)(?:\(([^)]+)\))?(?:\s+(UNSIGNED))?(?:\s+(NOT\s+NULL|NULL))?(?:\s+(PRIMARY\s+KEY|UNIQUE))?(?:\s+DEFAULT\s+\'([^\']*)\')?(?:\s+COMMENT\s+\'([^\']*)\')?/i', $line, $m)) continue;
 
             $baseName = $m[1];
             $name     = $baseName;
@@ -364,16 +372,19 @@ class DiagramService
             while (in_array($name, $usedNames)) $name = $baseName . '_' . $counter++;
             $usedNames[] = $name;
 
-            $sqlType  = strtoupper($m[2]) . (isset($m[3]) && $m[3] !== '' ? "($m[3])" : '');
-            $unsigned = isset($m[4]) && strtoupper($m[4]) === 'UNSIGNED';
-            $nullable = isset($m[5]) ? strtoupper($m[5]) === 'NULL' : true;
-            $keyMod   = isset($m[6]) ? strtoupper(preg_replace('/\s+/', ' ', $m[6])) : ($constraints[$baseName] ?? null);
+            $sqlType      = strtoupper($m[2]) . (isset($m[3]) && $m[3] !== '' ? "($m[3])" : '');
+            $unsigned     = isset($m[4]) && strtoupper($m[4]) === 'UNSIGNED';
+            $nullable     = isset($m[5]) ? strtoupper($m[5]) === 'NULL' : true;
+            $keyMod       = isset($m[6]) ? strtoupper(preg_replace('/\s+/', ' ', $m[6])) : ($constraints[$baseName] ?? null);
+            $defaultValue = $m[7] ?? '';
+            $comment      = $m[8] ?? '';
 
             $rowId = uniqid();
             $rows[] = $this->buildRowNode($rowId, $tableId, $name, $tableX, $tableY + 40 + ($index * 40), $index, [
                 'editing' => false, 'showModal' => false, 'showOptionsModal' => false,
                 'keyMod'  => $keyMod ?? 'None',
                 'sqlType' => $sqlType, 'nullable' => $nullable, 'unsigned' => $unsigned,
+                'defaultValue' => $defaultValue, 'comment' => $comment,
             ]);
             $index++;
         }
