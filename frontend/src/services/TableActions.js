@@ -62,19 +62,12 @@ function uniqueName(name, existingNames) {
 
 export const TableActions = {
 
-    addTable(schemaRef, name) {
+    addTable(schemaRef, name, position) {
         const schema = schemaRef.value
         const tableId = Math.random().toString()
         const existingTables = schema.filter(el => el.type === 'table')
 
         const tableName = uniqueName(name, existingTables.map(t => t.label))
-
-        // Use x: -400 as sentinel so the first table lands at x: 0 without a separate if-check
-        const rightmost = existingTables.reduce(
-            (best, t) => t.position.x > best.position.x ? t : best,
-            { position: { x: -400, y: 0 } }
-        )
-        const position = { x: rightmost.position.x + 400, y: rightmost.position.y }
 
         schemaRef.value = [...schema, {
             id: tableId,

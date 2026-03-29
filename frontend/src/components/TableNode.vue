@@ -2,8 +2,9 @@
     <input
         class="input input_designer_table"
         :value="label"
+        @mousedown.stop
         @click="data.editing = true"
-        @blur="() => { data.editing = false; $emit('update-label', id, label); }"
+        @blur="(e) => { data.editing = false; $emit('update-label', id, label); e.target.scrollLeft = 0; }"
         @input="$emit('update-label', id, $event.target.value)"
         :readonly="!data.editing"
     />

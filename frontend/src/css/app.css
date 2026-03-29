@@ -219,8 +219,8 @@ select:focus {
 .input_designer_table {
     text-align: center;
     color: white;
-    width: 70%;
-    padding: 10px;
+    flex-grow: 0;
+    width: 30%;
 }
 
 .input_designer_row {

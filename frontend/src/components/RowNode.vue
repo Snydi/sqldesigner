@@ -10,8 +10,9 @@
     <input
         class="input input_designer_row ml-5 mr-5"
         :value="label"
+        @mousedown.stop
         @click="data.editing = true"
-        @blur="() => { data.editing = false; $emit('update-label', id, label); }"
+        @blur="(e) => { data.editing = false; $emit('update-label', id, label); e.target.scrollLeft = 0; }"
         @input="$emit('update-label', id, $event.target.value)"
         :readonly="!data.editing"
     />
@@ -28,7 +29,7 @@
 
     <!-- Options -->
     <button class="table_button" @mousedown.stop @click="$emit('toggle-options-modal', id)">
-        <img class="table_icon" src="../icons/dots.svg" alt="More options">
+        <img class="table_icon" src="../icons/gear.svg" alt="More options">
     </button>
 
     <!-- Options modal -->

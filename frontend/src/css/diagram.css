@@ -192,6 +192,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .add_row_button {
@@ -281,6 +282,11 @@ select:focus {
     font-size: 16px;
 }
 
+.vue-flow__node-row {
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
 .vue-flow__node-row select {
     max-width: 120px;
 }
@@ -301,4 +307,29 @@ select:focus {
 .drag_handle_icon:active {
     cursor: grabbing;
     opacity: 1;
+}
+
+.vue-flow__handle {
+    width: 8px;
+    height: 8px;
+}
+
+.vue-flow__node-table {
+    cursor: grab;
+    justify-content: center !important;
+}
+
+.vue-flow__node-table > .table_button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.vue-flow__node-table:active {
+    cursor: grabbing;
+}
+
+.vue-flow__node-table .input_designer_table {
+    cursor: text;
 }
