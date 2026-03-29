@@ -114,6 +114,16 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    public function exportJson(Diagram $diagram): JsonResponse
+    {
+        $this->authorize('export', $diagram);
+
+        return response()->json(json_decode($this->diagramService->createJson($diagram->schema)));
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
     public function share(Diagram $diagram): JsonResponse
     {
         $this->authorize('update', $diagram);

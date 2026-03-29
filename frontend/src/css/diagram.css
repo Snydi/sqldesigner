@@ -49,9 +49,43 @@
     filter: brightness(0) invert(1);
 }
 
+.sql_textarea_wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+}
+
+.sql_copy_btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.15s;
+}
+
+.sql_copy_btn:hover {
+    opacity: 1;
+}
+
+.sql_copy_btn img {
+    width: 100%;
+    height: 100%;
+}
+
 .sql_textarea {
     flex: 1;
     width: 100%;
+    min-width: 0;
     min-height: 420px;
     padding: 16px;
     border: none;
@@ -73,9 +107,79 @@
 .sql_modal_footer {
     padding: 12px 18px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     background: white;
     flex-shrink: 0;
+}
+
+.import-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.import-file-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.import-file-btn .icon {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
+.download-dropdown {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+}
+
+.download-dropdown__menu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    bottom: 0;
+    background: var(--color-primary);
+    border-radius: 0 6px 6px 0;
+    overflow: hidden;
+    flex-direction: row;
+}
+
+.download-dropdown:hover .download-dropdown__menu {
+    display: flex;
+}
+
+.download-dropdown__trigger {
+    border-radius: 6px 0 0 6px !important;
+}
+
+.download-dropdown__trigger .icon {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
+.download-dropdown__menu button {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 12px;
+    border: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--color-primary);
+    color: var(--color-text-on-primary);
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.download-dropdown__menu button:hover {
+    background: var(--color-primary-hover);
 }
 
 .table_button {

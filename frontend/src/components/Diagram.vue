@@ -172,6 +172,7 @@
             v-if="showImportModal"
             v-model="importContent"
             primaryLabel="Import"
+            :loading="importLoading"
             @primary-action="importSql"
             @close="showImportModal = false"
         />
@@ -180,6 +181,8 @@
             v-if="showExportModal"
             v-model="exportContent"
             primaryLabel="Export"
+            :filename="diagramName"
+            :jsonContent="exportJsonContent"
             @primary-action="exportSql"
             @close="showExportModal = false"
         />
@@ -201,6 +204,7 @@ import AddRowNode from './AddRowNode.vue'
 import RelationshipModal from './RelationshipModal.vue'
 import SqlModal from './SqlModal.vue'
 import RemoteCursor from './RemoteCursor.vue'
+import { useToast } from 'vue-toast-notification'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import axios from '@/axios'
@@ -215,13 +219,13 @@ const { updateEdge, addEdges, viewport } = useVueFlow()
 const store = useStore()
 store.dispatch('initializeAuth')
 const router = useRouter()
+const $toast = useToast()
 
 const token = useRoute().params.token
 const diagramId = ref(null)
 const isOwner = ref(false)
 const notAvailable = ref(false)
 const loading = ref(false)
-const diagramName = ref('')
 
 const canEdit = computed(() => isOwner.value || diagramShareAccess.value === 'write')
 
@@ -264,14 +268,17 @@ let echo = null
 let presenceChannel = null
 
 const schema = ref()
+const diagramName = ref('schema')
 const diagramDbType = ref('mysql')
 const modalPosition = ref({ x: 0, y: 0 })
 const selectedEdge = ref(null)
 const showRelationshipModal = ref(false)
 const showImportModal = ref(false)
 const importContent = ref('')
+const importLoading = ref(false)
 const showExportModal = ref(false)
 const exportContent = ref('')
+const exportJsonContent = ref('')
 const showShareModal = ref(false)
 const diagramShareAccess = ref(null)
 const shareLoading = ref(false)
@@ -575,18 +582,38 @@ const closeRelationshipModal = () => {
 }
 
 const importSql = async () => {
+    if (!importContent.value.trim()) {
+        $toast.error('Cannot import empty SQL')
+        return
+    }
+    importLoading.value = true
     schema.value = await Diagram.import(diagramId.value, importContent.value)
-    isSaved.value = false
+    importLoading.value = false
+    if (schema.value) {
+        $toast.success('Imported successfully')
+        isSaved.value = false
+    }
 }
 
 const openExportModal = async () => {
     await saveDiagram()
+    const [sql, json] = await Promise.all([
+        Diagram.export(diagramId.value),
+        Diagram.exportJson(diagramId.value),
+    ])
+    exportContent.value = sql
+    exportJsonContent.value = json
     showExportModal.value = true
 }
 
 const exportSql = async () => {
     await Diagram.save(diagramId.value, schema.value)
-    exportContent.value = await Diagram.export(diagramId.value)
+    const [sql, json] = await Promise.all([
+        Diagram.export(diagramId.value),
+        Diagram.exportJson(diagramId.value),
+    ])
+    exportContent.value = sql
+    exportJsonContent.value = json
 }
 
 const saveDiagram = async () => {
