@@ -1,17 +1,5 @@
 import { Position } from '@vue-flow/core'
 
-export const ADD_ROW_BUTTON_STYLE = {
-    display: 'flex',
-    border: '1px solid #898989',
-    borderColor: '#898989',
-    background: '#898989',
-    color: 'white',
-    width: '350px',
-    height: '30px',
-    alignItems: 'center',
-    justifyContent: 'center'
-}
-
 export const TABLE_STYLE = {
     display: 'flex',
     border: '1px solid #898989',
@@ -62,6 +50,31 @@ function uniqueName(name, existingNames) {
 
 export const TableActions = {
 
+    copyTable(schemaRef, tableId, position) {
+        const schema = schemaRef.value
+        const original = schema.find(el => el.id === tableId)
+        if (!original) return null
+
+        const existingTables = schema.filter(el => el.type === 'table')
+        const newTableId = Math.random().toString()
+        const newLabel = uniqueName(original.label, existingTables.map(t => t.label))
+
+        const children = schema.filter(el => el.parentNode === tableId)
+        const newChildren = children.map(child => ({
+            ...child,
+            id: Math.random().toString(),
+            parentNode: newTableId,
+            data: { ...child.data },
+        }))
+
+        schemaRef.value = [...schema,
+            { ...original, id: newTableId, label: newLabel, position },
+            ...newChildren,
+        ]
+
+        return newTableId
+    },
+
     addTable(schemaRef, name, position) {
         const schema = schemaRef.value
         const tableId = Math.random().toString()
@@ -85,18 +98,6 @@ export const TableActions = {
             nullable: false,
             unsigned: false
         })
-
-        const buttonId = Math.floor(Math.random() * 100000).toString()
-        schemaRef.value = [...schemaRef.value, {
-            id: buttonId,
-            type: 'add-row-button',
-            label: '',
-            position: { x: 0, y: 80 },
-            style: ADD_ROW_BUTTON_STYLE,
-            draggable: false,
-            parentNode: tableId,
-            data: { tableId }
-        }]
 
         return tableId
     },

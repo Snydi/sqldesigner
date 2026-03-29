@@ -9,6 +9,14 @@
         :readonly="!data.editing"
     />
 
+    <button class="table_button table_button--add-row" @mousedown.stop @click="$emit('add-row', id)">
+        <img class="table_icon" src="../icons/plus.svg" alt="Add row">
+    </button>
+
+    <button class="table_button table_button--copy" @mousedown.stop @click="$emit('copy-table', id)">
+        <img class="table_icon" src="../icons/copy.svg" alt="Copy">
+    </button>
+
     <button class="table_button" @mousedown.stop @click="$emit('delete-node', id)">
         <img class="table_icon" src="../icons/trash.svg" alt="Delete">
     </button>
@@ -21,5 +29,5 @@ defineProps({
     label: String,
 })
 
-defineEmits(['delete-node', 'update-label'])
+defineEmits(['delete-node', 'update-label', 'copy-table', 'add-row'])
 </script>

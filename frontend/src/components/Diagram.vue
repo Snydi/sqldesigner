@@ -14,7 +14,7 @@
         <header class="header header--diagram">
             <div class="flex-items">
                 <button v-if="canEdit" class="btn btn-secondary" @click="addTable" title="Add Table">
-                    <img src="../icons/table-add.svg" alt="Add Table" class="icon">
+                    <img src="../icons/plus.svg" alt="Add Table" class="icon" style="width:26px;height:26px;">
                 </button>
                 <button v-if="isOwner || isDemo" class="btn btn-secondary" @click="isDemo ? router.push({ name: 'register' }) : showImportModal = true" title="Import">
                     <img src="../icons/import.svg" alt="Import" class="icon">
@@ -136,6 +136,8 @@
                         :label="nodeProps.label"
                         @delete-node="deleteNode"
                         @update-label="updateLabel"
+                        @copy-table="copyTable"
+                        @add-row="addRow({ id: $event, data: {} })"
                     />
                 </template>
 
@@ -195,7 +197,7 @@ import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref, watch, 
 import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
 import { useThrottleFn } from '@vueuse/core'
-import { TableActions, TABLE_STYLE, ADD_ROW_BUTTON_STYLE, ROW_STYLE } from '@/services/TableActions.js'
+import { TableActions, TABLE_STYLE, ROW_STYLE } from '@/services/TableActions.js'
 import { Diagram } from '@/services/Diagram.js'
 import { createEcho } from '@/echo.js'
 import ChickenFootEdge from './ChickenFootEdge.vue'
@@ -236,7 +238,6 @@ const DEMO_SCHEMA = [
     { id: 'dr2', type: 'row', label: 'username', position: { x: 0, y: 80 }, style: ROW_STYLE, draggable: false, parentNode: 'dt1', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'VARCHAR(255)', nullable: false, unsigned: false } },
     { id: 'dr3', type: 'row', label: 'email', position: { x: 0, y: 120 }, style: ROW_STYLE, draggable: false, parentNode: 'dt1', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'VARCHAR(255)', nullable: false, unsigned: false } },
     { id: 'dr4', type: 'row', label: 'created_at', position: { x: 0, y: 160 }, style: ROW_STYLE, draggable: false, parentNode: 'dt1', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TIMESTAMP', nullable: false, unsigned: false } },
-    { id: 'dbtn1', type: 'add-row-button', label: '', position: { x: 0, y: 200 }, style: ADD_ROW_BUTTON_STYLE, draggable: false, parentNode: 'dt1', data: { tableId: 'dt1' } },
 
     { id: 'dt2', type: 'table', label: 'posts', data: { toolbarPosition: Position.Top, toolbarVisible: true }, position: { x: 450, y: 0 }, style: TABLE_STYLE },
     { id: 'dr5', type: 'row', label: 'id', position: { x: 0, y: 40 }, style: ROW_STYLE, draggable: false, parentNode: 'dt2', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'PRIMARY KEY', sqlType: 'INT(11)', nullable: false, unsigned: false } },
@@ -244,7 +245,6 @@ const DEMO_SCHEMA = [
     { id: 'dr7', type: 'row', label: 'title', position: { x: 0, y: 120 }, style: ROW_STYLE, draggable: false, parentNode: 'dt2', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'VARCHAR(255)', nullable: false, unsigned: false } },
     { id: 'dr8', type: 'row', label: 'body', position: { x: 0, y: 160 }, style: ROW_STYLE, draggable: false, parentNode: 'dt2', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TEXT', nullable: false, unsigned: false } },
     { id: 'dr9', type: 'row', label: 'created_at', position: { x: 0, y: 200 }, style: ROW_STYLE, draggable: false, parentNode: 'dt2', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TIMESTAMP', nullable: false, unsigned: false } },
-    { id: 'dbtn2', type: 'add-row-button', label: '', position: { x: 0, y: 240 }, style: ADD_ROW_BUTTON_STYLE, draggable: false, parentNode: 'dt2', data: { tableId: 'dt2' } },
 
     { id: 'dt3', type: 'table', label: 'comments', data: { toolbarPosition: Position.Top, toolbarVisible: true }, position: { x: 225, y: 380 }, style: TABLE_STYLE },
     { id: 'dr10', type: 'row', label: 'id', position: { x: 0, y: 40 }, style: ROW_STYLE, draggable: false, parentNode: 'dt3', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'PRIMARY KEY', sqlType: 'INT(11)', nullable: false, unsigned: false } },
@@ -252,7 +252,6 @@ const DEMO_SCHEMA = [
     { id: 'dr12', type: 'row', label: 'user_id', position: { x: 0, y: 120 }, style: ROW_STYLE, draggable: false, parentNode: 'dt3', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'FOREIGN KEY', sqlType: 'INT(11)', nullable: false, unsigned: false } },
     { id: 'dr13', type: 'row', label: 'body', position: { x: 0, y: 160 }, style: ROW_STYLE, draggable: false, parentNode: 'dt3', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TEXT', nullable: false, unsigned: false } },
     { id: 'dr14', type: 'row', label: 'created_at', position: { x: 0, y: 200 }, style: ROW_STYLE, draggable: false, parentNode: 'dt3', data: { editing: false, showModal: false, showOptionsModal: false, keyMod: 'None', sqlType: 'TIMESTAMP', nullable: false, unsigned: false } },
-    { id: 'dbtn3', type: 'add-row-button', label: '', position: { x: 0, y: 240 }, style: ADD_ROW_BUTTON_STYLE, draggable: false, parentNode: 'dt3', data: { tableId: 'dt3' } },
 
     { id: 'de1', source: 'dr1', target: 'dr6', type: 'chickenFoot', updatable: true, data: { relationshipType: 'one-to-many', markerStart: 'url(#chickenFoot)', markerEnd: 'none' } },
     { id: 'de2', source: 'dr1', target: 'dr12', type: 'chickenFoot', updatable: true, data: { relationshipType: 'one-to-many', markerStart: 'url(#chickenFoot)', markerEnd: 'none' } },
@@ -398,8 +397,15 @@ const onNodeDragStop = ({ node }) => {
 }
 
 const isPlacingTable = ref(false)
+const copyingTableId = ref(null)
 
 const addTable = () => {
+    copyingTableId.value = null
+    isPlacingTable.value = true
+}
+
+const copyTable = (tableId) => {
+    copyingTableId.value = tableId
     isPlacingTable.value = true
 }
 
@@ -407,7 +413,13 @@ const onPaneClick = (event) => {
     if (!isPlacingTable.value) return
     isPlacingTable.value = false
     const position = screenToFlowCoordinate({ x: event.clientX, y: event.clientY })
-    const tableId = TableActions.addTable(schema, 'new_table', position)
+    let tableId
+    if (copyingTableId.value) {
+        tableId = TableActions.copyTable(schema, copyingTableId.value, position)
+        copyingTableId.value = null
+    } else {
+        tableId = TableActions.addTable(schema, 'new_table', position)
+    }
     isSaved.value = false
     if (presenceChannel) {
         const nodes = schema.value.filter(el => el.id === tableId || el.parentNode === tableId)
@@ -416,7 +428,10 @@ const onPaneClick = (event) => {
 }
 
 const onEscapeKey = (event) => {
-    if (event.key === 'Escape') isPlacingTable.value = false
+    if (event.key === 'Escape') {
+        isPlacingTable.value = false
+        copyingTableId.value = null
+    }
 }
 
 const addRow = (nodeProps) => {
@@ -711,25 +726,7 @@ const getDiagram = async () => {
         style: TABLE_STYLE
     }]
 
-    const buttons = []
-    rawSchema.filter(el => el.type === 'table').forEach(table => {
-        const hasButton = rawSchema.some(el => el.type === 'add-row-button' && el.parentNode === table.id)
-        if (!hasButton) {
-            const rows = rawSchema.filter(el => el.parentNode === table.id && el.type === 'row')
-            buttons.push({
-                id: Math.floor(Math.random() * 100000).toString(),
-                type: 'add-row-button',
-                label: '',
-                position: { x: 0, y: 40 + 40 * rows.length },
-                style: ADD_ROW_BUTTON_STYLE,
-                draggable: false,
-                parentNode: table.id,
-                data: { tableId: table.id }
-            })
-        }
-    })
-
-    schema.value = [...rawSchema, ...buttons]
+    schema.value = rawSchema
     isSaved.value = true
     loading.value = false
 

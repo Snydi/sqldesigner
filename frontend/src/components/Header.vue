@@ -8,8 +8,12 @@
         <div class="flex-items">
             <button v-if="!store.state.auth_token && route.name !== 'demo'" class="btn btn-primary" @click="router.push({ name: 'demo' })">Try Demo</button>
             <button v-if="!store.state.auth_token && route.name === 'demo'" class="btn btn-primary" @click="router.push({ name: 'register' })">Register for free</button>
-            <button v-if="store.state.auth_token" class="btn btn-secondary" @click="router.push({ name: 'diagrams' })">View diagrams</button>
-            <button v-if="store.state.auth_token" class="btn btn-secondary" @click="Auth.logout()">Log out</button>
+            <button v-if="store.state.auth_token" class="btn btn-secondary" @click="router.push({ name: 'diagrams' })" title="View diagrams">
+                <img src="../icons/eye.svg" alt="View diagrams" class="icon">
+            </button>
+            <button v-if="store.state.auth_token" class="btn btn-secondary" @click="Auth.logout()" title="Log out">
+                <img src="../icons/logout.svg" alt="Log out" class="icon">
+            </button>
         </div>
     </header>
 </template>
