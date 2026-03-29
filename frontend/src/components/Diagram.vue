@@ -203,6 +203,7 @@ import AddRowNode from './AddRowNode.vue'
 import RelationshipModal from './RelationshipModal.vue'
 import SqlModal from './SqlModal.vue'
 import RemoteCursor from './RemoteCursor.vue'
+import { useToast } from 'vue-toast-notification'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import axios from '@/axios'
@@ -217,6 +218,7 @@ const { updateEdge, addEdges, viewport } = useVueFlow()
 const store = useStore()
 store.dispatch('initializeAuth')
 const router = useRouter()
+const $toast = useToast()
 
 const token = useRoute().params.token
 const diagramId = ref(null)
@@ -578,6 +580,10 @@ const closeRelationshipModal = () => {
 }
 
 const importSql = async () => {
+    if (!importContent.value.trim()) {
+        $toast.error('Cannot import empty SQL')
+        return
+    }
     schema.value = await Diagram.import(diagramId.value, importContent.value)
     isSaved.value = false
 }

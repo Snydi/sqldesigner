@@ -113,6 +113,26 @@
     flex-shrink: 0;
 }
 
+.import-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-left: auto;
+}
+
+.import-file-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.import-file-btn .icon {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
 .download-dropdown {
     position: relative;
     display: flex;

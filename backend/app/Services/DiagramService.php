@@ -275,9 +275,9 @@ class DiagramService
             'events'           => (object)[],
             'label'            => $name,
             'style'            => [
-                'display' => 'flex', 'border' => '1px solid #10b981',
-                'background' => '#ff6029', 'borderColor' => '#ff6029', 'color' => 'white',
-                'borderRadius' => '5px', 'width' => '350px', 'height' => '40px',
+                'display' => 'flex', 'border' => '1px solid #898989',
+                'background' => '#898989', 'borderColor' => '#898989', 'color' => 'white',
+                'width' => '350px', 'height' => '40px',
                 'alignItems' => 'center', 'justifyContent' => 'space-between',
             ],
         ];
