@@ -25,6 +25,7 @@
     <link rel="canonical" href="https://sql-designer.com/">
     <link rel="preload" as="image" href="/images/screenshot-1000.webp" imagesrcset="/images/screenshot-600.webp 600w, /images/screenshot-750.webp 750w, /images/screenshot-1000.webp 1000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
     <script type="application/ld+json">
+    @verbatim
     [
         {
             "@context": "https://schema.org",
@@ -155,6 +156,7 @@
             "url": "https://sql-designer.com"
         }
     ]
+    @endverbatim
     </script>
     <style>
         body { overflow-y: auto; margin: 0; }
