@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/shared/{token}', [DiagramController::class, 'showShared']);
-Route::patch('/shared/{token}', [DiagramController::class, 'saveShared']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/diagrams/shared/{token}', [DiagramController::class, 'showByToken']);
+    Route::patch('/diagrams/shared/{token}', [DiagramController::class, 'saveByToken']);
+
     Route::get('/user', function (Request $request) {
         return $request->user();
     });

@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Str;
 
 class DiagramController extends Controller
 {
@@ -119,10 +118,12 @@ class DiagramController extends Controller
     {
         $this->authorize('update', $diagram);
 
-        $diagram->share_token = Str::uuid()->toString();
-        $diagram->save();
+        if (!$diagram->share_access) {
+            $diagram->share_access = 'read';
+            $diagram->save();
+        }
 
-        return response()->json(['share_token' => $diagram->share_token]);
+        return response()->json(['share_access' => $diagram->share_access]);
     }
 
     /**
@@ -132,7 +133,7 @@ class DiagramController extends Controller
     {
         $this->authorize('update', $diagram);
 
-        $diagram->share_token = null;
+        $diagram->share_access = null;
         $diagram->save();
 
         return response()->json(['status' => true]);
@@ -156,14 +157,7 @@ class DiagramController extends Controller
         return response()->json(['share_access' => $diagram->share_access]);
     }
 
-    public function showShared(string $token): DiagramResource
-    {
-        $diagram = Diagram::where('share_token', $token)->firstOrFail();
-
-        return new DiagramResource($diagram);
-    }
-
-    public function saveShared(string $token, Request $request): JsonResponse
+    public function saveByToken(string $token, Request $request): JsonResponse
     {
         $diagram = Diagram::where('share_token', $token)
             ->where('share_access', 'write')
@@ -174,4 +168,16 @@ class DiagramController extends Controller
 
         return response()->json(['status' => true]);
     }
+
+    public function showByToken(string $token, Request $request): DiagramResource
+    {
+        $diagram = Diagram::where('share_token', $token)->firstOrFail();
+
+        if ($request->user()->id !== $diagram->user_id && !$diagram->share_access) {
+            abort(403, 'This diagram is not shared.');
+        }
+
+        return new DiagramResource($diagram);
+    }
+
 }

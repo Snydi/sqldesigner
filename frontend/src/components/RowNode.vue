@@ -18,7 +18,7 @@
 
     <!-- SQL Type -->
     <div>
-        <select v-model="data.sqlType" @change="$emit('change')">
+        <select v-model="data.sqlType" @change="emitChange()">
             <optgroup v-for="(options, groupLabel) in typeGroups" :key="groupLabel" :label="groupLabel">
                 <option v-for="opt in options" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
             </optgroup>
@@ -34,7 +34,7 @@
     <!-- Options modal -->
     <div v-if="data.showOptionsModal" class="options_modal"
          :style="{ left: `${data.modalPosition?.x}px`, top: `${data.modalPosition?.y}px` }">
-        <select v-model="data.keyMod" @change="$emit('change')">
+        <select v-model="data.keyMod" @change="emitChange()">
             <option selected="selected" value="None">None</option>
             <option value="PRIMARY KEY">Primary</option>
             <option value="UNIQUE">Unique</option>
@@ -74,6 +74,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start'])
+
+const emitChange = () => emit('change', props.id)
 
 const MYSQL_TYPES = {
     'Numeric': [
@@ -155,11 +157,11 @@ const typeGroups = computed(() => props.dbType === 'postgresql' ? POSTGRESQL_TYP
 
 const toggleNullable = () => {
     props.data.nullable = !props.data.nullable
-    emit('change')
+    emitChange()
 }
 
 const toggleUnsigned = () => {
     props.data.unsigned = !props.data.unsigned
-    emit('change')
+    emitChange()
 }
 </script>
