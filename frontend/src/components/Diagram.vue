@@ -116,11 +116,12 @@
                 @edge-click="openRelationshipModal"
                 @connect="onConnect"
                 @node-drag-stop="onNodeDragStop"
+                @pane-click="onPaneClick"
                 v-model="schema"
                 fit-view-on-init
                 :zoomOnDoubleClick="false"
                 :controlled="false"
-                class="diagram-canvas"
+                :class="['diagram-canvas', { 'is-placing-table': isPlacingTable }]"
             >
                 <template #edge-chickenFoot="props">
                     <ChickenFootEdge v-bind="props" />
@@ -215,7 +216,7 @@ import '@/css/header.css'
 
 const props = defineProps({ isDemo: { type: Boolean, default: false } })
 
-const { updateEdge, addEdges, viewport } = useVueFlow()
+const { updateEdge, addEdges, viewport, screenToFlowCoordinate } = useVueFlow()
 const store = useStore()
 store.dispatch('initializeAuth')
 const router = useRouter()
@@ -396,13 +397,26 @@ const onNodeDragStop = ({ node }) => {
     })
 }
 
+const isPlacingTable = ref(false)
+
 const addTable = () => {
-    const tableId = TableActions.addTable(schema, 'new_table')
+    isPlacingTable.value = true
+}
+
+const onPaneClick = (event) => {
+    if (!isPlacingTable.value) return
+    isPlacingTable.value = false
+    const position = screenToFlowCoordinate({ x: event.clientX, y: event.clientY })
+    const tableId = TableActions.addTable(schema, 'new_table', position)
     isSaved.value = false
     if (presenceChannel) {
         const nodes = schema.value.filter(el => el.id === tableId || el.parentNode === tableId)
         presenceChannel.whisper('schema-patch', { add: nodes })
     }
+}
+
+const onEscapeKey = (event) => {
+    if (event.key === 'Escape') isPlacingTable.value = false
 }
 
 const addRow = (nodeProps) => {
@@ -730,15 +744,22 @@ onMounted(() => {
             if (!isSaved.value && canEdit.value) saveDiagram()
         }, 60000)
     }
+    document.addEventListener('keydown', onEscapeKey)
 })
 
 onUnmounted(() => {
     clearInterval(autoSaveTimer)
     cleanupEcho()
+    document.removeEventListener('keydown', onEscapeKey)
 })
 </script>
 
 <style scoped>
+.is-placing-table,
+.is-placing-table * {
+    cursor: crosshair !important;
+}
+
 .diagram-status-screen {
     flex: 1;
     display: flex;
