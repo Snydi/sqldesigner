@@ -746,7 +746,6 @@ const getDiagram = async () => {
 onBeforeMount(getDiagram)
 
 onMounted(() => {
-    document.addEventListener('mousedown', closeAllOptionsModals)
     if (!props.isDemo) {
         autoSaveTimer = setInterval(() => {
             if (!isSaved.value && canEdit.value) saveDiagram()
@@ -756,7 +755,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-    document.removeEventListener('mousedown', closeAllOptionsModals)
     clearInterval(autoSaveTimer)
     cleanupEcho()
     document.removeEventListener('keydown', onEscapeKey)

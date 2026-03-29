@@ -35,7 +35,8 @@
     <!-- Options modal -->
     <div v-if="data.showOptionsModal" class="options_modal"
          :style="{ left: `${data.modalPosition?.x}px`, top: `${data.modalPosition?.y}px` }"
-         @mousedown.stop>
+         @mousedown.stop
+         ref="optionsModalRef">
         <div class="options_modal_row">
             <p class="modal_text">Key</p>
             <select v-model="data.keyMod" @change="emitChange()">
@@ -45,14 +46,14 @@
                 <option value="INDEX">Index</option>
             </select>
         </div>
-        <div v-if="dbType !== 'postgresql'" class="options_modal_row">
+        <label v-if="dbType !== 'postgresql'" class="options_modal_row" @mousedown.stop>
             <p class="modal_text">Unsigned</p>
-            <input type="checkbox" @mousedown.stop :checked="data.unsigned" @change="toggleUnsigned">
-        </div>
-        <div class="options_modal_row">
+            <input type="checkbox" :checked="data.unsigned" @change="toggleUnsigned">
+        </label>
+        <label class="options_modal_row" @mousedown.stop>
             <p class="modal_text">Nullable</p>
-            <input type="checkbox" @mousedown.stop :checked="data.nullable" @change="toggleNullable">
-        </div>
+            <input type="checkbox" :checked="data.nullable" @change="toggleNullable">
+        </label>
         <div class="options_modal_row">
             <p class="modal_text">Default</p>
             <input type="text" class="modal_text_input" @mousedown.stop v-model="data.defaultValue" @change="emitChange()" placeholder="NULL">
@@ -78,8 +79,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { Handle } from '@vue-flow/core'
+import { onClickOutside } from '@vueuse/core'
 
 const props = defineProps({
     id: String,
@@ -89,6 +91,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start'])
+
+const optionsModalRef = ref(null)
+onClickOutside(optionsModalRef, () => emit('toggle-options-modal', props.id))
 
 const emitChange = () => emit('change', props.id)
 

@@ -1,11 +1,13 @@
 <template>
     <div class="relationship_modal" ref="modalRef"
          :style="{ left: `${position.x}px`, top: `${position.y}px` }">
-        <button @click="$emit('update-type', 'one-to-one')">One to one</button>
-        <button @click="$emit('update-type', 'one-to-many')">One to many</button>
-        <button @click="$emit('update-type', 'many-to-one')">Many to one</button>
-        <button @click="$emit('update-type', 'many-to-many')">Many to many</button>
-        <button @click="$emit('delete')">Delete</button>
+        <button @click="$emit('update-type', 'one-to-one')" title="One to one">1 → 1</button>
+        <button @click="$emit('update-type', 'one-to-many')" title="One to many">1 → N</button>
+        <button @click="$emit('update-type', 'many-to-one')" title="Many to one">N → 1</button>
+        <button @click="$emit('update-type', 'many-to-many')" title="Many to many">N → N</button>
+        <button class="relationship_modal__delete" @click="$emit('delete')" title="Delete">
+            <img src="../icons/trash.svg" class="relationship_modal__trash">
+        </button>
     </div>
 </template>
 
