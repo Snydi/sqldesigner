@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Diagram extends Model
 {
@@ -15,8 +16,19 @@ class Diagram extends Model
         'db_type',
         'schema',
         'script',
-        'user_id'
+        'user_id',
+        'share_token',
+        'share_access',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Diagram $diagram) {
+            if (empty($diagram->share_token)) {
+                $diagram->share_token = Str::uuid()->toString();
+            }
+        });
+    }
 
     public function user(): BelongsTo
     {

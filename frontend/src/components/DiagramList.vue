@@ -21,7 +21,7 @@
                     v-for="diagram in diagrams"
                     :key="diagram.id"
                     class="diagram-card"
-                    @click="viewDiagram(diagram.id)"
+                    @click="viewDiagram(diagram.share_token)"
                 >
                     <div class="diagram-card__preview">
                         <DiagramPreview :schema="diagram.schema" />
@@ -126,8 +126,8 @@ export default {
         }
     },
     methods: {
-        viewDiagram(id) {
-            router.push({ path: `/diagrams/${id}` })
+        viewDiagram(token) {
+            router.push({ name: 'diagram.show', params: { token } })
         },
         openNewForm() {
             this.showNewForm = true

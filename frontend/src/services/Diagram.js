@@ -18,6 +18,12 @@ export const Diagram = {
             return response.data.data
         }),
 
+    getByToken: (token) =>
+        request(async () => {
+            const response = await axios.get(`/api/diagrams/shared/${token}`)
+            return response.data.data
+        }),
+
     import: (id, script) =>
         request(async () => {
             const response = await axios.post(`/api/diagrams/sql/import/${id}`, { script: JSON.stringify(script) })
@@ -35,4 +41,27 @@ export const Diagram = {
             const response = await axios.put(`/api/diagrams/${id}`, { id, schema: JSON.stringify(schema) })
             $toast.success(response.data.message)
         }),
+
+    share: (id) =>
+        request(async () => {
+            const response = await axios.post(`/api/diagrams/${id}/share`)
+            return response.data.share_token
+        }),
+
+    unshare: (id) =>
+        request(async () => {
+            await axios.delete(`/api/diagrams/${id}/share`)
+        }),
+
+    saveByToken: (token, schema) =>
+        request(async () => {
+            await axios.patch(`/api/diagrams/shared/${token}`, { schema: JSON.stringify(schema) })
+        }),
+
+    updateShareAccess: (id, access) =>
+        request(async () => {
+            const response = await axios.patch(`/api/diagrams/${id}/share`, { access })
+            return response.data.share_access
+        }),
+
 }

@@ -9,6 +9,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/diagrams/shared/{token}', [DiagramController::class, 'showByToken']);
+    Route::patch('/diagrams/shared/{token}', [DiagramController::class, 'saveByToken']);
+
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
@@ -22,6 +25,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [DiagramController::class, 'store']);
         Route::put('/{diagram}', [DiagramController::class, 'update']);
         Route::delete('/{diagram}', [DiagramController::class, 'destroy']);
+
+        Route::post('/{diagram}/share', [DiagramController::class, 'share']);
+        Route::delete('/{diagram}/share', [DiagramController::class, 'unshare']);
+        Route::patch('/{diagram}/share', [DiagramController::class, 'updateShareAccess']);
 
         Route::group(['prefix' => 'sql'], function () {
             Route::post('/validate', [DiagramController::class, 'validateSQL']);
