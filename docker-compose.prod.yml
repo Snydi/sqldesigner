@@ -71,7 +71,7 @@ services:
             network: host
         container_name: node
         volumes:
-            - ./backend/public:/var/www/html/backend/public
+            - ./backend/public:/var/www/html/frontend/public
         working_dir: /var/www/html/frontend
         networks:
             - snydiagram_network
