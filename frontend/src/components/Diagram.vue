@@ -181,6 +181,7 @@
             v-model="exportContent"
             primaryLabel="Export"
             :filename="diagramName"
+            :jsonContent="exportJsonContent"
             @primary-action="exportSql"
             @close="showExportModal = false"
         />
@@ -273,6 +274,7 @@ const showImportModal = ref(false)
 const importContent = ref('')
 const showExportModal = ref(false)
 const exportContent = ref('')
+const exportJsonContent = ref('')
 const showShareModal = ref(false)
 const diagramShareAccess = ref(null)
 const shareLoading = ref(false)
@@ -582,13 +584,23 @@ const importSql = async () => {
 
 const openExportModal = async () => {
     await saveDiagram()
-    exportContent.value = await Diagram.export(diagramId.value)
+    const [sql, json] = await Promise.all([
+        Diagram.export(diagramId.value),
+        Diagram.exportJson(diagramId.value),
+    ])
+    exportContent.value = sql
+    exportJsonContent.value = json
     showExportModal.value = true
 }
 
 const exportSql = async () => {
     await Diagram.save(diagramId.value, schema.value)
-    exportContent.value = await Diagram.export(diagramId.value)
+    const [sql, json] = await Promise.all([
+        Diagram.export(diagramId.value),
+        Diagram.exportJson(diagramId.value),
+    ])
+    exportContent.value = sql
+    exportJsonContent.value = json
 }
 
 const saveDiagram = async () => {

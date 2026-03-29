@@ -158,6 +158,76 @@ class DiagramService
         return $script;
     }
 
+    public function createJson(string $schema): string
+    {
+        $tables = collect();
+        $rows = collect();
+        $connections = collect();
+
+        foreach (json_decode($schema, true) as $item) {
+            match ($item['type'] ?? null) {
+                'table' => $tables->push(['id' => $item['id'], 'name' => $item['label']]),
+                'row'   => $rows->push([
+                    'id'       => $item['id'],
+                    'name'     => $item['label'],
+                    'table_id' => $item['parentNode'],
+                    'key'      => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
+                    'type'     => $item['data']['sqlType'] ?? 'VARCHAR(255)',
+                    'nullable' => $item['data']['nullable'] ?? false,
+                    'unsigned' => $item['data']['unsigned'] ?? false,
+                ]),
+                default => isset($item['sourceNode']['id'], $item['targetNode']['id'])
+                    ? $connections->push([
+                        'source_id' => $item['sourceNode']['id'],
+                        'target_id' => $item['targetNode']['id'],
+                    ])
+                    : null,
+            };
+        }
+
+        $tablesById = $tables->keyBy('id');
+        $rowsById   = $rows->keyBy('id');
+
+        $result = [
+            'tables'      => [],
+            'foreignKeys' => [],
+        ];
+
+        foreach ($tables as $table) {
+            $columns = $rows->where('table_id', $table['id'])->map(function ($row) {
+                $col = [
+                    'name'     => $row['name'],
+                    'type'     => $row['type'],
+                    'nullable' => $row['nullable'],
+                ];
+                if ($row['unsigned']) $col['unsigned'] = true;
+                if ($row['key'])      $col['key']      = $row['key'];
+                return $col;
+            })->values()->all();
+
+            $result['tables'][] = [
+                'name'    => $table['name'],
+                'columns' => $columns,
+            ];
+        }
+
+        foreach ($connections as $connection) {
+            $sourceRow = $rowsById->get($connection['source_id']);
+            $targetRow = $rowsById->get($connection['target_id']);
+
+            if (!$sourceRow || !$targetRow) continue;
+
+            $result['foreignKeys'][] = [
+                'table'            => $tablesById->get($sourceRow['table_id'])['name'],
+                'column'           => $sourceRow['name'],
+                'referencesTable'  => $tablesById->get($targetRow['table_id'])['name'],
+                'referencesColumn' => $targetRow['name'],
+            ];
+        }
+
+        return json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
     public function createSchema(string $script): string
     {
         $tables = [];

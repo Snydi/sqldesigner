@@ -21,6 +21,7 @@
                     <div class="download-dropdown__menu">
                         <button @click="downloadSql('sql')">.sql</button>
                         <button @click="downloadSql('txt')">.txt</button>
+                        <button @click="downloadJson">.json</button>
                     </div>
                 </div>
                 <button v-if="primaryLabel === 'Import'" class="btn btn-primary" @click="$emit('primary-action')">{{ primaryLabel }}</button>
@@ -38,6 +39,7 @@ const props = defineProps({
     modelValue: String,
     primaryLabel: String,
     filename: { type: String, default: 'schema' },
+    jsonContent: { type: String, default: null },
 })
 
 defineEmits(['update:modelValue', 'primary-action', 'close'])
@@ -53,6 +55,16 @@ const downloadSql = (ext) => {
     const a = document.createElement('a')
     a.href = url
     a.download = `${props.filename}.${ext}`
+    a.click()
+    URL.revokeObjectURL(url)
+}
+
+const downloadJson = () => {
+    const blob = new Blob([props.jsonContent], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${props.filename}.json`
     a.click()
     URL.revokeObjectURL(url)
 }
