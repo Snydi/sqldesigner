@@ -85,7 +85,9 @@ build-frontend:
 		node:18-alpine \
 		sh -c "npm install -g sharp-cli 2>/dev/null; \
 			sharp -i /out/favicon.svg -o /out/favicon-48x48.png resize 48 48; \
-			sharp -i /out/favicon.svg -o /out/favicon-96x96.png resize 96 96"
+			sharp -i /out/favicon.svg -o /out/favicon-96x96.png resize 96 96; \
+			sharp -i /out/favicon.svg -o /out/favicon-192x192.png resize 192 192; \
+			sharp -i /out/favicon.svg -o /out/apple-touch-icon.png resize 180 180"
 	-$(RM) backend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 	-$(RM) frontend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 
@@ -110,15 +112,19 @@ down-prod:
 deploy:
 	git fetch origin
 	git reset --hard origin/master
+	$(MAKE) _deploy_apply
+
+_deploy_apply:
 	$(MAKE) build-frontend
 	docker exec php sh -c "\
 		cd /var/www/html/backend && \
 		composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader"
 	docker exec --user www php sh -c "\
 		cd /var/www/html/backend && \
-		php artisan migrate && \
+		php artisan migrate --force && \
 		php artisan optimize"
-	docker compose -f docker-compose.prod.yml -p snydiagram restart php queue
+	docker exec php sh -c "kill -USR2 1"
+	docker compose -f docker-compose.prod.yml -p snydiagram restart queue
 	docker exec nginx sh -c "mkdir -p /tmp/nginx_fastcgi_cache && nginx -s reload"
 	sleep 2
 	curl -s -o /dev/null https://sql-designer.com/ || true

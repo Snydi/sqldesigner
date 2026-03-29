@@ -27,19 +27,43 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <div class="google-divider">or</div>
+            <a href="/auth/google" class="btn btn-oauth">
+                <img src="../../icons/google.svg" alt="Google" class="oauth-icon" />
+                Continue with Google
+            </a>
+            <a href="/auth/github" class="btn btn-oauth">
+                <img src="../../icons/github.svg" alt="GitHub" class="oauth-icon" />
+                Continue with GitHub
+            </a>
+            <a href="/auth/gitlab" class="btn btn-oauth">
+                <img src="../../icons/gitlab.svg" alt="GitLab" class="oauth-icon" />
+                Continue with GitLab
+            </a>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { Auth } from "@/services/Auth.js";
+import { useToast } from 'vue-toast-notification';
+import { useRoute } from 'vue-router';
 import router from '@/router/index.js'
+
+const route = useRoute()
+const $toast = useToast({ position: 'bottom-right' })
 
 const userData = ref({
     email: '',
     password: ''
 });
+
+onMounted(() => {
+    if (route.query.oauth_error) {
+        $toast.error('Sign-in was cancelled or failed')
+    }
+})
 
 const login = async () => {
     await Auth.login(userData.value);

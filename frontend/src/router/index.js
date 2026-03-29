@@ -7,6 +7,7 @@ const Register = () => import('../components/Auth/Register.vue');
 const Login = () => import('../components/Auth/Login.vue');
 const Logout = () => import('../components/Auth/Logout.vue');
 const VerifyEmail = () => import('../components/Auth/VerifyEmail.vue');
+const GoogleCallback = () => import('../components/Auth/GoogleCallback.vue');
 const DiagramList = () => import('../components/DiagramList.vue');
 const Diagram = () => import('../components/Diagram.vue');
 
@@ -38,6 +39,7 @@ const routes = [
             { path: 'login', name: 'login', component: Login },
             { path: 'logout', name: 'logout', component: Logout },
             { path: 'verify-email', name: 'verify-email', component: VerifyEmail },
+            { path: 'auth/callback', name: 'auth.callback', component: GoogleCallback },
             { path: 'diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth },
             { path: 'diagrams/:id', name: 'diagram.show', component: Diagram, beforeEnter: requireAuth },
             { path: 'demo', name: 'demo', component: Diagram, props: { isDemo: true } },
@@ -60,7 +62,7 @@ const pageTitles = {
 };
 
 router.afterEach((to) => {
-    document.title = pageTitles[to.name] || 'SQL Designer — Free Online MySQL & PostgreSQL Schema Designer';
+    document.title = pageTitles[to.name] || 'SQL Designer — MySQL & PostgreSQL Schema Designer';
 });
 
 export default router;

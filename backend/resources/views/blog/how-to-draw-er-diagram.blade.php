@@ -1,9 +1,9 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'How to Draw an ER Diagram Step by Step')
 
 @section('head')
-    <meta name="description" content="A step-by-step guide to drawing entity-relationship (ER) diagrams: entities, attributes, relationships, cardinality notation, and practical tips for MySQL databases.">
+    <meta name="description" content="A step-by-step guide to drawing ER diagrams: entities, attributes, relationships, cardinality notation, and practical tips for MySQL.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/how-to-draw-er-diagram">
     <meta property="og:title" content="How to Draw an ER Diagram Step by Step">
@@ -28,35 +28,37 @@
     },
     {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "TechArticle",
         "headline": "How to Draw an ER Diagram Step by Step",
         "description": "A step-by-step guide to drawing entity-relationship (ER) diagrams for MySQL databases.",
+        "image": "https://sql-designer.com/images/screenshot.png",
         "url": "https://sql-designer.com/blog/how-to-draw-er-diagram",
         "datePublished": "2026-03-19",
+        "dateModified": "2026-03-24",
         "author": { "@type": "Organization", "name": "SQL Designer" },
-        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" }
+        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
     }
     ]
     </script>
     <style>
         body { overflow-y: auto; }
         .blog-post { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
-        .blog-post .breadcrumb { font-size: 0.8rem; color: #aaa; text-transform: none; margin-bottom: 1.5rem; }
-        .blog-post .breadcrumb a { color: var(--color-primary); text-decoration: none; }
-        .blog-post .post-meta { font-size: 0.8rem; color: #aaa; text-transform: none; margin-bottom: 1rem; }
-        .blog-post h1 { font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.04em; color: #1e293b; margin: 0 0 1rem; line-height: 1.3; }
-        .blog-post .intro { font-size: 1rem; color: #444; text-transform: none; line-height: 1.8; margin-bottom: 2.5rem; border-left: 3px solid var(--color-primary); padding-left: 1.2rem; }
-        .blog-post h2 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-primary); margin: 2.5rem 0 0.8rem; }
-        .blog-post p { font-size: 0.9rem; color: #444; text-transform: none; line-height: 1.8; margin: 0 0 1rem; }
+        .blog-post .breadcrumb { font-size: 0.875rem; color: #767676; background-color: transparent; text-transform: none; margin-bottom: 1.5rem; }
+        .blog-post .breadcrumb a { color: var(--color-primary); }
+        .blog-post .post-meta { font-size: 0.875rem; color: #767676; background-color: transparent; text-transform: none; margin-bottom: 1rem; }
+        .blog-post h1 { font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.04em; color: #1e293b; background-color: transparent; margin: 0 0 1rem; line-height: 1.3; }
+        .blog-post .intro { font-size: 1rem; color: #444; background-color: transparent; text-transform: none; line-height: 1.8; margin-bottom: 2.5rem; border-left: 3px solid var(--color-primary); padding-left: 1.2rem; }
+        .blog-post h2 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-primary); background-color: transparent; margin: 2.5rem 0 0.8rem; }
+        .blog-post p { font-size: 0.9rem; color: #444; background-color: transparent; text-transform: none; line-height: 1.8; margin: 0 0 1rem; }
         .blog-post ul, .blog-post ol { margin: 0 0 1rem 1.5rem; padding: 0; }
-        .blog-post li { font-size: 0.9rem; color: #444; text-transform: none; line-height: 1.8; margin-bottom: 0.5rem; }
+        .blog-post li { font-size: 0.9rem; color: #444; background-color: transparent; text-transform: none; line-height: 1.8; margin-bottom: 0.5rem; }
         .blog-post code { background: #f1f5f9; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.85em; color: #1e293b; }
         .blog-post .step-block { background: #fff; border-radius: 6px; border-left: 4px solid var(--color-primary); padding: 1.2rem 1.5rem; margin-bottom: 1.2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         .blog-post .step-block h3 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-primary); margin: 0 0 0.5rem; }
         .blog-post .step-block p { margin: 0; }
-        .blog-post .cta-box { background: var(--color-primary); color: #fff; border-radius: 6px; padding: 2rem; text-align: center; margin-top: 3rem; }
+        .blog-post .cta-box { background: var(--color-primary-hover); color: #fff; border-radius: 6px; padding: 2rem; text-align: center; margin-top: 3rem; }
         .blog-post .cta-box h3 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 0.8rem; }
-        .blog-post .cta-box p { color: rgba(255,255,255,0.85); margin: 0 0 1.2rem; font-size: 0.85rem; }
+        .blog-post .cta-box p { color: #fff; margin: 0 0 1.2rem; font-size: 0.85rem; }
         .blog-post .btn-cta { background: #fff; color: var(--color-primary); padding: 0.6rem 1.8rem; border-radius: 4px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; }
     </style>
 @endsection
@@ -151,7 +153,7 @@
     </ul>
 
     <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
-        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
+        <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#767676; margin:0 0 0.8rem;">Related Articles</p>
         <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
             <li><a href="/blog/er-diagram-tool-online" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">Free ER Diagram Tool Online for MySQL &rarr;</a></li>
             <li><a href="/blog/database-normalization" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">Database Normalization Explained &rarr;</a></li>

@@ -1,9 +1,9 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'How to Design a MySQL Database Schema — A Step-by-Step Guide')
 
 @section('head')
-    <meta name="description" content="Learn how to design a MySQL database schema from scratch. A practical step-by-step guide covering entities, columns, data types, primary keys, foreign keys, and normalization.">
+    <meta name="description" content="Learn how to design a MySQL database schema from scratch — covering entities, data types, primary keys, foreign keys, and normalization.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/how-to-design-mysql-database-schema">
     <meta property="og:title" content="How to Design a MySQL Database Schema — A Step-by-Step Guide">
@@ -28,13 +28,15 @@
     },
     {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "TechArticle",
         "headline": "How to Design a MySQL Database Schema — A Step-by-Step Guide",
         "description": "A practical step-by-step guide covering entities, columns, data types, primary keys, foreign keys, and normalization for MySQL.",
+        "image": "https://sql-designer.com/images/screenshot.png",
         "url": "https://sql-designer.com/blog/how-to-design-mysql-database-schema",
         "datePublished": "2026-03-18",
+        "dateModified": "2026-03-24",
         "author": { "@type": "Organization", "name": "SQL Designer" },
-        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" }
+        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
     }
     ]
     </script>
@@ -46,16 +48,17 @@
             padding: 3rem 1.5rem 5rem;
         }
         .blog-post .breadcrumb {
-            font-size: 0.8rem;
-            color: #aaa;
+            font-size: 0.875rem;
+            color: #767676;
+            background-color: transparent;
             text-transform: none;
             margin-bottom: 1.5rem;
         }
-        .blog-post .breadcrumb a { color: var(--color-primary); text-decoration: none; }
-        .blog-post .breadcrumb a:hover { text-decoration: underline; }
+        .blog-post .breadcrumb a { color: var(--color-primary); }
         .blog-post .post-meta {
-            font-size: 0.8rem;
-            color: #aaa;
+            font-size: 0.875rem;
+            color: #767676;
+            background-color: transparent;
             text-transform: none;
             margin-bottom: 1rem;
         }
@@ -64,12 +67,14 @@
             text-transform: uppercase;
             letter-spacing: 0.04em;
             color: #1e293b;
+            background-color: transparent;
             margin: 0 0 1rem;
             line-height: 1.3;
         }
         .blog-post .intro {
             font-size: 1rem;
             color: #444;
+            background-color: transparent;
             text-transform: none;
             line-height: 1.8;
             margin-bottom: 2.5rem;
@@ -81,11 +86,13 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--color-primary);
+            background-color: transparent;
             margin: 2.5rem 0 0.8rem;
         }
         .blog-post p {
             font-size: 0.9rem;
             color: #444;
+            background-color: transparent;
             text-transform: none;
             line-height: 1.8;
             margin: 0 0 1rem;
@@ -97,6 +104,7 @@
         .blog-post li {
             font-size: 0.9rem;
             color: #444;
+            background-color: transparent;
             text-transform: none;
             line-height: 1.8;
             margin-bottom: 0.3rem;
@@ -115,7 +123,7 @@
             padding: 1.2rem 1.5rem;
             overflow-x: auto;
             margin: 1rem 0 1.5rem;
-            font-size: 0.82rem;
+            font-size: 0.875rem;
             line-height: 1.6;
         }
         .blog-post pre code {
@@ -125,7 +133,7 @@
             font-size: inherit;
         }
         .blog-post .cta-box {
-            background: var(--color-primary);
+            background: var(--color-primary-hover);
             color: #fff;
             border-radius: 6px;
             padding: 2rem;
@@ -139,7 +147,8 @@
             margin: 0 0 0.8rem;
         }
         .blog-post .cta-box p {
-            color: rgba(255,255,255,0.85);
+            color: #fff;
+            background-color: transparent;
             margin: 0 0 1.2rem;
             font-size: 0.85rem;
         }
@@ -251,7 +260,7 @@
     </p>
 
     <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
-        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; color:#aaa; margin:0 0 0.8rem;">Related Articles</p>
+        <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#767676; margin:0 0 0.8rem;">Related Articles</p>
         <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
             <li><a href="/blog/er-diagram-tool-online" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">Free ER Diagram Tool Online for MySQL &rarr;</a></li>
             <li><a href="/blog/mysql-workbench-alternative" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Workbench Alternative Online &rarr;</a></li>

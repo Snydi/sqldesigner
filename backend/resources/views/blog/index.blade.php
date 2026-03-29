@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.main')
 
 @section('title', 'Blog — SQL Designer')
 
@@ -22,11 +22,13 @@
             text-transform: uppercase;
             letter-spacing: 0.06em;
             color: var(--color-primary);
+            background-color: transparent;
             margin: 0 0 0.5rem;
         }
         .blog-index .subtitle {
             font-size: 0.9rem;
             color: #666;
+            background-color: transparent;
             text-transform: none;
             margin: 0 0 3rem;
         }
@@ -63,8 +65,8 @@
             margin: 0;
         }
         .post-meta {
-            font-size: 0.75rem;
-            color: #aaa;
+            font-size: 0.875rem;
+            color: #767676;
             text-transform: none;
             margin-bottom: 0.4rem;
         }

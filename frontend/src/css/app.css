@@ -1,7 +1,7 @@
 /* ── Theme variables ─────────────────────────────────────────── */
 :root {
-    --color-primary:        #c05252;
-    --color-primary-hover:  #a84444;
+    --color-primary:        #8f2f2f;
+    --color-primary-hover:  #7a2222;
     --color-primary-light: #ffffff;
     --color-primary-border: #f0d0d0;
     --color-text-on-primary: #fff;
@@ -23,10 +23,12 @@ body,
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+    background-color: #fff;
 }
 
 a {
     color: inherit;
+    background-color: transparent;
     text-decoration: inherit;
 }
 
@@ -161,6 +163,36 @@ select:focus {
     position: absolute;
     right: 1rem;
     top: 1rem;
+}
+
+.btn-oauth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #fff;
+    color: #444;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0.5rem;
+}
+
+.btn-oauth:hover {
+    background-color: #f5f5f5;
+}
+
+.oauth-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.google-divider {
+    text-align: center;
+    margin: 1rem 0;
+    color: #888;
+    font-size: 0.9rem;
 }
 
 /* ── Inputs ──────────────────────────────────────────────────── */

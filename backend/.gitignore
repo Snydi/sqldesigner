@@ -15,7 +15,6 @@
 /node_modules
 /public/build
 /public/hot
-/public/images/*.webp
 /public/storage
 /storage/*.key
 /storage/pail
