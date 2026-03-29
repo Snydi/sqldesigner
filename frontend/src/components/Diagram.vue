@@ -222,7 +222,6 @@ const diagramId = ref(null)
 const isOwner = ref(false)
 const notAvailable = ref(false)
 const loading = ref(false)
-const diagramName = ref('')
 
 const canEdit = computed(() => isOwner.value || diagramShareAccess.value === 'write')
 
@@ -583,7 +582,7 @@ const importSql = async () => {
 
 const openExportModal = async () => {
     await saveDiagram()
-    exportContent.value = await Diagram.export(diagramId)
+    exportContent.value = await Diagram.export(diagramId.value)
     showExportModal.value = true
 }
 
