@@ -36,6 +36,12 @@ export const Diagram = {
             return JSON.parse(response.data)
         }),
 
+    exportJson: (id) =>
+        request(async () => {
+            const response = await axios.get(`/api/diagrams/json/export/${id}`)
+            return JSON.stringify(response.data, null, 2)
+        }),
+
     save: (id, schema) =>
         request(async () => {
             const response = await axios.put(`/api/diagrams/${id}`, { id, schema: JSON.stringify(schema) })
