@@ -20,6 +20,9 @@
     <button class="table_button" @mousedown.stop @click="$emit('delete-node', id)">
         <img class="table_icon" src="../icons/trash.svg" alt="Delete">
     </button>
+
+    <div class="table_resize_handle table_resize_handle--left" @mousedown.stop="$emit('resize-start', id, $event, 'left')"></div>
+    <div class="table_resize_handle table_resize_handle--right" @mousedown.stop="$emit('resize-start', id, $event, 'right')"></div>
 </template>
 
 <script setup>
@@ -29,5 +32,5 @@ defineProps({
     label: String,
 })
 
-defineEmits(['delete-node', 'update-label', 'copy-table', 'add-row'])
+defineEmits(['delete-node', 'update-label', 'copy-table', 'add-row', 'resize-start'])
 </script>

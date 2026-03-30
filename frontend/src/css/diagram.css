@@ -392,3 +392,20 @@ label.options_modal_row {
 .vue-flow__node-table .input_designer_table {
     cursor: text;
 }
+
+.vue-flow__node-table .table_resize_handle {
+    position: absolute;
+    top: 0;
+    width: 8px;
+    height: 100%;
+    cursor: ew-resize;
+    z-index: 10;
+}
+
+.vue-flow__node-table .table_resize_handle--left {
+    left: -4px;
+}
+
+.vue-flow__node-table .table_resize_handle--right {
+    right: -4px;
+}

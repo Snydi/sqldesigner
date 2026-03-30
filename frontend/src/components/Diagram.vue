@@ -138,6 +138,7 @@
                         @update-label="updateLabel"
                         @copy-table="copyTable"
                         @add-row="addRow({ id: $event, data: {} })"
+                        @resize-start="startTableResize"
                     />
                 </template>
 
@@ -394,6 +395,50 @@ const onNodeDragStop = ({ node }) => {
     presenceChannel?.whisper('schema-patch', {
         update: [{ id: node.id, position: node.position }]
     })
+}
+
+const MIN_TABLE_WIDTH = 350
+
+const startTableResize = (tableId, event, side) => {
+    const tableNode = schema.value.find(el => el.id === tableId)
+    if (!tableNode) return
+
+    const startX = event.clientX
+    const startWidth = parseInt(tableNode.style.width) || MIN_TABLE_WIDTH
+    const startPositionX = tableNode.position.x
+
+    const onMouseMove = (e) => {
+        const deltaX = (e.clientX - startX) / viewport.value.zoom
+        let newWidth, newPositionX
+
+        if (side === 'left') {
+            newWidth = Math.max(MIN_TABLE_WIDTH, startWidth - deltaX)
+            const appliedDelta = startWidth - newWidth
+            newPositionX = startPositionX + appliedDelta
+        } else {
+            newWidth = Math.max(MIN_TABLE_WIDTH, startWidth + deltaX)
+            newPositionX = startPositionX
+        }
+
+        const widthPx = `${newWidth}px`
+        schema.value.forEach(node => {
+            if (node.id === tableId) {
+                node.style = { ...node.style, width: widthPx }
+                node.position = { ...node.position, x: newPositionX }
+            } else if (node.parentNode === tableId) {
+                node.style = { ...node.style, width: widthPx }
+            }
+        })
+    }
+
+    const onMouseUp = () => {
+        window.removeEventListener('mousemove', onMouseMove)
+        window.removeEventListener('mouseup', onMouseUp)
+        isSaved.value = false
+    }
+
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
 }
 
 const isPlacingTable = ref(false)
