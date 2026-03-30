@@ -16,6 +16,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
+         @verbatim
     [
     {
         "@context": "https://schema.org",
@@ -39,6 +40,7 @@
         "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
     }
     ]
+        @endverbatim
     </script>
     <style>
         body { overflow-y: auto; }
