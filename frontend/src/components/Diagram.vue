@@ -123,6 +123,7 @@
                 :controlled="false"
                 :class="['diagram-canvas', { 'is-placing-table': isPlacingTable }]"
             >
+                <MiniMap pannable zoomable position="bottom-left" />
                 <template #edge-chickenFoot="props">
                     <ChickenFootEdge v-bind="props" />
                 </template>
@@ -196,6 +197,7 @@
 <script setup>
 import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref, watch, nextTick } from 'vue'
 import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
+import { MiniMap } from '@vue-flow/minimap'
 import { Background, BackgroundVariant } from '@vue-flow/background'
 import { useThrottleFn } from '@vueuse/core'
 import { TableActions, TABLE_STYLE, ROW_STYLE } from '@/services/TableActions.js'
