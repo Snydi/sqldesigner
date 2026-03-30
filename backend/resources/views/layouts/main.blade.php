@@ -18,20 +18,16 @@
         .home-footer { background-color: #f9f9f9; color: #505050; text-align: center; padding: 1.5rem; font-size: 0.875rem; text-transform: none; }
     </style>
     @yield('head')
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5JFWWW2F');</script>
-    <!-- End Google Tag Manager -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4L116MPX4C');
+    </script>
 </head>
 <body class="home-page">
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JFWWW2F"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
 <header class="header">
     <a href="/"><img class="logo" src="{{ Vite::asset('src/icons/logo.svg') }}" alt="SQL Designer logo" width="148" height="24"></a>
     <nav class="flex-items" aria-label="Main navigation">
@@ -53,25 +49,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
     </script>
 </header>
-
-<!-- Google Tag Manager — deferred until first user interaction to avoid affecting LCP -->
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function _loadGTM() {
-        if (window._gtmLoaded) return;
-        window._gtmLoaded = true;
-        window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
-        var f = document.getElementsByTagName('script')[0];
-        var j = document.createElement('script');
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5JFWWW2F';
-        f.parentNode.insertBefore(j, f);
-    }
-    ['click', 'scroll', 'keydown', 'touchstart'].forEach(function(e) {
-        document.addEventListener(e, _loadGTM, { once: true, passive: true });
-    });
-</script>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JFWWW2F" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <main>
     @yield('content')
