@@ -330,6 +330,13 @@ label.options_modal_row {
     width: 110px;
     box-sizing: border-box;
 }
+.vue-flow__panel {
+  margin: 0;
+
+}
+.vue-flow__controls {
+    margin-left: 12.5rem   ;
+}
 
 .vue-flow__node-row {
     padding: 0 10px;
