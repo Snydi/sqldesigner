@@ -137,6 +137,73 @@ export const TableActions = {
         return id
     },
 
+    createPivotTable(schemaRef, edge) {
+        const schema = schemaRef.value
+
+        const sourceRow = schema.find(el => el.id === edge.source)
+        const targetRow = schema.find(el => el.id === edge.target)
+        if (!sourceRow || !targetRow) return null
+
+        const sourceTable = schema.find(el => el.id === sourceRow.parentNode)
+        const targetTable = schema.find(el => el.id === targetRow.parentNode)
+        if (!sourceTable || !targetTable) return null
+
+        const position = {
+            x: (sourceTable.position.x + targetTable.position.x) / 2,
+            y: Math.max(sourceTable.position.y, targetTable.position.y) + 200
+        }
+
+        const pivotName = `${sourceTable.label}_${targetTable.label}`
+        const pivotTableId = this.addTable(schemaRef, pivotName, position)
+
+        const sourceFkRowId = this.addRow(schemaRef, { id: pivotTableId, data: {} }, {
+            rowName: `${sourceTable.label}_id`,
+            keyMod: 'FOREIGN KEY',
+            sqlType: 'INT(11)',
+            nullable: false,
+            unsigned: false
+        })
+
+        const targetFkRowId = this.addRow(schemaRef, { id: pivotTableId, data: {} }, {
+            rowName: `${targetTable.label}_id`,
+            keyMod: 'FOREIGN KEY',
+            sqlType: 'INT(11)',
+            nullable: false,
+            unsigned: false
+        })
+
+        // Remove the original many-to-many edge
+        schemaRef.value = schemaRef.value.filter(el => el.id !== edge.id)
+
+        // Add two one-to-many edges: FK row (many) → original PK row (one)
+        const edge1Id = Math.random().toString()
+        const edge2Id = Math.random().toString()
+        schemaRef.value = [...schemaRef.value,
+            {
+                id: edge1Id,
+                source: edge.source,
+                target: sourceFkRowId,
+                sourceHandle: 'source-left',
+                targetHandle: 'target-right',
+                type: 'chickenFoot',
+                updatable: true,
+                data: { relationshipType: 'many-to-one', ...MARKER['many-to-one'] }
+            },
+            {
+                id: edge2Id,
+                source: edge.target,
+                target: targetFkRowId,
+                sourceHandle: 'source-right',
+                targetHandle: 'target-left',
+                type: 'chickenFoot',
+                updatable: true,
+                data: { relationshipType: 'many-to-one', ...MARKER['many-to-one'] }
+            }
+        ]
+
+        return { pivotTableId, removedEdgeId: edge.id, addedEdgeIds: [edge1Id, edge2Id] }
+    },
+
     updateConnectionLineType(schemaRef, selectedEdgeRef, relationshipType) {
         const schema = schemaRef.value
         const edgeIndex = schema.findIndex(el => el.id === selectedEdgeRef.value.id)

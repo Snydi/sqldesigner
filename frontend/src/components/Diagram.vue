@@ -568,6 +568,22 @@ const onEdgeUpdate = ({ edge, connection }) => {
 }
 
 const updateConnectionLineType = (relationshipType) => {
+    if (relationshipType === 'many-to-many') {
+        const result = TableActions.createPivotTable(schema, selectedEdge.value)
+        showRelationshipModal.value = false
+        isSaved.value = false
+        if (result && presenceChannel) {
+            const addedNodes = schema.value.filter(el =>
+                el.id === result.pivotTableId ||
+                el.parentNode === result.pivotTableId ||
+                result.addedEdgeIds.includes(el.id)
+            )
+            presenceChannel.whisper('schema-patch', { add: addedNodes, remove: [result.removedEdgeId] })
+            presenceChannel.whisper('modal-update', { type: 'relationship', open: false })
+        }
+        return
+    }
+
     TableActions.updateConnectionLineType(schema, selectedEdge, relationshipType)
     showRelationshipModal.value = false
     isSaved.value = false
