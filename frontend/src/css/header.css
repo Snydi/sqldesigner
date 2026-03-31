@@ -13,6 +13,10 @@
     padding: 0.25rem 0.5rem;
 }
 
+.header--diagram {
+    padding-left: 0.5rem;
+}
+
 .header .btn:disabled {
     opacity: 0.35;
     cursor: default;

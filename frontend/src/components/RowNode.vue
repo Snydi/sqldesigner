@@ -10,8 +10,9 @@
     <input
         class="input input_designer_row ml-5 mr-5"
         :value="label"
+        @mousedown.stop
         @click="data.editing = true"
-        @blur="() => { data.editing = false; $emit('update-label', id, label); }"
+        @blur="(e) => { data.editing = false; $emit('update-label', id, label); e.target.scrollLeft = 0; }"
         @input="$emit('update-label', id, $event.target.value)"
         :readonly="!data.editing"
     />
@@ -28,24 +29,39 @@
 
     <!-- Options -->
     <button class="table_button" @mousedown.stop @click="$emit('toggle-options-modal', id)">
-        <img class="table_icon" src="../icons/dots.svg" alt="More options">
+        <img class="table_icon" src="../icons/gear.svg" alt="More options">
     </button>
 
     <!-- Options modal -->
     <div v-if="data.showOptionsModal" class="options_modal"
-         :style="{ left: `${data.modalPosition?.x}px`, top: `${data.modalPosition?.y}px` }">
-        <select v-model="data.keyMod" @change="emitChange()">
-            <option selected="selected" value="None">None</option>
-            <option value="PRIMARY KEY">Primary</option>
-            <option value="UNIQUE">Unique</option>
-            <option value="INDEX">Index</option>
-        </select>
-        <template v-if="dbType !== 'postgresql'">
+         :style="{ left: `${data.modalPosition?.x}px`, top: `${data.modalPosition?.y}px` }"
+         @mousedown.stop
+         ref="optionsModalRef">
+        <div class="options_modal_row">
+            <p class="modal_text">Key</p>
+            <select v-model="data.keyMod" @change="emitChange()">
+                <option selected="selected" value="None">None</option>
+                <option value="PRIMARY KEY">Primary</option>
+                <option value="UNIQUE">Unique</option>
+                <option value="INDEX">Index</option>
+            </select>
+        </div>
+        <label v-if="dbType !== 'postgresql'" class="options_modal_row" @mousedown.stop>
             <p class="modal_text">Unsigned</p>
-            <input type="checkbox" @mousedown.stop :checked="data.unsigned" @change="toggleUnsigned">
-        </template>
-        <p class="modal_text">Nullable</p>
-        <input type="checkbox" @mousedown.stop :checked="data.nullable" @change="toggleNullable">
+            <input type="checkbox" :checked="data.unsigned" @change="toggleUnsigned">
+        </label>
+        <label class="options_modal_row" @mousedown.stop>
+            <p class="modal_text">Nullable</p>
+            <input type="checkbox" :checked="data.nullable" @change="toggleNullable">
+        </label>
+        <div class="options_modal_row">
+            <p class="modal_text">Default</p>
+            <input type="text" class="modal_text_input" @mousedown.stop v-model="data.defaultValue" @change="emitChange()" placeholder="NULL">
+        </div>
+        <div v-if="dbType !== 'postgresql'" class="options_modal_row">
+            <p class="modal_text">Comment</p>
+            <input type="text" class="modal_text_input" @mousedown.stop v-model="data.comment" @change="emitChange()" placeholder="">
+        </div>
     </div>
 
     <!-- Delete row -->
@@ -63,8 +79,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { Handle } from '@vue-flow/core'
+import { onClickOutside } from '@vueuse/core'
 
 const props = defineProps({
     id: String,
@@ -74,6 +91,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start'])
+
+const optionsModalRef = ref(null)
+onClickOutside(optionsModalRef, () => emit('toggle-options-modal', props.id))
 
 const emitChange = () => emit('change', props.id)
 

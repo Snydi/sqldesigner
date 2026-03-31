@@ -1,17 +1,5 @@
 import { Position } from '@vue-flow/core'
 
-export const ADD_ROW_BUTTON_STYLE = {
-    display: 'flex',
-    border: '1px solid #898989',
-    borderColor: '#898989',
-    background: '#898989',
-    color: 'white',
-    width: '350px',
-    height: '30px',
-    alignItems: 'center',
-    justifyContent: 'center'
-}
-
 export const TABLE_STYLE = {
     display: 'flex',
     border: '1px solid #898989',
@@ -62,19 +50,37 @@ function uniqueName(name, existingNames) {
 
 export const TableActions = {
 
-    addTable(schemaRef, name) {
+    copyTable(schemaRef, tableId, position) {
+        const schema = schemaRef.value
+        const original = schema.find(el => el.id === tableId)
+        if (!original) return null
+
+        const existingTables = schema.filter(el => el.type === 'table')
+        const newTableId = Math.random().toString()
+        const newLabel = uniqueName(original.label, existingTables.map(t => t.label))
+
+        const children = schema.filter(el => el.parentNode === tableId)
+        const newChildren = children.map(child => ({
+            ...child,
+            id: Math.random().toString(),
+            parentNode: newTableId,
+            data: { ...child.data },
+        }))
+
+        schemaRef.value = [...schema,
+            { ...original, id: newTableId, label: newLabel, position },
+            ...newChildren,
+        ]
+
+        return newTableId
+    },
+
+    addTable(schemaRef, name, position) {
         const schema = schemaRef.value
         const tableId = Math.random().toString()
         const existingTables = schema.filter(el => el.type === 'table')
 
         const tableName = uniqueName(name, existingTables.map(t => t.label))
-
-        // Use x: -400 as sentinel so the first table lands at x: 0 without a separate if-check
-        const rightmost = existingTables.reduce(
-            (best, t) => t.position.x > best.position.x ? t : best,
-            { position: { x: -400, y: 0 } }
-        )
-        const position = { x: rightmost.position.x + 400, y: rightmost.position.y }
 
         schemaRef.value = [...schema, {
             id: tableId,
@@ -92,18 +98,6 @@ export const TableActions = {
             nullable: false,
             unsigned: false
         })
-
-        const buttonId = Math.floor(Math.random() * 100000).toString()
-        schemaRef.value = [...schemaRef.value, {
-            id: buttonId,
-            type: 'add-row-button',
-            label: '',
-            position: { x: 0, y: 80 },
-            style: ADD_ROW_BUTTON_STYLE,
-            draggable: false,
-            parentNode: tableId,
-            data: { tableId }
-        }]
 
         return tableId
     },
@@ -131,7 +125,9 @@ export const TableActions = {
                 keyMod: rowProps.keyMod,
                 sqlType: rowProps.sqlType,
                 nullable: rowProps.nullable,
-                unsigned: rowProps.unsigned
+                unsigned: rowProps.unsigned,
+                defaultValue: rowProps.defaultValue ?? '',
+                comment: rowProps.comment ?? ''
             }
         }]
 
@@ -139,6 +135,73 @@ export const TableActions = {
         if (button) button.position = { x: position.x, y: newRowY + 40 }
 
         return id
+    },
+
+    createPivotTable(schemaRef, edge) {
+        const schema = schemaRef.value
+
+        const sourceRow = schema.find(el => el.id === edge.source)
+        const targetRow = schema.find(el => el.id === edge.target)
+        if (!sourceRow || !targetRow) return null
+
+        const sourceTable = schema.find(el => el.id === sourceRow.parentNode)
+        const targetTable = schema.find(el => el.id === targetRow.parentNode)
+        if (!sourceTable || !targetTable) return null
+
+        const position = {
+            x: (sourceTable.position.x + targetTable.position.x) / 2,
+            y: Math.max(sourceTable.position.y, targetTable.position.y) + 200
+        }
+
+        const pivotName = `${sourceTable.label}_${targetTable.label}`
+        const pivotTableId = this.addTable(schemaRef, pivotName, position)
+
+        const sourceFkRowId = this.addRow(schemaRef, { id: pivotTableId, data: {} }, {
+            rowName: `${sourceTable.label}_id`,
+            keyMod: 'FOREIGN KEY',
+            sqlType: 'INT(11)',
+            nullable: false,
+            unsigned: false
+        })
+
+        const targetFkRowId = this.addRow(schemaRef, { id: pivotTableId, data: {} }, {
+            rowName: `${targetTable.label}_id`,
+            keyMod: 'FOREIGN KEY',
+            sqlType: 'INT(11)',
+            nullable: false,
+            unsigned: false
+        })
+
+        // Remove the original many-to-many edge
+        schemaRef.value = schemaRef.value.filter(el => el.id !== edge.id)
+
+        // Add two one-to-many edges: FK row (many) → original PK row (one)
+        const edge1Id = Math.random().toString()
+        const edge2Id = Math.random().toString()
+        schemaRef.value = [...schemaRef.value,
+            {
+                id: edge1Id,
+                source: edge.source,
+                target: sourceFkRowId,
+                sourceHandle: 'source-left',
+                targetHandle: 'target-right',
+                type: 'chickenFoot',
+                updatable: true,
+                data: { relationshipType: 'many-to-one', ...MARKER['many-to-one'] }
+            },
+            {
+                id: edge2Id,
+                source: edge.target,
+                target: targetFkRowId,
+                sourceHandle: 'source-right',
+                targetHandle: 'target-left',
+                type: 'chickenFoot',
+                updatable: true,
+                data: { relationshipType: 'many-to-one', ...MARKER['many-to-one'] }
+            }
+        ]
+
+        return { pivotTableId, removedEdgeId: edge.id, addedEdgeIds: [edge1Id, edge2Id] }
     },
 
     updateConnectionLineType(schemaRef, selectedEdgeRef, relationshipType) {
