@@ -129,9 +129,20 @@
                 :pan-on-drag="!isPlacingTable"
                 :class="['diagram-canvas', { 'is-placing-table': isPlacingTable }]"
             >
-                <MiniMap pannable zoomable position="bottom-left" nodeColor="black"/>
-
-                <Controls :show-interactive="false" />
+                <Panel position="top-left" class="table-navigator">
+                    <button class="table-navigator__toggle" @click.stop="tableNavOpen = !tableNavOpen" title="Tables">
+                        <img src="../icons/table-list.svg" alt="Tables" class="icon" style="width:18px;height:18px;">
+                    </button>
+                    <div v-if="tableNavOpen" class="table-navigator__list">
+                        <button
+                            v-for="t in schema.filter(el => el.type === 'table')"
+                            :key="t.id"
+                            class="table-navigator__item"
+                            @click.stop="navigateToTable(t.id)"
+                        >{{ t.label }}</button>
+                        <span v-if="!schema.filter(el => el.type === 'table').length" class="table-navigator__empty">No tables</span>
+                    </div>
+                </Panel>
 
                 <template #edge-chickenFoot="props">
                     <ChickenFootEdge v-bind="props" />
@@ -208,9 +219,7 @@
 
 <script setup>
 import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref, watch, nextTick } from 'vue'
-import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
-import { Controls } from '@vue-flow/controls'
-import { MiniMap } from '@vue-flow/minimap'
+import { Panel, Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
 import { useThrottleFn } from '@vueuse/core'
 import { TableActions, TABLE_STYLE, ROW_STYLE } from '@/services/TableActions.js'
@@ -235,7 +244,7 @@ import '@/css/header.css'
 
 const props = defineProps({ isDemo: { type: Boolean, default: false } })
 
-const { updateEdge, addEdges, viewport, screenToFlowCoordinate, findNode } = useVueFlow()
+const { updateEdge, addEdges, viewport, screenToFlowCoordinate, findNode, fitView } = useVueFlow()
 const store = useStore()
 store.dispatch('initializeAuth')
 const router = useRouter()
@@ -495,6 +504,16 @@ const startTableResize = (tableId, event, side) => {
 
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)
+}
+
+const tableNavOpen = ref(false)
+
+const navigateToTable = (tableId) => {
+    tableNavOpen.value = false
+    const tableNode = schema.value.find(el => el.id === tableId)
+    if (!tableNode) return
+    const childIds = schema.value.filter(el => el.parentNode === tableId).map(el => el.id)
+    fitView({ nodes: [tableId, ...childIds], duration: 300, padding: 0.3 })
 }
 
 const isPlacingTable = ref(false)
