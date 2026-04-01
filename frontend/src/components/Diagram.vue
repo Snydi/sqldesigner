@@ -42,6 +42,16 @@
                     :name="cursor.name"
                     :color="cursor.color"
                 />
+                <div
+                    v-for="ind in offScreenCursors"
+                    :key="'edge-' + ind.id"
+                    class="cursor-edge-indicator"
+                    :style="{ transform: `translate(calc(${ind.x}px - 50%), calc(${ind.y}px - 50%))` }"
+                >
+                    <svg class="cursor-edge-indicator__arrow" :style="{ transform: `rotate(${ind.angle}deg)` }" width="14" height="14" viewBox="0 0 14 14" :fill="ind.color">
+                        <polygon points="1,3 1,11 13,7" />
+                    </svg>
+                </div>
             </div>
             <VueFlow
                 :default-edge-options="{ type: 'chickenFoot' }"
@@ -185,6 +195,7 @@ import RelationshipModal from './RelationshipModal.vue'
 import SqlModal from './SqlModal.vue'
 import RemoteCursor from './RemoteCursor.vue'
 import FeedbackModal from './FeedbackModal.vue'
+import { useElementSize } from '@vueuse/core'
 import { useToast } from 'vue-toast-notification'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -230,6 +241,37 @@ const diagramShareAccess = ref(null)
 
 const ownerIdentity = ref(null)
 const canvasWrapperRef = ref(null)
+const { width: canvasWidth, height: canvasHeight } = useElementSize(canvasWrapperRef)
+
+const EDGE_PADDING = 44
+
+const offScreenCursors = computed(() => {
+    const w = canvasWidth.value
+    const h = canvasHeight.value
+    if (!w || !h) return []
+    return Object.values(remoteCursors).filter(c => {
+        if (c.flowX === undefined) return false
+        return c.screenX < 0 || c.screenX > w || c.screenY < 0 || c.screenY > h
+    }).map(c => {
+        const cx = w / 2
+        const cy = h / 2
+        const dx = c.screenX - cx
+        const dy = c.screenY - cy
+        let t = Infinity
+        if (dx > 0) t = Math.min(t, (w - EDGE_PADDING - cx) / dx)
+        if (dx < 0) t = Math.min(t, (EDGE_PADDING - cx) / dx)
+        if (dy > 0) t = Math.min(t, (h - EDGE_PADDING - cy) / dy)
+        if (dy < 0) t = Math.min(t, (EDGE_PADDING - cy) / dy)
+        return {
+            id: c.id,
+            name: c.name,
+            color: c.color,
+            x: Math.round(cx + t * dx),
+            y: Math.round(cy + t * dy),
+            angle: Math.atan2(dy, dx) * (180 / Math.PI),
+        }
+    })
+})
 
 const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove } = useDiagramPresence({
     token,
@@ -765,4 +807,20 @@ onUnmounted(() => {
     z-index: 100;
     overflow: hidden;
 }
+
+.cursor-edge-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    pointer-events: none;
+}
+
+.cursor-edge-indicator__arrow {
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
+}
+
 </style>
