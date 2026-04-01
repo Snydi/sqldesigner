@@ -6,7 +6,7 @@ export const CURSOR_COLORS = ['#E53935', '#D81B60', '#8E24AA', '#3949AB', '#1E88
 
 /**
  * Manages the Laravel Echo presence channel for a diagram:
- * remote cursors, schema-patch sync, and modal-update sync.
+ * remote cursors and schema-patch sync.
  *
  * @param {Object} opts
  * @param {string}      opts.token
@@ -14,9 +14,8 @@ export const CURSOR_COLORS = ['#E53935', '#D81B60', '#8E24AA', '#3949AB', '#1E88
  * @param {import('vue').Ref} opts.viewport        - VueFlow viewport
  * @param {import('vue').Ref} opts.schema          - diagram schema array
  * @param {import('vue').Ref} opts.canvasWrapperRef
- * @param {Function} opts.onModalUpdate            - called with { type, edgeId, open }
  */
-export function useDiagramPresence({ token, ownerIdentity, viewport, schema, canvasWrapperRef, onModalUpdate }) {
+export function useDiagramPresence({ token, ownerIdentity, viewport, schema, canvasWrapperRef }) {
     const remoteCursors = reactive({})
     let echo = null
     let presenceChannel = null
@@ -78,7 +77,6 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
                     }
                 }
             })
-            .listenForWhisper('modal-update', onModalUpdate)
     }
 
     const cleanupEcho = () => {

@@ -237,25 +237,6 @@ const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove } = use
     viewport,
     schema,
     canvasWrapperRef,
-    onModalUpdate: ({ type, edgeId, open }) => {
-        if (type !== 'relationship') return
-        if (open && edgeId) {
-            const edge = schema.value.find(el => el.id === edgeId)
-            if (!edge) return
-            selectedEdge.value = edge
-            nextTick(() => {
-                const el = document.querySelector(`[id="${edgeId}"]`)
-                if (el) {
-                    const { left, top, width, height } = el.getBoundingClientRect()
-                    modalPosition.value = { x: left + window.scrollX + width / 2, y: top + window.scrollY + height / 2 }
-                }
-                showRelationshipModal.value = true
-            })
-        } else {
-            showRelationshipModal.value = false
-            selectedEdge.value = null
-        }
-    },
 })
 
 // --- Table hover ---
@@ -436,7 +417,6 @@ const deleteEdge = () => {
     showRelationshipModal.value = false
     isSaved.value = false
     whisper('schema-patch', { remove: [edgeId] })
-    whisper('modal-update', { type: 'relationship', open: false })
 }
 
 const deleteNode = (nodeId) => {
@@ -505,7 +485,6 @@ const updateConnectionLineType = (relationshipType) => {
                 result.addedEdgeIds.includes(el.id)
             )
             whisper('schema-patch', { add: addedNodes, remove: [result.removedEdgeId] })
-            whisper('modal-update', { type: 'relationship', open: false })
         }
         return
     }
@@ -515,7 +494,6 @@ const updateConnectionLineType = (relationshipType) => {
     isSaved.value = false
     const edge = schema.value.find(el => el.id === selectedEdge.value.id)
     if (edge) whisper('schema-patch', { update: [{ id: edge.id, data: { ...edge.data } }] })
-    whisper('modal-update', { type: 'relationship', open: false })
 }
 
 const onRowChange = (id) => {
@@ -621,12 +599,10 @@ const openRelationshipModal = ({ edge }) => {
     const { left, top, width, height } = document.querySelector(`[id="${edge.id}"]`).getBoundingClientRect()
     modalPosition.value = { x: left + window.scrollX + width / 2, y: top + window.scrollY + height / 2 }
     showRelationshipModal.value = true
-    whisper('modal-update', { type: 'relationship', edgeId: edge.id, open: true })
 }
 
 const closeRelationshipModal = () => {
     showRelationshipModal.value = false
-    whisper('modal-update', { type: 'relationship', open: false })
 }
 
 // --- Import / Export ---
