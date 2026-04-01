@@ -115,12 +115,18 @@
                 @edge-update="onEdgeUpdate"
                 @edge-click="openRelationshipModal"
                 @connect="onConnect"
+                @node-drag-start="onNodeDragStart"
                 @node-drag-stop="onNodeDragStop"
+                @node-click="({ node }) => elevateTable(node)"
                 @pane-click="onPaneClick"
+                @node-mouse-enter="onNodeMouseEnter"
+                @node-mouse-leave="onNodeMouseLeave"
+                :is-valid-connection="isValidConnection"
                 v-model="schema"
                 fit-view-on-init
                 :zoomOnDoubleClick="false"
                 :controlled="false"
+                :pan-on-drag="!isPlacingTable"
                 :class="['diagram-canvas', { 'is-placing-table': isPlacingTable }]"
             >
                 <MiniMap pannable zoomable position="bottom-left" nodeColor="black"/>
@@ -400,6 +406,44 @@ const cleanupEcho = () => {
     Object.keys(remoteCursors).forEach(k => delete remoteCursors[k])
 }
 
+let hoverLeaveTimer = null
+
+const setTableHovered = (tableId, hovered) => {
+    document.querySelectorAll('.vue-flow__node-row').forEach(el => {
+        const n = findNode(el.getAttribute('data-id'))
+        if (n?.parentNode === tableId) el.classList.toggle('table-hovered', hovered)
+    })
+}
+
+const isValidConnection = ({ source, target }) => {
+    const sourceNode = findNode(source)
+    const targetNode = findNode(target)
+    return sourceNode?.parentNode !== targetNode?.parentNode
+}
+
+const onNodeMouseEnter = ({ node }) => {
+    clearTimeout(hoverLeaveTimer)
+    const tableId = node.type === 'table' ? node.id : node.parentNode
+    if (tableId) setTableHovered(tableId, true)
+}
+
+const onNodeMouseLeave = ({ node }) => {
+    const tableId = node.type === 'table' ? node.id : node.parentNode
+    hoverLeaveTimer = setTimeout(() => setTableHovered(tableId, false), 50)
+}
+
+const elevateTable = (node) => {
+    const tableId = node.type === 'table' ? node.id : node.parentNode
+    if (!tableId) return
+    const maxZ = schema.value.reduce((m, el) => (el.zIndex > m ? el.zIndex : m), 0)
+    const newZ = maxZ + 1
+    schema.value.forEach(el => {
+        if (el.id === tableId || el.parentNode === tableId) el.zIndex = newZ
+    })
+}
+
+const onNodeDragStart = ({ node }) => elevateTable(node)
+
 const onNodeDragStop = ({ node }) => {
     isSaved.value = false
     presenceChannel?.whisper('schema-patch', {
@@ -417,26 +461,28 @@ const startTableResize = (tableId, event, side) => {
     const startWidth = parseInt(tableNode.style.width) || MIN_TABLE_WIDTH
     const startPositionX = tableNode.position.x
 
+    let finalWidthPx = `${startWidth}px`
+    let finalPositionX = startPositionX
+
     const onMouseMove = (e) => {
         const deltaX = (e.clientX - startX) / viewport.value.zoom
-        let newWidth, newPositionX
 
         if (side === 'left') {
-            newWidth = Math.max(MIN_TABLE_WIDTH, startWidth - deltaX)
+            const newWidth = Math.max(MIN_TABLE_WIDTH, startWidth - deltaX)
             const appliedDelta = startWidth - newWidth
-            newPositionX = startPositionX + appliedDelta
+            finalWidthPx = `${newWidth}px`
+            finalPositionX = startPositionX + appliedDelta
         } else {
-            newWidth = Math.max(MIN_TABLE_WIDTH, startWidth + deltaX)
-            newPositionX = startPositionX
+            finalWidthPx = `${Math.max(MIN_TABLE_WIDTH, startWidth + deltaX)}px`
+            finalPositionX = startPositionX
         }
 
-        const widthPx = `${newWidth}px`
         schema.value.forEach(node => {
             if (node.id === tableId) {
-                node.style = { ...node.style, width: widthPx }
-                node.position = { ...node.position, x: newPositionX }
+                node.style = { ...node.style, width: finalWidthPx }
+                node.position = { ...node.position, x: finalPositionX }
             } else if (node.parentNode === tableId) {
-                node.style = { ...node.style, width: widthPx }
+                node.style = { ...node.style, width: finalWidthPx }
             }
         })
     }

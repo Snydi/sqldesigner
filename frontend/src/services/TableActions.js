@@ -9,7 +9,7 @@ export const TABLE_STYLE = {
     width: '350px',
     height: '40px',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
 }
 
 export const ROW_STYLE = {
@@ -21,7 +21,7 @@ export const ROW_STYLE = {
     width: '350px',
     height: '40px',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
 }
 
 const MARKER = {
@@ -50,6 +50,11 @@ function uniqueName(name, existingNames) {
 
 export const TableActions = {
 
+    _nextZIndex(schema) {
+        const max = schema.reduce((m, el) => (el.zIndex > m ? el.zIndex : m), 0)
+        return max + 1
+    },
+
     copyTable(schemaRef, tableId, position) {
         const schema = schemaRef.value
         const original = schema.find(el => el.id === tableId)
@@ -58,17 +63,36 @@ export const TableActions = {
         const existingTables = schema.filter(el => el.type === 'table')
         const newTableId = Math.random().toString()
         const newLabel = uniqueName(original.label, existingTables.map(t => t.label))
+        const zIndex = this._nextZIndex(schema)
 
-        const children = schema.filter(el => el.parentNode === tableId)
+        const children = schema.filter(el => el.parentNode === tableId && el.type === 'row')
         const newChildren = children.map(child => ({
-            ...child,
             id: Math.random().toString(),
+            type: child.type,
+            label: child.label,
             parentNode: newTableId,
-            data: { ...child.data },
+            zIndex,
+            position: { x: child.position.x, y: child.position.y },
+            style: { ...child.style },
+            draggable: child.draggable,
+            data: {
+                ...child.data,
+                editing: false,
+                showModal: false,
+                showOptionsModal: false,
+            },
         }))
 
         schemaRef.value = [...schema,
-            { ...original, id: newTableId, label: newLabel, position },
+            {
+                id: newTableId,
+                type: original.type,
+                label: newLabel,
+                zIndex,
+                data: { ...original.data },
+                position,
+                style: { ...original.style },
+            },
             ...newChildren,
         ]
 
@@ -79,6 +103,7 @@ export const TableActions = {
         const schema = schemaRef.value
         const tableId = Math.random().toString()
         const existingTables = schema.filter(el => el.type === 'table')
+        const zIndex = this._nextZIndex(schema)
 
         const tableName = uniqueName(name, existingTables.map(t => t.label))
 
@@ -86,6 +111,7 @@ export const TableActions = {
             id: tableId,
             type: 'table',
             label: tableName,
+            zIndex,
             data: { toolbarPosition: Position.Top, toolbarVisible: true },
             position,
             style: TABLE_STYLE
@@ -109,13 +135,19 @@ export const TableActions = {
         const rowName = uniqueName(rowProps.rowName, existingRows.map(r => r.label))
         const id = Math.floor(Math.random() * 100000).toString()
 
+        const tableNode = schema.find(el => el.id === nodeProps.id)
+        const rowStyle = tableNode?.style?.width
+            ? { ...ROW_STYLE, width: tableNode.style.width }
+            : ROW_STYLE
+
         const newRowY = position.y + 40 + 40 * existingRows.length
         schemaRef.value = [...schema, {
             id,
             type: 'row',
             label: rowName,
+            zIndex: tableNode?.zIndex ?? 1,
             position: { x: position.x, y: newRowY },
-            style: ROW_STYLE,
+            style: rowStyle,
             draggable: false,
             parentNode: nodeProps.id,
             data: {

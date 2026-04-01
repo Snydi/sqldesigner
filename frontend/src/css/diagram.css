@@ -386,6 +386,14 @@ label.options_modal_row {
 .vue-flow__handle {
     width: 8px;
     height: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+}
+
+.vue-flow__node-row.table-hovered .vue-flow__handle {
+    opacity: 1;
+    pointer-events: all;
 }
 
 .vue-flow__node-table {
