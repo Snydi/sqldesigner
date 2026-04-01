@@ -148,6 +148,12 @@
                     <ChickenFootEdge v-bind="props" />
                 </template>
 
+                <Panel position="bottom-left" class="feedback-panel">
+                    <button class="feedback-panel__btn" @click.stop="openFeedbackModal" title="Send feedback">
+                        <img src="../icons/chat.svg" alt="Feedback" style="width:16px;height:16px;" />
+                    </button>
+                </Panel>
+
                 <Background :variant="BackgroundVariant.Lines" />
 
                 <template #node-table="nodeProps">
@@ -214,6 +220,12 @@
             @primary-action="exportSql"
             @close="showExportModal = false"
         />
+
+        <FeedbackModal
+            v-if="showFeedbackModal"
+            :user-email="feedbackUserEmail"
+            @close="showFeedbackModal = false"
+        />
     </template>
 </template>
 
@@ -232,13 +244,13 @@ import AddRowNode from './AddRowNode.vue'
 import RelationshipModal from './RelationshipModal.vue'
 import SqlModal from './SqlModal.vue'
 import RemoteCursor from './RemoteCursor.vue'
+import FeedbackModal from './FeedbackModal.vue'
 import { useToast } from 'vue-toast-notification'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import axios from '@/axios'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
-import '@vue-flow/controls/dist/style.css'
 import '@/css/diagram.css'
 import '@/css/header.css'
 
@@ -507,6 +519,18 @@ const startTableResize = (tableId, event, side) => {
 }
 
 const tableNavOpen = ref(false)
+const showFeedbackModal = ref(false)
+const feedbackUserEmail = ref('')
+
+const openFeedbackModal = async () => {
+    if (!feedbackUserEmail.value) {
+        try {
+            const { data } = await axios.get('/api/user')
+            feedbackUserEmail.value = data.email ?? ''
+        } catch { /* guest or unauthenticated */ }
+    }
+    showFeedbackModal.value = true
+}
 
 const navigateToTable = (tableId) => {
     tableNavOpen.value = false
