@@ -237,6 +237,7 @@ const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove } = use
     viewport,
     schema,
     canvasWrapperRef,
+    onDiagramSaved: () => $toast.success('Diagram saved'),
 })
 
 // --- Table hover ---
@@ -645,6 +646,7 @@ const saveDiagram = async () => {
     }
     await (isOwner.value ? Diagram.save(diagramId.value, schema.value) : Diagram.saveByToken(token, schema.value))
     isSaved.value = true
+    whisper('diagram-saved', {})
 }
 
 // --- Load ---
