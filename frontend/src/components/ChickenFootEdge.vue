@@ -32,5 +32,12 @@ const props = defineProps({
     style: Object,
 })
 
-const path = computed(() => getSmoothStepPath(props))
+const path = computed(() => {
+    const extend = -5
+    return getSmoothStepPath({
+        ...props,
+        sourceX: props.sourcePosition === 'left' ? props.sourceX - extend : props.sourcePosition === 'right' ? props.sourceX + extend : props.sourceX,
+        targetX: props.targetPosition === 'left' ? props.targetX - extend : props.targetPosition === 'right' ? props.targetX + extend : props.targetX,
+    })
+})
 </script>

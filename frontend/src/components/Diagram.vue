@@ -115,17 +115,34 @@
                 @edge-update="onEdgeUpdate"
                 @edge-click="openRelationshipModal"
                 @connect="onConnect"
+                @node-drag-start="onNodeDragStart"
                 @node-drag-stop="onNodeDragStop"
+                @node-click="({ node }) => elevateTable(node)"
                 @pane-click="onPaneClick"
+                @node-mouse-enter="onNodeMouseEnter"
+                @node-mouse-leave="onNodeMouseLeave"
+                :is-valid-connection="isValidConnection"
                 v-model="schema"
                 fit-view-on-init
                 :zoomOnDoubleClick="false"
                 :controlled="false"
+                :pan-on-drag="!isPlacingTable"
                 :class="['diagram-canvas', { 'is-placing-table': isPlacingTable }]"
             >
-                <MiniMap pannable zoomable position="bottom-left" nodeColor="black"/>
-
-                <Controls :show-interactive="false" />
+                <Panel position="top-left" class="table-navigator">
+                    <button class="table-navigator__toggle" @click.stop="tableNavOpen = !tableNavOpen" title="Tables">
+                        <img src="../icons/table-list.svg" alt="Tables" class="icon" style="width:18px;height:18px;">
+                    </button>
+                    <div v-if="tableNavOpen" class="table-navigator__list">
+                        <button
+                            v-for="t in schema.filter(el => el.type === 'table')"
+                            :key="t.id"
+                            class="table-navigator__item"
+                            @click.stop="navigateToTable(t.id)"
+                        >{{ t.label }}</button>
+                        <span v-if="!schema.filter(el => el.type === 'table').length" class="table-navigator__empty">No tables</span>
+                    </div>
+                </Panel>
 
                 <template #edge-chickenFoot="props">
                     <ChickenFootEdge v-bind="props" />
@@ -202,9 +219,7 @@
 
 <script setup>
 import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref, watch, nextTick } from 'vue'
-import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
-import { Controls } from '@vue-flow/controls'
-import { MiniMap } from '@vue-flow/minimap'
+import { Panel, Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
 import { useThrottleFn } from '@vueuse/core'
 import { TableActions, TABLE_STYLE, ROW_STYLE } from '@/services/TableActions.js'
@@ -229,7 +244,7 @@ import '@/css/header.css'
 
 const props = defineProps({ isDemo: { type: Boolean, default: false } })
 
-const { updateEdge, addEdges, viewport, screenToFlowCoordinate, findNode } = useVueFlow()
+const { updateEdge, addEdges, viewport, screenToFlowCoordinate, findNode, fitView } = useVueFlow()
 const store = useStore()
 store.dispatch('initializeAuth')
 const router = useRouter()
@@ -400,6 +415,44 @@ const cleanupEcho = () => {
     Object.keys(remoteCursors).forEach(k => delete remoteCursors[k])
 }
 
+let hoverLeaveTimer = null
+
+const setTableHovered = (tableId, hovered) => {
+    document.querySelectorAll('.vue-flow__node-row').forEach(el => {
+        const n = findNode(el.getAttribute('data-id'))
+        if (n?.parentNode === tableId) el.classList.toggle('table-hovered', hovered)
+    })
+}
+
+const isValidConnection = ({ source, target }) => {
+    const sourceNode = findNode(source)
+    const targetNode = findNode(target)
+    return sourceNode?.parentNode !== targetNode?.parentNode
+}
+
+const onNodeMouseEnter = ({ node }) => {
+    clearTimeout(hoverLeaveTimer)
+    const tableId = node.type === 'table' ? node.id : node.parentNode
+    if (tableId) setTableHovered(tableId, true)
+}
+
+const onNodeMouseLeave = ({ node }) => {
+    const tableId = node.type === 'table' ? node.id : node.parentNode
+    hoverLeaveTimer = setTimeout(() => setTableHovered(tableId, false), 50)
+}
+
+const elevateTable = (node) => {
+    const tableId = node.type === 'table' ? node.id : node.parentNode
+    if (!tableId) return
+    const maxZ = schema.value.reduce((m, el) => (el.zIndex > m ? el.zIndex : m), 0)
+    const newZ = maxZ + 1
+    schema.value.forEach(el => {
+        if (el.id === tableId || el.parentNode === tableId) el.zIndex = newZ
+    })
+}
+
+const onNodeDragStart = ({ node }) => elevateTable(node)
+
 const onNodeDragStop = ({ node }) => {
     isSaved.value = false
     presenceChannel?.whisper('schema-patch', {
@@ -417,26 +470,28 @@ const startTableResize = (tableId, event, side) => {
     const startWidth = parseInt(tableNode.style.width) || MIN_TABLE_WIDTH
     const startPositionX = tableNode.position.x
 
+    let finalWidthPx = `${startWidth}px`
+    let finalPositionX = startPositionX
+
     const onMouseMove = (e) => {
         const deltaX = (e.clientX - startX) / viewport.value.zoom
-        let newWidth, newPositionX
 
         if (side === 'left') {
-            newWidth = Math.max(MIN_TABLE_WIDTH, startWidth - deltaX)
+            const newWidth = Math.max(MIN_TABLE_WIDTH, startWidth - deltaX)
             const appliedDelta = startWidth - newWidth
-            newPositionX = startPositionX + appliedDelta
+            finalWidthPx = `${newWidth}px`
+            finalPositionX = startPositionX + appliedDelta
         } else {
-            newWidth = Math.max(MIN_TABLE_WIDTH, startWidth + deltaX)
-            newPositionX = startPositionX
+            finalWidthPx = `${Math.max(MIN_TABLE_WIDTH, startWidth + deltaX)}px`
+            finalPositionX = startPositionX
         }
 
-        const widthPx = `${newWidth}px`
         schema.value.forEach(node => {
             if (node.id === tableId) {
-                node.style = { ...node.style, width: widthPx }
-                node.position = { ...node.position, x: newPositionX }
+                node.style = { ...node.style, width: finalWidthPx }
+                node.position = { ...node.position, x: finalPositionX }
             } else if (node.parentNode === tableId) {
-                node.style = { ...node.style, width: widthPx }
+                node.style = { ...node.style, width: finalWidthPx }
             }
         })
     }
@@ -449,6 +504,16 @@ const startTableResize = (tableId, event, side) => {
 
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)
+}
+
+const tableNavOpen = ref(false)
+
+const navigateToTable = (tableId) => {
+    tableNavOpen.value = false
+    const tableNode = schema.value.find(el => el.id === tableId)
+    if (!tableNode) return
+    const childIds = schema.value.filter(el => el.parentNode === tableId).map(el => el.id)
+    fitView({ nodes: [tableId, ...childIds], duration: 300, padding: 0.3 })
 }
 
 const isPlacingTable = ref(false)
