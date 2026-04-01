@@ -9,6 +9,15 @@
         :readonly="!data.editing"
     />
 
+    <label class="table_color_picker" @mousedown.stop>
+        <input
+            type="color"
+            :value="data.color || '#898989'"
+            @input="$emit('update-color', id, $event.target.value)"
+            class="table_color_input"
+        />
+    </label>
+
     <button class="table_button table_button--add-row" @mousedown.stop @click="$emit('add-row', id)">
         <img class="table_icon" src="../icons/plus.svg" alt="Add row">
     </button>
@@ -32,5 +41,5 @@ defineProps({
     label: String,
 })
 
-defineEmits(['delete-node', 'update-label', 'copy-table', 'add-row', 'resize-start'])
+defineEmits(['delete-node', 'update-label', 'copy-table', 'add-row', 'resize-start', 'update-color'])
 </script>

@@ -143,6 +143,7 @@
                         @copy-table="copyTable"
                         @add-row="addRow({ id: $event, data: {} })"
                         @resize-start="startTableResize"
+                        @update-color="updateTableColor"
                     />
                 </template>
 
@@ -171,9 +172,11 @@
         <RelationshipModal
             v-if="showRelationshipModal"
             :position="modalPosition"
+            :edge-color="selectedEdge?.data?.color"
             @update-type="updateConnectionLineType"
             @delete="deleteEdge"
             @close="closeRelationshipModal"
+            @update-color="updateEdgeColor"
         />
 
         <SqlModal
@@ -226,7 +229,7 @@ import '@/css/header.css'
 
 const props = defineProps({ isDemo: { type: Boolean, default: false } })
 
-const { updateEdge, addEdges, viewport, screenToFlowCoordinate } = useVueFlow()
+const { updateEdge, addEdges, viewport, screenToFlowCoordinate, findNode } = useVueFlow()
 const store = useStore()
 store.dispatch('initializeAuth')
 const router = useRouter()
@@ -539,6 +542,15 @@ const deleteNode = (nodeId) => {
 
 const onConnect = (params) => {
     params.updatable = true
+    let node = findNode(params.target)
+
+    node = findNode(node.parentNode)
+    const tableColor = node?.data?.color
+    console.log(tableColor)
+    if (tableColor) {
+        params.style = { stroke: tableColor }
+        params.data = { ...params.data, color: tableColor }
+    }
     addEdges([params])
     isSaved.value = false
     if (presenceChannel) {
@@ -611,6 +623,28 @@ const updateLabel = (id, newLabel) => {
         isSaved.value = false
         presenceChannel?.whisper('schema-patch', { update: [{ id, label: element.label }] })
     }
+}
+
+const updateEdgeColor = (color) => {
+    const edge = schema.value.find(el => el.id === selectedEdge.value?.id)
+    if (!edge) return
+    edge.style = { ...edge.style, stroke: color }
+    edge.data = { ...edge.data, color }
+    isSaved.value = false
+    presenceChannel?.whisper('schema-patch', {
+        update: [{ id: edge.id, style: { ...edge.style }, data: { color } }]
+    })
+}
+
+const updateTableColor = (tableId, color) => {
+    const tableNode = schema.value.find(el => el.id === tableId)
+    if (!tableNode) return
+    tableNode.style = { ...tableNode.style, background: color, borderColor: color }
+    tableNode.data = { ...tableNode.data, color }
+    isSaved.value = false
+    presenceChannel?.whisper('schema-patch', {
+        update: [{ id: tableId, style: { ...tableNode.style }, data: { color } }]
+    })
 }
 
 const draggingRowId = ref(null)

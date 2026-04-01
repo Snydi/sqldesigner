@@ -258,6 +258,23 @@
     background-color: #555 !important;
 }
 
+.relationship_modal__color_picker {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+    cursor: pointer;
+    overflow: hidden;
+    flex-shrink: 0;
+    align-self: center;
+}
+
+.relationship_modal__color_picker:hover {
+    border-color: grey;
+}
+
 .relationship_modal__trash {
     width: 16px;
     height: 16px;
@@ -390,6 +407,33 @@ label.options_modal_row {
 .vue-flow__node-table > .table_button--add-row {
     right: auto;
     left: 10px;
+}
+
+.vue-flow__node-table > .table_color_picker {
+    position: absolute;
+    left: 38px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.vue-flow__node-table > .table_color_picker:hover {
+    border-color: grey;
+}
+
+.table_color_input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
 }
 
 .vue-flow__node-table:active {
