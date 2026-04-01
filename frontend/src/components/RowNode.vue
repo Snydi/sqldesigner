@@ -1,6 +1,7 @@
 <template>
     <!-- Drag handle -->
     <img
+        v-if="canEdit"
         class="drag_handle_icon"
         src="../icons/drag.svg"
         alt="Drag to reorder"
@@ -11,15 +12,15 @@
         class="input input_designer_row ml-5 mr-5"
         :value="label"
         @mousedown.stop
-        @click="data.editing = true"
+        @click="canEdit && (data.editing = true)"
         @blur="(e) => { data.editing = false; $emit('update-label', id, label); e.target.scrollLeft = 0; }"
         @input="$emit('update-label', id, $event.target.value)"
-        :readonly="!data.editing"
+        :readonly="!data.editing || !canEdit"
     />
 
     <!-- SQL Type -->
     <div>
-        <select v-model="data.sqlType" @change="emitChange()">
+        <select v-model="data.sqlType" @change="emitChange()" :disabled="!canEdit">
             <optgroup v-for="(options, groupLabel) in typeGroups" :key="groupLabel" :label="groupLabel">
                 <option v-for="opt in options" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
             </optgroup>
@@ -28,7 +29,7 @@
     </div>
 
     <!-- Options -->
-    <button class="table_button" @mousedown.stop @click="$emit('toggle-options-modal', id)">
+    <button v-if="canEdit" class="table_button" @mousedown.stop @click="$emit('toggle-options-modal', id)">
         <img class="table_icon" src="../icons/gear.svg" alt="More options">
     </button>
 
@@ -65,7 +66,7 @@
     </div>
 
     <!-- Delete row -->
-    <button class="table_button" @mousedown.stop @click="$emit('delete-node', id)">
+    <button v-if="canEdit" class="table_button" @mousedown.stop @click="$emit('delete-node', id)">
         <img class="table_icon" src="../icons/trash.svg" alt="Delete">
     </button>
 
@@ -88,6 +89,7 @@ const props = defineProps({
     data: Object,
     label: String,
     dbType: { type: String, default: 'mysql' },
+    canEdit: { type: Boolean, default: true },
 })
 
 const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start'])

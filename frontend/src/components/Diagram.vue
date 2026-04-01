@@ -45,9 +45,9 @@
             </div>
             <VueFlow
                 :default-edge-options="{ type: 'chickenFoot' }"
-                @edge-update="onEdgeUpdate"
-                @edge-click="openRelationshipModal"
-                @connect="onConnect"
+                @edge-update="canEdit && onEdgeUpdate($event)"
+                @edge-click="canEdit && openRelationshipModal($event)"
+                @connect="canEdit && onConnect($event)"
                 @node-drag-start="onNodeDragStart"
                 @node-drag-stop="onNodeDragStop"
                 @node-click="({ node }) => elevateTable(node)"
@@ -60,6 +60,9 @@
                 :zoomOnDoubleClick="false"
                 :controlled="false"
                 :pan-on-drag="!isPlacingTable"
+                :nodes-draggable="canEdit"
+                :nodes-connectable="canEdit"
+                :edges-updatable="canEdit"
                 :class="['diagram-canvas', { 'is-placing-table': isPlacingTable }]"
             >
                 <Panel position="top-left" class="table-navigator">
@@ -94,6 +97,7 @@
                         :id="nodeProps.id"
                         :data="nodeProps.data"
                         :label="nodeProps.label"
+                        :canEdit="canEdit"
                         @delete-node="deleteNode"
                         @update-label="updateLabel"
                         @copy-table="copyTable"
@@ -109,6 +113,7 @@
                         :data="nodeProps.data"
                         :label="nodeProps.label"
                         :dbType="diagramDbType"
+                        :canEdit="canEdit"
                         @update-label="updateLabel"
                         @toggle-options-modal="toggleOptionsModal"
                         @delete-node="deleteNode"
