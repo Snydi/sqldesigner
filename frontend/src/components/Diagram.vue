@@ -721,6 +721,8 @@ const importSql = async () => {
     if (schema.value) {
         $toast.success('Imported successfully')
         isSaved.value = false
+        showImportModal.value = false
+        whisper('schema-sync', { schema: schema.value })
     }
 }
 

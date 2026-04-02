@@ -243,16 +243,26 @@ class DiagramService
         $connections = [];
         $tableX = 50;
 
+        $pendingFks = [];
+
         foreach ($this->parseStatements($script) as $statement) {
             if (preg_match('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?["`]?(\w+)["`]?\s*\((.*)\)/is', $statement, $m)) {
                 $tableX += 400;
                 $tableId  = uniqid();
                 $tables[] = $this->buildTableNode($tableId, $m[1], $tableX);
                 array_push($rows, ...$this->parseColumns($m[2], $tableId, $tableX));
-            } elseif (preg_match('/ALTER\s+TABLE\s+["`]?(\w+)["`]?\s+ADD\s+FOREIGN\s+KEY\s*\(["`]?(\w+)["`]?\)\s+REFERENCES\s+["`]?(\w+)["`]?\s*\(["`]?(\w+)["`]?\)/i', $statement, $m)) {
+                foreach ($this->parseInlineForeignKeys($m[2]) as $fk) {
+                    $pendingFks[] = array_merge($fk, ['sourceTable' => $m[1]]);
+                }
+            } elseif (preg_match('/ALTER\s+TABLE\s+["`]?(\w+)["`]?\s+ADD\s+(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?FOREIGN\s+KEY\s*\(["`]?(\w+)["`]?\)\s+REFERENCES\s+["`]?(\w+)["`]?\s*\(["`]?(\w+)["`]?\)/i', $statement, $m)) {
                 $connection = $this->resolveConnection($tables, $rows, $m[1], $m[2], $m[3], $m[4]);
                 if ($connection) $connections[] = $connection;
             }
+        }
+
+        foreach ($pendingFks as $fk) {
+            $connection = $this->resolveConnection($tables, $rows, $fk['sourceTable'], $fk['sourceCol'], $fk['targetTable'], $fk['targetCol']);
+            if ($connection) $connections[] = $connection;
         }
 
         return json_encode(array_merge($tables, $rows, $connections), JSON_PRETTY_PRINT);
@@ -279,14 +289,15 @@ class DiagramService
             'initialized'      => false,
             'isParent'         => true,
             'position'         => ['x' => $x, 'y' => $y],
-            'data'             => ['toolbarPosition' => 'top', 'toolbarVisible' => true, 'editing' => false],
+            'data'             => ['toolbarPosition' => 'top', 'toolbarVisible' => true, 'editing' => false, 'color' => '#3d7a5c'],
             'events'           => (object)[],
             'label'            => $name,
             'style'            => [
-                'display' => 'flex', 'border' => '1px solid #898989',
-                'background' => '#898989', 'borderColor' => '#898989', 'color' => 'white',
+                'display' => 'flex', 'border' => '1px solid #3d7a5c',
+                'background' => '#3d7a5c', 'borderColor' => '#3d7a5c', 'color' => 'white',
                 'width' => '350px', 'height' => '40px',
                 'alignItems' => 'center', 'justifyContent' => 'space-between',
+                'borderRadius' => '6px 6px 0 0',
             ],
         ];
     }
@@ -316,9 +327,9 @@ class DiagramService
             'events'           => (object)[],
             'label'            => $name,
             'style'            => [
-                'display' => 'flex', 'border' => '1px solid #10b981',
+                'display' => 'flex', 'border' => '1px solid #898989',
                 'borderColor' => '#898989', 'background' => '#ffffff', 'color' => '#000000',
-                'borderRadius' => '5px', 'width' => '350px', 'height' => '40px',
+                'width' => '350px', 'height' => '40px',
                 'alignItems' => 'center', 'justifyContent' => 'space-between',
             ],
             'parentNode'       => $tableId,
@@ -357,13 +368,13 @@ class DiagramService
         $index       = 0;
 
         foreach ($lines as $line) {
-            if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(\s*["`]?(\w+)["`]?\s*\)$/i', $line, $m)) {
+            if (preg_match('/^(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?(PRIMARY\s+KEY|UNIQUE)\s*\(\s*["`]?(\w+)["`]?\s*\)/i', $line, $m)) {
                 $constraints[$m[2]] = strtoupper(preg_replace('/\s+/', ' ', $m[1]));
             }
         }
 
         foreach ($lines as $line) {
-            if (preg_match('/^(PRIMARY\s+KEY|UNIQUE)\s*\(/i', $line)) continue;
+            if (preg_match('/^(?:CONSTRAINT\s|PRIMARY\s+KEY|UNIQUE\s+KEY|UNIQUE\s*\(|FOREIGN\s+KEY|KEY\s|INDEX\s|CHECK\s*\()/i', $line)) continue;
             if (!preg_match('/^["`]?(\w+)["`]?\s+([a-zA-Z]+)(?:\(([^)]+)\))?(?:\s+(UNSIGNED))?(?:\s+(NOT\s+NULL|NULL))?(?:\s+(PRIMARY\s+KEY|UNIQUE))?(?:\s+DEFAULT\s+\'([^\']*)\')?(?:\s+COMMENT\s+\'([^\']*)\')?/i', $line, $m)) continue;
 
             $baseName = $m[1];
@@ -392,6 +403,17 @@ class DiagramService
         return $rows;
     }
 
+    private function parseInlineForeignKeys(string $tableContent): array
+    {
+        $fks = [];
+        foreach ($this->splitColumnDefinitions($tableContent) as $line) {
+            if (preg_match('/(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?FOREIGN\s+KEY\s*\(["`]?(\w+)["`]?\)\s+REFERENCES\s+["`]?(\w+)["`]?\s*\(["`]?(\w+)["`]?\)/i', $line, $m)) {
+                $fks[] = ['sourceCol' => $m[1], 'targetTable' => $m[2], 'targetCol' => $m[3]];
+            }
+        }
+        return $fks;
+    }
+
     private function resolveConnection(array $tables, array $rows, string $sourceTable, string $sourceCol, string $targetTable, string $targetCol): ?array
     {
         $findTableId = fn(string $name) => collect($tables)->where('label', $name)->value('id');
@@ -404,6 +426,15 @@ class DiagramService
 
         if (!$sourceRow || !$targetRow) return null;
 
-        return ['source' => $sourceRow['id'], 'target' => $targetRow['id']];
+        return [
+            'id'           => uniqid('e-'),
+            'type'         => 'chickenFoot',
+            'source'       => $sourceRow['id'],
+            'target'       => $targetRow['id'],
+            'sourceHandle' => 'source-right',
+            'targetHandle' => 'target-left',
+            'updatable'    => true,
+            'data'         => ['markerStart' => 'none', 'markerEnd' => 'none'],
+        ];
     }
 }
