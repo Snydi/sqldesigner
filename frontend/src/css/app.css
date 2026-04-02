@@ -1,9 +1,15 @@
+/* ── Fonts ───────────────────────────────────────────────────── */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
 /* ── Theme variables ─────────────────────────────────────────── */
 :root {
-    --color-primary:        #8f2f2f;
-    --color-primary-hover:  #7a2222;
+    --color-primary:        #3d7a5c;
+    --color-primary-hover:  #2f6349;
     --color-primary-light: #ffffff;
-    --color-primary-border: #f0d0d0;
+    --color-primary-border: #c4ddd3;
     --color-text-on-primary: #fff;
 }
 
@@ -13,6 +19,9 @@ body {
     margin: 0;
     width: 100%;
     height: 100%;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
@@ -22,10 +31,6 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    text-transform: uppercase;
-    font-family: 'JetBrains Mono', monospace;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
     background-color: #fff;
