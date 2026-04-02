@@ -448,7 +448,6 @@
 @section('content')
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-heading">
-        <div class="hero-free-badge">No subscription &mdash; No credit card &mdash; No install</div>
         <h1 id="hero-heading">Design Your MySQL or Postgres Database Schema — Visually</h1>
         <p>
             SQL Designer is an online ERD tool and schema designer for MySQL and PostgreSQL.
@@ -503,8 +502,8 @@
                 <p>Organise your work into separate diagrams — one per project, service, or database. All diagrams are saved to your account and accessible anywhere.</p>
             </article>
             <article class="feature-card">
-                <h3>No Subscription, No Hidden Fees</h3>
-                <p>No installation, no subscription, no hidden fees. Sign up with your email and start immediately.</p>
+                <h3>Absolutely free</h3>
+                <p>Currently you don't have to pay anything to use all features</p>
             </article>
             <article class="feature-card">
                 <h3>Relationships &amp; Constraints</h3>
