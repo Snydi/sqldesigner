@@ -59,6 +59,7 @@
                 @edge-click="canEdit && openRelationshipModal($event)"
                 @connect="canEdit && onConnect($event)"
                 @node-drag-start="onNodeDragStart"
+                @node-drag="onNodeDrag"
                 @node-drag-stop="onNodeDragStop"
                 @node-click="({ node }) => elevateTable(node)"
                 @pane-click="onPaneClick"
@@ -273,7 +274,7 @@ const offScreenCursors = computed(() => {
     })
 })
 
-const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove } = useDiagramPresence({
+const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove, broadcastCursor } = useDiagramPresence({
     token,
     ownerIdentity,
     viewport,
@@ -323,6 +324,15 @@ const elevateTable = (node) => {
 }
 
 const onNodeDragStart = ({ node }) => elevateTable(node)
+
+let lastNodeDragWhisper = 0
+const onNodeDrag = ({ node, event }) => {
+    const now = Date.now()
+    if (now - lastNodeDragWhisper < 50) return
+    lastNodeDragWhisper = now
+    whisper('schema-patch', { update: [{ id: node.id, position: node.position }] })
+    broadcastCursor(event)
+}
 
 const onNodeDragStop = ({ node }) => {
     isSaved.value = false

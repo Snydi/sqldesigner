@@ -103,5 +103,5 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
         }
     }, { deep: true })
 
-    return { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove }
+    return { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove, broadcastCursor }
 }
