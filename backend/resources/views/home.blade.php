@@ -3,8 +3,8 @@
 @section('title', 'SQL Designer — MySQL & PostgreSQL Schema Designer')
 
 @section('head')
-    <meta name="description" content="Free online schema designer for MySQL and PostgreSQL. Create tables, define relationships, and export SQL scripts with a visual drag-and-drop interface.">
-    <meta name="keywords" content="MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, pgAdmin alternative, PostgreSQL database designer, free postgres designer">
+    <meta name="description" content="Online ERD tool and schema designer for MySQL and PostgreSQL. Drag-and-drop tables, define relationships, and export SQL scripts in seconds. No install needed.">
+    <meta name="keywords" content="ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, pgAdmin alternative, PostgreSQL database designer, free postgres designer">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#c05252">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SQL Designer — Free MySQL & PostgreSQL Schema Designer">
-    <meta name="twitter:description" content="Design, visualize, and export your MySQL and PostgreSQL database schemas online for free.">
+    <meta name="twitter:title" content="SQL Designer — MySQL & PostgreSQL Schema Designer & ERD Tool">
+    <meta name="twitter:description" content="Design, visualize, and export MySQL and PostgreSQL database schemas online. Browser-based ERD tool with SQL export.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
     <link rel="preload" as="image" href="/images/screenshot-1000.webp" imagesrcset="/images/screenshot-600.webp 600w, /images/screenshot-750.webp 750w, /images/screenshot-1000.webp 1000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
@@ -32,11 +32,12 @@
             "@type": "WebApplication",
             "name": "SQL Designer",
             "url": "https://sql-designer.com",
-            "description": "Free online database schema designer for MySQL and PostgreSQL with a visual drag-and-drop interface and SQL export.",
+            "description": "Online ERD tool and schema designer for MySQL and PostgreSQL with a visual drag-and-drop interface and SQL export.",
             "applicationCategory": "DeveloperApplication",
             "operatingSystem": "Any",
             "screenshot": "https://sql-designer.com/images/screenshot.png",
             "featureList": [
+                "ERD tool — visual entity relationship diagram editor",
                 "Visual drag-and-drop schema editor",
                 "MySQL and PostgreSQL CREATE TABLE SQL export",
                 "Foreign key relationship modelling",
@@ -44,6 +45,7 @@
                 "Multiple diagrams per account",
                 "Auto-save"
             ],
+            "keywords": "ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, database diagram tool, entity relationship diagram",
             "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -60,7 +62,7 @@
                     "@type": "HowToStep",
                     "position": 1,
                     "name": "Create a Diagram",
-                    "text": "Register for free and create a new diagram for your project or database."
+                    "text": "Sign up and create a new diagram for your project or database."
                 },
                 {
                     "@type": "HowToStep",
@@ -446,20 +448,20 @@
 @section('content')
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-heading">
-        <div class="hero-free-badge">100% Free &mdash; No subscription, no credit card</div>
+        <div class="hero-free-badge">No subscription &mdash; No credit card &mdash; No install</div>
         <h1 id="hero-heading">Design Your MySQL or Postgres Database Schema — Visually</h1>
         <p>
-            SQL Designer is a free, browser-based database schema designer for MySQL and PostgreSQL.
-            Drag and drop tables, define columns and relationships,
+            SQL Designer is an online ERD tool and schema designer for MySQL and PostgreSQL.
+            Drag tables onto a canvas, define columns and relationships,
             then export a ready-to-run SQL script in seconds.
         </p>
         <p>
-            Just create a free account and start designing immediately.
-            No payment, no trial period, no limits.
+            Sign up with your email and start immediately.
+            No payment, no trial, no limits.
         </p>
         <div class="hero-actions">
             <a id="hero-btn-authed" class="btn-hero-primary" href="/diagrams" style="display:none">Open My Diagrams</a>
-            <a id="hero-btn-register" class="btn-hero-primary" href="/register">Create Free Account</a>
+            <a id="hero-btn-register" class="btn-hero-primary" href="/register">Create an account</a>
             <a id="hero-btn-login" class="btn-hero-secondary" href="/login">Log In</a>
         </div>
         <script>
@@ -501,8 +503,8 @@
                 <p>Organise your work into separate diagrams — one per project, service, or database. All diagrams are saved to your account and accessible anywhere.</p>
             </article>
             <article class="feature-card">
-                <h3>Free Forever &mdash; No Credit Card</h3>
-                <p>No installation, no subscription, no hidden fees. Create a free account with just your email and start designing immediately.</p>
+                <h3>No Subscription, No Hidden Fees</h3>
+                <p>No installation, no subscription, no hidden fees. Sign up with your email and start immediately.</p>
             </article>
             <article class="feature-card">
                 <h3>Relationships &amp; Constraints</h3>
@@ -522,7 +524,7 @@
             <div class="step">
                 <div class="step-number">1</div>
                 <h3>Create a Diagram</h3>
-                <p>Register for free and create a new diagram for your project or database.</p>
+                <p>Sign up and create a new diagram for your project or database.</p>
             </div>
             <div class="step">
                 <div class="step-number">2</div>
@@ -598,12 +600,12 @@
                 <a href="/blog/er-diagram-tool-online" style="background:#fff; border-radius:6px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); text-decoration:none; display:block;">
                     <p style="font-size:0.875rem; color:#666; text-transform:none; margin:0 0 0.5rem;">ER Diagrams</p>
                     <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--color-primary); margin:0 0 0.5rem;">Free ER Diagram Tool Online for MySQL</h3>
-                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">What ER diagrams are, why they matter, and how to create one in the browser for free.</p>
+                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">What ER diagrams are, why they matter, and how to build one visually in your browser.</p>
                 </a>
                 <a href="/blog/mysql-workbench-alternative" style="background:#fff; border-radius:6px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); text-decoration:none; display:block;">
                     <p style="font-size:0.875rem; color:#666; text-transform:none; margin:0 0 0.5rem;">Tools</p>
                     <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--color-primary); margin:0 0 0.5rem;">MySQL Workbench Alternative Online</h3>
-                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">Heavy desktop tool not cutting it? Here are the best free browser-based alternatives.</p>
+                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">Heavy desktop tool not cutting it? Here are the best browser-based alternatives.</p>
                 </a>
             </div>
             <p style="text-align:center; margin:2rem 0 0;"><a href="/blog" style="color:var(--color-primary-hover); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">View All Posts &rarr;</a></p>
@@ -613,11 +615,8 @@
     <!-- CTA -->
     <section class="cta-banner" aria-labelledby="cta-heading">
         <h2 id="cta-heading">Start Designing Your Database Schema Today</h2>
-        <p style="font-size:0.9rem; text-transform:none; margin: 0 auto 1.5rem; max-width:480px; line-height:1.6;">
-            No subscription. No credit card. Just register with your email and you're in.
-        </p>
         <a id="cta-btn-authed" class="btn-hero-primary" href="/diagrams" style="display:none">Go to My Diagrams</a>
-        <a id="cta-btn-guest" class="btn-hero-primary" href="/register">Create a Free Account</a>
+        <a id="cta-btn-guest" class="btn-hero-primary" href="/register">Get Started</a>
         <script>
             if (localStorage.getItem('auth_token')) {
                 document.getElementById('cta-btn-authed').style.display = 'inline-block';
