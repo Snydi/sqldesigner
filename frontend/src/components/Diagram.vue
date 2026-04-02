@@ -222,7 +222,7 @@ const isOwner = ref(false)
 const notAvailable = ref(false)
 const loading = ref(false)
 
-const canEdit = computed(() => isOwner.value || diagramShareAccess.value === 'write')
+const canEdit = computed(() => props.isDemo || isOwner.value || diagramShareAccess.value === 'write')
 
 const isSaved = ref(true)
 let autoSaveTimer = null
@@ -812,6 +812,8 @@ onMounted(() => {
         autoSaveTimer = setInterval(() => {
             if (!isSaved.value && canEdit.value) saveDiagram()
         }, 60000)
+    } else {
+        nextTick(() => fitView({ padding: 0.15, duration: 0 }))
     }
     document.addEventListener('keydown', onEscapeKey)
 })
