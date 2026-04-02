@@ -2,9 +2,9 @@ import { Position } from '@vue-flow/core'
 
 export const TABLE_STYLE = {
     display: 'flex',
-    border: '1px solid #898989',
-    background: '#898989',
-    borderColor: '#898989',
+    border: '1px solid #3d7a5c',
+    background: '#3d7a5c',
+    borderColor: '#3d7a5c',
     color: 'white',
     width: '350px',
     height: '40px',

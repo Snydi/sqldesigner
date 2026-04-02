@@ -12,7 +12,7 @@
             :key="edge.id"
             :d="edge.path"
             fill="none"
-            stroke="#c05252"
+            stroke="#3d7a5c"
             stroke-width="3"
             opacity="0.6"
         />
@@ -29,13 +29,13 @@
             <rect
                 :x="table.x" :y="table.y"
                 :width="TABLE_W" :height="HEADER_H"
-                fill="#898989" rx="5"
+                :fill="table.color" rx="5"
             />
             <!-- Header bottom radius fix -->
             <rect
                 :x="table.x" :y="table.y + HEADER_H / 2"
                 :width="TABLE_W" :height="HEADER_H / 2"
-                fill="#898989"
+                :fill="table.color"
             />
             <!-- Table name -->
             <text
@@ -131,6 +131,7 @@ export default {
                     return {
                         id: n.id,
                         label: n.label || '',
+                        color: n.style?.background || '#3d7a5c',
                         x: pos.x,
                         y: pos.y,
                         h: HEADER_H + rows.length * ROW_H,
