@@ -88,6 +88,20 @@
 
         <ul class="post-list">
             <li>
+                <a class="post-card" href="/blog/database-schema-examples">
+                    <p class="post-meta">April 2026 &mdash; 9 min read</p>
+                    <h2>Database Schema Examples — MySQL &amp; PostgreSQL Templates</h2>
+                    <p>Five real-world database schema templates — e-commerce, blog, SaaS, task tracker, and messaging — with complete MySQL and PostgreSQL CREATE TABLE scripts you can copy or build visually.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/dbdiagram-alternative">
+                    <p class="post-meta">April 2026 &mdash; 6 min read</p>
+                    <h2>dbdiagram.io Alternative — Free Visual Schema Designer</h2>
+                    <p>dbdiagram.io requires a paid plan for SQL export and private diagrams. Here are the best free alternatives — including a fully visual drag-and-drop option that exports MySQL and PostgreSQL DDL at no cost.</p>
+                </a>
+            </li>
+            <li>
                 <a class="post-card" href="/blog/how-to-design-mysql-database-schema">
                     <p class="post-meta">March 2026 &mdash; 7 min read</p>
                     <h2>How to Design a MySQL Database Schema — A Step-by-Step Guide</h2>

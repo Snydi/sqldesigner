@@ -1,27 +1,55 @@
 # SQL Designer
 > Free online ERD tool and database schema designer for MySQL and PostgreSQL.
 
-SQL Designer is a browser-based visual tool for designing relational database schemas. Users drag and drop tables onto a canvas, define columns with data types and constraints (PRIMARY KEY, UNIQUE, NOT NULL), connect tables with foreign key relationships, and export a ready-to-run CREATE TABLE script for MySQL or PostgreSQL. No installation required. Free with no limits on diagrams.
+SQL Designer (sql-designer.com) is a browser-based visual tool for designing relational database schemas. Users drag and drop tables onto a canvas, define columns with data types and constraints, connect tables with foreign key relationships, and export a ready-to-run CREATE TABLE script for MySQL or PostgreSQL. No installation required. Free with no limits on diagrams.
 
-## Key capabilities
-- Visual drag-and-drop schema editor (entity-relationship diagram / ERD tool)
-- MySQL and PostgreSQL CREATE TABLE SQL export
-- Foreign key relationship modelling with chicken-foot notation
-- Supports PRIMARY KEY, UNIQUE, NOT NULL, and AUTO_INCREMENT constraints
-- Multiple diagrams per account, auto-saved to the cloud
-- Real-time multiplayer: share a diagram and edit collaboratively
-- Demo mode — try without creating an account
+## What it does
+
+- Visual drag-and-drop entity-relationship diagram (ERD) editor — click to add tables, click to add columns, draw foreign key lines between columns
+- Exports working MySQL and PostgreSQL CREATE TABLE DDL scripts — not just a diagram, but runnable SQL
+- Supports PRIMARY KEY, UNIQUE, NOT NULL, AUTO_INCREMENT (MySQL) / SERIAL (PostgreSQL) constraints
+- Foreign key relationship modelling with crow's foot / chicken-foot notation showing cardinality
+- Multiple diagrams per account, each auto-saved to the cloud — accessible from any browser
+- Real-time multiplayer: share a diagram link and edit collaboratively with live cursors (like Figma)
+- Demo mode — try the full tool without creating an account at https://sql-designer.com/demo
 
 ## Who it is for
-Developers, database administrators, and students who need to design or document a relational database schema quickly. A free alternative to MySQL Workbench, dbdiagram.io, Lucidchart (database templates), and pgAdmin's schema tools.
 
-## Pages
-- https://sql-designer.com/ — Home: overview, features, how-to steps, FAQ
-- https://sql-designer.com/demo — Try the tool without signing up
+- Developers who need to design or prototype a relational database schema before writing code
+- Database administrators documenting an existing schema visually
+- Students learning database design, ER diagrams, normalization, and foreign key relationships
+- Teams that need to collaborate on a schema in real time without paying for enterprise software
+
+## How it compares to alternatives
+
+- vs MySQL Workbench: SQL Designer is browser-based and requires no installation. MySQL Workbench is a full database IDE; SQL Designer is focused on schema design only.
+- vs dbdiagram.io: SQL Designer is visual (drag-and-drop); dbdiagram.io uses a text DSL (DBML). SQL Designer exports SQL for free; dbdiagram.io requires a paid plan for SQL export and private diagrams.
+- vs draw.io / Lucidchart: Those are general diagramming tools — they cannot validate constraints or export SQL. SQL Designer is database-aware.
+- vs pgAdmin / DBeaver: Those are database clients for running queries and managing live databases. SQL Designer is a schema design tool, not a database client.
+
+## Pricing
+
+Completely free. No paid tiers, no feature limits, no credit card required. All features including multiplayer are available to all registered users.
+
+## Common use cases
+
+- Designing the database schema for a new web application before writing any code
+- Creating an ER diagram for a school or university database design assignment
+- Documenting an existing MySQL or PostgreSQL database schema visually
+- Comparing schema design approaches with a team in real time
+- Generating a starter CREATE TABLE script for an e-commerce, blog, SaaS, or other common schema
+
+## Key pages
+
+- https://sql-designer.com/ — Home: tool overview, features, how-to steps, FAQ
+- https://sql-designer.com/demo — Try the full tool without signing up
 - https://sql-designer.com/register — Create a free account
-- https://sql-designer.com/blog — All blog articles
+- https://sql-designer.com/blog — All blog articles on database design, ERDs, and MySQL/PostgreSQL
 
 ## Blog articles
+
+- https://sql-designer.com/blog/database-schema-examples — Five real-world schema templates (e-commerce, blog, SaaS, task tracker, messaging) with MySQL and PostgreSQL SQL
+- https://sql-designer.com/blog/dbdiagram-alternative — Free visual alternatives to dbdiagram.io with SQL export
 - https://sql-designer.com/blog/how-to-design-mysql-database-schema — Step-by-step guide to designing a MySQL schema
 - https://sql-designer.com/blog/er-diagram-tool-online — What ER diagrams are and how to create one for free
 - https://sql-designer.com/blog/mysql-workbench-alternative — Free browser-based MySQL Workbench alternatives
