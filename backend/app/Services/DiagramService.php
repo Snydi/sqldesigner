@@ -426,6 +426,9 @@ class DiagramService
 
         if (!$sourceRow || !$targetRow) return null;
 
+        $targetTableNode = collect($tables)->first(fn($t) => $t['id'] === $targetRow['parentNode']);
+        $color = $targetTableNode['data']['color'] ?? '#3d7a5c';
+
         return [
             'id'           => uniqid('e-'),
             'type'         => 'chickenFoot',
@@ -434,7 +437,8 @@ class DiagramService
             'sourceHandle' => 'source-right',
             'targetHandle' => 'target-left',
             'updatable'    => true,
-            'data'         => ['markerStart' => 'none', 'markerEnd' => 'none'],
+            'style'        => ['stroke' => $color],
+            'data'         => ['relationshipType' => 'one-to-many', 'markerStart' => 'url(#chickenFoot)', 'markerEnd' => 'none', 'color' => $color],
         ];
     }
 }
