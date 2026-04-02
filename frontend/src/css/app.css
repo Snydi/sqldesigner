@@ -14,11 +14,18 @@
 }
 
 /* ── Base ────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html,
 body {
     margin: 0;
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -61,6 +68,7 @@ select:focus {
     margin-top: 4px;
     height: 24px;
     width: auto;
+    max-width: 120px;
 }
 
 /* ── Header (landing page) ───────────────────────────────────── */
