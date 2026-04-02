@@ -6,7 +6,7 @@ export const CURSOR_COLORS = ['#E53935', '#D81B60', '#8E24AA', '#3949AB', '#1E88
 
 /**
  * Manages the Laravel Echo presence channel for a diagram:
- * remote cursors, schema-patch sync, and modal-update sync.
+ * remote cursors, schema-patch sync, and diagram-saved notifications.
  *
  * @param {Object} opts
  * @param {string}      opts.token
@@ -14,9 +14,9 @@ export const CURSOR_COLORS = ['#E53935', '#D81B60', '#8E24AA', '#3949AB', '#1E88
  * @param {import('vue').Ref} opts.viewport        - VueFlow viewport
  * @param {import('vue').Ref} opts.schema          - diagram schema array
  * @param {import('vue').Ref} opts.canvasWrapperRef
- * @param {Function} opts.onModalUpdate            - called with { type, edgeId, open }
+ * @param {Function} opts.onDiagramSaved           - called when a remote user saves
  */
-export function useDiagramPresence({ token, ownerIdentity, viewport, schema, canvasWrapperRef, onModalUpdate }) {
+export function useDiagramPresence({ token, ownerIdentity, viewport, schema, canvasWrapperRef, onDiagramSaved }) {
     const remoteCursors = reactive({})
     let echo = null
     let presenceChannel = null
@@ -50,6 +50,9 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
                 if (user.id !== ownerIdentity.value.id) {
                     remoteCursors[user.id] = { ...user, screenX: -999, screenY: -999 }
                 }
+                setTimeout(() => {
+                    whisper('schema-sync', { schema: schema.value })
+                }, Math.random() * 200)
             })
             .leaving((user) => {
                 delete remoteCursors[user.id]
@@ -60,6 +63,9 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
                 remoteCursors[id].flowY = y
                 remoteCursors[id].screenX = x * viewport.value.zoom + viewport.value.x
                 remoteCursors[id].screenY = y * viewport.value.zoom + viewport.value.y
+            })
+            .listenForWhisper('schema-sync', ({ schema: incoming }) => {
+                if (incoming?.length) schema.value = incoming
             })
             .listenForWhisper('schema-patch', ({ add, remove, update }) => {
                 if (remove?.length) {
@@ -78,7 +84,9 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
                     }
                 }
             })
-            .listenForWhisper('modal-update', onModalUpdate)
+            .listenForWhisper('diagram-saved', () => {
+                if (onDiagramSaved) onDiagramSaved()
+            })
     }
 
     const cleanupEcho = () => {
@@ -101,5 +109,5 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
         }
     }, { deep: true })
 
-    return { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove }
+    return { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove, broadcastCursor }
 }
