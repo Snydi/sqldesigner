@@ -216,7 +216,7 @@
 .table_icon {
     width: 100%;
     height: 100%;
-    color: white;
+    filter: brightness(0) invert(1);
 }
 
 .relationship_modal {
@@ -273,7 +273,7 @@
 }
 
 .relationship_modal__color_picker:hover {
-    border-color: grey;
+    border-color: #3d7a5c;
 }
 
 .relationship_modal__trash {
@@ -490,7 +490,7 @@ label.options_modal_row {
 }
 
 .vue-flow__node-table > .table_color_picker:hover {
-    border-color: grey;
+    border-color: #3d7a5c;
 }
 
 .table_color_input {

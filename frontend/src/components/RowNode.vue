@@ -187,3 +187,9 @@ const toggleUnsigned = () => {
     emitChange()
 }
 </script>
+
+<style scoped>
+.table_icon {
+    filter: none;
+}
+</style>

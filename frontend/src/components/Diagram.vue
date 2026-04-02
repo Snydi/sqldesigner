@@ -179,7 +179,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, onMounted, onUnmounted, ref, nextTick } from 'vue'
+import { computed, onBeforeMount, onMounted, onUnmounted, ref, nextTick, watch } from 'vue'
 import { Panel, Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/background'
 import { TableActions, TABLE_STYLE } from '@/services/TableActions.js'
@@ -245,6 +245,25 @@ const canvasWrapperRef = ref(null)
 const { width: canvasWidth, height: canvasHeight } = useElementSize(canvasWrapperRef)
 
 const EDGE_PADDING = 44
+
+watch(
+    () => schema.value?.filter(n => n.type === 'row').map(n => `${n.parentNode}:${n.id}:${n.position.y}`).sort().join(','),
+    () => {
+        if (!schema.value) return
+        const best = {}
+        schema.value.filter(n => n.type === 'row').forEach(n => {
+            if (!best[n.parentNode] || n.position.y > best[n.parentNode].position.y)
+                best[n.parentNode] = n
+        })
+        const lastIds = new Set(Object.values(best).map(n => n.id))
+        schema.value.forEach(n => {
+            if (n.type !== 'row' || !n.style) return
+            if (lastIds.has(n.id)) n.style.borderRadius = '0 0 6px 6px'
+            else delete n.style.borderRadius
+        })
+    },
+    { immediate: true }
+)
 
 const offScreenCursors = computed(() => {
     const w = canvasWidth.value
