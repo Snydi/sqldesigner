@@ -606,11 +606,11 @@ const startRowDrag = (id) => {
         targetNode.position.y = tempY
 
         isSaved.value = false
+        const siblingRows = schema.value
+            .filter(el => el.type === 'row' && el.parentNode === sourceNode.parentNode)
+            .sort((a, b) => a.position.y - b.position.y)
         whisper('schema-patch', {
-            update: [
-                { id: sourceNode.id, position: { ...sourceNode.position } },
-                { id: targetNode.id, position: { ...targetNode.position } },
-            ]
+            update: siblingRows.map(r => ({ id: r.id, position: { ...r.position } }))
         })
     }
 
@@ -766,6 +766,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     clearInterval(autoSaveTimer)
+    if (!isSaved.value && canEdit.value && !props.isDemo) saveDiagram()
     cleanupEcho()
     document.removeEventListener('keydown', onEscapeKey)
 })
