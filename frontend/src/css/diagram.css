@@ -3,6 +3,7 @@
     border-radius: 10px;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
     width: 700px;
+    max-width: calc(100vw - 2rem);
     display: flex;
     flex-direction: column;
     overflow: hidden;

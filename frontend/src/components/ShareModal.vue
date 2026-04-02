@@ -89,6 +89,7 @@ const copyLink = async () => {
     border-radius: 10px;
     padding: 1.5rem;
     width: 380px;
+    max-width: calc(100vw - 2rem);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
