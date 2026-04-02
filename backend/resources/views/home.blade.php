@@ -162,7 +162,6 @@
         body { overflow-y: auto; margin: 0; }
 
         .home-page {
-            font-family: 'JetBrains Mono', monospace;
             color: #2c3e50;
             background: #f9f9f9;
         }

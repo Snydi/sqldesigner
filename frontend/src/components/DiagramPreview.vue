@@ -44,7 +44,7 @@
                 fill="white"
                 text-anchor="middle"
                 font-size="14"
-                font-family="'JetBrains Mono', monospace"
+                font-family="'Inter', sans-serif"
             >{{ truncate(table.label, 22) }}</text>
 
             <!-- Rows -->
@@ -59,7 +59,7 @@
                     :y="table.y + HEADER_H + ROW_H * i + ROW_H * 0.6"
                     fill="#666"
                     font-size="11"
-                    font-family="'JetBrains Mono', monospace"
+                    font-family="'Inter', sans-serif"
                 >{{ truncate(row.label, 28) }}</text>
             </g>
 
