@@ -10,6 +10,7 @@ export const TABLE_STYLE = {
     height: '40px',
     alignItems: 'center',
     justifyContent: 'space-between',
+    borderRadius: '6px 6px 0 0',
 }
 
 export const ROW_STYLE = {
