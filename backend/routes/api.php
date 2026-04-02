@@ -6,9 +6,11 @@ use App\Http\Controllers\FeedbackController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/feedback', [FeedbackController::class, 'send']);
+Route::middleware('throttle:10,1')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+});
+Route::middleware('throttle:5,1')->post('/feedback', [FeedbackController::class, 'send']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/diagrams/shared/{token}', [DiagramController::class, 'showByToken']);

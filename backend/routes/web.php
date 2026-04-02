@@ -27,7 +27,7 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
 
 Route::prefix('/admin')->group(function () {
     Route::get('/login', [AdminController::class, 'showLogin'])->name('admin.login');
-    Route::post('/login', [AdminController::class, 'login'])->name('admin.login.post');
+    Route::post('/login', [AdminController::class, 'login'])->name('admin.login.post')->middleware('throttle:5,1');
 
     Route::middleware('admin')->group(function () {
         Route::get('/', [AdminController::class, 'showDashboard'])->name('admin.dashboard');

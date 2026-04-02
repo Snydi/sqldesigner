@@ -26,8 +26,8 @@ class AdminController extends Controller
         ]);
 
         if (
-            $request->input('username') === 'admin' &&
-            $request->input('password') === config('app.admin_password')
+            hash_equals('admin', $request->input('username')) &&
+            hash_equals((string) config('app.admin_password'), $request->input('password'))
         ) {
             session(['admin_authenticated' => true]);
             return redirect('/admin');
