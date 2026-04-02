@@ -49,10 +49,10 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
             .joining((user) => {
                 if (user.id !== ownerIdentity.value.id) {
                     remoteCursors[user.id] = { ...user, screenX: -999, screenY: -999 }
+                    setTimeout(() => {
+                        whisper('schema-sync', { schema: schema.value, forUserId: user.id })
+                    }, Math.random() * 200)
                 }
-                setTimeout(() => {
-                    whisper('schema-sync', { schema: schema.value })
-                }, Math.random() * 200)
             })
             .leaving((user) => {
                 delete remoteCursors[user.id]
@@ -64,7 +64,8 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
                 remoteCursors[id].screenX = x * viewport.value.zoom + viewport.value.x
                 remoteCursors[id].screenY = y * viewport.value.zoom + viewport.value.y
             })
-            .listenForWhisper('schema-sync', ({ schema: incoming }) => {
+            .listenForWhisper('schema-sync', ({ schema: incoming, forUserId }) => {
+                if (forUserId && forUserId !== ownerIdentity.value?.id) return
                 if (incoming?.length) schema.value = incoming
             })
             .listenForWhisper('schema-patch', ({ add, remove, update }) => {
