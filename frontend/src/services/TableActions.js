@@ -113,7 +113,7 @@ export const TableActions = {
             type: 'table',
             label: tableName,
             zIndex,
-            data: { toolbarPosition: Position.Top, toolbarVisible: true },
+            data: { toolbarPosition: Position.Top, toolbarVisible: true, color: '#3d7a5c' },
             position,
             style: TABLE_STYLE
         }]

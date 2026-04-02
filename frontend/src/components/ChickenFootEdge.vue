@@ -4,8 +4,8 @@
             <!--God knows how this svg is constructed-->
             <marker id="chickenFoot" viewBox="0 0 20 20" refX="8" refY="5"
                     markerWidth="70" markerHeight="140" orient="auto-start-reverse">
-                <path d="M0,0 L5,5 M5,5 L5,5 M5,5 L10,0 M5,5 L10,0" fill="none" stroke="grey"
-                      transform="rotate(90 5 5)" stroke-width="0.1" />
+                <path d="M0,0 L5,5 M5,5 L5,5 M5,5 L10,0 M5,5 L10,0" fill="none" stroke="context-stroke"
+                      transform="rotate(90 5 5)" stroke-width="0.15" />
             </marker>
         </defs>
     </svg>

@@ -454,6 +454,13 @@ label.options_modal_row {
     pointer-events: all;
 }
 
+.diagram-canvas.is-connecting .vue-flow__handle {
+    opacity: 1;
+    pointer-events: all;
+    width: 14px;
+    height: 14px;
+}
+
 .vue-flow__node-table {
     cursor: grab;
     justify-content: center !important;

@@ -1,6 +1,6 @@
 .PHONY: install up down reinstall clean _wait_postgres _composer_install phpunit \
         install-prod up-prod down-prod build-frontend _wait_postgres_prod _composer_install_prod \
-        clean-prod reinstall-prod
+        clean-prod reinstall-prod backup-db
 
 ifeq ($(OS),Windows_NT)
     RM = del /f /q
@@ -147,3 +147,6 @@ clean-prod:
 reinstall-prod:
 	$(MAKE) clean-prod
 	$(MAKE) install-prod
+
+backup-db:
+	bash scripts/backup-db.sh
