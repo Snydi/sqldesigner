@@ -20,6 +20,12 @@
         .home-footer a:hover { color: #3d7a5c; }
         .home-footer a.footer-gitlab { display: inline-flex; align-items: center; gap: 0.3rem; vertical-align: middle; }
         .home-footer a.footer-gitlab:hover { color: #FC6D26; }
+        @media (max-width: 540px) {
+            .header { padding: 0.5rem; }
+            .flex-items { gap: 0.4rem; }
+            .btn { padding: 0.35rem 0.6rem; font-size: 0.85rem; }
+            .nav-hide-mobile { display: none !important; }
+        }
     </style>
     @yield('head')
     <script>
@@ -40,7 +46,7 @@
 <header class="header">
     <a href="/"><img class="logo" src="{{ Vite::asset('src/icons/logo.svg') }}" alt="SQL Designer logo" width="148" height="24"></a>
     <nav class="flex-items" aria-label="Main navigation">
-        <a class="btn btn-secondary" href="/blog">Blog</a>
+        <a class="btn btn-secondary nav-hide-mobile" href="/blog">Blog</a>
         <div id="nav-authed" style="display:none; gap:1rem;">
             <a class="btn btn-secondary" href="/diagrams">My Diagrams</a>
             <a class="btn btn-secondary" href="/logout">Logout</a>
@@ -48,7 +54,7 @@
         <div id="nav-guest" style="display:flex; gap:1rem;">
             <a class="btn btn-primary" href="/demo">Try Demo</a>
             <a class="btn btn-secondary" href="/register">Register</a>
-            <a class="btn btn-secondary" href="/login">Login</a>
+            <a class="btn btn-secondary nav-hide-mobile" href="/login">Login</a>
         </div>
     </nav>
     <script>
