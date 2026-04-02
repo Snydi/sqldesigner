@@ -199,7 +199,7 @@ export default {
 
 <style scoped>
 .diagrams-page {
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -230,6 +230,18 @@ export default {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1.5rem;
     padding: 2rem;
+}
+
+@media (max-width: 480px) {
+    .diagrams-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .diagrams-header {
+        padding: 1rem;
+    }
 }
 
 /* ── Cards ─────────────────────────────────────────────────── */
@@ -315,6 +327,12 @@ export default {
     display: flex;
 }
 
+@media (hover: none) {
+    .diagram-card__delete {
+        display: flex;
+    }
+}
+
 .diagram-card__delete:hover {
     background: #fee;
     border-color: #f5c0c0;
@@ -376,6 +394,7 @@ export default {
     border-radius: 10px;
     padding: 2rem;
     width: 340px;
+    max-width: calc(100vw - 2rem);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
