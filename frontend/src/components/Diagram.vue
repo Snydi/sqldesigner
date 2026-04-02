@@ -58,6 +58,8 @@
                 @edge-update="canEdit && onEdgeUpdate($event)"
                 @edge-click="canEdit && openRelationshipModal($event)"
                 @connect="canEdit && onConnect($event)"
+                @connect-start="isConnecting = true"
+                @connect-end="isConnecting = false"
                 @node-drag-start="onNodeDragStart"
                 @node-drag="onNodeDrag"
                 @node-drag-stop="onNodeDragStop"
@@ -74,7 +76,7 @@
                 :nodes-draggable="canEdit"
                 :nodes-connectable="canEdit"
                 :edges-updatable="canEdit"
-                :class="['diagram-canvas', { 'is-placing-table': isPlacingTable }]"
+                :class="['diagram-canvas', { 'is-placing-table': isPlacingTable, 'is-connecting': isConnecting }]"
             >
                 <Panel position="top-left" class="table-navigator">
                     <button class="table-navigator__toggle" @click.stop="tableNavOpen = !tableNavOpen" title="Tables">
@@ -430,6 +432,7 @@ const navigateToTable = (tableId) => {
 // --- Add/copy/place table ---
 
 const isPlacingTable = ref(false)
+const isConnecting = ref(false)
 const copyingTableId = ref(null)
 
 const addTable = () => {
@@ -599,8 +602,19 @@ const updateTableColor = (tableId, color) => {
     if (!tableNode) return
     tableNode.style = { ...tableNode.style, background: color, borderColor: color }
     tableNode.data = { ...tableNode.data, color }
+
+    const childIds = schema.value.filter(el => el.parentNode === tableId).map(el => el.id)
+    const connectedEdges = schema.value.filter(el =>
+        el.source && (childIds.includes(el.source) || childIds.includes(el.target))
+    )
+    connectedEdges.forEach(edge => {
+        edge.style = { ...edge.style, stroke: color }
+        edge.data = { ...edge.data, color }
+    })
+
     isSaved.value = false
-    whisper('schema-patch', { update: [{ id: tableId, style: { ...tableNode.style }, data: { color } }] })
+    const edgeUpdates = connectedEdges.map(edge => ({ id: edge.id, style: { ...edge.style }, data: { color } }))
+    whisper('schema-patch', { update: [{ id: tableId, style: { ...tableNode.style }, data: { color } }, ...edgeUpdates] })
 }
 
 // --- Row drag ---
