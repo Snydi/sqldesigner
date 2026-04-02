@@ -42,13 +42,24 @@
                     :name="cursor.name"
                     :color="cursor.color"
                 />
+                <div
+                    v-for="ind in offScreenCursors"
+                    :key="'edge-' + ind.id"
+                    class="cursor-edge-indicator"
+                    :style="{ transform: `translate(calc(${ind.x}px - 50%), calc(${ind.y}px - 50%))` }"
+                >
+                    <svg class="cursor-edge-indicator__arrow" :style="{ transform: `rotate(${ind.angle}deg)` }" width="14" height="14" viewBox="0 0 14 14" :fill="ind.color">
+                        <polygon points="1,3 1,11 13,7" />
+                    </svg>
+                </div>
             </div>
             <VueFlow
                 :default-edge-options="{ type: 'chickenFoot' }"
-                @edge-update="onEdgeUpdate"
-                @edge-click="openRelationshipModal"
-                @connect="onConnect"
+                @edge-update="canEdit && onEdgeUpdate($event)"
+                @edge-click="canEdit && openRelationshipModal($event)"
+                @connect="canEdit && onConnect($event)"
                 @node-drag-start="onNodeDragStart"
+                @node-drag="onNodeDrag"
                 @node-drag-stop="onNodeDragStop"
                 @node-click="({ node }) => elevateTable(node)"
                 @pane-click="onPaneClick"
@@ -60,6 +71,9 @@
                 :zoomOnDoubleClick="false"
                 :controlled="false"
                 :pan-on-drag="!isPlacingTable"
+                :nodes-draggable="canEdit"
+                :nodes-connectable="canEdit"
+                :edges-updatable="canEdit"
                 :class="['diagram-canvas', { 'is-placing-table': isPlacingTable }]"
             >
                 <Panel position="top-left" class="table-navigator">
@@ -94,6 +108,7 @@
                         :id="nodeProps.id"
                         :data="nodeProps.data"
                         :label="nodeProps.label"
+                        :canEdit="canEdit"
                         @delete-node="deleteNode"
                         @update-label="updateLabel"
                         @copy-table="copyTable"
@@ -109,6 +124,7 @@
                         :data="nodeProps.data"
                         :label="nodeProps.label"
                         :dbType="diagramDbType"
+                        :canEdit="canEdit"
                         @update-label="updateLabel"
                         @toggle-options-modal="toggleOptionsModal"
                         @delete-node="deleteNode"
@@ -180,6 +196,7 @@ import RelationshipModal from './RelationshipModal.vue'
 import SqlModal from './SqlModal.vue'
 import RemoteCursor from './RemoteCursor.vue'
 import FeedbackModal from './FeedbackModal.vue'
+import { useElementSize } from '@vueuse/core'
 import { useToast } from 'vue-toast-notification'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -225,32 +242,45 @@ const diagramShareAccess = ref(null)
 
 const ownerIdentity = ref(null)
 const canvasWrapperRef = ref(null)
+const { width: canvasWidth, height: canvasHeight } = useElementSize(canvasWrapperRef)
 
-const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove } = useDiagramPresence({
+const EDGE_PADDING = 44
+
+const offScreenCursors = computed(() => {
+    const w = canvasWidth.value
+    const h = canvasHeight.value
+    if (!w || !h) return []
+    return Object.values(remoteCursors).filter(c => {
+        if (c.flowX === undefined) return false
+        return c.screenX < 0 || c.screenX > w || c.screenY < 0 || c.screenY > h
+    }).map(c => {
+        const cx = w / 2
+        const cy = h / 2
+        const dx = c.screenX - cx
+        const dy = c.screenY - cy
+        let t = Infinity
+        if (dx > 0) t = Math.min(t, (w - EDGE_PADDING - cx) / dx)
+        if (dx < 0) t = Math.min(t, (EDGE_PADDING - cx) / dx)
+        if (dy > 0) t = Math.min(t, (h - EDGE_PADDING - cy) / dy)
+        if (dy < 0) t = Math.min(t, (EDGE_PADDING - cy) / dy)
+        return {
+            id: c.id,
+            name: c.name,
+            color: c.color,
+            x: Math.round(cx + t * dx),
+            y: Math.round(cy + t * dy),
+            angle: Math.atan2(dy, dx) * (180 / Math.PI),
+        }
+    })
+})
+
+const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove, broadcastCursor } = useDiagramPresence({
     token,
     ownerIdentity,
     viewport,
     schema,
     canvasWrapperRef,
-    onModalUpdate: ({ type, edgeId, open }) => {
-        if (type !== 'relationship') return
-        if (open && edgeId) {
-            const edge = schema.value.find(el => el.id === edgeId)
-            if (!edge) return
-            selectedEdge.value = edge
-            nextTick(() => {
-                const el = document.querySelector(`[id="${edgeId}"]`)
-                if (el) {
-                    const { left, top, width, height } = el.getBoundingClientRect()
-                    modalPosition.value = { x: left + window.scrollX + width / 2, y: top + window.scrollY + height / 2 }
-                }
-                showRelationshipModal.value = true
-            })
-        } else {
-            showRelationshipModal.value = false
-            selectedEdge.value = null
-        }
-    },
+    onDiagramSaved: () => $toast.success('Diagram saved'),
 })
 
 // --- Table hover ---
@@ -294,6 +324,15 @@ const elevateTable = (node) => {
 }
 
 const onNodeDragStart = ({ node }) => elevateTable(node)
+
+let lastNodeDragWhisper = 0
+const onNodeDrag = ({ node, event }) => {
+    const now = Date.now()
+    if (now - lastNodeDragWhisper < 50) return
+    lastNodeDragWhisper = now
+    whisper('schema-patch', { update: [{ id: node.id, position: node.position }] })
+    broadcastCursor(event)
+}
 
 const onNodeDragStop = ({ node }) => {
     isSaved.value = false
@@ -431,7 +470,6 @@ const deleteEdge = () => {
     showRelationshipModal.value = false
     isSaved.value = false
     whisper('schema-patch', { remove: [edgeId] })
-    whisper('modal-update', { type: 'relationship', open: false })
 }
 
 const deleteNode = (nodeId) => {
@@ -500,7 +538,6 @@ const updateConnectionLineType = (relationshipType) => {
                 result.addedEdgeIds.includes(el.id)
             )
             whisper('schema-patch', { add: addedNodes, remove: [result.removedEdgeId] })
-            whisper('modal-update', { type: 'relationship', open: false })
         }
         return
     }
@@ -510,7 +547,6 @@ const updateConnectionLineType = (relationshipType) => {
     isSaved.value = false
     const edge = schema.value.find(el => el.id === selectedEdge.value.id)
     if (edge) whisper('schema-patch', { update: [{ id: edge.id, data: { ...edge.data } }] })
-    whisper('modal-update', { type: 'relationship', open: false })
 }
 
 const onRowChange = (id) => {
@@ -570,11 +606,11 @@ const startRowDrag = (id) => {
         targetNode.position.y = tempY
 
         isSaved.value = false
+        const siblingRows = schema.value
+            .filter(el => el.type === 'row' && el.parentNode === sourceNode.parentNode)
+            .sort((a, b) => a.position.y - b.position.y)
         whisper('schema-patch', {
-            update: [
-                { id: sourceNode.id, position: { ...sourceNode.position } },
-                { id: targetNode.id, position: { ...targetNode.position } },
-            ]
+            update: siblingRows.map(r => ({ id: r.id, position: { ...r.position } }))
         })
     }
 
@@ -616,12 +652,10 @@ const openRelationshipModal = ({ edge }) => {
     const { left, top, width, height } = document.querySelector(`[id="${edge.id}"]`).getBoundingClientRect()
     modalPosition.value = { x: left + window.scrollX + width / 2, y: top + window.scrollY + height / 2 }
     showRelationshipModal.value = true
-    whisper('modal-update', { type: 'relationship', edgeId: edge.id, open: true })
 }
 
 const closeRelationshipModal = () => {
     showRelationshipModal.value = false
-    whisper('modal-update', { type: 'relationship', open: false })
 }
 
 // --- Import / Export ---
@@ -664,6 +698,7 @@ const saveDiagram = async () => {
     }
     await (isOwner.value ? Diagram.save(diagramId.value, schema.value) : Diagram.saveByToken(token, schema.value))
     isSaved.value = true
+    whisper('diagram-saved', {})
 }
 
 // --- Load ---
@@ -731,6 +766,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     clearInterval(autoSaveTimer)
+    if (!isSaved.value && canEdit.value && !props.isDemo) saveDiagram()
     cleanupEcho()
     document.removeEventListener('keydown', onEscapeKey)
 })
@@ -782,4 +818,20 @@ onUnmounted(() => {
     z-index: 100;
     overflow: hidden;
 }
+
+.cursor-edge-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    pointer-events: none;
+}
+
+.cursor-edge-indicator__arrow {
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
+}
+
 </style>
