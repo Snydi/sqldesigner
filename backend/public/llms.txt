@@ -1,0 +1,32 @@
+# SQL Designer
+> Free online ERD tool and database schema designer for MySQL and PostgreSQL.
+
+SQL Designer is a browser-based visual tool for designing relational database schemas. Users drag and drop tables onto a canvas, define columns with data types and constraints (PRIMARY KEY, UNIQUE, NOT NULL), connect tables with foreign key relationships, and export a ready-to-run CREATE TABLE script for MySQL or PostgreSQL. No installation required. Free with no limits on diagrams.
+
+## Key capabilities
+- Visual drag-and-drop schema editor (entity-relationship diagram / ERD tool)
+- MySQL and PostgreSQL CREATE TABLE SQL export
+- Foreign key relationship modelling with chicken-foot notation
+- Supports PRIMARY KEY, UNIQUE, NOT NULL, and AUTO_INCREMENT constraints
+- Multiple diagrams per account, auto-saved to the cloud
+- Real-time multiplayer: share a diagram and edit collaboratively
+- Demo mode — try without creating an account
+
+## Who it is for
+Developers, database administrators, and students who need to design or document a relational database schema quickly. A free alternative to MySQL Workbench, dbdiagram.io, Lucidchart (database templates), and pgAdmin's schema tools.
+
+## Pages
+- https://sql-designer.com/ — Home: overview, features, how-to steps, FAQ
+- https://sql-designer.com/demo — Try the tool without signing up
+- https://sql-designer.com/register — Create a free account
+- https://sql-designer.com/blog — All blog articles
+
+## Blog articles
+- https://sql-designer.com/blog/how-to-design-mysql-database-schema — Step-by-step guide to designing a MySQL schema
+- https://sql-designer.com/blog/er-diagram-tool-online — What ER diagrams are and how to create one for free
+- https://sql-designer.com/blog/mysql-workbench-alternative — Free browser-based MySQL Workbench alternatives
+- https://sql-designer.com/blog/mysql-foreign-key — MySQL foreign key syntax, ON DELETE/UPDATE, examples
+- https://sql-designer.com/blog/mysql-data-types — Choosing the right MySQL data types
+- https://sql-designer.com/blog/database-normalization — 1NF, 2NF, 3NF explained with examples
+- https://sql-designer.com/blog/how-to-draw-er-diagram — How to draw an ER diagram step by step
+- https://sql-designer.com/blog/mysql-vs-postgresql — MySQL vs PostgreSQL key differences for schema design

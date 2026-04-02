@@ -10,6 +10,14 @@
     <meta property="og:description" content="Tutorials and guides on MySQL database design, ER diagrams, and schema best practices.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/blog">
+    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image:width" content="2557">
+    <meta property="og:image:height" content="1269">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Blog — SQL Designer">
+    <meta name="twitter:description" content="Tutorials and guides on MySQL database design, ER diagrams, and schema best practices.">
+    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <style>
         body { overflow-y: auto; }
         .blog-index {

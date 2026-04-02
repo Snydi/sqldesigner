@@ -5,6 +5,7 @@
 @section('head')
     <meta name="description"
           content="A practical guide to MySQL data types: numeric, string, date/time, and JSON types — with advice on which to choose for each use case.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-data-types">
     <meta property="og:title" content="MySQL Data Types Explained — Which to Use and When">
@@ -15,7 +16,10 @@
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MySQL Data Types Explained — Which to Use and When">
+    <meta name="twitter:description" content="A practical guide to MySQL data types: numeric, string, date/time, and JSON types — with advice on which to choose for each use case.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
         @verbatim
@@ -221,7 +225,7 @@
 @section('content')
     <article class="blog-post">
         <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; MySQL</p>
-        <p class="post-meta">March 2026 &mdash; 7 min read</p>
+        <p class="post-meta"><time datetime="2026-03-19">March 2026</time> &mdash; 7 min read</p>
         <h1>MySQL Data Types Explained — Which to Use and When</h1>
 
         <p class="intro">

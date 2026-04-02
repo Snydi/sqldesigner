@@ -5,6 +5,7 @@
 @section('head')
     <meta name="description"
           content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/er-diagram-tool-online">
     <meta property="og:title" content="Free ER Diagram Tool Online for MySQL — No Download Required">
@@ -15,7 +16,10 @@
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free ER Diagram Tool Online for MySQL — No Download Required">
+    <meta name="twitter:description" content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
         @verbatim
@@ -181,7 +185,7 @@
 @section('content')
     <article class="blog-post">
         <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; ER Diagrams</p>
-        <p class="post-meta">March 2026 &mdash; 5 min read</p>
+        <p class="post-meta"><time datetime="2026-03-18">March 2026</time> &mdash; 5 min read</p>
         <h1>Free ER Diagram Tool Online for MySQL — No Download Required</h1>
 
         <p class="intro">

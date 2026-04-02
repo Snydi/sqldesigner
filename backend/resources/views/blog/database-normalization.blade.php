@@ -5,6 +5,7 @@
 @section('head')
     <meta name="description"
           content="Learn database normalization with clear examples. Understand 1NF, 2NF, and 3NF, why they matter, and when it's acceptable to denormalize.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-normalization">
     <meta property="og:title" content="Database Normalization — 1NF, 2NF, and 3NF Explained">
@@ -15,7 +16,10 @@
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Database Normalization — 1NF, 2NF, and 3NF Explained">
+    <meta name="twitter:description" content="Learn database normalization with clear examples. Understand 1NF, 2NF, and 3NF, why they matter, and when it's acceptable to denormalize.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
         @verbatim
@@ -242,7 +246,7 @@
 @section('content')
     <article class="blog-post">
         <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; Schema Design</p>
-        <p class="post-meta">March 2026 &mdash; 8 min read</p>
+        <p class="post-meta"><time datetime="2026-03-19">March 2026</time> &mdash; 8 min read</p>
         <h1>Database Normalization Explained — 1NF, 2NF, and 3NF with Examples</h1>
 
         <p class="intro">

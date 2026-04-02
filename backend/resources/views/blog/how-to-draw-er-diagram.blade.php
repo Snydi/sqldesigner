@@ -4,6 +4,7 @@
 
 @section('head')
     <meta name="description" content="A step-by-step guide to drawing ER diagrams: entities, attributes, relationships, cardinality notation, and practical tips for MySQL.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/how-to-draw-er-diagram">
     <meta property="og:title" content="How to Draw an ER Diagram Step by Step">
@@ -13,7 +14,10 @@
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Draw an ER Diagram Step by Step">
+    <meta name="twitter:description" content="A step-by-step guide to drawing ER diagrams: entities, attributes, relationships, cardinality notation, and practical tips for MySQL.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
          @verbatim
@@ -68,7 +72,7 @@
 @section('content')
 <article class="blog-post">
     <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; ER Diagrams</p>
-    <p class="post-meta">March 2026 &mdash; 6 min read</p>
+    <p class="post-meta"><time datetime="2026-03-19">March 2026</time> &mdash; 6 min read</p>
     <h1>How to Draw an ER Diagram Step by Step</h1>
 
     <p class="intro">
@@ -143,7 +147,7 @@
 
     <div class="step-block">
         <h3>Step 7 — Generate the SQL</h3>
-        <p>Once the diagram looks correct, generate your <code>CREATE TABLE</code> DDL from it. A diagram tool that exports SQL eliminates transcription errors between design and implementation.</p>
+        <p>Once the diagram looks correct, generate your <code>CREATE TABLE</code> DDL from it. A <a href="/demo" style="color:var(--color-primary);">diagram tool that exports SQL</a> eliminates transcription errors between design and implementation.</p>
     </div>
 
     <h2>Common ER Diagram Mistakes</h2>

@@ -5,6 +5,7 @@
 @section('head')
     <meta name="description"
           content="Looking for a MySQL Workbench alternative? Compare the best free online MySQL schema design tools — no download or installation needed.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-workbench-alternative">
     <meta property="og:title" content="MySQL Workbench Alternative — Free Online, No Install">
@@ -15,7 +16,10 @@
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MySQL Workbench Alternative — Free Online, No Install">
+    <meta name="twitter:description" content="The best free online alternatives to MySQL Workbench for database schema design — no installation required.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
         @verbatim
@@ -202,7 +206,7 @@
 @section('content')
     <article class="blog-post">
         <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; Tools</p>
-        <p class="post-meta">March 2026 &mdash; 5 min read</p>
+        <p class="post-meta"><time datetime="2026-03-18">March 2026</time> &mdash; 5 min read</p>
         <h1>MySQL Workbench Alternative Online — Free &amp; No Install Required</h1>
 
         <p class="intro">
@@ -251,7 +255,7 @@
         <h2>Online Alternatives for MySQL Schema Design</h2>
 
         <div class="tool-card">
-            <h3>SQL Designer — sqldesigner.com</h3>
+            <h3><a href="/demo" style="color:inherit; text-decoration:none;">SQL Designer</a> — sql-designer.com</h3>
             <p>A free, browser-based MySQL schema designer built specifically for this use case. Drag-and-drop tables,
                 define columns with MySQL types and constraints, connect foreign keys visually, and export a
                 ready-to-run <code>CREATE TABLE</code> script. No installation, no subscription, no credit card. Your

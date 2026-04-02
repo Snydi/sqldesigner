@@ -135,6 +135,30 @@
                         "@type": "Answer",
                         "text": "There is no limit. Create as many diagrams as you need — one per project, service, or database."
                     }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Is SQL Designer a free MySQL Workbench alternative?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. SQL Designer is a free, browser-based alternative to MySQL Workbench for schema design. Unlike MySQL Workbench, it requires no download or installation — you design your schema visually in the browser and export a CREATE TABLE script in seconds."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How does SQL Designer compare to dbdiagram.io?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Both tools let you design database schemas visually and export SQL. SQL Designer uses a drag-and-drop canvas with a visual ERD layout, supports both MySQL and PostgreSQL, and is completely free with no diagram limits. dbdiagram.io uses a DSL (text-based) input rather than a purely visual editor."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I use SQL Designer to create ER diagrams?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. SQL Designer is an ERD (entity-relationship diagram) tool. You add tables as entities, define columns as attributes, and draw foreign key lines between tables to model relationships — all visually on a canvas, with chicken-foot notation."
+                    }
                 }
             ]
         },
@@ -581,6 +605,24 @@
                 <details>
                     <summary>How many diagrams can I create?</summary>
                     <p>There is no limit. Create as many diagrams as you need — one per project, service, or database.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>Is SQL Designer a free MySQL Workbench alternative?</summary>
+                    <p>Yes. SQL Designer is a free, browser-based alternative to MySQL Workbench for schema design. Unlike MySQL Workbench, it requires no download or installation — you design your schema visually in the browser and export a <code>CREATE TABLE</code> script in seconds.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>How does SQL Designer compare to dbdiagram.io?</summary>
+                    <p>Both tools let you design database schemas visually and export SQL. SQL Designer uses a drag-and-drop canvas with a visual ERD layout, supports both MySQL and PostgreSQL, and is completely free with no diagram limits. dbdiagram.io uses a DSL (text-based) input rather than a purely visual editor.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>Can I use SQL Designer to create ER diagrams?</summary>
+                    <p>Yes. SQL Designer is an ERD (entity-relationship diagram) tool. You add tables as entities, define columns as attributes, and draw foreign key lines between tables to model relationships — all visually on a canvas, with chicken-foot notation.</p>
                 </details>
             </li>
         </ul>

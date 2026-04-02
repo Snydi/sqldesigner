@@ -4,6 +4,7 @@
 
 @section('head')
     <meta name="description" content="Comparing MySQL and PostgreSQL for database schema design: data types, constraints, auto-increment, JSON support, and which to choose for your project.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-vs-postgresql">
     <meta property="og:title" content="MySQL vs PostgreSQL — Key Differences for Schema Design">
@@ -13,7 +14,10 @@
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MySQL vs PostgreSQL — Key Differences for Schema Design">
+    <meta name="twitter:description" content="Comparing MySQL and PostgreSQL for schema design: data types, constraints, JSON support, and which to choose for your project.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
         @verbatim
@@ -73,7 +77,7 @@
 @section('content')
 <article class="blog-post">
     <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; Schema Design</p>
-    <p class="post-meta">March 2026 &mdash; 7 min read</p>
+    <p class="post-meta"><time datetime="2026-03-19">March 2026</time> &mdash; 7 min read</p>
     <h1>MySQL vs PostgreSQL — Key Differences for Schema Design</h1>
 
     <p class="intro">
@@ -157,7 +161,7 @@ CREATE TABLE users (
         <li><strong>For most new projects</strong>, PostgreSQL is the more capable choice. MySQL is the safer choice if you're joining an existing team already using it.</li>
     </ul>
     <p>
-        Whichever you choose, the schema design process is the same: model your entities and relationships first, pick appropriate data types, and validate the design visually before writing DDL.
+        Whichever you choose, the schema design process is the same: model your entities and relationships first, pick appropriate data types, and <a href="/demo" style="color:var(--color-primary);">validate the design visually</a> before writing DDL.
     </p>
 
     <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">

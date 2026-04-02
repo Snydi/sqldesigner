@@ -5,6 +5,7 @@
 @section('head')
     <meta name="description"
           content="A complete guide to MySQL foreign keys: syntax, ON DELETE and ON UPDATE options, practical examples, and common mistakes to avoid.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-foreign-key">
     <meta property="og:title" content="MySQL Foreign Key — Syntax, Examples, and Best Practices">
@@ -15,7 +16,10 @@
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
+    <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MySQL Foreign Key — Syntax, Examples, and Best Practices">
+    <meta name="twitter:description" content="A complete guide to MySQL foreign keys: syntax, ON DELETE and ON UPDATE options, practical examples, and common mistakes to avoid.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
         @verbatim
@@ -193,7 +197,7 @@
 @section('content')
     <article class="blog-post">
         <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; MySQL</p>
-        <p class="post-meta">March 2026 &mdash; 6 min read</p>
+        <p class="post-meta"><time datetime="2026-03-19">March 2026</time> &mdash; 6 min read</p>
         <h1>MySQL Foreign Key — Syntax, Examples, and Best Practices</h1>
 
         <p class="intro">
@@ -312,7 +316,7 @@ CREATE TABLE order_items (
 
         <h2>Visualise Foreign Keys Before Writing DDL</h2>
         <p>
-            For anything beyond a few tables, it's much easier to design your relationships visually first and generate
+            For anything beyond a few tables, it's much easier to <a href="/demo" style="color:var(--color-primary);">design your relationships visually</a> first and generate
             the SQL from the diagram. Drawing the lines between tables makes cascade behaviour and cardinality
             immediately obvious — mistakes that would take hours to debug in raw SQL are visible at a glance.
         </p>
