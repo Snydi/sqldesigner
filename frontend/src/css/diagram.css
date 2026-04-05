@@ -703,3 +703,15 @@ label.options_modal_row {
 .feedback-modal__email-link:hover {
     opacity: 0.8;
 }
+
+.feedback-modal__discord-link {
+    color: #5865F2;
+    text-decoration: underline;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.feedback-modal__discord-link:hover {
+    opacity: 0.8;
+}

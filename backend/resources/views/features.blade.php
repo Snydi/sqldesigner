@@ -7,6 +7,7 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/features">
     <script type="application/ld+json">
+    @verbatim
     {
         "@context": "https://schema.org",
         "@type": "WebPage",
@@ -39,6 +40,7 @@
             ]
         }
     }
+    @endverbatim
     </script>
     <style>
         body { overflow-y: auto; margin: 0; }
