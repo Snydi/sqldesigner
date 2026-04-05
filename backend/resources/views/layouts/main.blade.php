@@ -15,11 +15,21 @@
     @vite(['src/css/app.css'])
     <style>
         body { background-color: #fff; }
-        .home-footer { background-color: #f9f9f9; color: #505050; text-align: center; padding: 1.5rem; font-size: 0.875rem; text-transform: none; }
-        .home-footer a { color: #1a5c3f; text-decoration: underline; }
-        .home-footer a:hover { color: #3d7a5c; }
-        .home-footer a.footer-gitlab { display: inline-flex; align-items: center; gap: 0.3rem; vertical-align: middle; }
-        .home-footer a.footer-gitlab:hover { color: #FC6D26; }
+        .home-footer { background-color: #f0f0f0; color: #505050; font-size: 0.875rem; text-transform: none; padding: 2.5rem 1.5rem 1.5rem; }
+        .home-footer a { color: var(--color-primary); text-decoration: none; }
+        .home-footer a:hover { text-decoration: underline; }
+        .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2.5rem; justify-content: space-between; padding-bottom: 2rem; border-bottom: 1px solid #ddd; }
+        .footer-col { min-width: 140px; }
+        .footer-col-heading { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: #999; margin: 0 0 0.75rem; }
+        .footer-col-heading a { color: #999; font-weight: 600; }
+        .footer-col-heading a:hover { color: var(--color-primary); text-decoration: none; }
+        .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+        .footer-col ul li a { font-size: 0.82rem; color: #555; }
+        .footer-col ul li a:hover { color: var(--color-primary); }
+        .footer-bottom { max-width: 1100px; margin: 1.2rem auto 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: #888; }
+        .footer-gitlab { display: inline-flex; align-items: center; gap: 0.3rem; color: #888; }
+        .footer-gitlab:hover { color: #FC6D26 !important; text-decoration: none !important; }
+        @media (max-width: 540px) { .footer-inner { gap: 1.5rem; } .footer-bottom { flex-direction: column; align-items: flex-start; } }
         @media (max-width: 540px) {
             .header { padding: 0.5rem; }
             .flex-items { gap: 0.4rem; }
@@ -46,14 +56,13 @@
 <header class="header">
     <a href="/"><img class="logo" src="{{ Vite::asset('src/icons/logo.svg') }}" alt="SQL Designer logo" width="148" height="24"></a>
     <nav class="flex-items" aria-label="Main navigation">
-        <a class="btn btn-secondary nav-hide-mobile" href="/blog">Blog</a>
+        <a class="btn btn-secondary nav-hide-mobile" href="/features">Features</a>
         <div id="nav-authed" style="display:none; gap:1rem;">
             <a class="btn btn-secondary" href="/diagrams">My Diagrams</a>
             <a class="btn btn-secondary" href="/logout">Logout</a>
         </div>
         <div id="nav-guest" style="display:flex; gap:1rem;">
-            <a class="btn btn-primary" href="/demo">Try Demo</a>
-            <a class="btn btn-secondary" href="/register">Register</a>
+            <a class="btn btn-primary" href="/register">Create account</a>
             <a class="btn btn-secondary nav-hide-mobile" href="/login">Login</a>
         </div>
     </nav>
@@ -70,14 +79,37 @@
 </main>
 
 <footer class="home-footer">
-    &copy; {{ date('Y') }} SQL Designer. Free MySQL database schema designer.
-    &mdash;
-    <a href="/sitemap">Site Map</a>
-    &mdash;
-    <a href="https://gitlab.com/Snydi/sql-designer" target="_blank" rel="noopener noreferrer" aria-label="View source on GitLab (opens in a new tab)" class="footer-gitlab">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.845.904A.98.98 0 004 1.475L.046 13.645a.995.995 0 00.361 1.115l11.6 8.43a.984.984 0 001.186 0l11.6-8.43a.995.995 0 00.361-1.115L21.2 1.476a.98.98 0 00-1.785-.127L16.56 9.42H7.442L4.63 1.35A.98.98 0 004.845.904z"/></svg>
-        GitLab
-    </a>
+    <div class="footer-inner">
+        <div class="footer-col">
+            <p class="footer-col-heading"><a href="/features">All Features</a></p>
+            <ul>
+                <li><a href="/features#canvas">Visual Canvas</a></li>
+                <li><a href="/features#sql-export">SQL Export</a></li>
+                <li><a href="/features#relationships">Foreign Keys</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <p class="footer-col-heading">Resources</p>
+            <ul>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/sitemap">Site Map</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <p class="footer-col-heading">Code</p>
+            <ul>
+                <li>
+                    <a href="https://gitlab.com/Snydi/sql-designer" target="_blank" rel="noopener noreferrer" class="footer-gitlab" aria-label="View source on GitLab">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M4.845.904A.98.98 0 004 1.475L.046 13.645a.995.995 0 00.361 1.115l11.6 8.43a.984.984 0 001.186 0l11.6-8.43a.995.995 0 00.361-1.115L21.2 1.476a.98.98 0 00-1.785-.127L16.56 9.42H7.442L4.63 1.35A.98.98 0 004.845.904z"/></svg>
+                        GitLab
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>&copy; {{ date('Y') }} SQL Designer &mdash; Free MySQL &amp; PostgreSQL schema designer</span>
+    </div>
 </footer>
 
 </body>
