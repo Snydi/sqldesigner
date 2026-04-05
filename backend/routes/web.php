@@ -21,6 +21,7 @@ Route::prefix('/blog')->group(function () {
     Route::get('/dbdiagram-alternative', fn() => view('blog.dbdiagram-alternative'));
     Route::get('/database-schema-examples', fn() => view('blog.database-schema-examples'));
 });
+Route::get('/features', fn() => view('features'));
 Route::get('/sitemap', fn() => view('sitemap'));
 
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
