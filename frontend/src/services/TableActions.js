@@ -2,9 +2,9 @@ import { Position } from '@vue-flow/core'
 
 export const TABLE_STYLE = {
     display: 'flex',
-    border: '1px solid #3d7a5c',
-    background: '#3d7a5c',
-    borderColor: '#3d7a5c',
+    border: '1px solid #2e5c45',
+    background: '#2e5c45',
+    borderColor: '#2e5c45',
     color: 'white',
     width: '350px',
     height: '40px',
@@ -16,9 +16,9 @@ export const TABLE_STYLE = {
 export const ROW_STYLE = {
     display: 'flex',
     border: '1px solid #10b981',
-    borderColor: '#898989',
-    background: '#ffffff',
-    color: '#000000',
+    borderColor: '#383838',
+    background: '#484848',
+    color: '#e0e0e0',
     width: '350px',
     height: '40px',
     alignItems: 'center',
@@ -113,7 +113,7 @@ export const TableActions = {
             type: 'table',
             label: tableName,
             zIndex,
-            data: { toolbarPosition: Position.Top, toolbarVisible: true, color: '#3d7a5c' },
+            data: { toolbarPosition: Position.Top, toolbarVisible: true, color: '#2e5c45' },
             position,
             style: TABLE_STYLE
         }]

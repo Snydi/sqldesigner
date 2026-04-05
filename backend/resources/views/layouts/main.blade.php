@@ -14,22 +14,22 @@
     <link rel="manifest" href="/manifest.json">
     @vite(['src/css/app.css'])
     <style>
-        body { background-color: #fff; }
-        .home-footer { background-color: #f0f0f0; color: #505050; font-size: 0.875rem; text-transform: none; padding: 2.5rem 1.5rem 1.5rem; }
+        body { background-color: var(--bg-page); color: var(--text-primary); }
+        .home-footer { background-color: var(--bg-elevated); color: var(--text-subtle); font-size: 0.875rem; text-transform: none; padding: 2.5rem 1.5rem 1.5rem; }
         .home-footer a { color: var(--color-primary); text-decoration: none; }
         .home-footer a:hover { text-decoration: underline; }
-        .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2.5rem; justify-content: space-between; padding-bottom: 2rem; border-bottom: 1px solid #ddd; }
+        .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2.5rem; justify-content: space-between; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
         .footer-col { min-width: 140px; }
-        .footer-col-heading { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: #999; margin: 0 0 0.75rem; }
-        .footer-col-heading a { color: #999; font-weight: 600; }
+        .footer-col-heading { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin: 0 0 0.75rem; }
+        .footer-col-heading a { color: var(--text-muted); font-weight: 600; }
         .footer-col-heading a:hover { color: var(--color-primary); text-decoration: none; }
         .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
-        .footer-col ul li a { font-size: 0.82rem; color: #555; }
+        .footer-col ul li a { font-size: 0.82rem; color: var(--text-subtle); }
         .footer-col ul li a:hover { color: var(--color-primary); }
-        .footer-bottom { max-width: 1100px; margin: 1.2rem auto 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: #888; }
-        .footer-gitlab { display: inline-flex; align-items: center; gap: 0.3rem; color: #888; }
+        .footer-bottom { max-width: 1100px; margin: 1.2rem auto 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); }
+        .footer-gitlab { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); }
         .footer-gitlab:hover { color: #FC6D26 !important; text-decoration: none !important; }
-        .footer-discord { display: inline-flex; align-items: center; gap: 0.3rem; color: #888; }
+        .footer-discord { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); }
         .footer-discord:hover { color: #5865F2 !important; text-decoration: none !important; }
         @media (max-width: 540px) { .footer-inner { gap: 1.5rem; } .footer-bottom { flex-direction: column; align-items: flex-start; } }
         @media (max-width: 540px) {

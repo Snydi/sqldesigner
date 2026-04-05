@@ -67,7 +67,7 @@
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.12em;
-            color: #aaa;
+            color: var(--text-muted);
             margin: 0 0 0.6rem;
             padding: 0 0 0.5rem;
         }
@@ -91,18 +91,18 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            color: #555;
+            color: var(--text-subtle);
             text-decoration: none;
             padding: 0.45rem 0.75rem;
-            border-left: 2px solid #e0e0e0;
+            border-left: 2px solid var(--border-color);
             transition: color 0.15s, border-color 0.15s;
             display: block;
         }
 
         .sidebar-nav a.sidebar-section:hover,
         .sidebar-nav a.sidebar-section.active {
-            color: var(--color-primary);
-            border-left-color: var(--color-primary);
+            color: var(--color-primary-text);
+            border-left-color: var(--color-primary-text);
         }
 
         .sidebar-sub {
@@ -115,18 +115,18 @@
 
         .sidebar-sub a {
             font-size: 0.78rem;
-            color: #777;
+            color: var(--text-muted);
             text-decoration: none;
             padding: 0.3rem 0.75rem 0.3rem 1.4rem;
-            border-left: 2px solid #e0e0e0;
+            border-left: 2px solid var(--border-color);
             display: block;
             transition: color 0.15s, border-color 0.15s;
         }
 
         .sidebar-sub a:hover,
         .sidebar-sub a.active {
-            color: var(--color-primary);
-            border-left-color: var(--color-primary);
+            color: var(--color-primary-text);
+            border-left-color: var(--color-primary-text);
         }
 
         /* ── Content ── */
@@ -139,13 +139,13 @@
             font-size: 1.6rem;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            color: var(--color-primary);
+            color: var(--color-primary-text);
             margin: 0 0 0.5rem;
         }
 
         .docs-intro {
             font-size: 0.95rem;
-            color: #555;
+            color: var(--text-subtle);
             line-height: 1.8;
             margin: 0 0 3.5rem;
             text-transform: none;
@@ -160,10 +160,10 @@
             font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 0.12em;
-            color: #aaa;
+            color: var(--text-muted);
             margin: 0 0 1.4rem;
             padding-bottom: 0.6rem;
-            border-bottom: 1px solid #ebebeb;
+            border-bottom: 1px solid var(--border-light);
         }
 
         .feature-entry {
@@ -171,7 +171,7 @@
             gap: 1rem;
             align-items: flex-start;
             padding: 1.2rem 0;
-            border-bottom: 1px solid #f2f2f2;
+            border-bottom: 1px solid var(--border-light);
             scroll-margin-top: 2rem;
         }
 
@@ -200,13 +200,13 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            color: #2c3e50;
+            color: var(--text-primary);
             margin: 0.1rem 0 0.35rem;
         }
 
         .feat-body p {
             font-size: 0.875rem;
-            color: #555;
+            color: var(--text-subtle);
             line-height: 1.75;
             margin: 0;
             text-transform: none;
@@ -214,7 +214,7 @@
 
         .feat-body code {
             font-size: 0.82rem;
-            background: #f0f0f0;
+            background: var(--bg-elevated);
             border-radius: 3px;
             padding: 0.1em 0.35em;
         }
@@ -258,9 +258,9 @@
             .docs-sidebar { width: 100%; position: static; }
             .sidebar-nav { flex-direction: row; flex-wrap: wrap; gap: 0.4rem; }
             .sidebar-nav li { flex-direction: row; flex-wrap: wrap; }
-            .sidebar-nav a.sidebar-section { border-left: none; border-bottom: 2px solid #e0e0e0; padding: 0.3rem 0.5rem; }
+            .sidebar-nav a.sidebar-section { border-left: none; border-bottom: 2px solid var(--border-color); padding: 0.3rem 0.5rem; }
             .sidebar-nav a.sidebar-section:hover,
-            .sidebar-nav a.sidebar-section.active { border-bottom-color: var(--color-primary); }
+            .sidebar-nav a.sidebar-section.active { border-bottom-color: var(--color-primary-text); }
             .sidebar-sub { display: none; }
         }
     </style>
@@ -462,22 +462,10 @@
                 </div>
                 <div class="feat-body">
                     <h3>Browser-Based, Nothing to Install</h3>
-                    <p>SQL Designer runs entirely in your browser. Open <a href="https://sql-designer.com" style="color:var(--color-primary)">sql-designer.com</a> in Chrome, Firefox, Safari, or Edge and start designing — no download, no extension, no setup.</p>
+                    <p>SQL Designer runs entirely in your browser. Open <a href="https://sql-designer.com" style="color:var(--color-primary-text)">sql-designer.com</a> in Chrome, Firefox, Safari, or Edge and start designing — no download, no extension, no setup.</p>
                 </div>
             </div>
         </section>
-
-        <div class="docs-cta">
-            <h2>Ready to Design Your Schema?</h2>
-            <a id="features-cta-authed" class="btn-cta" href="/diagrams" style="display:none">Open My Diagrams</a>
-            <a id="features-cta-guest" class="btn-cta" href="/register">Create a Free Account</a>
-            <script>
-                if (localStorage.getItem('auth_token')) {
-                    document.getElementById('features-cta-authed').style.display = 'inline-block';
-                    document.getElementById('features-cta-guest').style.display = 'none';
-                }
-            </script>
-        </div>
     </div>
 
 </div>
