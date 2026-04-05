@@ -28,6 +28,10 @@
                 <span class="desc">Free online MySQL and PostgreSQL schema designer — visual drag-and-drop interface with SQL export.</span>
             </li>
             <li>
+                <a href="/features">Features</a>
+                <span class="desc">Full list of everything SQL Designer can do: canvas editing, SQL export, foreign keys, constraints, and more.</span>
+            </li>
+            <li>
                 <a href="/demo">Try Demo</a>
                 <span class="desc">Try the schema designer without creating an account.</span>
             </li>
