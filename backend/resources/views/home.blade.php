@@ -238,8 +238,8 @@
         body { overflow-y: auto; margin: 0; }
 
         .home-page {
-            color: #2c3e50;
-            background: #f9f9f9;
+            color: var(--text-primary);
+            background: var(--bg-page);
         }
 
         /* Hero */
@@ -318,7 +318,7 @@
 
         /* Screenshot preview */
         .screenshot-section {
-            background: #f0f0f0;
+            background: var(--bg-elevated);
             padding: 3rem 1.5rem;
             text-align: center;
         }
@@ -329,7 +329,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             line-height: 0;
         }
 
@@ -351,7 +351,7 @@
             font-size: 1.3rem;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            color: var(--color-primary);
+            color: var(--color-primary-text);
             margin: 0 0 2rem;
         }
 
@@ -369,7 +369,7 @@
             align-items: baseline;
             gap: 0.5rem;
             font-size: 0.9rem;
-            color: #333;
+            color: var(--text-secondary);
             padding: 0.45rem 0;
             break-inside: avoid;
             text-transform: none;
@@ -391,7 +391,7 @@
         }
 
         .features-more a {
-            color: var(--color-primary);
+            color: var(--color-primary-text);
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 0.06em;
@@ -404,9 +404,9 @@
 
         /* Demo nudge */
         .demo-nudge {
-            background: #fff;
-            border-top: 1px solid #ebebeb;
-            border-bottom: 1px solid #ebebeb;
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
             padding: 2.5rem 1.5rem;
             text-align: center;
         }
@@ -415,15 +415,15 @@
             max-width: 520px;
             margin: 0 auto 1.2rem;
             font-size: 0.9rem;
-            color: #555;
+            color: var(--text-subtle);
             line-height: 1.75;
             text-transform: none;
         }
 
         .btn-demo {
             display: inline-block;
-            border: 2px solid var(--color-primary);
-            color: var(--color-primary);
+            border: 2px solid var(--color-primary-text);
+            color: var(--color-primary-text);
             padding: 0.6rem 1.6rem;
             border-radius: 4px;
             font-size: 0.85rem;
@@ -435,7 +435,7 @@
         }
 
         .btn-demo:hover {
-            background: var(--color-primary);
+            background: var(--color-primary-text);
             color: #fff;
         }
 
@@ -456,7 +456,7 @@
         }
 
         .faq-item {
-            background: #fff;
+            background: var(--bg-surface);
             border-radius: 6px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.07);
             overflow: hidden;
@@ -467,7 +467,7 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            color: var(--color-primary);
+            color: var(--color-primary-text);
             padding: 1.1rem 1.5rem;
             cursor: pointer;
             list-style: none;
@@ -491,7 +491,7 @@
         .faq-item p {
             font-size: 0.85rem;
             line-height: 1.7;
-            color: #444;
+            color: var(--text-secondary);
             text-transform: none;
             margin: 0;
             padding: 0 1.5rem 1.2rem;
@@ -499,9 +499,9 @@
 
         /* Feedback / community section */
         .feedback-section {
-            background: #fff;
-            border-top: 1px solid #ebebeb;
-            border-bottom: 1px solid #ebebeb;
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
             padding: 3.5rem 1.5rem;
             text-align: center;
         }
@@ -510,7 +510,7 @@
             max-width: 540px;
             margin: 0 auto 1.5rem;
             font-size: 0.9rem;
-            color: #555;
+            color: var(--text-subtle);
             line-height: 1.75;
             text-transform: none;
         }
@@ -526,8 +526,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
-            border: 2px solid var(--color-primary);
-            color: var(--color-primary);
+            border: 2px solid var(--color-primary-text);
+            color: var(--color-primary-text);
             padding: 0.6rem 1.4rem;
             border-radius: 4px;
             font-size: 0.85rem;
@@ -539,7 +539,7 @@
         }
 
         .btn-feedback-email:hover {
-            background: var(--color-primary);
+            background: var(--color-primary-text);
             color: #fff;
         }
 
@@ -584,10 +584,26 @@
             text-align: center;
             padding: 1.5rem;
             font-size: 0.875rem;
-            color: #666;
+            color: var(--text-subtle);
             text-transform: none;
-            background: #f9f9f9;
+            background: var(--bg-page);
         }
+
+        /* Blog section (inline-styled, dark overrides) */
+        .blog-section { background: var(--bg-elevated); padding: 4rem 1.5rem; }
+        .blog-card {
+            background: var(--bg-surface);
+            border-radius: 6px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            text-decoration: none;
+            display: block;
+        }
+        .blog-card__category { font-size: 0.875rem; color: var(--text-muted); text-transform: none; margin: 0 0 0.5rem; }
+        .blog-card__title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-primary-text); margin: 0 0 0.5rem; }
+        .blog-card__desc { font-size: 0.875rem; color: var(--text-subtle); text-transform: none; line-height: 1.7; margin: 0; }
+        .blog-more { text-align: center; margin: 2rem 0 0; }
+        .blog-more a { color: var(--color-primary-text); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
     </style>
 @endsection
 
@@ -710,27 +726,27 @@
     </section>
 
     <!-- Blog -->
-    <section style="background:#f0f0f0; padding:4rem 1.5rem;" aria-labelledby="blog-heading">
+    <section class="blog-section" aria-labelledby="blog-heading">
         <div style="max-width:960px; margin:0 auto;">
             <h2 class="section-title" id="blog-heading">From the Blog</h2>
             <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem;">
-                <a href="/blog/how-to-design-mysql-database-schema" style="background:#fff; border-radius:6px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); text-decoration:none; display:block;">
-                    <p style="font-size:0.875rem; color:#666; text-transform:none; margin:0 0 0.5rem;">Schema Design</p>
-                    <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--color-primary); margin:0 0 0.5rem;">How to Design a MySQL Database Schema</h3>
-                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">A step-by-step guide covering entities, data types, primary keys, foreign keys, and normalization.</p>
+                <a href="/blog/how-to-design-mysql-database-schema" class="blog-card">
+                    <p class="blog-card__category">Schema Design</p>
+                    <h3 class="blog-card__title">How to Design a MySQL Database Schema</h3>
+                    <p class="blog-card__desc">A step-by-step guide covering entities, data types, primary keys, foreign keys, and normalization.</p>
                 </a>
-                <a href="/blog/er-diagram-tool-online" style="background:#fff; border-radius:6px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); text-decoration:none; display:block;">
-                    <p style="font-size:0.875rem; color:#666; text-transform:none; margin:0 0 0.5rem;">ER Diagrams</p>
-                    <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--color-primary); margin:0 0 0.5rem;">Free ER Diagram Tool Online for MySQL</h3>
-                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">What ER diagrams are, why they matter, and how to build one visually in your browser.</p>
+                <a href="/blog/er-diagram-tool-online" class="blog-card">
+                    <p class="blog-card__category">ER Diagrams</p>
+                    <h3 class="blog-card__title">Free ER Diagram Tool Online for MySQL</h3>
+                    <p class="blog-card__desc">What ER diagrams are, why they matter, and how to build one visually in your browser.</p>
                 </a>
-                <a href="/blog/mysql-workbench-alternative" style="background:#fff; border-radius:6px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); text-decoration:none; display:block;">
-                    <p style="font-size:0.875rem; color:#666; text-transform:none; margin:0 0 0.5rem;">Tools</p>
-                    <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--color-primary); margin:0 0 0.5rem;">MySQL Workbench Alternative Online</h3>
-                    <p style="font-size:0.875rem; color:#555; text-transform:none; line-height:1.7; margin:0;">Heavy desktop tool not cutting it? Here are the best browser-based alternatives.</p>
+                <a href="/blog/mysql-workbench-alternative" class="blog-card">
+                    <p class="blog-card__category">Tools</p>
+                    <h3 class="blog-card__title">MySQL Workbench Alternative Online</h3>
+                    <p class="blog-card__desc">Heavy desktop tool not cutting it? Here are the best browser-based alternatives.</p>
                 </a>
             </div>
-            <p style="text-align:center; margin:2rem 0 0;"><a href="/blog" style="color:var(--color-primary-hover); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">View All Posts &rarr;</a></p>
+            <p class="blog-more"><a href="/blog">View All Posts &rarr;</a></p>
         </div>
     </section>
 
@@ -751,18 +767,5 @@
                 Join Discord
             </a>
         </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta-banner" aria-labelledby="cta-heading">
-        <h2 id="cta-heading">Start Designing Your Database Schema Today</h2>
-        <a id="cta-btn-authed" class="btn-hero-primary" href="/diagrams" style="display:none">Go to My Diagrams</a>
-        <a id="cta-btn-guest" class="btn-hero-primary" href="/register">Get Started</a>
-        <script>
-            if (localStorage.getItem('auth_token')) {
-                document.getElementById('cta-btn-authed').style.display = 'inline-block';
-                document.getElementById('cta-btn-guest').style.display = 'none';
-            }
-        </script>
     </section>
 @endsection

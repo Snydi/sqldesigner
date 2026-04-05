@@ -52,25 +52,25 @@
         .blog-post .breadcrumb { font-size: 0.875rem; color: #767676; background-color: transparent; text-transform: none; margin-bottom: 1.5rem; }
         .blog-post .breadcrumb a { color: var(--color-primary); }
         .blog-post .post-meta { font-size: 0.875rem; color: #767676; background-color: transparent; text-transform: none; margin-bottom: 1rem; }
-        .blog-post h1 { font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.04em; color: #1e293b; background-color: transparent; margin: 0 0 1rem; line-height: 1.3; }
-        .blog-post .intro { font-size: 1rem; color: #444; background-color: transparent; text-transform: none; line-height: 1.8; margin-bottom: 2.5rem; border-left: 3px solid var(--color-primary); padding-left: 1.2rem; }
+        .blog-post h1 { font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-primary); background-color: transparent; margin: 0 0 1rem; line-height: 1.3; }
+        .blog-post .intro { font-size: 1rem; color: var(--text-secondary); background-color: transparent; text-transform: none; line-height: 1.8; margin-bottom: 2.5rem; border-left: 3px solid var(--color-primary); padding-left: 1.2rem; }
         .blog-post h2 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-primary); background-color: transparent; margin: 2.5rem 0 0.8rem; }
-        .blog-post p { font-size: 0.9rem; color: #444; background-color: transparent; text-transform: none; line-height: 1.8; margin: 0 0 1rem; }
+        .blog-post p { font-size: 0.9rem; color: var(--text-secondary); background-color: transparent; text-transform: none; line-height: 1.8; margin: 0 0 1rem; }
         .blog-post ul, .blog-post ol { margin: 0 0 1rem 1.5rem; padding: 0; }
-        .blog-post li { font-size: 0.9rem; color: #444; background-color: transparent; text-transform: none; line-height: 1.8; margin-bottom: 0.4rem; }
-        .blog-post code { background: #f1f5f9; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.85em; color: #1e293b; }
+        .blog-post li { font-size: 0.9rem; color: var(--text-secondary); background-color: transparent; text-transform: none; line-height: 1.8; margin-bottom: 0.4rem; }
+        .blog-post code { background: var(--bg-elevated); padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.85em; color: var(--text-primary); }
         .blog-post pre { background: #1e293b; color: #e2e8f0; border-radius: 6px; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 1rem 0 1.5rem; font-size: 0.875rem; line-height: 1.6; }
         .blog-post pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
         .blog-post table { width: 100%; border-collapse: collapse; margin: 0 0 1.5rem; font-size: 0.85rem; }
         .blog-post th { background: #1e293b; color: #e2e8f0; padding: 0.6rem 1rem; text-align: left; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.04em; }
-        .blog-post td { padding: 0.55rem 1rem; border-bottom: 1px solid #e5e7eb; color: #444; vertical-align: top; }
-        .blog-post tr:nth-child(even) td { background: #f9f9f9; }
-        .blog-post .verdict { background: #f0fdf4; border-left: 4px solid #16a34a; padding: 1rem 1.2rem; border-radius: 4px; margin: 1.5rem 0; }
+        .blog-post td { padding: 0.55rem 1rem; border-bottom: 1px solid var(--border-color); color: var(--text-secondary); vertical-align: top; }
+        .blog-post tr:nth-child(even) td { background: var(--bg-elevated); }
+        .blog-post .verdict { background: rgba(22, 163, 74, 0.1); border-left: 4px solid #16a34a; padding: 1rem 1.2rem; border-radius: 4px; margin: 1.5rem 0; }
         .blog-post .verdict p { margin: 0; font-size: 0.88rem; }
         .blog-post .cta-box { background: var(--color-primary-hover); color: #fff; border-radius: 6px; padding: 2rem; text-align: center; margin-top: 3rem; }
         .blog-post .cta-box h3 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 0.8rem; }
         .blog-post .cta-box p { color: #fff; margin: 0 0 1.2rem; font-size: 0.85rem; }
-        .blog-post .btn-cta { background: #fff; color: var(--color-primary); padding: 0.6rem 1.8rem; border-radius: 4px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; }
+        .blog-post .btn-cta { background: var(--bg-surface); color: var(--color-primary); padding: 0.6rem 1.8rem; border-radius: 4px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; }
     </style>
 @endsection
 
@@ -164,7 +164,7 @@ CREATE TABLE users (
         Whichever you choose, the schema design process is the same: model your entities and relationships first, pick appropriate data types, and <a href="/demo" style="color:var(--color-primary);">validate the design visually</a> before writing DDL.
     </p>
 
-    <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
+    <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border-color);">
         <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#767676; margin:0 0 0.8rem;">Related Articles</p>
         <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
             <li><a href="/blog/mysql-data-types" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Data Types Explained &rarr;</a></li>

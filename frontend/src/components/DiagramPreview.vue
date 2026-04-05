@@ -12,8 +12,8 @@
             :key="edge.id"
             :d="edge.path"
             fill="none"
-            stroke="#3d7a5c"
-            stroke-width="3"
+            :stroke="edge.color"
+            stroke-width="8"
             opacity="0.6"
         />
 
@@ -23,7 +23,7 @@
             <rect
                 :x="table.x" :y="table.y"
                 :width="TABLE_W" :height="table.h"
-                fill="#f5f5f5" rx="5"
+                fill="#484848" rx="5"
             />
             <!-- Header background -->
             <rect
@@ -52,12 +52,12 @@
                 <line
                     :x1="table.x" :y1="table.y + HEADER_H + ROW_H * i"
                     :x2="table.x + TABLE_W" :y2="table.y + HEADER_H + ROW_H * i"
-                    stroke="#e0e0e0" stroke-width="1"
+                    stroke="#3c3c3c" stroke-width="1"
                 />
                 <text
                     :x="table.x + 12"
                     :y="table.y + HEADER_H + ROW_H * i + ROW_H * 0.6"
-                    fill="#666"
+                    fill="#e0e0e0"
                     font-size="11"
                     font-family="'Inter', sans-serif"
                 >{{ truncate(row.label, 28) }}</text>
@@ -68,7 +68,7 @@
                 :x="table.x" :y="table.y"
                 :width="TABLE_W" :height="table.h"
                 fill="none"
-                stroke="#e0e0e0"
+                stroke="#3c3c3c"
                 stroke-width="1"
                 rx="5"
             />
@@ -159,6 +159,7 @@ export default {
                     const mx = (x1 + x2) / 2
                     return {
                         id: edge.id,
+                        color: edge.data?.color || edge.style?.stroke || '#2e5c45',
                         path: `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`
                     }
                 })
@@ -191,7 +192,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ccc;
+    color: var(--border-color);
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1px;

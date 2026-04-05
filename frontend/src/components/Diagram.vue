@@ -103,8 +103,6 @@
                     </button>
                 </Panel>
 
-                <Background :variant="BackgroundVariant.Lines" />
-
                 <template #node-table="nodeProps">
                     <TableNode
                         :id="nodeProps.id"
@@ -183,7 +181,6 @@
 <script setup>
 import { computed, onBeforeMount, onMounted, onUnmounted, ref, nextTick, watch } from 'vue'
 import { Panel, Position, useVueFlow, VueFlow } from '@vue-flow/core'
-import { Background, BackgroundVariant } from '@vue-flow/background'
 import { TableActions, TABLE_STYLE } from '@/services/TableActions.js'
 import { Diagram } from '@/services/Diagram.js'
 import { DEMO_SCHEMA } from '@/services/demoSchema.js'
@@ -838,11 +835,12 @@ onUnmounted(() => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background: var(--bg-surface);
 }
 
 .diagram-status-screen__text {
     font-size: 0.9rem;
-    color: #888;
+    color: var(--text-muted);
     letter-spacing: 0.5px;
 }
 
