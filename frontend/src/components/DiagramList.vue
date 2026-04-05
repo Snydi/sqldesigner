@@ -203,19 +203,19 @@ export default {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: #f5f5f5;
+    background: var(--bg-elevated);
 }
 
 .diagrams-header {
     flex-shrink: 0;
     padding: 1.25rem 2rem;
-    background: white;
-    border-bottom: 1px solid #e8e8e8;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-light);
 }
 
 .diagrams-title {
     margin: 0;
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     font-size: 1rem;
     letter-spacing: 1px;
 }
@@ -246,9 +246,10 @@ export default {
 
 /* ── Cards ─────────────────────────────────────────────────── */
 .diagram-card {
-    background: white;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     overflow: hidden;
     cursor: pointer;
     transition: box-shadow 0.2s, transform 0.2s;
@@ -256,28 +257,28 @@ export default {
 }
 
 .diagram-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
     transform: translateY(-2px);
 }
 
 .diagram-card--new {
-    border: 2px dashed #ddd;
+    border: 2px dashed var(--border-color);
     box-shadow: none;
     background: transparent;
 }
 
 .diagram-card--new:hover {
     border-color: var(--color-primary);
-    background: white;
-    box-shadow: 0 2px 8px rgba(192, 82, 82, 0.12);
+    background: var(--bg-surface);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
 }
 
 /* ── Card preview area ──────────────────────────────────────── */
 .diagram-card__preview {
     height: 160px;
-    background: #fafafa;
-    border-bottom: 1px solid #f0f0f0;
+    background: var(--bg-page);
+    border-bottom: 1px solid var(--border-color);
     padding: 8px;
     position: relative;
     overflow: hidden;
@@ -294,6 +295,7 @@ export default {
     height: 40px;
     opacity: 0.25;
     transition: opacity 0.2s;
+    filter: brightness(0) invert(1);
 }
 
 .diagram-card--new:hover .new-diagram-plus {
@@ -307,8 +309,8 @@ export default {
     right: 6px;
     width: 26px;
     height: 26px;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid #eee;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
     border-radius: 50%;
     cursor: pointer;
     display: none;
@@ -321,6 +323,7 @@ export default {
 .diagram-card__delete img {
     width: 14px;
     height: 14px;
+    filter: brightness(0) invert(0.3);
 }
 
 .diagram-card:hover .diagram-card__delete {
@@ -348,7 +351,7 @@ export default {
 
 .diagram-card__name {
     font-size: 0.875rem;
-    color: #444;
+    color: var(--text-secondary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -371,7 +374,7 @@ export default {
     border-bottom: 1px solid var(--color-primary);
     background: transparent;
     outline: none;
-    color: #444;
+    color: var(--text-secondary);
     font-family: inherit;
     text-transform: uppercase;
     padding: 0;
@@ -390,7 +393,7 @@ export default {
 }
 
 .create-modal {
-    background: white;
+    background: var(--bg-surface);
     border-radius: 10px;
     padding: 2rem;
     width: 340px;
@@ -403,20 +406,20 @@ export default {
 
 .create-modal__title {
     margin: 0;
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     font-size: 0.9rem;
     letter-spacing: 1px;
 }
 
 .create-modal__input {
     border: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     padding: 0.4rem 0;
     font-size: 0.9rem;
     font-family: inherit;
     text-transform: uppercase;
     outline: none;
-    color: #333;
+    color: var(--text-primary);
     background: transparent;
     transition: border-color 0.15s;
 }
@@ -427,7 +430,7 @@ export default {
 
 .create-modal__db-label {
     font-size: 0.875rem;
-    color: #999;
+    color: var(--text-muted);
     letter-spacing: 0.5px;
     margin-bottom: 0.25rem;
 }
@@ -444,9 +447,9 @@ export default {
     align-items: center;
     gap: 0.4rem;
     padding: 0.75rem 0.5rem;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
-    background: white;
+    background: var(--bg-surface);
     cursor: pointer;
     transition: border-color 0.15s, background 0.15s;
 }
@@ -458,24 +461,24 @@ export default {
 
 .db-option span {
     font-size: 0.875rem;
-    color: #555;
+    color: var(--text-subtle);
     font-family: inherit;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .db-option:hover:not(:disabled) {
-    border-color: #bbb;
-    background: #fafafa;
+    border-color: var(--border-strong);
+    background: var(--bg-surface-alt);
 }
 
 .db-option--active {
-    border-color: #4479A1 !important;
-    background: #f0f5fa !important;
+    border-color: var(--color-primary-text) !important;
+    background: var(--bg-elevated) !important;
 }
 
 .db-option--active span {
-    color: #4479A1;
+    color: var(--color-primary-text);
 }
 
 .db-option--disabled {

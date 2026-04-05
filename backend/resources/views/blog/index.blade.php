@@ -29,13 +29,13 @@
             font-size: 1.6rem;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            color: var(--color-primary);
+            color: var(--color-primary-text);
             background-color: transparent;
             margin: 0 0 0.5rem;
         }
         .blog-index .subtitle {
             font-size: 0.9rem;
-            color: #666;
+            color: var(--text-subtle);
             background-color: transparent;
             text-transform: none;
             margin: 0 0 3rem;
@@ -49,7 +49,7 @@
             gap: 1.5rem;
         }
         .post-card {
-            background: #fff;
+            background: var(--bg-surface);
             border-radius: 6px;
             padding: 1.5rem 2rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.07);
@@ -62,19 +62,19 @@
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            color: var(--color-primary);
+            color: var(--color-primary-text);
             margin: 0 0 0.5rem;
         }
         .post-card p {
             font-size: 0.85rem;
-            color: #555;
+            color: var(--text-subtle);
             text-transform: none;
             line-height: 1.7;
             margin: 0;
         }
         .post-meta {
             font-size: 0.875rem;
-            color: #767676;
+            color: var(--text-muted);
             text-transform: none;
             margin-bottom: 0.4rem;
         }

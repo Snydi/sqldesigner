@@ -83,7 +83,7 @@
             font-size: 1.6rem;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            color: #1e293b;
+            color: var(--text-primary);
             background-color: transparent;
             margin: 0 0 1rem;
             line-height: 1.3;
@@ -91,7 +91,7 @@
 
         .blog-post .intro {
             font-size: 1rem;
-            color: #444;
+            color: var(--text-secondary);
             background-color: transparent;
             text-transform: none;
             line-height: 1.8;
@@ -113,13 +113,13 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            color: #1e293b;
+            color: var(--text-primary);
             margin: 1.5rem 0 0.5rem;
         }
 
         .blog-post p {
             font-size: 0.9rem;
-            color: #444;
+            color: var(--text-secondary);
             background-color: transparent;
             text-transform: none;
             line-height: 1.8;
@@ -133,7 +133,7 @@
 
         .blog-post li {
             font-size: 0.9rem;
-            color: #444;
+            color: var(--text-secondary);
             background-color: transparent;
             text-transform: none;
             line-height: 1.8;
@@ -141,11 +141,11 @@
         }
 
         .blog-post code {
-            background: #f1f5f9;
+            background: var(--bg-elevated);
             padding: 0.1em 0.4em;
             border-radius: 3px;
             font-size: 0.85em;
-            color: #1e293b;
+            color: var(--text-primary);
         }
 
         .blog-post pre {
@@ -185,12 +185,12 @@
 
         .blog-post td {
             padding: 0.55rem 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            color: #444;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
         }
 
         .blog-post tr:nth-child(even) td {
-            background: #f9f9f9;
+            background: var(--bg-elevated);
         }
 
         .blog-post .label-bad {
@@ -230,7 +230,7 @@
         }
 
         .blog-post .btn-cta {
-            background: #fff;
+            background: var(--bg-surface);
             color: var(--color-primary);
             padding: 0.6rem 1.8rem;
             border-radius: 4px;
@@ -440,7 +440,7 @@ department_id | department_name</code></pre>
             out of laziness.
         </p>
 
-        <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e5e7eb;">
+        <nav aria-label="Related articles" style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border-color);">
             <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#767676; margin:0 0 0.8rem;">
                 Related Articles</p>
             <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">

@@ -1,5 +1,5 @@
 .sql_modal_content {
-    background: white;
+    background: var(--bg-surface);
     border-radius: 10px;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
     width: 700px;
@@ -63,9 +63,9 @@
     width: 28px;
     height: 28px;
     padding: 5px;
-    border: 1px solid #d0d0d0;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
-    background: white;
+    background: var(--bg-surface);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -90,19 +90,19 @@
     min-height: 420px;
     padding: 16px;
     border: none;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-light);
     resize: none;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 14px;
     line-height: 1.6;
-    color: #333;
-    background: #fafafa;
+    color: var(--text-primary);
+    background: var(--bg-surface-alt);
     box-sizing: border-box;
 }
 
 .sql_textarea:focus {
     outline: none;
-    background: white;
+    background: var(--bg-surface);
 }
 
 .sql_modal_footer {
@@ -110,7 +110,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: white;
+    background: var(--bg-surface);
     flex-shrink: 0;
 }
 
@@ -225,7 +225,7 @@
     flex-direction: column;
     gap: 5px;
     padding: 8px;
-    background-color: #fff;
+    background-color: var(--bg-surface);
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
     transform: translate(-50%, -50%);
@@ -286,27 +286,27 @@ select {
     appearance: none;
     -webkit-appearance: none;
     padding: 4px 24px 4px 8px;
-    border: 1px solid #d0d0d0;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
-    background-color: #fff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23898989' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+    background-color: var(--input-bg);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23999' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 7px center;
     background-size: 9px;
-    color: #333;
+    color: var(--text-primary);
     font-size: 14px;
     cursor: pointer;
     transition: border-color 0.15s;
 }
 
 select:hover {
-    border-color: #898989;
-    background-color: #fafafa;
+    border-color: var(--border-strong);
+    background-color: var(--hover-bg-alt);
 }
 
 select:focus {
     outline: none;
-    border-color: #898989;
+    border-color: var(--border-strong);
 }
 
 .options_modal {
@@ -315,9 +315,9 @@ select:focus {
     flex-direction: column;
     gap: 6px;
     padding: 10px 12px;
-    border: 1px solid #898989;
+    border: 1px solid var(--border-strong);
     border-radius: 5px;
-    background: #fff;
+    background: var(--bg-surface);
     z-index: 10;
     min-width: 200px;
 }
@@ -342,11 +342,13 @@ label.options_modal_row {
 
 .modal_text_input {
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 3px;
     padding: 2px 6px;
     width: 110px;
     box-sizing: border-box;
+    background: var(--input-bg);
+    color: var(--text-primary);
 }
 .vue-flow__panel {
   margin: 0;
@@ -362,9 +364,9 @@ label.options_modal_row {
     width: 32px;
     height: 32px;
     padding: 6px;
-    border: 1px solid #d0d0d0;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: white;
+    background: var(--bg-surface);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -372,14 +374,18 @@ label.options_modal_row {
     box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 }
 
+.table-navigator__toggle img {
+    filter: brightness(0) invert(1);
+}
+
 .table-navigator__toggle:hover {
-    background: #f5f5f5;
+    background: var(--hover-bg-alt);
 }
 
 .table-navigator__list {
     margin-top: 4px;
-    background: white;
-    border: 1px solid #d0d0d0;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     min-width: 160px;
@@ -397,17 +403,17 @@ label.options_modal_row {
     font-size: 13px;
     cursor: pointer;
     white-space: nowrap;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .table-navigator__item:hover {
-    background: #f0f0f0;
+    background: var(--hover-bg);
 }
 
 .table-navigator__empty {
     padding: 8px 12px;
     font-size: 13px;
-    color: #999;
+    color: var(--text-muted);
 }
 .vue-flow__controls {
     margin-left: 12.5rem   ;
@@ -430,6 +436,7 @@ label.options_modal_row {
     opacity: 0.35;
     cursor: grab;
     user-select: none;
+    filter: brightness(0) invert(1);
 }
 
 .drag_handle_icon:hover {
@@ -545,7 +552,7 @@ label.options_modal_row {
 }
 
 .feedback-modal {
-    background: white;
+    background: var(--bg-surface);
     border-radius: 10px;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
     width: 480px;
@@ -600,7 +607,7 @@ label.options_modal_row {
     margin: 0;
     font-size: 13px;
     line-height: 1.6;
-    color: #444;
+    color: var(--text-secondary);
 }
 
 .feedback-modal__intro a {
@@ -619,31 +626,35 @@ label.options_modal_row {
 .feedback-modal__input {
     width: 100%;
     padding: 8px 10px;
-    border: 1px solid #d0d0d0;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 14px;
     box-sizing: border-box;
+    background: var(--input-bg);
+    color: var(--text-primary);
 }
 
 .feedback-modal__input:focus {
     outline: none;
-    border-color: #898989;
+    border-color: var(--border-strong);
 }
 
 .feedback-modal__textarea {
     width: 100%;
     padding: 8px 10px;
-    border: 1px solid #d0d0d0;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 14px;
     resize: vertical;
     font-family: inherit;
     box-sizing: border-box;
+    background: var(--input-bg);
+    color: var(--text-primary);
 }
 
 .feedback-modal__textarea:focus {
     outline: none;
-    border-color: #898989;
+    border-color: var(--border-strong);
 }
 
 .feedback-modal__error {
@@ -663,8 +674,8 @@ label.options_modal_row {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    background: white;
-    border-top: 1px solid #eee;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-light);
 }
 
 .feedback-panel {
@@ -676,22 +687,23 @@ label.options_modal_row {
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-    border: 1px solid #d0d0d0;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: white;
+    background: var(--bg-surface);
     font-size: 13px;
-    color: #333;
+    color: var(--text-primary);
     cursor: pointer;
     box-shadow: 0 1px 4px rgba(0,0,0,0.12);
     white-space: nowrap;
 }
 
 .feedback-panel__btn:hover {
-    background: #f5f5f5;
+    background: var(--hover-bg-alt);
 }
 
 .feedback-panel__btn img {
     flex-shrink: 0;
+    filter: brightness(0) invert(1);
 }
 
 .feedback-modal__email-link {
@@ -715,3 +727,55 @@ label.options_modal_row {
 .feedback-modal__discord-link:hover {
     opacity: 0.8;
 }
+
+/* ── Vue Flow canvas & controls ──────────────────────────────── */
+.vue-flow {
+    background-color: var(--bg-page);
+}
+
+.vue-flow__controls {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.vue-flow__controls button {
+    background: var(--bg-surface);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+    fill: var(--text-primary);
+}
+
+.vue-flow__controls button:hover {
+    background: var(--hover-bg);
+}
+
+.vue-flow__controls svg {
+    fill: var(--text-primary);
+}
+
+.vue-flow__minimap {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+}
+
+/* ── Vue Flow table nodes ────────────────────────────────────── */
+.vue-flow__node {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+}
+
+.vue-flow__node-row {
+    background: #484848 !important;
+    color: #e0e0e0 !important;
+    border-color: #383838 !important;
+}
+
+.table_button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.add_row_button {
+    color: var(--text-secondary);
+}
+

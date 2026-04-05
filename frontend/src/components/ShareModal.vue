@@ -85,7 +85,7 @@ const copyLink = async () => {
 }
 
 .share-modal {
-    background: white;
+    background: var(--bg-surface);
     border-radius: 10px;
     padding: 1.5rem;
     width: 380px;
@@ -136,7 +136,7 @@ const copyLink = async () => {
 
 .share-modal__toggle-label {
     font-size: 0.8rem;
-    color: #555;
+    color: var(--text-subtle);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -144,7 +144,7 @@ const copyLink = async () => {
 .share-toggle {
     width: 44px;
     height: 24px;
-    background: #ddd;
+    background: var(--border-color);
     border: none;
     border-radius: 12px;
     cursor: pointer;
@@ -186,13 +186,13 @@ const copyLink = async () => {
 
 .share-modal__link-input {
     flex: 1;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 0.4rem 0.6rem;
     font-size: 0.75rem;
     font-family: inherit;
-    color: #555;
-    background: #f9f9f9;
+    color: var(--text-subtle);
+    background: var(--bg-surface-alt);
     outline: none;
     min-width: 0;
     text-transform: none;
@@ -209,7 +209,7 @@ const copyLink = async () => {
 .share-modal__hint {
     margin: 0;
     font-size: 0.72rem;
-    color: #999;
+    color: var(--text-muted);
     text-transform: none;
     letter-spacing: 0;
     line-height: 1.4;
@@ -233,17 +233,17 @@ const copyLink = async () => {
     font-family: inherit;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    background: white;
-    color: #666;
+    background: var(--bg-surface);
+    color: var(--text-subtle);
     cursor: pointer;
     transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
 
 .share-modal__access-btn:hover:not(:disabled) {
-    border-color: #bbb;
-    background: #f5f5f5;
+    border-color: var(--border-strong);
+    background: var(--hover-bg-alt);
 }
 
 .share-modal__access-btn--active {
