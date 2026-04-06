@@ -42,3 +42,20 @@
     position: relative;
     display: inline-block;
 }
+
+.share-btn-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.share-pending-dot {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 7px;
+    height: 7px;
+    background: #f97316;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-primary);
+    pointer-events: none;
+}

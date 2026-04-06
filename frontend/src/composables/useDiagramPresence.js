@@ -16,7 +16,7 @@ export const CURSOR_COLORS = ['#E53935', '#D81B60', '#8E24AA', '#3949AB', '#1E88
  * @param {import('vue').Ref} opts.canvasWrapperRef
  * @param {Function} opts.onDiagramSaved           - called when a remote user saves
  */
-export function useDiagramPresence({ token, ownerIdentity, viewport, schema, canvasWrapperRef, onDiagramSaved }) {
+export function useDiagramPresence({ token, ownerIdentity, viewport, schema, canvasWrapperRef, onDiagramSaved, onVisitorRequested, onAccessChanged }) {
     const remoteCursors = reactive({})
     let echo = null
     let presenceChannel = null
@@ -87,6 +87,12 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
             })
             .listenForWhisper('diagram-saved', () => {
                 if (onDiagramSaved) onDiagramSaved()
+            })
+            .listen('.visitor.requested', () => {
+                if (onVisitorRequested) onVisitorRequested()
+            })
+            .listen('.visitor.access.changed', ({ user_id, access }) => {
+                if (String(user_id) === ownerIdentity.value?.id && onAccessChanged) onAccessChanged(access)
             })
     }
 
