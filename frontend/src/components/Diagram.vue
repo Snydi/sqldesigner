@@ -10,6 +10,16 @@
         <button class="btn btn-secondary" style="margin-top:1rem" @click="router.push({ name: 'diagrams' })">My Diagrams</button>
     </div>
 
+    <!-- Pending approval state -->
+    <div v-else-if="pendingApproval" class="diagram-status-screen">
+        <span class="diagram-status-screen__text">Access requires approval.</span>
+        <span class="diagram-status-screen__subtext">Your request has been sent to the diagram owner. Check back once they've approved you.</span>
+        <div style="display:flex;gap:0.5rem;margin-top:1rem">
+            <button class="btn btn-primary" @click="retryAccess" :disabled="loading">{{ loading ? 'Checking…' : 'Retry' }}</button>
+            <button class="btn btn-secondary" @click="router.push({ name: 'diagrams' })">My Diagrams</button>
+        </div>
+    </div>
+
     <template v-else>
         <DiagramHeader
             :canEdit="canEdit"
@@ -17,6 +27,7 @@
             :isDemo="isDemo"
             :isSaved="isSaved"
             :diagramName="diagramName"
+            :hasPendingVisitors="hasPendingVisitors"
             @add-table="addTable"
             @import="isDemo ? router.push({ name: 'register' }) : showImportModal = true"
             @export="isDemo ? router.push({ name: 'register' }) : openExportModal()"
@@ -29,6 +40,8 @@
             :diagramId="diagramId"
             :token="token"
             v-model:shareAccess="diagramShareAccess"
+            v-model:requireApproval="diagramRequireApproval"
+            v-model:hasPendingVisitors="hasPendingVisitors"
             @close="showShareModal = false"
         />
 
@@ -217,6 +230,7 @@ const token = useRoute().params.token
 const diagramId = ref(null)
 const isOwner = ref(false)
 const notAvailable = ref(false)
+const pendingApproval = ref(false)
 const loading = ref(false)
 
 const canEdit = computed(() => props.isDemo || isOwner.value || diagramShareAccess.value === 'write')
@@ -238,6 +252,57 @@ const exportContent = ref('')
 const exportJsonContent = ref('')
 const showShareModal = ref(false)
 const diagramShareAccess = ref(null)
+const diagramRequireApproval = ref(false)
+const hasPendingVisitors = ref(false)
+let visitorPollInterval = null
+
+const stopVisitorPolling = () => {
+    clearInterval(visitorPollInterval)
+    visitorPollInterval = null
+}
+
+const startVisitorPolling = () => {
+    stopVisitorPolling()
+    visitorPollInterval = setInterval(async () => {
+        const visitors = await Diagram.getVisitors(diagramId.value)
+        hasPendingVisitors.value = visitors?.some(v => v.status === 'pending') ?? false
+    }, 8000)
+}
+
+watch([isOwner, diagramRequireApproval], ([owner, approval]) => {
+    if (owner && approval) startVisitorPolling()
+    else stopVisitorPolling()
+})
+
+let guestAccessPollInterval = null
+
+const stopGuestAccessPolling = () => {
+    clearInterval(guestAccessPollInterval)
+    guestAccessPollInterval = null
+}
+
+const startGuestAccessPolling = () => {
+    stopGuestAccessPolling()
+    guestAccessPollInterval = setInterval(async () => {
+        try {
+            const response = await axios.get(`/api/diagrams/shared/${token}`)
+            const info = response.data.data
+            if (info?.share_access !== diagramShareAccess.value) {
+                diagramShareAccess.value = info.share_access
+            }
+        } catch (error) {
+            const data = error.response?.data
+            if (data?.pending_approval) {
+                pendingApproval.value = true
+                stopGuestAccessPolling()
+            } else if (error.response?.status === 403) {
+                diagramShareAccess.value = null
+                notAvailable.value = true
+                stopGuestAccessPolling()
+            }
+        }
+    }, 3000)
+}
 
 const ownerIdentity = ref(null)
 const canvasWrapperRef = ref(null)
@@ -752,6 +817,11 @@ const saveDiagram = async () => {
 
 // --- Load ---
 
+const retryAccess = async () => {
+    pendingApproval.value = false
+    await getDiagram()
+}
+
 const getDiagram = async () => {
     if (props.isDemo) {
         schema.value = DEMO_SCHEMA
@@ -781,9 +851,22 @@ const getDiagram = async () => {
         return
     }
 
+    if (diagramInfo.pending_approval) {
+        loading.value = false
+        pendingApproval.value = true
+        return
+    }
+
     diagramId.value = diagramInfo.id
     isOwner.value = diagramInfo.is_owner ?? false
     diagramShareAccess.value = diagramInfo.share_access ?? null
+    diagramRequireApproval.value = diagramInfo.require_approval ?? false
+
+    if (isOwner.value && diagramRequireApproval.value) {
+        const visitors = await Diagram.getVisitors(diagramId.value)
+        hasPendingVisitors.value = visitors?.some(v => v.status === 'pending') ?? false
+        startVisitorPolling()
+    }
     diagramDbType.value = diagramInfo.db_type ?? 'mysql'
     diagramName.value = diagramInfo.name ?? ''
 
@@ -800,6 +883,8 @@ const getDiagram = async () => {
     loading.value = false
 
     initEcho()
+
+    if (!isOwner.value) startGuestAccessPolling()
 }
 
 onBeforeMount(getDiagram)
@@ -817,6 +902,8 @@ onMounted(() => {
 
 onUnmounted(() => {
     clearInterval(autoSaveTimer)
+    stopVisitorPolling()
+    stopGuestAccessPolling()
     if (!isSaved.value && canEdit.value && !props.isDemo) saveDiagram()
     cleanupEcho()
     document.removeEventListener('keydown', onEscapeKey)
@@ -844,11 +931,14 @@ onUnmounted(() => {
     letter-spacing: 0.5px;
 }
 
-.diagram-name-label {
-    font-size: 0.85rem;
-    color: white;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+.diagram-status-screen__subtext {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0;
+    text-align: center;
+    max-width: 320px;
+    line-height: 1.5;
+    margin-top: 0.4rem;
 }
 
 .diagram-canvas-wrapper {

@@ -3,8 +3,10 @@
         <div class="share-modal">
             <div class="share-modal__header">
                 <span class="share-modal__title">Share Diagram</span>
-                <button class="share-modal__close" @click="$emit('close')">
-                    <img src="../icons/close.svg" alt="Close" style="width:14px;height:14px;" />
+                <button class="share-modal__close" @click="$emit('close')" aria-label="Close">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
                 </button>
             </div>
             <div class="share-modal__body">
@@ -14,39 +16,124 @@
                         <span class="share-toggle__knob"></span>
                     </button>
                 </div>
+
                 <div v-if="shareAccess" class="share-modal__access-row">
                     <span class="share-modal__toggle-label">Access</span>
-                    <div class="share-modal__access-options">
-                        <button class="share-modal__access-btn" :class="{ 'share-modal__access-btn--active': shareAccess === 'read' }" @click="setShareAccess('read')" :disabled="loading">Read-only</button>
-                        <button class="share-modal__access-btn" :class="{ 'share-modal__access-btn--active': shareAccess === 'write' }" @click="setShareAccess('write')" :disabled="loading">Can edit</button>
+                    <div class="share-modal__seg">
+                        <button class="share-modal__seg-btn" :class="{ 'share-modal__seg-btn--active': shareAccess === 'read' }" @click="setAccessMode('read')" :disabled="loading">Read-only</button>
+                        <button class="share-modal__seg-btn" :class="{ 'share-modal__seg-btn--active': shareAccess === 'write' }" @click="setAccessMode('write')" :disabled="loading">Can edit</button>
+                        <button class="share-modal__seg-btn" :class="{ 'share-modal__seg-btn--active': shareAccess === 'per_user' }" @click="setAccessMode('per_user')" :disabled="loading">Per user</button>
                     </div>
                 </div>
+
                 <div v-if="shareAccess" class="share-modal__link-row">
                     <input class="share-modal__link-input" :value="shareUrl" readonly />
                     <button class="btn btn-primary share-modal__copy-btn" @click="copyLink">{{ copied ? 'Copied!' : 'Copy' }}</button>
                 </div>
+
                 <p v-if="shareAccess" class="share-modal__hint">
-                    Anyone with this link can {{ shareAccess === 'write' ? 'edit' : 'view' }} this diagram.
+                    <template v-if="shareAccess === 'per_user'">Each visitor is assigned their own access level.</template>
+                    <template v-else>Anyone with this link can {{ shareAccess === 'write' ? 'edit' : 'view' }} this diagram.</template>
                 </p>
+
+                <div v-if="shareAccess" class="share-modal__approval-row">
+                    <label class="share-modal__checkbox-label">
+                        <input type="checkbox" class="share-modal__checkbox" :checked="requireApproval" @change="toggleApproval" :disabled="loading" />
+                        <span>Approve visitors on first visit</span>
+                    </label>
+                    <span class="share-modal__help-icon">
+                        ?
+                        <span class="share-modal__tooltip">When enabled, users who open the link are placed in a pending queue. You must approve each one before they can access the diagram.</span>
+                    </span>
+                </div>
+
+                <div v-if="shareAccess" class="share-modal__visitors">
+                    <span class="share-modal__toggle-label">Visitors</span>
+                    <div v-if="visitorsLoading" class="share-modal__visitors-empty">Loading…</div>
+                    <div v-else-if="visitors.length === 0" class="share-modal__visitors-empty">No visitors yet.</div>
+                    <div v-else>
+                        <div v-for="visitor in visitors" :key="visitor.id" class="share-modal__visitor">
+                            <span class="share-modal__visitor-name">{{ visitor.name }}</span>
+                            <div class="share-modal__visitor-actions">
+                                <template v-if="visitor.status === 'revoked'">
+                                    <button
+                                        class="share-modal__vbtn share-modal__vbtn--approve"
+                                        @click="approveVisitor(visitor)"
+                                        :disabled="loading"
+                                    >Approve</button>
+                                </template>
+                                <template v-else>
+                                    <template v-if="shareAccess === 'per_user'">
+                                        <button
+                                            class="share-modal__vbtn"
+                                            :class="{ 'share-modal__vbtn--active': visitor.status === 'approved' && visitor.access === 'write' }"
+                                            @click="setVisitorAccess(visitor, 'write')"
+                                            :disabled="loading"
+                                        >Write</button>
+                                        <button
+                                            class="share-modal__vbtn"
+                                            :class="{ 'share-modal__vbtn--active': visitor.status === 'approved' && visitor.access === 'read' }"
+                                            @click="setVisitorAccess(visitor, 'read')"
+                                            :disabled="loading"
+                                        >Read</button>
+                                    </template>
+                                    <template v-else>
+                                        <button
+                                            v-if="visitor.status === 'pending'"
+                                            class="share-modal__vbtn share-modal__vbtn--approve"
+                                            @click="approveVisitor(visitor)"
+                                            :disabled="loading"
+                                        >Approve</button>
+                                    </template>
+                                    <button
+                                        class="share-modal__vbtn share-modal__vbtn--revoke"
+                                        @click="setVisitorAccess(visitor, 'revoke')"
+                                        :disabled="loading"
+                                    >Revoke</button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { Diagram } from '@/services/Diagram.js'
 
 const props = defineProps({
     diagramId: { type: Number, required: true },
     token: { type: String, required: true },
     shareAccess: { type: String, default: null },
+    requireApproval: { type: Boolean, default: false },
+    hasPendingVisitors: { type: Boolean, default: false },
 })
-const emit = defineEmits(['close', 'update:shareAccess'])
+const emit = defineEmits(['close', 'update:shareAccess', 'update:requireApproval', 'update:hasPendingVisitors'])
 
 const loading = ref(false)
 const copied = ref(false)
+const visitors = ref([])
+const visitorsLoading = ref(false)
 const shareUrl = computed(() => `${window.location.origin}/diagrams/${props.token}`)
+
+const fetchVisitors = async () => {
+    visitorsLoading.value = true
+    visitors.value = await Diagram.getVisitors(props.diagramId) ?? []
+    visitorsLoading.value = false
+}
+
+watch(visitors, (v) => {
+    emit('update:hasPendingVisitors', v.some(vis => vis.status === 'pending'))
+}, { deep: true })
+
+watch(
+    () => props.shareAccess,
+    (active) => { if (active) fetchVisitors() },
+    { immediate: true }
+)
 
 const toggleShare = async () => {
     loading.value = true
@@ -60,9 +147,35 @@ const toggleShare = async () => {
     loading.value = false
 }
 
-const setShareAccess = async (access) => {
+const setAccessMode = async (mode) => {
     loading.value = true
-    emit('update:shareAccess', await Diagram.updateShareAccess(props.diagramId, access) ?? access)
+    const result = await Diagram.setAccessMode(props.diagramId, mode)
+    if (result) emit('update:shareAccess', result.share_access)
+    loading.value = false
+}
+
+const toggleApproval = async (event) => {
+    loading.value = true
+    const value = event.target.checked
+    const result = await Diagram.updateRequireApproval(props.diagramId, value)
+    emit('update:requireApproval', result ?? value)
+    loading.value = false
+}
+
+const approveVisitor = async (visitor) => {
+    loading.value = true
+    const result = await Diagram.approveVisitor(props.diagramId, visitor.id)
+    if (result) visitor.status = 'approved'
+    loading.value = false
+}
+
+const setVisitorAccess = async (visitor, access) => {
+    loading.value = true
+    const result = await Diagram.updateVisitorAccess(props.diagramId, visitor.id, access)
+    if (result) {
+        visitor.status = result.visitor_status
+        visitor.access = result.access
+    }
     loading.value = false
 }
 
@@ -111,15 +224,19 @@ const copyLink = async () => {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 2px;
+    padding: 5px;
     display: flex;
     align-items: center;
-    opacity: 0.5;
-    transition: opacity 0.15s;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.45);
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+    flex-shrink: 0;
 }
 
 .share-modal__close:hover {
-    opacity: 1;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .share-modal__body {
@@ -179,6 +296,53 @@ const copyLink = async () => {
     transform: translateX(20px);
 }
 
+/* Access mode selector */
+.share-modal__access-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.share-modal__seg {
+    display: flex;
+    gap: 0.35rem;
+    flex-shrink: 0;
+}
+
+.share-modal__seg-btn {
+    padding: 0.28rem 0.65rem;
+    font-size: 0.72rem;
+    font-family: inherit;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-surface-alt);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+
+.share-modal__seg-btn:hover:not(:disabled):not(.share-modal__seg-btn--active) {
+    border-color: var(--border-strong);
+    background: var(--hover-bg-alt);
+    color: var(--text-subtle);
+}
+
+.share-modal__seg-btn--active {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: white;
+}
+
+.share-modal__seg-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* Link row */
 .share-modal__link-row {
     display: flex;
     gap: 0.5rem;
@@ -213,47 +377,169 @@ const copyLink = async () => {
     text-transform: none;
     letter-spacing: 0;
     line-height: 1.4;
-    text-align: left;
 }
 
-.share-modal__access-row {
+/* Approval checkbox row */
+.share-modal__approval-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
 }
 
-.share-modal__access-options {
+.share-modal__checkbox-label {
     display: flex;
-    gap: 0.4rem;
-}
-
-.share-modal__access-btn {
-    padding: 0.3rem 0.75rem;
-    font-size: 0.75rem;
-    font-family: inherit;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background: var(--bg-surface);
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
     color: var(--text-subtle);
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    flex: 1;
 }
 
-.share-modal__access-btn:hover:not(:disabled) {
+.share-modal__checkbox {
+    accent-color: var(--color-primary);
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.share-modal__help-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    cursor: default;
+    flex-shrink: 0;
+}
+
+.share-modal__help-icon:hover .share-modal__tooltip {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.share-modal__tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    right: 0;
+    width: 220px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.72rem;
+    color: var(--text-subtle);
+    line-height: 1.45;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Visitors list */
+.share-modal__visitors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+.share-modal__visitors-empty {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.share-modal__visitor {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+}
+
+.share-modal__visitor-name {
+    flex: 1;
+    font-size: 0.75rem;
+    color: var(--text-subtle);
+    text-transform: none;
+    letter-spacing: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.share-modal__visitor-actions {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+/* Visitor inline buttons */
+.share-modal__vbtn {
+    padding: 0.18rem 0.45rem;
+    font-size: 0.68rem;
+    font-family: inherit;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    background: var(--bg-surface-alt);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+
+.share-modal__vbtn:hover:not(:disabled):not(.share-modal__vbtn--active) {
     border-color: var(--border-strong);
     background: var(--hover-bg-alt);
+    color: var(--text-subtle);
 }
 
-.share-modal__access-btn--active {
-    border-color: var(--color-primary) !important;
-    background: var(--color-primary) !important;
-    color: white !important;
+.share-modal__vbtn--active {
+    border-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+    color: var(--color-primary);
 }
 
-.share-modal__access-btn:disabled {
+.share-modal__vbtn:disabled {
     opacity: 0.5;
     cursor: default;
 }
+
+.share-modal__vbtn--approve {
+    border-color: color-mix(in srgb, var(--color-primary) 50%, var(--border-color));
+    color: var(--color-primary-text);
+}
+
+.share-modal__vbtn--approve:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+.share-modal__vbtn--revoke {
+    border-color: color-mix(in srgb, #ef4444 40%, var(--border-color));
+    color: color-mix(in srgb, #ef4444 60%, var(--text-muted));
+}
+
+.share-modal__vbtn--revoke:hover:not(:disabled):not(.share-modal__vbtn--active) {
+    border-color: #ef4444;
+    background: color-mix(in srgb, #ef4444 10%, transparent);
+    color: #ef4444;
+}
+
 </style>

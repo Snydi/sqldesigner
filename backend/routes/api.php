@@ -33,6 +33,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/{diagram}/share', [DiagramController::class, 'share']);
         Route::delete('/{diagram}/share', [DiagramController::class, 'unshare']);
         Route::patch('/{diagram}/share', [DiagramController::class, 'updateShareAccess']);
+        Route::get('/{diagram}/visitors', [DiagramController::class, 'getVisitors']);
+        Route::post('/{diagram}/visitors/{visitor}/approve', [DiagramController::class, 'approveVisitor']);
+        Route::patch('/{diagram}/visitors/{visitor}', [DiagramController::class, 'updateVisitorAccess']);
 
         Route::group(['prefix' => 'sql'], function () {
             Route::post('/validate', [DiagramController::class, 'validateSQL']);
