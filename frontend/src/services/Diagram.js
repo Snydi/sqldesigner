@@ -18,11 +18,18 @@ export const Diagram = {
             return response.data.data
         }),
 
-    getByToken: (token) =>
-        request(async () => {
+    getByToken: async (token) => {
+        try {
             const response = await axios.get(`/api/diagrams/shared/${token}`)
             return response.data.data
-        }),
+        } catch (error) {
+            if (error.response?.status === 403 && error.response?.data?.pending_approval) {
+                return { pending_approval: true }
+            }
+            $toast.error(error.response?.data?.message ?? 'Something went wrong!')
+            return null
+        }
+    },
 
     import: (id, script) =>
         request(async () => {
@@ -68,6 +75,36 @@ export const Diagram = {
         request(async () => {
             const response = await axios.patch(`/api/diagrams/${id}/share`, { access })
             return response.data.share_access
+        }),
+
+    updateRequireApproval: (id, requireApproval) =>
+        request(async () => {
+            const response = await axios.patch(`/api/diagrams/${id}/share`, { require_approval: requireApproval })
+            return response.data.require_approval
+        }),
+
+    setAccessMode: (id, mode) =>
+        request(async () => {
+            const response = await axios.patch(`/api/diagrams/${id}/share`, { access: mode })
+            return response.data
+        }),
+
+    getVisitors: (id) =>
+        request(async () => {
+            const response = await axios.get(`/api/diagrams/${id}/visitors`)
+            return response.data
+        }),
+
+    approveVisitor: (diagramId, visitorId) =>
+        request(async () => {
+            const response = await axios.post(`/api/diagrams/${diagramId}/visitors/${visitorId}/approve`)
+            return response.data
+        }),
+
+    updateVisitorAccess: (diagramId, visitorId, access) =>
+        request(async () => {
+            const response = await axios.patch(`/api/diagrams/${diagramId}/visitors/${visitorId}`, { access })
+            return response.data
         }),
 
 }

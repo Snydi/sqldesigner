@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DiagramRequest;
 use App\Http\Resources\DiagramResource;
+use App\Events\VisitorRequested;
+use App\Events\VisitorAccessChanged;
 use App\Models\Diagram;
+use App\Models\DiagramVisitor;
 use App\Services\DiagramService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -156,22 +159,133 @@ class DiagramController extends Controller
     {
         $this->authorize('update', $diagram);
 
-        $access = $request->input('access');
-        if (!in_array($access, ['read', 'write'])) {
-            return response()->json(['message' => 'Invalid access type'], 422);
+        if ($request->has('access')) {
+            $access = $request->input('access');
+            if (!in_array($access, ['read', 'write', 'per_user'])) {
+                return response()->json(['message' => 'Invalid access type'], 422);
+            }
+            $diagram->share_access = $access;
         }
 
-        $diagram->share_access = $access;
+        if ($request->has('require_approval')) {
+            $diagram->require_approval = (bool) $request->input('require_approval');
+        }
+
         $diagram->save();
 
-        return response()->json(['share_access' => $diagram->share_access]);
+        return response()->json([
+            'share_access' => $diagram->share_access,
+            'require_approval' => (bool) $diagram->require_approval,
+        ]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function getVisitors(Diagram $diagram): JsonResponse
+    {
+        $this->authorize('update', $diagram);
+
+        return response()->json(
+            $diagram->visitors()->with('user')->orderByDesc('created_at')->get()->map(fn($v) => [
+                'id' => $v->id,
+                'user_id' => $v->user_id,
+                'name' => $v->user->name ?: $v->user->email,
+                'email' => $v->user->email,
+                'status' => $v->status,
+                'access' => $v->access,
+            ])
+        );
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function approveVisitor(Diagram $diagram, DiagramVisitor $visitor): JsonResponse
+    {
+        $this->authorize('update', $diagram);
+
+        if ($visitor->diagram_id !== $diagram->id) {
+            abort(404);
+        }
+
+        $visitor->status = 'approved';
+        if ($diagram->share_access === 'per_user') {
+            $visitor->access = $visitor->access ?? 'read';
+        }
+        $visitor->save();
+
+        try {
+            $access = $diagram->share_access === 'per_user' ? ($visitor->access ?? 'read') : $diagram->share_access;
+            broadcast(new VisitorAccessChanged($visitor->user_id, $diagram->share_token, $access));
+        } catch (\Exception $e) {}
+
+        return response()->json(['status' => true, 'access' => $visitor->access]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function updateVisitorAccess(Diagram $diagram, DiagramVisitor $visitor, Request $request): JsonResponse
+    {
+        $this->authorize('update', $diagram);
+
+        if ($visitor->diagram_id !== $diagram->id) {
+            abort(404);
+        }
+
+        $access = $request->input('access');
+        if (!in_array($access, ['read', 'write', 'revoke'])) {
+            return response()->json(['message' => 'Invalid access value'], 422);
+        }
+
+        if ($access === 'revoke') {
+            $visitor->status = 'revoked';
+            $visitor->access = null;
+        } else {
+            $visitor->status = 'approved';
+            $visitor->access = $access;
+        }
+
+        $visitor->save();
+
+        try {
+            $broadcastAccess = $visitor->status === 'revoked' ? 'revoked' : ($visitor->access ?? $diagram->share_access ?? 'read');
+            broadcast(new VisitorAccessChanged($visitor->user_id, $diagram->share_token, $broadcastAccess));
+        } catch (\Exception $e) {}
+
+        return response()->json(['status' => true, 'visitor_status' => $visitor->status, 'access' => $visitor->access]);
     }
 
     public function saveByToken(string $token, Request $request): JsonResponse
     {
-        $diagram = Diagram::where('share_token', $token)
-            ->where('share_access', 'write')
-            ->firstOrFail();
+        $diagram = Diagram::where('share_token', $token)->firstOrFail();
+        $user = $request->user();
+
+        if ($diagram->share_access === 'per_user') {
+            $hasWriteAccess = DiagramVisitor::where('diagram_id', $diagram->id)
+                ->where('user_id', $user->id)
+                ->where('status', 'approved')
+                ->where('access', 'write')
+                ->exists();
+        } elseif ($diagram->share_access === 'write') {
+            $visitor = DiagramVisitor::where('diagram_id', $diagram->id)
+                ->where('user_id', $user->id)
+                ->first();
+            if ($visitor?->status === 'revoked') {
+                $hasWriteAccess = false;
+            } elseif ($diagram->require_approval) {
+                $hasWriteAccess = $visitor?->status === 'approved';
+            } else {
+                $hasWriteAccess = true;
+            }
+        } else {
+            $hasWriteAccess = false;
+        }
+
+        if (!$hasWriteAccess) {
+            abort(403);
+        }
 
         $diagram->schema = $request->input('schema');
         $diagram->save();
@@ -179,12 +293,65 @@ class DiagramController extends Controller
         return response()->json(['status' => true]);
     }
 
-    public function showByToken(string $token, Request $request): DiagramResource
+    public function showByToken(string $token, Request $request)
     {
         $diagram = Diagram::where('share_token', $token)->firstOrFail();
+        $user = $request->user();
 
-        if ($request->user()->id !== $diagram->user_id && !$diagram->share_access) {
-            abort(403, 'This diagram is not shared.');
+        if ($user->id !== $diagram->user_id) {
+            if (!$diagram->share_access) {
+                abort(403, 'This diagram is not shared.');
+            }
+
+            if ($diagram->share_access === 'per_user') {
+                $defaultStatus = $diagram->require_approval ? 'pending' : 'approved';
+                $visitor = DiagramVisitor::firstOrCreate(
+                    ['diagram_id' => $diagram->id, 'user_id' => $user->id],
+                    ['status' => $defaultStatus, 'access' => 'read']
+                );
+
+                if ($visitor->wasRecentlyCreated && $diagram->require_approval) {
+                    try {
+                        broadcast(new VisitorRequested($diagram->share_token));
+                    } catch (\Exception $e) {
+                        // Broadcasting failure must not block the guest's request
+                    }
+                }
+
+                if ($visitor->status === 'revoked') {
+                    return response()->json(['message' => 'Access revoked.'], 403);
+                }
+
+                if ($visitor->status !== 'approved') {
+                    return response()->json(['pending_approval' => true], 403);
+                }
+
+                $diagram->share_access = $visitor->access ?? 'read';
+
+            } else {
+                $defaultStatus = $diagram->require_approval ? 'pending' : 'approved';
+                $visitor = DiagramVisitor::firstOrCreate(
+                    ['diagram_id' => $diagram->id, 'user_id' => $user->id],
+                    ['status' => $defaultStatus]
+                );
+
+                if ($visitor->wasRecentlyCreated && $diagram->require_approval) {
+                    try {
+                        broadcast(new VisitorRequested($diagram->share_token));
+                    } catch (\Exception $e) {
+                        // Broadcasting failure must not block the guest's request
+                    }
+                }
+
+                if ($visitor->status === 'revoked') {
+                    return response()->json(['message' => 'Access revoked.'], 403);
+                }
+
+                if ($diagram->require_approval && $visitor->status !== 'approved') {
+                    return response()->json(['pending_approval' => true], 403);
+                }
+                // Global share_access (read/write) applies
+            }
         }
 
         return new DiagramResource($diagram);

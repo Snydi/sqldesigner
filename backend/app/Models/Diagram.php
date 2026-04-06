@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Diagram extends Model
@@ -19,6 +20,7 @@ class Diagram extends Model
         'user_id',
         'share_token',
         'share_access',
+        'require_approval',
     ];
 
     protected static function booted(): void
@@ -33,5 +35,10 @@ class Diagram extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function visitors(): HasMany
+    {
+        return $this->hasMany(DiagramVisitor::class);
     }
 }
