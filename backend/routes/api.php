@@ -12,6 +12,8 @@ Route::middleware('throttle:10,1')->group(function () {
 });
 Route::middleware('throttle:5,1')->post('/feedback', [FeedbackController::class, 'send']);
 
+Route::get('/diagrams/embed/{token}', [DiagramController::class, 'showEmbed']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/diagrams/shared/{token}', [DiagramController::class, 'showByToken']);
     Route::patch('/diagrams/shared/{token}', [DiagramController::class, 'saveByToken']);

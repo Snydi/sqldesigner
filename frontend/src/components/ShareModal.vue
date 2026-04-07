@@ -36,6 +36,28 @@
                     <template v-else>Anyone with this link can {{ shareAccess === 'write' ? 'edit' : 'view' }} this diagram.</template>
                 </p>
 
+                <div v-if="shareAccess" class="share-modal__embed">
+                    <span class="share-modal__toggle-label">Embed</span>
+                    <div class="share-modal__embed-body">
+                        <div class="share-modal__embed-code-row">
+                            <textarea class="share-modal__link-input share-modal__embed-input" :value="embedCode" readonly rows="3"></textarea>
+                            <button class="btn btn-primary share-modal__copy-btn share-modal__embed-copy-btn" @click="copyEmbed">{{ copiedEmbed ? 'Copied!' : 'Copy' }}</button>
+                        </div>
+                        <p class="share-modal__hint">The link to my site is optional — but if you include it, your diagram gets featured in the <a href="/library" target="_blank" style="color:var(--color-primary);text-decoration:none">Schema Library</a> with a backlink to your site.</p>
+                    </div>
+                </div>
+
+                <div v-if="shareAccess" class="share-modal__approval-row">
+                    <label class="share-modal__checkbox-label">
+                        <input type="checkbox" class="share-modal__checkbox" :checked="inLibrary" @change="toggleLibrary" :disabled="loading" />
+                        <span>Share in library</span>
+                    </label>
+                    <span class="share-modal__help-icon">
+                        ?
+                        <span class="share-modal__tooltip">When enabled, this diagram appears in read-only mode in the public <a href="/library" target="_blank" style="color:var(--color-primary)">Schema Library</a> for anyone to browse.</span>
+                    </span>
+                </div>
+
                 <div v-if="shareAccess" class="share-modal__approval-row">
                     <label class="share-modal__checkbox-label">
                         <input type="checkbox" class="share-modal__checkbox" :checked="requireApproval" @change="toggleApproval" :disabled="loading" />
@@ -109,15 +131,18 @@ const props = defineProps({
     token: { type: String, required: true },
     shareAccess: { type: String, default: null },
     requireApproval: { type: Boolean, default: false },
+    inLibrary: { type: Boolean, default: false },
     hasPendingVisitors: { type: Boolean, default: false },
 })
-const emit = defineEmits(['close', 'update:shareAccess', 'update:requireApproval', 'update:hasPendingVisitors'])
+const emit = defineEmits(['close', 'update:shareAccess', 'update:requireApproval', 'update:inLibrary', 'update:hasPendingVisitors'])
 
 const loading = ref(false)
 const copied = ref(false)
+const copiedEmbed = ref(false)
 const visitors = ref([])
 const visitorsLoading = ref(false)
 const shareUrl = computed(() => `${window.location.origin}/diagrams/${props.token}`)
+const embedCode = computed(() => `<iframe src="${window.location.origin}/embed/${props.token}" width="100%" height="500" frameborder="0" allowfullscreen></iframe>\n<p>Created with <a href="https://sql-designer.com">SQL Designer</a> — free online database schema designer</p>`)
 
 const fetchVisitors = async () => {
     visitorsLoading.value = true
@@ -183,6 +208,23 @@ const copyLink = async () => {
     await navigator.clipboard.writeText(shareUrl.value)
     copied.value = true
     setTimeout(() => { copied.value = false }, 2000)
+}
+
+const copyEmbed = async () => {
+    await navigator.clipboard.writeText(embedCode.value)
+    copiedEmbed.value = true
+    setTimeout(() => { copiedEmbed.value = false }, 2000)
+}
+
+const toggleLibrary = async (event) => {
+    loading.value = true
+    const value = event.target.checked
+    const result = await Diagram.updateShareAccess(props.diagramId, { library: value })
+    if (result) {
+        emit('update:inLibrary', result.library)
+        emit('update:shareAccess', result.share_access)
+    }
+    loading.value = false
 }
 </script>
 
@@ -379,6 +421,38 @@ const copyLink = async () => {
     line-height: 1.4;
 }
 
+/* Embed section */
+.share-modal__embed {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.share-modal__embed-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.share-modal__embed-code-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.share-modal__embed-input {
+    font-family: monospace;
+    font-size: 0.68rem;
+    resize: none;
+    line-height: 1.5;
+}
+
+.share-modal__embed-copy-btn {
+    align-self: flex-end;
+}
+
 /* Approval checkbox row */
 .share-modal__approval-row {
     display: flex;
@@ -421,14 +495,16 @@ const copyLink = async () => {
     flex-shrink: 0;
 }
 
-.share-modal__help-icon:hover .share-modal__tooltip {
+.share-modal__help-icon:hover .share-modal__tooltip,
+.share-modal__tooltip:hover {
     opacity: 1;
     pointer-events: auto;
 }
 
 .share-modal__tooltip {
     position: absolute;
-    bottom: calc(100% + 6px);
+    bottom: 100%;
+    padding-bottom: 8px;
     right: 0;
     width: 220px;
     background: var(--bg-surface-alt);

@@ -21,6 +21,9 @@ class Diagram extends Model
         'share_token',
         'share_access',
         'require_approval',
+        'library',
+        'featured',
+        'featured_url',
     ];
 
     protected static function booted(): void

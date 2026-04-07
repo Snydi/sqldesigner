@@ -32,6 +32,10 @@
                 <span class="desc">Full list of everything SQL Designer can do: canvas editing, SQL export, foreign keys, constraints, and more.</span>
             </li>
             <li>
+                <a href="/library">Schema Library</a>
+                <span class="desc">Real database schemas shared by the community — browse for inspiration or share your own.</span>
+            </li>
+            <li>
                 <a href="/demo">Try Demo</a>
                 <span class="desc">Try the schema designer without creating an account.</span>
             </li>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Diagram;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -39,8 +40,34 @@ class AdminController extends Controller
     public function showDashboard()
     {
         $users = User::with('diagrams')->orderBy('created_at', 'desc')->get();
+        $libraryDiagrams = Diagram::with('user')
+            ->where('library', true)
+            ->whereNotNull('share_access')
+            ->orderByDesc('featured')
+            ->orderByDesc('updated_at')
+            ->get();
 
-        return view('admin.dashboard', compact('users'));
+        return view('admin.dashboard', compact('users', 'libraryDiagrams'));
+    }
+
+    public function featureDiagram(Diagram $diagram, Request $request): JsonResponse
+    {
+        $request->validate(['url' => 'required|url|max:500']);
+
+        $diagram->featured = true;
+        $diagram->featured_url = $request->input('url');
+        $diagram->save();
+
+        return response()->json(['ok' => true]);
+    }
+
+    public function unfeatureDiagram(Diagram $diagram): JsonResponse
+    {
+        $diagram->featured = false;
+        $diagram->featured_url = null;
+        $diagram->save();
+
+        return response()->json(['ok' => true]);
     }
 
     public function impersonate(User $user)

@@ -17,6 +17,7 @@ class DiagramResource extends JsonResource
             'share_token' => $this->share_token,
             'share_access' => $this->share_access,
             'require_approval' => (bool) $this->require_approval,
+            'library' => (bool) $this->library,
             'is_owner' => $request->user()?->id === $this->user_id,
         ];
     }
