@@ -163,6 +163,111 @@
         .toast.show { opacity: 1; transform: translateY(0); }
         .toast.error { background: #8f2f2f; }
         .empty { font-size: 12px; color: #bbb; margin-top: 2rem; }
+        .section-heading {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .1em;
+            color: #8f2f2f;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #f0eded;
+        }
+        .lib-diagram-card {
+            background: #fff;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+            overflow: hidden;
+        }
+        .lib-diagram-row {
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .lib-diagram-info { flex: 1; min-width: 0; }
+        .lib-diagram-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .lib-diagram-meta {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+            letter-spacing: .04em;
+        }
+        .lib-diagram-meta a {
+            color: #8f2f2f;
+            text-decoration: none;
+        }
+        .lib-diagram-meta a:hover { text-decoration: underline; }
+        .lib-featured-badge {
+            font-size: 10px;
+            background: #fff8e1;
+            color: #7a5800;
+            border: 1px solid #f5c842;
+            border-radius: 3px;
+            padding: 2px 7px;
+            letter-spacing: .04em;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .feature-form {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .url-input {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 6px 10px;
+            border: 1px solid #e0b0b0;
+            border-radius: 4px;
+            width: 260px;
+            color: #2c3e50;
+            text-transform: none;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .url-input:focus { border-color: #8f2f2f; }
+        .feature-btn {
+            background: #8f2f2f;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background .2s;
+        }
+        .feature-btn:hover { background: #7a2222; }
+        .feature-btn:disabled { background: #ccc; cursor: default; }
+        .unfeature-btn {
+            background: none;
+            border: 1px solid #e0b0b0;
+            border-radius: 4px;
+            color: #8f2f2f;
+            padding: 6px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background .2s, border-color .2s;
+        }
+        .unfeature-btn:hover { background: #fff0f0; border-color: #8f2f2f; }
     </style>
 </head>
 <body>
@@ -178,6 +283,45 @@
         <div class="stats">
             Total users: <strong>{{ $users->count() }}</strong>
         </div>
+
+        <div class="section-heading">Library — {{ $libraryDiagrams->count() }} diagrams</div>
+
+        @forelse ($libraryDiagrams as $diagram)
+            <div class="lib-diagram-card" id="lib-diagram-{{ $diagram->id }}">
+                <div class="lib-diagram-row">
+                    <div class="lib-diagram-info">
+                        <div class="lib-diagram-name">{{ $diagram->name }}</div>
+                        <div class="lib-diagram-meta">
+                            {{ $diagram->user->email ?? '—' }} &nbsp;&middot;&nbsp;
+                            <a href="/diagrams/{{ $diagram->share_token }}" target="_blank">View</a>
+                            @if ($diagram->featured && $diagram->featured_url)
+                                &nbsp;&middot;&nbsp;
+                                <a href="{{ $diagram->featured_url }}" target="_blank" rel="noopener noreferrer">{{ $diagram->featured_url }}</a>
+                            @endif
+                        </div>
+                    </div>
+
+                    @if ($diagram->featured)
+                        <span class="lib-featured-badge">★ Featured</span>
+                        <button class="unfeature-btn" onclick="unfeature({{ $diagram->id }}, this)">Remove</button>
+                    @else
+                        <div class="feature-form">
+                            <input
+                                class="url-input"
+                                type="url"
+                                placeholder="https://their-site.com/page-with-embed"
+                                id="url-{{ $diagram->id }}"
+                            />
+                            <button class="feature-btn" onclick="feature({{ $diagram->id }}, this)">Feature</button>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @empty
+            <p class="empty">No diagrams in the library yet.</p>
+        @endforelse
+
+        <div class="section-heading">Users — {{ $users->count() }}</div>
 
         @forelse ($users as $user)
             <div class="user-card">
@@ -278,6 +422,48 @@
                 showToast('Error: ' + e.message, true);
                 btn.disabled = false;
                 btn.textContent = 'Delete';
+            }
+        }
+
+        async function feature(diagramId, btn) {
+            const url = document.getElementById('url-' + diagramId).value.trim();
+            if (!url) { showToast('Enter a URL first', true); return; }
+
+            btn.disabled = true;
+            btn.textContent = '...';
+
+            try {
+                const res = await fetch(`/admin/diagrams/${diagramId}/feature`, {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ url }),
+                });
+                if (!res.ok) throw new Error('Server error');
+                showToast('Featured!');
+                setTimeout(() => location.reload(), 800);
+            } catch (e) {
+                showToast('Error: ' + e.message, true);
+                btn.disabled = false;
+                btn.textContent = 'Feature';
+            }
+        }
+
+        async function unfeature(diagramId, btn) {
+            btn.disabled = true;
+            btn.textContent = '...';
+
+            try {
+                const res = await fetch(`/admin/diagrams/${diagramId}/feature`, {
+                    method: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                });
+                if (!res.ok) throw new Error('Server error');
+                showToast('Removed from featured');
+                setTimeout(() => location.reload(), 800);
+            } catch (e) {
+                showToast('Error: ' + e.message, true);
+                btn.disabled = false;
+                btn.textContent = 'Remove';
             }
         }
 

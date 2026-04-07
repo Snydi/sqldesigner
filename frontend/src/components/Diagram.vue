@@ -41,6 +41,7 @@
             :token="token"
             v-model:shareAccess="diagramShareAccess"
             v-model:requireApproval="diagramRequireApproval"
+            v-model:inLibrary="diagramInLibrary"
             v-model:hasPendingVisitors="hasPendingVisitors"
             @close="showShareModal = false"
         />
@@ -253,6 +254,7 @@ const exportJsonContent = ref('')
 const showShareModal = ref(false)
 const diagramShareAccess = ref(null)
 const diagramRequireApproval = ref(false)
+const diagramInLibrary = ref(false)
 const hasPendingVisitors = ref(false)
 let visitorPollInterval = null
 
@@ -861,6 +863,7 @@ const getDiagram = async () => {
     isOwner.value = diagramInfo.is_owner ?? false
     diagramShareAccess.value = diagramInfo.share_access ?? null
     diagramRequireApproval.value = diagramInfo.require_approval ?? false
+    diagramInLibrary.value = diagramInfo.library ?? false
 
     if (isOwner.value && diagramRequireApproval.value) {
         const visitors = await Diagram.getVisitors(diagramId.value)

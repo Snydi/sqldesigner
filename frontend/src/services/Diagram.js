@@ -71,10 +71,10 @@ export const Diagram = {
             await axios.patch(`/api/diagrams/shared/${token}`, { schema: JSON.stringify(schema) })
         }),
 
-    updateShareAccess: (id, access) =>
+    updateShareAccess: (id, payload) =>
         request(async () => {
-            const response = await axios.patch(`/api/diagrams/${id}/share`, { access })
-            return response.data.share_access
+            const response = await axios.patch(`/api/diagrams/${id}/share`, payload)
+            return response.data
         }),
 
     updateRequireApproval: (id, requireApproval) =>
