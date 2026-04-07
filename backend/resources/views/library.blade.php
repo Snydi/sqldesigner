@@ -149,6 +149,7 @@
 
         /* Scaled iframe preview */
         .lib-card-preview {
+            display: block;
             position: relative;
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -180,15 +181,28 @@
             font-size: 0.875rem;
             font-weight: 600;
             color: var(--text-primary);
+            text-decoration: none;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
+        .lib-card-name:hover { color: var(--color-primary); }
+
         .lib-card-meta {
             font-size: 0.75rem;
             color: var(--text-muted);
         }
+
+        .lib-card-backlink {
+            font-size: 0.72rem;
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.75;
+            transition: opacity 0.15s;
+        }
+
+        .lib-card-backlink:hover { opacity: 1; }
 
         /* ── Divider ── */
         .lib-divider {
@@ -218,17 +232,40 @@
     <div class="lib-section">
         <div class="lib-section-heading">
             <h2>Featured</h2>
-            <span class="lib-badge featured">Coming soon</span>
         </div>
         <p class="lib-section-desc">
-            Featured schemas come from users who embedded their diagram on their own website with a backlink to SQL Designer.
-            In return, they get a spot here at the top. <a href="/features">Embed feature</a> coming soon.
+            Schemas from users who embedded their diagram on their own website with a backlink to SQL Designer.
+            Use the embed code from the share dialog to get featured here.
         </p>
-        <div class="lib-empty">
-            <div class="lib-empty-icon">&#9733;</div>
-            <p>No featured schemas yet.</p>
-            <p class="lib-empty-hint">Embed your diagram on your site to get featured here.</p>
-        </div>
+        @if($featured->isEmpty())
+            <div class="lib-empty">
+                <div class="lib-empty-icon">&#9733;</div>
+                <p>No featured schemas yet.</p>
+                <p class="lib-empty-hint">Embed your diagram on your site to get featured here.</p>
+            </div>
+        @else
+            <div class="lib-grid">
+                @foreach($featured as $diagram)
+                    <div class="lib-card">
+                        <a href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer" class="lib-card-preview">
+                            <iframe
+                                data-src="/embed/{{ $diagram->share_token }}"
+                                title="{{ $diagram->name }} preview"
+                                tabindex="-1"
+                            ></iframe>
+                        </a>
+                        <div class="lib-card-body">
+                            <a class="lib-card-name" href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer">{{ $diagram->name }}</a>
+                            @if($diagram->featured_url)
+                                <a class="lib-card-backlink" href="{{ $diagram->featured_url }}" target="_blank" rel="dofollow noopener noreferrer">
+                                    ↗ {{ parse_url($diagram->featured_url, PHP_URL_HOST) }}
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 
     <hr class="lib-divider">
