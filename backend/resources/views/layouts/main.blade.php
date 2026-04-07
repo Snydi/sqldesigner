@@ -32,6 +32,8 @@
         .footer-discord { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); }
         .footer-discord:hover { color: #5865F2 !important; text-decoration: none !important; }
         @media (max-width: 540px) { .footer-inner { gap: 1.5rem; } .footer-bottom { flex-direction: column; align-items: flex-start; } }
+        .header-left { display: flex; align-items: center; gap: 1.5rem; }
+        .header-left__nav { display: flex; align-items: center; gap: 1.25rem; }
         @media (max-width: 540px) {
             .header { padding: 0.5rem; }
             .flex-items { gap: 0.4rem; }
@@ -58,9 +60,14 @@
 </head>
 <body class="home-page">
 <header class="header">
-    <a href="/"><img class="logo" src="{{ Vite::asset('src/icons/logo.svg') }}" alt="SQL Designer logo" width="148" height="24"></a>
+    <div class="header-left">
+        <a href="/"><img class="logo" src="{{ Vite::asset('src/icons/logo.svg') }}" alt="SQL Designer logo" width="148" height="24"></a>
+        <nav class="header-left__nav nav-hide-mobile" aria-label="Site navigation">
+            <a class="btn btn-secondary" href="/features">Features</a>
+            <a class="btn btn-secondary" href="/library">Library</a>
+        </nav>
+    </div>
     <nav class="flex-items" aria-label="Main navigation">
-        <a class="btn btn-secondary nav-hide-mobile" href="/features">Features</a>
         <div id="nav-authed" style="display:none; gap:1rem;">
             <a class="btn btn-secondary" href="/diagrams">My Diagrams</a>
             <a class="btn btn-secondary" href="/logout">Logout</a>
@@ -96,6 +103,7 @@
             <p class="footer-col-heading">Resources</p>
             <ul>
                 <li><a href="/blog">Blog</a></li>
+                <li><a href="/library">Schema Library</a></li>
                 <li><a href="/sitemap">Site Map</a></li>
             </ul>
         </div>

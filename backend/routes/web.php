@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Models\Diagram;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,6 +23,13 @@ Route::prefix('/blog')->group(function () {
     Route::get('/database-schema-examples', fn() => view('blog.database-schema-examples'));
 });
 Route::get('/features', fn() => view('features'));
+Route::get('/library', function () {
+    $diagrams = Diagram::where('library', true)
+        ->whereNotNull('share_access')
+        ->orderByDesc('updated_at')
+        ->get(['name', 'share_token', 'updated_at']);
+    return view('library', compact('diagrams'));
+});
 Route::get('/sitemap', fn() => view('sitemap'));
 
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])

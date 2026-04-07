@@ -147,6 +147,7 @@ class DiagramController extends Controller
         $this->authorize('update', $diagram);
 
         $diagram->share_access = null;
+        $diagram->library = false;
         $diagram->save();
 
         return response()->json(['status' => true]);
@@ -171,11 +172,19 @@ class DiagramController extends Controller
             $diagram->require_approval = (bool) $request->input('require_approval');
         }
 
+        if ($request->has('library')) {
+            $diagram->library = (bool) $request->input('library');
+            if ($diagram->library && $diagram->share_access !== 'per_user') {
+                $diagram->share_access = 'per_user';
+            }
+        }
+
         $diagram->save();
 
         return response()->json([
-            'share_access' => $diagram->share_access,
+            'share_access'     => $diagram->share_access,
             'require_approval' => (bool) $diagram->require_approval,
+            'library'          => (bool) $diagram->library,
         ]);
     }
 
@@ -293,6 +302,21 @@ class DiagramController extends Controller
         return response()->json(['status' => true]);
     }
 
+    public function showEmbed(string $token)
+    {
+        $diagram = Diagram::where('share_token', $token)->firstOrFail();
+
+        if (!$diagram->share_access) {
+            abort(403, 'This diagram is not shared.');
+        }
+
+        return response()->json([
+            'name'    => $diagram->name,
+            'db_type' => $diagram->db_type,
+            'schema'  => $diagram->schema,
+        ]);
+    }
+
     public function showByToken(string $token, Request $request)
     {
         $diagram = Diagram::where('share_token', $token)->firstOrFail();
@@ -302,6 +326,7 @@ class DiagramController extends Controller
             if (!$diagram->share_access) {
                 abort(403, 'This diagram is not shared.');
             }
+
 
             if ($diagram->share_access === 'per_user') {
                 $defaultStatus = $diagram->require_approval ? 'pending' : 'approved';

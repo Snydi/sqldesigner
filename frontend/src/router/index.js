@@ -10,6 +10,7 @@ const VerifyEmail = () => import('../components/Auth/VerifyEmail.vue');
 const GoogleCallback = () => import('../components/Auth/GoogleCallback.vue');
 const DiagramList = () => import('../components/DiagramList.vue');
 const Diagram = () => import('../components/Diagram.vue');
+const DiagramEmbed = () => import('../components/DiagramEmbed.vue');
 
 function requireAuth(to, from, next) {
     if (!store.state.auth_token) {
@@ -31,6 +32,7 @@ function requireAuth(to, from, next) {
 }
 
 const routes = [
+    { path: '/embed/:token', name: 'embed', component: DiagramEmbed },
     {
         path: '/',
         component: Layout,
@@ -60,7 +62,6 @@ const pageTitles = {
     'diagrams': 'My Diagrams — SQL Designer',
     'diagram.show': 'Diagram Editor — SQL Designer',
     'demo': 'Try Demo — SQL Designer',
-    'shared.diagram': 'Shared Diagram — SQL Designer',
 };
 
 router.afterEach((to) => {
