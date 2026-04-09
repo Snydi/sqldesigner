@@ -18,6 +18,11 @@
         :readonly="!data.editing || !canEdit"
     />
 
+    <!-- Constraint badges -->
+    <div v-if="badges.length" class="constraint_badges">
+        <span v-for="b in badges" :key="b.label" :class="['constraint_badge', b.cls]">{{ b.label }}</span>
+    </div>
+
     <!-- SQL Type -->
     <div>
         <select v-model="data.sqlType" @change="emitChange()" :disabled="!canEdit">
@@ -37,6 +42,7 @@
     <div v-if="data.showOptionsModal" class="options_modal"
          :style="{ left: `${data.modalPosition?.x}px`, top: `${data.modalPosition?.y}px` }"
          @mousedown.stop
+         @pointerdown.stop
          ref="optionsModalRef">
         <div class="options_modal_row">
             <p class="modal_text">Key</p>
@@ -63,6 +69,29 @@
             <p class="modal_text">Comment</p>
             <input type="text" class="modal_text_input" @mousedown.stop v-model="data.comment" @change="emitChange()" placeholder="">
         </div>
+
+        <!-- Unique Together section -->
+        <div class="options_modal_divider"></div>
+        <p class="options_modal_section_label">Unique Together</p>
+        <div v-for="(constraint, idx) in tableUniqueTogether" :key="idx" class="uq_constraint_row">
+            <span class="uq_constraint_cols" :title="constraint.join(', ')">{{ constraint.join(', ') }}</span>
+            <button class="uq_remove_btn" @click="removeUniqueTogether(idx)" title="Remove">×</button>
+        </div>
+        <p v-if="!tableUniqueTogether.length" class="uq_empty">None</p>
+        <template v-if="showAddPicker">
+            <div class="uq_picker">
+                <label v-for="col in otherColumns" :key="col" class="constraints_col_label">
+                    <input type="checkbox" :value="col" v-model="newUqCols" @mousedown.stop @pointerdown.stop @click.stop>
+                    <span>{{ col }}</span>
+                </label>
+                <p v-if="!otherColumns.length" class="uq_empty">No other columns</p>
+            </div>
+            <div class="uq_picker_actions">
+                <button class="uq_add_confirm_btn" @click="addUniqueTogether" :disabled="newUqCols.length < 1">Add</button>
+                <button class="uq_cancel_btn" @click="showAddPicker = false; newUqCols = []">Cancel</button>
+            </div>
+        </template>
+        <button v-else class="uq_add_toggle_btn" @click="showAddPicker = true">+ Add constraint</button>
     </div>
 
     <!-- Delete row -->
@@ -90,14 +119,52 @@ const props = defineProps({
     label: String,
     dbType: { type: String, default: 'mysql' },
     canEdit: { type: Boolean, default: true },
+    tableColumns: { type: Array, default: () => [] },
+    tableUniqueTogether: { type: Array, default: () => [] },
 })
 
-const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start'])
+const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start', 'update-table-constraints'])
 
 const optionsModalRef = ref(null)
 onClickOutside(optionsModalRef, () => emit('toggle-options-modal', props.id))
 
 const emitChange = () => emit('change', props.id)
+
+// --- Unique Together ---
+
+const showAddPicker = ref(false)
+const newUqCols = ref([])
+
+const otherColumns = computed(() => props.tableColumns.filter(c => c !== props.label))
+
+const removeUniqueTogether = (idx) => {
+    const updated = props.tableUniqueTogether.filter((_, i) => i !== idx)
+    emit('update-table-constraints', updated)
+}
+
+const addUniqueTogether = () => {
+    if (newUqCols.value.length < 1) return
+    const newConstraint = [props.label, ...newUqCols.value]
+    emit('update-table-constraints', [...props.tableUniqueTogether, newConstraint])
+    newUqCols.value = []
+    showAddPicker.value = false
+}
+
+// --- Constraint badges ---
+
+const badges = computed(() => {
+    const result = []
+    const km = props.data.keyMod
+    if (km === 'PRIMARY KEY') result.push({ label: 'PK', cls: 'badge--pk' })
+    else if (km === 'UNIQUE') result.push({ label: 'UQ', cls: 'badge--uq' })
+    else if (km === 'INDEX') result.push({ label: 'IDX', cls: 'badge--idx' })
+    if (props.tableUniqueTogether?.some(g => g.includes(props.label))) {
+        result.push({ label: 'U+', cls: 'badge--uq-together' })
+    }
+    return result
+})
+
+// --- Type groups ---
 
 const MYSQL_TYPES = {
     'Numeric': [
@@ -187,4 +254,3 @@ const toggleUnsigned = () => {
     emitChange()
 }
 </script>
-

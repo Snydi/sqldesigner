@@ -106,7 +106,7 @@ class DiagramService
 
         foreach (json_decode($schema, true) as $item) {
             match ($item['type'] ?? null) {
-                'table' => $tables->push(['id' => $item['id'], 'name' => $item['label']]),
+                'table' => $tables->push(['id' => $item['id'], 'name' => $item['label'], 'unique_together' => $item['data']['uniqueTogether'] ?? []]),
                 'row'   => $rows->push([
                     'id'           => $item['id'],
                     'name'         => $item['label'],
@@ -132,7 +132,12 @@ class DiagramService
         $script     = '';
 
         foreach ($tables as $table) {
-            $columnDefs = $rows->where('table_id', $table['id'])->map(function ($row) use ($isPg, $q) {
+            $tableRows = $rows->where('table_id', $table['id']);
+            $tableColumnNames = $tableRows->pluck('name')->all();
+
+            $allDefs = $tableRows->map(function ($row) use ($isPg, $q) {
+                $typeWord = strtoupper(preg_replace('/[\s(].*/', '', $row['sql_type']));
+                if (in_array($typeWord, ['INDEX', 'KEY', 'CONSTRAINT', 'FOREIGN', 'CHECK', 'PRIMARY', 'UNIQUE'])) return null;
                 $parts = ["  {$q}{$row['name']}{$q} {$row['sql_type']}"];
                 if (!$isPg && $row['unsigned']) $parts[] = $row['unsigned'];
                 $parts[] = $row['nullable'];
@@ -140,10 +145,21 @@ class DiagramService
                 if ($row['default_value'] !== null && $row['default_value'] !== '') $parts[] = "DEFAULT '{$row['default_value']}'";
                 if (!$isPg && $row['comment'] !== null && $row['comment'] !== '') $parts[] = "COMMENT '{$row['comment']}'";
                 return implode(' ', array_filter($parts));
-            });
+            })->filter()->values()->all();
+
+            foreach ($table['unique_together'] as $constraintCols) {
+                $validCols = array_values(array_filter($constraintCols, fn($c) => in_array($c, $tableColumnNames)));
+                if (count($validCols) >= 2) {
+                    $quotedCols = implode(', ', array_map(fn($c) => "{$q}{$c}{$q}", $validCols));
+                    $constraintName = 'uq_' . $table['name'] . '_' . implode('_', $validCols);
+                    $allDefs[] = $isPg
+                        ? "  CONSTRAINT {$q}{$constraintName}{$q} UNIQUE ({$quotedCols})"
+                        : "  UNIQUE KEY {$q}{$constraintName}{$q} ({$quotedCols})";
+                }
+            }
 
             $script .= "CREATE TABLE IF NOT EXISTS {$q}{$table['name']}{$q} (\n";
-            $script .= $columnDefs->implode(",\n") . "\n";
+            $script .= implode(",\n", $allDefs) . "\n";
             $script .= ");\n\n";
         }
 
@@ -250,7 +266,11 @@ class DiagramService
                 $tableX += 400;
                 $tableId  = uniqid();
                 $tables[] = $this->buildTableNode($tableId, $m[1], $tableX);
-                array_push($rows, ...$this->parseColumns($m[2], $tableId, $tableX));
+                $parsed   = $this->parseColumns($m[2], $tableId, $tableX);
+                array_push($rows, ...$parsed['rows']);
+                if (!empty($parsed['uniqueTogether'])) {
+                    $tables[count($tables) - 1]['data']['uniqueTogether'] = $parsed['uniqueTogether'];
+                }
                 foreach ($this->parseInlineForeignKeys($m[2]) as $fk) {
                     $pendingFks[] = array_merge($fk, ['sourceTable' => $m[1]]);
                 }
@@ -289,7 +309,7 @@ class DiagramService
             'initialized'      => false,
             'isParent'         => true,
             'position'         => ['x' => $x, 'y' => $y],
-            'data'             => ['toolbarPosition' => 'top', 'toolbarVisible' => true, 'editing' => false, 'color' => '#3d7a5c'],
+            'data'             => ['toolbarPosition' => 'top', 'toolbarVisible' => true, 'editing' => false, 'color' => '#3d7a5c', 'uniqueTogether' => []],
             'events'           => (object)[],
             'label'            => $name,
             'style'            => [
@@ -361,20 +381,34 @@ class DiagramService
 
     private function parseColumns(string $tableContent, string $tableId, int $tableX, int $tableY = 50): array
     {
-        $lines       = $this->splitColumnDefinitions($tableContent);
-        $constraints = [];
-        $usedNames   = [];
-        $rows        = [];
-        $index       = 0;
+        $lines                 = $this->splitColumnDefinitions($tableContent);
+        $constraints           = [];
+        $uniqueTogetherConstraints = [];
+        $usedNames             = [];
+        $rows                  = [];
+        $index                 = 0;
 
         foreach ($lines as $line) {
-            if (preg_match('/^(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?(PRIMARY\s+KEY|UNIQUE)\s*\(\s*["`]?(\w+)["`]?\s*\)/i', $line, $m)) {
-                $constraints[$m[2]] = strtoupper(preg_replace('/\s+/', ' ', $m[1]));
+            // Table-level PRIMARY KEY (single column)
+            if (preg_match('/^(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?PRIMARY\s+KEY\s*\(\s*["`]?(\w+)["`]?\s*\)/i', $line, $m)) {
+                $constraints[$m[1]] = 'PRIMARY KEY';
+            }
+            // Table-level UNIQUE constraint (single or multi-column)
+            elseif (preg_match('/^(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?UNIQUE(?:\s+KEY(?:\s+["`]?\w+["`]?)?)?\s*\(\s*([^)]+)\s*\)/i', $line, $m)) {
+                $cols = array_values(array_filter(array_map(
+                    fn($c) => trim(str_replace(['`', '"'], '', $c)),
+                    explode(',', $m[1])
+                )));
+                if (count($cols) === 1) {
+                    $constraints[$cols[0]] = 'UNIQUE';
+                } elseif (count($cols) >= 2) {
+                    $uniqueTogetherConstraints[] = $cols;
+                }
             }
         }
 
         foreach ($lines as $line) {
-            if (preg_match('/^(?:CONSTRAINT\s|PRIMARY\s+KEY|UNIQUE\s+KEY|UNIQUE\s*\(|FOREIGN\s+KEY|KEY\s|INDEX\s|CHECK\s*\()/i', $line)) continue;
+            if (preg_match('/^(?:CONSTRAINT\s|PRIMARY\s+KEY|UNIQUE\s+(?:KEY|INDEX)|UNIQUE\s*\(|FOREIGN\s+KEY|KEY\s|INDEX\s|CHECK\s*\()/i', $line)) continue;
             if (!preg_match('/^["`]?(\w+)["`]?\s+([a-zA-Z]+)(?:\(([^)]+)\))?(?:\s+(UNSIGNED))?(?:\s+(NOT\s+NULL|NULL))?(?:\s+(PRIMARY\s+KEY|UNIQUE))?(?:\s+DEFAULT\s+\'([^\']*)\')?(?:\s+COMMENT\s+\'([^\']*)\')?/i', $line, $m)) continue;
 
             $baseName = $m[1];
@@ -400,7 +434,7 @@ class DiagramService
             $index++;
         }
 
-        return $rows;
+        return ['rows' => $rows, 'uniqueTogether' => $uniqueTogetherConstraints];
     }
 
     private function parseInlineForeignKeys(string $tableContent): array

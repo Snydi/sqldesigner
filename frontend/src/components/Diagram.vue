@@ -139,11 +139,14 @@
                         :label="nodeProps.label"
                         :dbType="diagramDbType"
                         :canEdit="canEdit"
+                        :tableColumns="schema.filter(el => el.type === 'row' && el.parentNode === nodeProps.parentNodeId).sort((a, b) => a.position.y - b.position.y).map(el => el.label)"
+                        :tableUniqueTogether="schema.find(el => el.id === nodeProps.parentNodeId)?.data?.uniqueTogether ?? []"
                         @update-label="updateLabel"
                         @toggle-options-modal="toggleOptionsModal"
                         @delete-node="deleteNode"
                         @change="onRowChange($event)"
                         @row-drag-start="startRowDrag"
+                        @update-table-constraints="onTableConstraintsChange(nodeProps.parentNodeId, $event)"
                     />
                 </template>
 
@@ -189,6 +192,7 @@
             :user-email="feedbackUserEmail"
             @close="showFeedbackModal = false"
         />
+
     </template>
 </template>
 
@@ -756,6 +760,18 @@ const toggleOptionsModal = (id) => {
     }
     whisper('schema-patch', {
         update: [{ id, data: { showOptionsModal: row.data.showOptionsModal, modalPosition: row.data.modalPosition } }]
+    })
+}
+
+// --- Table constraints ---
+
+const onTableConstraintsChange = (tableId, newConstraints) => {
+    const tableNode = schema.value?.find(el => el.id === tableId)
+    if (!tableNode) return
+    tableNode.data.uniqueTogether = newConstraints
+    isSaved.value = false
+    whisper('schema-patch', {
+        update: [{ id: tableId, data: { uniqueTogether: newConstraints } }]
     })
 }
 

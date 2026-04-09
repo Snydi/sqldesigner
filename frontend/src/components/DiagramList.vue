@@ -33,7 +33,7 @@
                             <img src="../icons/trash.svg" alt="delete" />
                         </button>
                     </div>
-                    <div class="diagram-card__footer" @click.stop>
+                    <div class="diagram-card__footer">
                         <img
                             :src="diagram.db_type === 'postgresql' ? postgresqlIcon : mysqlIcon"
                             :alt="diagram.db_type"
@@ -44,6 +44,7 @@
                             ref="renameInput"
                             v-model="diagram.name"
                             class="diagram-card__name-input"
+                            @click.stop
                             @keyup.enter="commitRename(diagram)"
                             @keyup.escape="cancelRename(diagram)"
                             @blur="commitRename(diagram)"
@@ -51,8 +52,8 @@
                         <span
                             v-else
                             class="diagram-card__name"
-                            @dblclick="startRename(diagram)"
-                            title="Double-click to rename"
+                            @click.stop="startRename(diagram)"
+                            title="Click to rename"
                         >{{ diagram.name }}</span>
                     </div>
                 </div>
@@ -346,7 +347,9 @@ export default {
     padding: 0.55rem 0.8rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     min-height: 48px;
+    position: relative;
 }
 
 .diagram-card__name {
@@ -355,20 +358,21 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    flex: 1;
+    flex: 0 1 50%;
+    text-align: center;
     cursor: text;
 }
 
 .diagram-card__db-icon {
+    position: absolute;
+    left: 0.8rem;
     width: 32px;
     height: 32px;
-    flex-shrink: 0;
-    margin-right: 10px;
     opacity: 0.85;
 }
 
 .diagram-card__name-input {
-    flex: 1;
+    flex: 0 1 35%;
     font-size: 0.875rem;
     border: none;
     border-bottom: 1px solid var(--color-primary);
@@ -376,7 +380,7 @@ export default {
     outline: none;
     color: var(--text-secondary);
     font-family: inherit;
-    text-transform: uppercase;
+    text-align: center;
     padding: 0;
     min-width: 0;
 }
@@ -417,7 +421,6 @@ export default {
     padding: 0.4rem 0;
     font-size: 0.9rem;
     font-family: inherit;
-    text-transform: uppercase;
     outline: none;
     color: var(--text-primary);
     background: transparent;
