@@ -1,3 +1,7 @@
+/CLAUDE.md
+/.mcp.json
+.claudeignore
+/.claude
 /.phpunit.cache
 /node_modules
 .env
