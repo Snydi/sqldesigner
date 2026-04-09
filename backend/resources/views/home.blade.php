@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'SQL Designer — MySQL & PostgreSQL Schema Designer')
+@section('title', 'SQL Designer — Free ERD Tool & Database Designer for MySQL & PostgreSQL')
 
 @section('head')
-    <meta name="description" content="Online ERD tool and schema designer for MySQL and PostgreSQL. Drag-and-drop tables, define relationships, and export SQL scripts in seconds. No install needed.">
+    <meta name="description" content="Free ERD tool and database designer for MySQL and PostgreSQL. Drag-and-drop tables, define relationships, and export SQL scripts in seconds. No install, no subscription.">
     <meta name="keywords" content="ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, pgAdmin alternative, PostgreSQL database designer, free postgres designer">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#c05252">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="SQL Designer — MySQL & PostgreSQL Schema Designer">
+    <meta property="og:title" content="SQL Designer — Free ERD Tool & Database Designer for MySQL & PostgreSQL">
     <meta property="og:description" content="Visually design and export MySQL and PostgreSQL (postgres) database schemas with a drag-and-drop interface. Free, fast, and browser-based.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
@@ -19,7 +19,7 @@
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SQL Designer — MySQL & PostgreSQL Schema Designer & ERD Tool">
+    <meta name="twitter:title" content="SQL Designer — Free ERD Tool & Database Designer for MySQL & PostgreSQL">
     <meta name="twitter:description" content="Design, visualize, and export MySQL and PostgreSQL database schemas online. Browser-based ERD tool with SQL export.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
@@ -610,11 +610,11 @@
 @section('content')
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-heading">
-        <h1 id="hero-heading">Design Your MySQL or Postgres Database Schema — Visually</h1>
+        <h1 id="hero-heading">Free ERD Tool &amp; Database Designer for MySQL and PostgreSQL</h1>
         <p>
-            SQL Designer is a free web ERD tool and schema designer for MySQL and PostgreSQL.
+            SQL Designer is a free online database designer and ERD tool for MySQL and PostgreSQL.
             Drag tables onto a canvas, define columns and relationships,
-            then export SQL script.
+            then export a SQL script — no install, no subscription.
         </p>
         <div class="hero-actions">
             <a id="hero-btn-authed" class="btn-hero-primary" href="/diagrams" style="display:none">Open My Diagrams</a>

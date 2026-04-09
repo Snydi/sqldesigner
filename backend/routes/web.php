@@ -21,6 +21,10 @@ Route::prefix('/blog')->group(function () {
     Route::get('/mysql-vs-postgresql', fn() => view('blog.mysql-vs-postgresql'));
     Route::get('/dbdiagram-alternative', fn() => view('blog.dbdiagram-alternative'));
     Route::get('/database-schema-examples', fn() => view('blog.database-schema-examples'));
+    Route::get('/free-erd-tool', fn() => view('blog.free-erd-tool'));
+    Route::get('/mysql-db-designer', fn() => view('blog.mysql-db-designer'));
+    Route::get('/postgres-db-designer', fn() => view('blog.postgres-db-designer'));
+    Route::get('/database-designer', fn() => view('blog.database-designer'));
 });
 Route::get('/features', fn() => view('features'));
 Route::get('/library', function () {

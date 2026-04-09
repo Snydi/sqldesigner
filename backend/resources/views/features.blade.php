@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Features — SQL Designer')
+@section('title', 'Features — Free Database Designer & ERD Tool | SQL Designer')
 
 @section('head')
     <meta name="description" content="Everything SQL Designer can do: visual drag-and-drop schema editing, MySQL and PostgreSQL SQL export, foreign keys, constraints, auto-save, and more.">

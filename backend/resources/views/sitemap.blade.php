@@ -56,6 +56,22 @@
                 <span class="desc">All articles on database design, SQL, and schema best practices.</span>
             </li>
             <li>
+                <a href="/blog/database-designer">Free Online Database Designer</a>
+                <span class="desc">Visual schema builder for MySQL and PostgreSQL — design databases without writing DDL.</span>
+            </li>
+            <li>
+                <a href="/blog/free-erd-tool">Free ERD Tool Online</a>
+                <span class="desc">Visual entity relationship diagram editor — draw ER diagrams and export SQL for free.</span>
+            </li>
+            <li>
+                <a href="/blog/postgres-db-designer">Free PostgreSQL DB Designer Online</a>
+                <span class="desc">Visual ERD tool for Postgres — design PostgreSQL schemas and export DDL in the browser.</span>
+            </li>
+            <li>
+                <a href="/blog/mysql-db-designer">Free MySQL DB Designer Online</a>
+                <span class="desc">Design MySQL databases visually with drag-and-drop tables, foreign keys, and SQL export.</span>
+            </li>
+            <li>
                 <a href="/blog/how-to-design-mysql-database-schema">How to Design a MySQL Database Schema</a>
                 <span class="desc">Step-by-step guide covering entities, data types, primary keys, foreign keys, and normalization.</span>
             </li>

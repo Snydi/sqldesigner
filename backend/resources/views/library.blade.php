@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
-@section('title', 'Schema Library — SQL Designer')
+@section('title', 'Database Schema Library — Real MySQL & PostgreSQL Schema Examples | SQL Designer')
 
 @section('head')
-    <meta name="description" content="Browse real database schemas shared by the SQL Designer community. Find inspiration for your next project.">
+    <meta name="description" content="Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/library">
     <script type="application/ld+json">

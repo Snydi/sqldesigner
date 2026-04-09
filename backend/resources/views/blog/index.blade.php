@@ -84,9 +84,37 @@
 @section('content')
     <div class="blog-index">
         <h1>Blog</h1>
-        <p class="subtitle">Guides and tutorials on MySQL schema design and database modelling.</p>
+        <p class="subtitle">Guides and tutorials on MySQL and PostgreSQL schema design, ER diagrams, and database modelling.</p>
 
         <ul class="post-list">
+            <li>
+                <a class="post-card" href="/blog/database-designer">
+                    <p class="post-meta">April 2026 &mdash; 6 min read</p>
+                    <h2>Free Online Database Designer — Visual Schema Builder for MySQL &amp; PostgreSQL</h2>
+                    <p>What to look for in a free online database designer, how visual schema building compares to writing DDL by hand, and how to go from blank canvas to exported SQL.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/free-erd-tool">
+                    <p class="post-meta">April 2026 &mdash; 6 min read</p>
+                    <h2>Free ERD Tool Online — Visual Entity Relationship Diagram Editor</h2>
+                    <p>What makes a genuinely free ERD tool, the difference between SQL-aware and generic diagram editors, and how to use SQL Designer to draw ER diagrams and export SQL for free.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/postgres-db-designer">
+                    <p class="post-meta">April 2026 &mdash; 6 min read</p>
+                    <h2>Free PostgreSQL DB Designer Online — Visual ERD Tool for Postgres</h2>
+                    <p>Design PostgreSQL schemas visually in your browser — with PostgreSQL-specific types, foreign key relationships, and one-click DDL export. Free, no install required.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/mysql-db-designer">
+                    <p class="post-meta">April 2026 &mdash; 6 min read</p>
+                    <h2>Free MySQL DB Designer Online — Visual Schema Builder</h2>
+                    <p>Design MySQL databases visually — drag-and-drop tables, define columns with MySQL types, draw foreign key relationships, and export a CREATE TABLE script in one click.</p>
+                </a>
+            </li>
             <li>
                 <a class="post-card" href="/blog/database-schema-examples">
                     <p class="post-meta">April 2026 &mdash; 9 min read</p>
