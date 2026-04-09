@@ -13,4 +13,4 @@ deploy:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh root@89.111.173.129 "cd /var/www/snydiagram && make deploy"
+    - ssh root@194.67.66.107 "cd /home/sql_designer && make deploy"
