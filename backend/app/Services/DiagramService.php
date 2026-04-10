@@ -141,7 +141,7 @@ class DiagramService
                 $parts = ["  {$q}{$row['name']}{$q} {$row['sql_type']}"];
                 if (!$isPg && $row['unsigned']) $parts[] = $row['unsigned'];
                 $parts[] = $row['nullable'];
-                if ($row['key_mod']) $parts[] = $row['key_mod'];
+                if ($row['key_mod'] && $row['key_mod'] !== 'FOREIGN KEY') $parts[] = $row['key_mod'];
                 if ($row['default_value'] !== null && $row['default_value'] !== '') $parts[] = "DEFAULT '{$row['default_value']}'";
                 if (!$isPg && $row['comment'] !== null && $row['comment'] !== '') $parts[] = "COMMENT '{$row['comment']}'";
                 return implode(' ', array_filter($parts));
@@ -172,7 +172,7 @@ class DiagramService
             $tableName       = $tablesById->get($sourceRow['table_id'])['name'];
             $targetTableName = $tablesById->get($targetRow['table_id'])['name'];
 
-            $script .= "ALTER TABLE {$q}$tableName{$q}\nADD FOREIGN KEY ({$q}{$sourceRow['name']}{$q}) REFERENCES {$q}$targetTableName{$q}({$q}{$targetRow['name']}{$q});\n\n";
+            $script .= "ALTER TABLE {$q}$targetTableName{$q}\nADD FOREIGN KEY ({$q}{$targetRow['name']}{$q}) REFERENCES {$q}$tableName{$q}({$q}{$sourceRow['name']}{$q});\n\n";
         }
 
         return $script;
