@@ -29,6 +29,7 @@ import '@/css/header.css'
 const store = useStore()
 const route = useRoute()
 
+
 onMounted(() => {
     if (document.querySelector('script[src*="googletagmanager"]')) return
 
@@ -44,3 +45,12 @@ onMounted(() => {
     gtag('config', 'G-4L116MPX4C')
 })
 </script>
+
+<style scoped>
+.logo {
+    margin-top: 4px;
+    height: 24px;
+    width: auto;
+    max-width: 120px;
+}
+</style>

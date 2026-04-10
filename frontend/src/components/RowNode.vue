@@ -254,3 +254,220 @@ const toggleUnsigned = () => {
     emitChange()
 }
 </script>
+
+<style scoped>
+.input_designer_row {
+    flex: 1;
+    min-width: 0;
+    height: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ml-5 { margin-left: 5px; }
+.mr-5 { margin-right: 5px; }
+
+/* ── Drag handle ─────────────────────────────────────────────── */
+.drag_handle_icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    opacity: 0.35;
+    cursor: grab;
+    user-select: none;
+    filter: brightness(0) invert(1);
+}
+
+.drag_handle_icon:hover { opacity: 0.7; }
+.drag_handle_icon:active { cursor: grabbing; opacity: 1; }
+
+/* ── Options modal ───────────────────────────────────────────── */
+.options_modal {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 5px;
+    background: var(--bg-surface);
+    z-index: 10;
+    min-width: 200px;
+}
+
+.options_modal_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+label.options_modal_row {
+    cursor: pointer;
+}
+
+.modal_text {
+    margin: 0;
+    font-size: 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.modal_text_input {
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 2px 6px;
+    width: 110px;
+    box-sizing: border-box;
+    background: var(--input-bg);
+    color: var(--text-primary);
+}
+
+/* ── Constraint badges ───────────────────────────────────────── */
+.constraint_badges {
+    display: flex;
+    gap: 3px;
+    flex-shrink: 0;
+    margin-right: 4px;
+}
+
+.constraint_badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    line-height: 15px;
+    user-select: none;
+}
+
+.badge--pk          { background: #f59e0b; color: #fff; }
+.badge--uq          { background: #3b82f6; color: #fff; }
+.badge--idx         { background: #6b7280; color: #fff; }
+.badge--uq-together { background: #10b981; color: #fff; }
+
+/* ── Unique Together (options modal section) ─────────────────── */
+.options_modal_divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 4px 0;
+}
+
+.options_modal_section_label {
+    margin: 0 0 4px 0;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.uq_constraint_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+
+.uq_constraint_cols {
+    font-size: 12px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    color: var(--text-primary);
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.uq_remove_btn {
+    flex-shrink: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 2px;
+    color: var(--text-muted);
+}
+
+.uq_remove_btn:hover { color: #e53935; }
+
+.uq_empty {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0 0 2px 0;
+}
+
+.uq_picker {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 110px;
+    overflow-y: auto;
+    margin: 4px 0 6px 0;
+}
+
+.constraints_col_label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 2px 3px;
+    border-radius: 3px;
+}
+
+.constraints_col_label:hover { background: var(--hover-bg); }
+
+.constraints_col_label input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: var(--color-primary);
+}
+
+.uq_picker_actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.uq_add_confirm_btn {
+    font-size: 12px;
+    padding: 3px 10px;
+    border: none;
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.uq_add_confirm_btn:disabled { opacity: 0.45; cursor: default; }
+
+.uq_cancel_btn {
+    font-size: 12px;
+    padding: 3px 6px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.uq_cancel_btn:hover { color: var(--text-primary); }
+
+.uq_add_toggle_btn {
+    font-size: 12px;
+    color: var(--color-primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 0;
+    text-align: left;
+    margin-top: 2px;
+}
+
+.uq_add_toggle_btn:hover { opacity: 0.75; }
+</style>

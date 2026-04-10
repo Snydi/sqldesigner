@@ -32,12 +32,6 @@
     align-items: center;
 }
 
-.save-indicator-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .save-button-wrapper {
     position: relative;
     display: inline-block;

@@ -995,4 +995,95 @@ onUnmounted(() => {
     filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
 }
 
+/* ── Feedback panel ──────────────────────────────────────────── */
+.feedback-panel {
+    margin: 0 0 12px 12px;
+}
+
+.feedback-panel__btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-surface);
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    white-space: nowrap;
+}
+
+.feedback-panel__btn:hover {
+    background: var(--hover-bg-alt);
+}
+
+.feedback-panel__btn img {
+    flex-shrink: 0;
+    filter: brightness(0) invert(1);
+}
+
+/* ── Table navigator ─────────────────────────────────────────── */
+.table-navigator {
+    display: flex;
+    flex-direction: column;
+    margin: 12px;
+}
+
+.table-navigator__toggle {
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-surface);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+
+.table-navigator__toggle img {
+    filter: brightness(0) invert(1);
+}
+
+.table-navigator__toggle:hover {
+    background: var(--hover-bg-alt);
+}
+
+.table-navigator__list {
+    margin-top: 4px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    min-width: 160px;
+    max-height: 280px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-navigator__item {
+    padding: 7px 12px;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    color: var(--text-primary);
+}
+
+.table-navigator__item:hover {
+    background: var(--hover-bg);
+}
+
+.table-navigator__empty {
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
 </style>

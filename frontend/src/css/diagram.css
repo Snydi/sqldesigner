@@ -1,287 +1,4 @@
-.sql_modal_content {
-    background: var(--bg-surface);
-    border-radius: 10px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
-    width: 700px;
-    max-width: calc(100vw - 2rem);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.sql_modal_header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    background: var(--color-primary);
-    flex-shrink: 0;
-}
-
-.sql_modal_title {
-    font-size: 14px;
-    font-weight: 600;
-    color: white;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-}
-
-.sql_modal_close {
-    width: 26px;
-    height: 26px;
-    padding: 4px;
-    border: none;
-    background: rgba(255, 255, 255, 0.15);
-    cursor: pointer;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.15s;
-}
-
-.sql_modal_close:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-.sql_modal_close img {
-    width: 14px;
-    height: 14px;
-    filter: brightness(0) invert(1);
-}
-
-.sql_textarea_wrapper {
-    position: relative;
-    flex: 1;
-    display: flex;
-}
-
-.sql_copy_btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 28px;
-    height: 28px;
-    padding: 5px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    background: var(--bg-surface);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.6;
-    transition: opacity 0.15s;
-}
-
-.sql_copy_btn:hover {
-    opacity: 1;
-}
-
-.sql_copy_btn img {
-    width: 100%;
-    height: 100%;
-}
-
-.sql_textarea {
-    flex: 1;
-    width: 100%;
-    min-width: 0;
-    min-height: 420px;
-    padding: 16px;
-    border: none;
-    border-bottom: 1px solid var(--border-light);
-    resize: none;
-    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--text-primary);
-    background: var(--bg-surface-alt);
-    box-sizing: border-box;
-}
-
-.sql_textarea:focus {
-    outline: none;
-    background: var(--bg-surface);
-}
-
-.sql_modal_footer {
-    padding: 12px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--bg-surface);
-    flex-shrink: 0;
-}
-
-.import-footer {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.import-file-btn {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.import-file-btn .icon {
-    width: 16px;
-    height: 16px;
-    filter: brightness(0) invert(1);
-}
-
-.download-dropdown {
-    position: relative;
-    display: flex;
-    align-items: stretch;
-}
-
-.download-dropdown__menu {
-    display: none;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    bottom: 0;
-    background: var(--color-primary);
-    border-radius: 0 6px 6px 0;
-    overflow: hidden;
-    flex-direction: row;
-}
-
-.download-dropdown:hover .download-dropdown__menu {
-    display: flex;
-}
-
-.download-dropdown__trigger {
-    border-radius: 6px 0 0 6px !important;
-}
-
-.download-dropdown__trigger .icon {
-    width: 16px;
-    height: 16px;
-    filter: brightness(0) invert(1);
-}
-
-.download-dropdown__menu button {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding: 0 12px;
-    border: none;
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
-    background: var(--color-primary);
-    color: var(--color-text-on-primary);
-    font-size: 13px;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.download-dropdown__menu button:hover {
-    background: var(--color-primary-hover);
-}
-
-.table_button {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    padding: 3px;
-    border: none;
-    background: none;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.table_button:hover {
-    background: rgba(0, 0, 0, 0.12);
-}
-
-.add_row_button {
-    width: 100%;
-    height: 30px;
-    padding: 0 0 0 10px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.table_icon {
-    width: 100%;
-    height: 100%;
-    filter: brightness(0) invert(1);
-}
-
-.relationship_modal {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 8px;
-    background-color: var(--bg-surface);
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-    transform: translate(-50%, -50%);
-}
-
-.relationship_modal button {
-    padding: 6px 14px;
-    border: none;
-    border-radius: 5px;
-    background-color: var(--color-primary);
-    color: #fff;
-    font-size: 14px;
-    font-family: inherit;
-    cursor: pointer;
-    transition: background-color 0.15s;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.relationship_modal button:hover {
-    background-color: var(--color-primary-hover);
-}
-
-.relationship_modal__delete {
-    background-color: #888 !important;
-}
-
-.relationship_modal__delete:hover {
-    background-color: #555 !important;
-}
-
-.relationship_modal__color_picker {
-    position: relative;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px solid white;
-    background: conic-gradient(#e74c3c, #f0b429, #2ecc71, #3498db, #9b59b6, #e74c3c);
-    cursor: pointer;
-    overflow: hidden;
-    flex-shrink: 0;
-    align-self: center;
-}
-
-.relationship_modal__color_picker:hover {
-    border-color: #3d7a5c;
-}
-
-.relationship_modal__trash {
-    width: 16px;
-    height: 16px;
-    filter: brightness(0) invert(1);
-}
-
+/* ── Select (used in RowNode) ────────────────────────────────── */
 select {
     appearance: none;
     -webkit-appearance: none;
@@ -309,143 +26,93 @@ select:focus {
     border-color: var(--border-strong);
 }
 
-.options_modal {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 10px 12px;
-    border: 1px solid var(--border-strong);
-    border-radius: 5px;
-    background: var(--bg-surface);
-    z-index: 10;
-    min-width: 200px;
-}
-
-.options_modal_row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-label.options_modal_row {
-    cursor: pointer;
-}
-
-.modal_text {
-    margin: 0;
-    font-size: 14px;
-    white-space: nowrap;
+/* ── Shared node buttons / icons (TableNode + RowNode) ───────── */
+.table_button {
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
-}
-
-.modal_text_input {
-    font-size: 14px;
-    border: 1px solid var(--border-color);
-    border-radius: 3px;
-    padding: 2px 6px;
-    width: 110px;
-    box-sizing: border-box;
-    background: var(--input-bg);
-    color: var(--text-primary);
-}
-.vue-flow__panel {
-  margin: 0;
-}
-
-.table-navigator {
-    display: flex;
-    flex-direction: column;
-    margin: 12px;
-}
-
-.table-navigator__toggle {
-    width: 32px;
-    height: 32px;
-    padding: 6px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--bg-surface);
-    cursor: pointer;
+    padding: 3px;
+    border: none;
+    background: none;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    cursor: pointer;
 }
 
-.table-navigator__toggle img {
+.table_button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.table_icon {
+    width: 100%;
+    height: 100%;
     filter: brightness(0) invert(1);
 }
 
-.table-navigator__toggle:hover {
-    background: var(--hover-bg-alt);
+.table_color_input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
 }
 
-.table-navigator__list {
-    margin-top: 4px;
+/* ── Vue Flow canvas & controls ──────────────────────────────── */
+.vue-flow__panel {
+    margin: 0;
+}
+
+.vue-flow {
+    background-color: var(--bg-page);
+}
+
+.vue-flow__controls {
+    margin-left: 12.5rem;
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    min-width: 160px;
-    max-height: 280px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
 }
 
-.table-navigator__item {
-    padding: 7px 12px;
-    border: none;
-    background: none;
-    text-align: left;
-    font-size: 13px;
-    cursor: pointer;
-    white-space: nowrap;
+.vue-flow__controls button {
+    background: var(--bg-surface);
+    border-color: var(--border-color);
     color: var(--text-primary);
+    fill: var(--text-primary);
 }
 
-.table-navigator__item:hover {
+.vue-flow__controls button:hover {
     background: var(--hover-bg);
 }
 
-.table-navigator__empty {
-    padding: 8px 12px;
-    font-size: 13px;
-    color: var(--text-muted);
+.vue-flow__controls svg {
+    fill: var(--text-primary);
 }
-.vue-flow__controls {
-    margin-left: 12.5rem   ;
+
+.vue-flow__minimap {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+}
+
+/* ── Vue Flow table nodes ────────────────────────────────────── */
+.vue-flow__node {
+    background: var(--bg-surface);
+    color: var(--text-primary);
 }
 
 .vue-flow__node-row {
     padding: 0 10px;
     box-sizing: border-box;
+    background: #484848 !important;
+    color: #e0e0e0 !important;
+    border-color: #383838 !important;
 }
 
 .vue-flow__node-row select {
     max-width: 120px;
     margin-right: 6px;
-}
-
-.drag_handle_icon {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-    opacity: 0.35;
-    cursor: grab;
-    user-select: none;
-    filter: brightness(0) invert(1);
-}
-
-.drag_handle_icon:hover {
-    opacity: 0.7;
-}
-
-.drag_handle_icon:active {
-    cursor: grabbing;
-    opacity: 1;
 }
 
 .vue-flow__handle {
@@ -507,15 +174,6 @@ label.options_modal_row {
     border-color: #3d7a5c;
 }
 
-.table_color_input {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
-
 .vue-flow__node-table:active {
     cursor: grabbing;
 }
@@ -540,389 +198,3 @@ label.options_modal_row {
 .vue-flow__node-table .table_resize_handle--right {
     right: -4px;
 }
-
-.feedback-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.feedback-modal {
-    background: var(--bg-surface);
-    border-radius: 10px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
-    width: 480px;
-    max-width: calc(100vw - 32px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.feedback-modal__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    background: var(--color-primary);
-    flex-shrink: 0;
-}
-
-.feedback-modal__title {
-    font-size: 14px;
-    font-weight: 600;
-    color: white;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-}
-
-.feedback-modal__close {
-    width: 26px;
-    height: 26px;
-    padding: 4px;
-    border: none;
-    background: rgba(255, 255, 255, 0.15);
-    cursor: pointer;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.feedback-modal__close:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.feedback-modal__body {
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.feedback-modal__intro {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text-secondary);
-}
-
-.feedback-modal__intro a {
-    color: var(--color-primary);
-}
-
-.feedback-modal__anon-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    cursor: pointer;
-    user-select: none;
-}
-
-.feedback-modal__input {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 14px;
-    box-sizing: border-box;
-    background: var(--input-bg);
-    color: var(--text-primary);
-}
-
-.feedback-modal__input:focus {
-    outline: none;
-    border-color: var(--border-strong);
-}
-
-.feedback-modal__textarea {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 14px;
-    resize: vertical;
-    font-family: inherit;
-    box-sizing: border-box;
-    background: var(--input-bg);
-    color: var(--text-primary);
-}
-
-.feedback-modal__textarea:focus {
-    outline: none;
-    border-color: var(--border-strong);
-}
-
-.feedback-modal__error {
-    margin: 0;
-    font-size: 13px;
-    color: #e53935;
-}
-
-.feedback-modal__success {
-    margin: 0;
-    font-size: 13px;
-    color: #43a047;
-}
-
-.feedback-modal__footer {
-    padding: 12px 18px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    background: var(--bg-surface);
-    border-top: 1px solid var(--border-light);
-}
-
-.feedback-panel {
-    margin: 0 0 12px 12px;
-}
-
-.feedback-panel__btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--bg-surface);
-    font-size: 13px;
-    color: var(--text-primary);
-    cursor: pointer;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
-    white-space: nowrap;
-}
-
-.feedback-panel__btn:hover {
-    background: var(--hover-bg-alt);
-}
-
-.feedback-panel__btn img {
-    flex-shrink: 0;
-    filter: brightness(0) invert(1);
-}
-
-.feedback-modal__email-link {
-    color: var(--color-primary);
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.feedback-modal__email-link:hover {
-    opacity: 0.8;
-}
-
-.feedback-modal__discord-link {
-    color: #5865F2;
-    text-decoration: underline;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-}
-
-.feedback-modal__discord-link:hover {
-    opacity: 0.8;
-}
-
-/* ── Vue Flow canvas & controls ──────────────────────────────── */
-.vue-flow {
-    background-color: var(--bg-page);
-}
-
-.vue-flow__controls {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-}
-
-.vue-flow__controls button {
-    background: var(--bg-surface);
-    border-color: var(--border-color);
-    color: var(--text-primary);
-    fill: var(--text-primary);
-}
-
-.vue-flow__controls button:hover {
-    background: var(--hover-bg);
-}
-
-.vue-flow__controls svg {
-    fill: var(--text-primary);
-}
-
-.vue-flow__minimap {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-}
-
-/* ── Vue Flow table nodes ────────────────────────────────────── */
-.vue-flow__node {
-    background: var(--bg-surface);
-    color: var(--text-primary);
-}
-
-.vue-flow__node-row {
-    background: #484848 !important;
-    color: #e0e0e0 !important;
-    border-color: #383838 !important;
-}
-
-.table_button:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.add_row_button {
-    color: var(--text-secondary);
-}
-
-/* ── Constraint badges (inline on rows) ──────────────────────── */
-.constraint_badges {
-    display: flex;
-    gap: 3px;
-    flex-shrink: 0;
-    margin-right: 4px;
-}
-
-.constraint_badge {
-    font-size: 9px;
-    font-weight: 700;
-    padding: 1px 4px;
-    border-radius: 3px;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-    line-height: 15px;
-    user-select: none;
-}
-
-.badge--pk          { background: #f59e0b; color: #fff; }
-.badge--uq          { background: #3b82f6; color: #fff; }
-.badge--idx         { background: #6b7280; color: #fff; }
-.badge--uq-together { background: #10b981; color: #fff; }
-
-/* ── Unique Together section inside options modal ────────────── */
-.options_modal_divider {
-    border: none;
-    border-top: 1px solid var(--border-color);
-    margin: 4px 0;
-}
-
-.options_modal_section_label {
-    margin: 0 0 4px 0;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-}
-
-.uq_constraint_row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-    margin-bottom: 2px;
-}
-
-.uq_constraint_cols {
-    font-size: 12px;
-    font-family: 'Consolas', 'Monaco', monospace;
-    color: var(--text-primary);
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.uq_remove_btn {
-    flex-shrink: 0;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 14px;
-    line-height: 1;
-    padding: 0 2px;
-    color: var(--text-muted);
-}
-
-.uq_remove_btn:hover { color: #e53935; }
-
-.uq_empty {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin: 0 0 2px 0;
-}
-
-.uq_picker {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    max-height: 110px;
-    overflow-y: auto;
-    margin: 4px 0 6px 0;
-}
-
-.constraints_col_label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    cursor: pointer;
-    padding: 2px 3px;
-    border-radius: 3px;
-}
-
-.constraints_col_label:hover { background: var(--hover-bg); }
-
-.constraints_col_label input[type="checkbox"] {
-    cursor: pointer;
-    accent-color: var(--color-primary);
-}
-
-.uq_picker_actions {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    margin-bottom: 2px;
-}
-
-.uq_add_confirm_btn {
-    font-size: 12px;
-    padding: 3px 10px;
-    border: none;
-    background: var(--color-primary);
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.uq_add_confirm_btn:disabled { opacity: 0.45; cursor: default; }
-
-.uq_cancel_btn {
-    font-size: 12px;
-    padding: 3px 6px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: var(--text-muted);
-}
-
-.uq_cancel_btn:hover { color: var(--text-primary); }
-
-.uq_add_toggle_btn {
-    font-size: 12px;
-    color: var(--color-primary);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 2px 0;
-    text-align: left;
-    margin-top: 2px;
-}
-
-.uq_add_toggle_btn:hover { opacity: 0.75; }
-

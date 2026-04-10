@@ -48,3 +48,19 @@ async function resend() {
     }
 }
 </script>
+
+<style scoped>
+.form-container {
+    background-color: var(--bg-surface);
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.form-title {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+</style>

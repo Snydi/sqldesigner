@@ -46,3 +46,12 @@ defineProps({
 
 defineEmits(['delete-node', 'update-label', 'copy-table', 'add-row', 'resize-start', 'update-color'])
 </script>
+
+<style scoped>
+.input_designer_table {
+    text-align: center;
+    color: white;
+    flex-grow: 0;
+    width: 30%;
+}
+</style>
