@@ -193,8 +193,8 @@ const handleFileUpload = (event) => {
 
 .sql_copy_btn {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 12px;
+    right: 28px;
     width: 28px;
     height: 28px;
     padding: 5px;
@@ -216,6 +216,7 @@ const handleFileUpload = (event) => {
 .sql_copy_btn img {
     width: 100%;
     height: 100%;
+    filter: brightness(0) invert(1);
 }
 
 .sql_textarea {

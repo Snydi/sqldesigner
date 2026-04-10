@@ -220,7 +220,8 @@ export const TableActions = {
                 targetHandle: 'target-right',
                 type: 'chickenFoot',
                 updatable: true,
-                data: { relationshipType: 'many-to-one', ...MARKER['many-to-one'] }
+                style: sourceTable.data?.color ? { stroke: sourceTable.data.color } : undefined,
+                data: { relationshipType: 'many-to-one', color: sourceTable.data?.color, ...MARKER['many-to-one'] }
             },
             {
                 id: edge2Id,
@@ -230,7 +231,8 @@ export const TableActions = {
                 targetHandle: 'target-left',
                 type: 'chickenFoot',
                 updatable: true,
-                data: { relationshipType: 'many-to-one', ...MARKER['many-to-one'] }
+                style: targetTable.data?.color ? { stroke: targetTable.data.color } : undefined,
+                data: { relationshipType: 'many-to-one', color: targetTable.data?.color, ...MARKER['many-to-one'] }
             }
         ]
 

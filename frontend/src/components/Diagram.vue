@@ -690,7 +690,7 @@ const updateTableColor = (tableId, color) => {
 
     const childIds = schema.value.filter(el => el.parentNode === tableId).map(el => el.id)
     const connectedEdges = schema.value.filter(el =>
-        el.source && (childIds.includes(el.source) || childIds.includes(el.target))
+        el.source && childIds.includes(el.source)
     )
     connectedEdges.forEach(edge => {
         edge.style = { ...edge.style, stroke: color }
