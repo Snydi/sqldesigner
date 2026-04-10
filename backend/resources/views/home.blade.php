@@ -1,17 +1,17 @@
 @extends('layouts.main')
 
-@section('title', 'SQL Designer — Free ERD Tool & Database Designer for MySQL & PostgreSQL')
+@section('title', 'SQL Designer — Free MySQL Designer & PostgreSQL Database Designer | ERD Tool')
 
 @section('head')
-    <meta name="description" content="Free ERD tool and database designer for MySQL and PostgreSQL. Drag-and-drop tables, define relationships, and export SQL scripts in seconds. No install, no subscription.">
-    <meta name="keywords" content="ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, pgAdmin alternative, PostgreSQL database designer, free postgres designer">
+    <meta name="description" content="Free visual MySQL designer and PostgreSQL database designer. Drag-and-drop tables, define relationships, and export SQL scripts in seconds. No install, no subscription.">
+    <meta name="keywords" content="mysql designer, mysql database designer, mysql db designer, visual sql designer, visual database designer, database designer for postgresql, ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, pgAdmin alternative, free postgres designer">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#c05252">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="SQL Designer — Free ERD Tool & Database Designer for MySQL & PostgreSQL">
-    <meta property="og:description" content="Visually design and export MySQL and PostgreSQL (postgres) database schemas with a drag-and-drop interface. Free, fast, and browser-based.">
+    <meta property="og:title" content="SQL Designer — Free MySQL Designer & PostgreSQL Database Designer | ERD Tool">
+    <meta property="og:description" content="Free visual MySQL designer and database designer for PostgreSQL. Drag-and-drop schema editor with SQL export. No install, no subscription.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SQL Designer — Free ERD Tool & Database Designer for MySQL & PostgreSQL">
-    <meta name="twitter:description" content="Design, visualize, and export MySQL and PostgreSQL database schemas online. Browser-based ERD tool with SQL export.">
+    <meta name="twitter:title" content="SQL Designer — Free MySQL Designer & PostgreSQL Database Designer | ERD Tool">
+    <meta name="twitter:description" content="Free visual MySQL designer and database designer for PostgreSQL. Design schemas online and export SQL. No install, no subscription.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
     <link rel="preload" as="image" href="/images/screenshot.webp" imagesrcset="/images/screenshot-600.webp 600w, /images/screenshot-750.webp 750w, /images/screenshot-1000.webp 1000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 2000px" fetchpriority="high">
@@ -32,7 +32,7 @@
             "@type": "WebApplication",
             "name": "SQL Designer",
             "url": "https://sql-designer.com",
-            "description": "Online ERD tool and schema designer for MySQL and PostgreSQL with a visual drag-and-drop interface and SQL export.",
+            "description": "Free visual MySQL designer and database designer for PostgreSQL. Online ERD tool with drag-and-drop schema editor and SQL export.",
             "applicationCategory": "DeveloperApplication",
             "operatingSystem": "Any",
             "screenshot": "https://sql-designer.com/images/screenshot.png",
@@ -45,7 +45,7 @@
                 "Multiple diagrams per account",
                 "Auto-save"
             ],
-            "keywords": "ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, database diagram tool, entity relationship diagram",
+            "keywords": "mysql designer, mysql database designer, mysql db designer, visual sql designer, database designer for postgresql, ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, database diagram tool, entity relationship diagram",
             "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -158,6 +158,30 @@
                     "acceptedAnswer": {
                         "@type": "Answer",
                         "text": "Yes. SQL Designer is an ERD (entity-relationship diagram) tool. You add tables as entities, define columns as attributes, and draw foreign key lines between tables to model relationships — all visually on a canvas, with chicken-foot notation."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Is SQL Designer a free MySQL database designer?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. SQL Designer is a free MySQL database designer and MySQL db designer. You can visually create tables, define columns with MySQL data types, set constraints, draw foreign key relationships, and export a MySQL CREATE TABLE script — all in your browser, with no install required."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I use SQL Designer as a database designer for PostgreSQL?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. SQL Designer works as a full database designer for PostgreSQL. It supports PostgreSQL data types and exports clean PostgreSQL CREATE TABLE scripts with constraints and foreign keys. Free to use, no download needed."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What makes SQL Designer a visual SQL designer?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "SQL Designer is a visual SQL designer because you work on a graphical canvas — you drag tables, click to add columns, and draw relationship lines. There is no code or DSL to write. The visual ERD updates live as you design, and you export the SQL when ready."
                     }
                 }
             ]
@@ -610,9 +634,9 @@
 @section('content')
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-heading">
-        <h1 id="hero-heading">Free ERD Tool &amp; Database Designer for MySQL and PostgreSQL</h1>
+        <h1 id="hero-heading">Free Visual MySQL Designer &amp; PostgreSQL Database Designer</h1>
         <p>
-            SQL Designer is a free online database designer and ERD tool for MySQL and PostgreSQL.
+            SQL Designer is a free visual MySQL designer and database designer for PostgreSQL.
             Drag tables onto a canvas, define columns and relationships,
             then export a SQL script — no install, no subscription.
         </p>
@@ -720,6 +744,24 @@
                 <details>
                     <summary>How does SQL Designer compare to dbdiagram.io?</summary>
                     <p>Both tools let you design database schemas visually and export SQL. SQL Designer uses a drag-and-drop canvas with a visual ERD layout, supports both MySQL and PostgreSQL, and is completely free with no diagram limits. dbdiagram.io uses a DSL (text-based) input rather than a purely visual editor.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>Is SQL Designer a free MySQL database designer?</summary>
+                    <p>Yes. SQL Designer is a free MySQL database designer and MySQL db designer. You can visually create tables, define columns with MySQL data types, set constraints, draw foreign key relationships, and export a MySQL <code>CREATE TABLE</code> script — all in your browser, with no install required.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>Can I use SQL Designer as a database designer for PostgreSQL?</summary>
+                    <p>Yes. SQL Designer works as a full database designer for PostgreSQL. It supports PostgreSQL data types and exports clean PostgreSQL <code>CREATE TABLE</code> scripts with constraints and foreign keys. Free to use, no download needed.</p>
+                </details>
+            </li>
+            <li class="faq-item">
+                <details>
+                    <summary>What makes SQL Designer a visual SQL designer?</summary>
+                    <p>SQL Designer is a visual SQL designer because you work on a graphical canvas — you drag tables, click to add columns, and draw relationship lines between them. There is no code or DSL to write. The visual ERD updates live as you design, and you export the SQL when ready.</p>
                 </details>
             </li>
         </ul>
