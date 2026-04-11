@@ -150,11 +150,6 @@
                     />
                 </template>
 
-                <template #node-add-row-button="nodeProps">
-                    <AddRowNode
-                        @add-row="addRow({ id: nodeProps.data.tableId, data: {} })"
-                    />
-                </template>
             </VueFlow>
         </div>
 
@@ -197,18 +192,23 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, onMounted, onUnmounted, ref, nextTick, watch } from 'vue'
+import { computed, onBeforeMount, onMounted, onUnmounted, ref, nextTick } from 'vue'
 import { Panel, Position, useVueFlow, VueFlow } from '@vue-flow/core'
-import { TableActions, TABLE_STYLE } from '@/services/TableActions.js'
+import { TABLE_STYLE } from '@/services/TableActions.js'
 import { Diagram } from '@/services/Diagram.js'
 import { DEMO_SCHEMA } from '@/services/demoSchema.js'
 import { useDiagramPresence, CURSOR_COLORS } from '@/composables/useDiagramPresence.js'
+import { useDiagramPolling } from '@/composables/useDiagramPolling.js'
+import { useOffScreenCursors } from '@/composables/useOffScreenCursors.js'
+import { useTableInteraction } from '@/composables/useTableInteraction.js'
+import { useTableResize } from '@/composables/useTableResize.js'
+import { useRowDrag } from '@/composables/useRowDrag.js'
+import { useSchemaActions } from '@/composables/useSchemaActions.js'
 import DiagramHeader from './DiagramHeader.vue'
 import ShareModal from '../Modal/ShareModal.vue'
 import ChickenFootEdge from '../ChickenFootEdge.vue'
 import TableNode from './TableNode.vue'
 import RowNode from '../RowNode.vue'
-import AddRowNode from '../AddRowNode.vue'
 import RelationshipModal from '../Modal/RelationshipModal.vue'
 import SqlModal from '../Modal/SqlModal.vue'
 import RemoteCursor from '../RemoteCursor.vue'
@@ -237,257 +237,54 @@ const isOwner = ref(false)
 const notAvailable = ref(false)
 const pendingApproval = ref(false)
 const loading = ref(false)
-
-const canEdit = computed(() => props.isDemo || isOwner.value || diagramShareAccess.value === 'write')
-
 const isSaved = ref(true)
-let autoSaveTimer = null
-
 const schema = ref()
 const diagramName = ref('schema')
 const diagramDbType = ref('mysql')
-const modalPosition = ref({ x: 0, y: 0 })
-const selectedEdge = ref(null)
-const showRelationshipModal = ref(false)
-const showImportModal = ref(false)
-const importContent = ref('')
-const importLoading = ref(false)
-const showExportModal = ref(false)
-const exportContent = ref('')
-const exportJsonContent = ref('')
 const showShareModal = ref(false)
 const diagramShareAccess = ref(null)
 const diagramRequireApproval = ref(false)
 const diagramInLibrary = ref(false)
-const hasPendingVisitors = ref(false)
-let visitorPollInterval = null
-
-const stopVisitorPolling = () => {
-    clearInterval(visitorPollInterval)
-    visitorPollInterval = null
-}
-
-const startVisitorPolling = () => {
-    stopVisitorPolling()
-    visitorPollInterval = setInterval(async () => {
-        const visitors = await Diagram.getVisitors(diagramId.value)
-        hasPendingVisitors.value = visitors?.some(v => v.status === 'pending') ?? false
-    }, 8000)
-}
-
-watch([isOwner, diagramRequireApproval], ([owner, approval]) => {
-    if (owner && approval) startVisitorPolling()
-    else stopVisitorPolling()
-})
-
-let guestAccessPollInterval = null
-
-const stopGuestAccessPolling = () => {
-    clearInterval(guestAccessPollInterval)
-    guestAccessPollInterval = null
-}
-
-const startGuestAccessPolling = () => {
-    stopGuestAccessPolling()
-    guestAccessPollInterval = setInterval(async () => {
-        try {
-            const response = await axios.get(`/api/diagrams/shared/${token}`)
-            const info = response.data.data
-            if (info?.share_access !== diagramShareAccess.value) {
-                diagramShareAccess.value = info.share_access
-            }
-        } catch (error) {
-            const data = error.response?.data
-            if (data?.pending_approval) {
-                pendingApproval.value = true
-                stopGuestAccessPolling()
-            } else if (error.response?.status === 403) {
-                diagramShareAccess.value = null
-                notAvailable.value = true
-                stopGuestAccessPolling()
-            }
-        }
-    }, 3000)
-}
-
 const ownerIdentity = ref(null)
 const canvasWrapperRef = ref(null)
+
+const canEdit = computed(() => props.isDemo || isOwner.value || diagramShareAccess.value === 'write')
+
 const { width: canvasWidth, height: canvasHeight } = useElementSize(canvasWrapperRef)
 
-const EDGE_PADDING = 44
-
-watch(
-    () => schema.value?.filter(n => n.type === 'row').map(n => `${n.parentNode}:${n.id}:${n.position.y}`).sort().join(','),
-    () => {
-        if (!schema.value) return
-        const best = {}
-        schema.value.filter(n => n.type === 'row').forEach(n => {
-            if (!best[n.parentNode] || n.position.y > best[n.parentNode].position.y)
-                best[n.parentNode] = n
-        })
-        const lastIds = new Set(Object.values(best).map(n => n.id))
-        schema.value.forEach(n => {
-            if (n.type !== 'row' || !n.style) return
-            if (lastIds.has(n.id)) n.style.borderRadius = '0 0 6px 6px'
-            else delete n.style.borderRadius
-        })
-    },
-    { immediate: true }
-)
-
-const offScreenCursors = computed(() => {
-    const w = canvasWidth.value
-    const h = canvasHeight.value
-    if (!w || !h) return []
-    return Object.values(remoteCursors).filter(c => {
-        if (c.flowX === undefined) return false
-        return c.screenX < 0 || c.screenX > w || c.screenY < 0 || c.screenY > h
-    }).map(c => {
-        const cx = w / 2
-        const cy = h / 2
-        const dx = c.screenX - cx
-        const dy = c.screenY - cy
-        let t = Infinity
-        if (dx > 0) t = Math.min(t, (w - EDGE_PADDING - cx) / dx)
-        if (dx < 0) t = Math.min(t, (EDGE_PADDING - cx) / dx)
-        if (dy > 0) t = Math.min(t, (h - EDGE_PADDING - cy) / dy)
-        if (dy < 0) t = Math.min(t, (EDGE_PADDING - cy) / dy)
-        return {
-            id: c.id,
-            name: c.name,
-            color: c.color,
-            x: Math.round(cx + t * dx),
-            y: Math.round(cy + t * dy),
-            angle: Math.atan2(dy, dx) * (180 / Math.PI),
-        }
-    })
-})
-
 const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove, broadcastCursor } = useDiagramPresence({
-    token,
-    ownerIdentity,
-    viewport,
-    schema,
-    canvasWrapperRef,
+    token, ownerIdentity, viewport, schema, canvasWrapperRef,
     onDiagramSaved: () => $toast.success('Diagram saved'),
 })
 
-// --- Table hover ---
+const { hasPendingVisitors, startVisitorPolling, stopVisitorPolling, startGuestAccessPolling, stopGuestAccessPolling } = useDiagramPolling({
+    diagramId, isOwner, diagramRequireApproval, token, diagramShareAccess, pendingApproval, notAvailable,
+})
 
-let hoverLeaveTimer = null
+const { offScreenCursors } = useOffScreenCursors({ remoteCursors, canvasWidth, canvasHeight })
 
-const setTableHovered = (tableId, hovered) => {
-    document.querySelectorAll('.vue-flow__node-row').forEach(el => {
-        const n = findNode(el.getAttribute('data-id'))
-        if (n?.parentNode === tableId) el.classList.toggle('table-hovered', hovered)
-    })
-}
+const { onNodeMouseEnter, onNodeMouseLeave, elevateTable, onNodeDragStart, onNodeDrag, onNodeDragStop } = useTableInteraction({
+    findNode, schema, whisper, isSaved, broadcastCursor,
+})
+
+const { startTableResize } = useTableResize({ schema, viewport, whisper, isSaved })
+
+const { startRowDrag } = useRowDrag({ schema, isSaved, whisper })
+
+const {
+    isPlacingTable, isConnecting, copyingTableId,
+    selectedEdge, showRelationshipModal, modalPosition,
+    addTable, copyTable, onPaneClick,
+    addRow, deleteEdge, deleteNode, onConnect, onEdgeUpdate,
+    updateConnectionLineType, onRowChange, updateLabel, updateEdgeColor, updateTableColor,
+    onTableConstraintsChange, toggleOptionsModal,
+    openRelationshipModal, closeRelationshipModal,
+} = useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate })
 
 const isValidConnection = ({ source, target }) => {
     const sourceNode = findNode(source)
     const targetNode = findNode(target)
     return sourceNode?.parentNode !== targetNode?.parentNode
-}
-
-const onNodeMouseEnter = ({ node }) => {
-    clearTimeout(hoverLeaveTimer)
-    const tableId = node.type === 'table' ? node.id : node.parentNode
-    if (tableId) setTableHovered(tableId, true)
-}
-
-const onNodeMouseLeave = ({ node }) => {
-    const tableId = node.type === 'table' ? node.id : node.parentNode
-    hoverLeaveTimer = setTimeout(() => setTableHovered(tableId, false), 50)
-}
-
-// --- Table elevation ---
-
-const elevateTable = (node) => {
-    const tableId = node.type === 'table' ? node.id : node.parentNode
-    if (!tableId) return
-    const maxZ = schema.value.reduce((m, el) => (el.zIndex > m ? el.zIndex : m), 0)
-    const newZ = maxZ + 1
-    schema.value.forEach(el => {
-        if (el.id === tableId || el.parentNode === tableId) el.zIndex = newZ
-    })
-}
-
-const onNodeDragStart = ({ node }) => elevateTable(node)
-
-let lastNodeDragWhisper = 0
-const onNodeDrag = ({ node, event }) => {
-    const now = Date.now()
-    if (now - lastNodeDragWhisper < 50) return
-    lastNodeDragWhisper = now
-    whisper('schema-patch', { update: [{ id: node.id, position: node.position }] })
-    broadcastCursor(event)
-}
-
-const onNodeDragStop = ({ node }) => {
-    isSaved.value = false
-    whisper('schema-patch', { update: [{ id: node.id, position: node.position }] })
-}
-
-// --- Table resize ---
-
-const MIN_TABLE_WIDTH = 350
-
-const startTableResize = (tableId, event, side) => {
-    const tableNode = schema.value.find(el => el.id === tableId)
-    if (!tableNode) return
-
-    const startX = event.clientX
-    const startWidth = parseInt(tableNode.style.width) || MIN_TABLE_WIDTH
-    const startPositionX = tableNode.position.x
-
-    let finalWidthPx = `${startWidth}px`
-    let finalPositionX = startPositionX
-
-    let lastResizeWhisper = 0
-
-    const buildResizeUpdates = () =>
-        schema.value
-            .filter(node => node.id === tableId || node.parentNode === tableId)
-            .map(node => {
-                const u = { id: node.id, style: { ...node.style } }
-                if (node.id === tableId) u.position = { ...node.position }
-                return u
-            })
-
-    const onMouseMove = (e) => {
-        const deltaX = (e.clientX - startX) / viewport.value.zoom
-        if (side === 'left') {
-            const newWidth = Math.max(MIN_TABLE_WIDTH, startWidth - deltaX)
-            finalWidthPx = `${newWidth}px`
-            finalPositionX = startPositionX + (startWidth - newWidth)
-        } else {
-            finalWidthPx = `${Math.max(MIN_TABLE_WIDTH, startWidth + deltaX)}px`
-            finalPositionX = startPositionX
-        }
-        schema.value.forEach(node => {
-            if (node.id === tableId || node.parentNode === tableId) {
-                node.style = { ...node.style, width: finalWidthPx }
-            }
-            if (node.id === tableId) {
-                node.position = { ...node.position, x: finalPositionX }
-            }
-        })
-        const now = Date.now()
-        if (now - lastResizeWhisper >= 50) {
-            lastResizeWhisper = now
-            whisper('schema-patch', { update: buildResizeUpdates() })
-        }
-    }
-
-    const onMouseUp = () => {
-        window.removeEventListener('mousemove', onMouseMove)
-        window.removeEventListener('mouseup', onMouseUp)
-        isSaved.value = false
-        whisper('schema-patch', { update: buildResizeUpdates() })
-    }
-
-    window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('mouseup', onMouseUp)
 }
 
 // --- Table navigator & feedback ---
@@ -514,281 +311,14 @@ const navigateToTable = (tableId) => {
     fitView({ nodes: [tableId, ...childIds], duration: 300, padding: 0.3 })
 }
 
-// --- Add/copy/place table ---
-
-const isPlacingTable = ref(false)
-const isConnecting = ref(false)
-const copyingTableId = ref(null)
-
-const addTable = () => {
-    copyingTableId.value = null
-    isPlacingTable.value = true
-}
-
-const copyTable = (tableId) => {
-    copyingTableId.value = tableId
-    isPlacingTable.value = true
-}
-
-const onPaneClick = (event) => {
-    if (!isPlacingTable.value) return
-    isPlacingTable.value = false
-    const position = screenToFlowCoordinate({ x: event.clientX, y: event.clientY })
-    let tableId
-    if (copyingTableId.value) {
-        tableId = TableActions.copyTable(schema, copyingTableId.value, position)
-        copyingTableId.value = null
-    } else {
-        tableId = TableActions.addTable(schema, 'new_table', position)
-    }
-    isSaved.value = false
-    const nodes = schema.value.filter(el => el.id === tableId || el.parentNode === tableId)
-    whisper('schema-patch', { add: nodes })
-}
-
-const onEscapeKey = (event) => {
-    if (event.key === 'Escape') {
-        isPlacingTable.value = false
-        copyingTableId.value = null
-    }
-}
-
-// --- Row operations ---
-
-const addRow = (nodeProps) => {
-    const rowId = TableActions.addRow(schema, nodeProps, {
-        rowName: 'new_row',
-        keyMod: 'None',
-        sqlType: diagramDbType.value === 'postgresql' ? 'INTEGER' : 'INT(11)',
-        nullable: false,
-        unsigned: false,
-    })
-    isSaved.value = false
-    const newRow = schema.value.find(el => el.id === rowId)
-    const button = schema.value.find(el => el.type === 'add-row-button' && el.parentNode === nodeProps.id)
-    const patch = { add: [newRow] }
-    if (button) patch.update = [{ id: button.id, position: button.position }]
-    whisper('schema-patch', patch)
-}
-
-const deleteEdge = () => {
-    const edgeId = selectedEdge.value.id
-    TableActions.deleteEdge(schema, selectedEdge)
-    showRelationshipModal.value = false
-    isSaved.value = false
-    whisper('schema-patch', { remove: [edgeId] })
-}
-
-const deleteNode = (nodeId) => {
-    const nodeToDelete = schema.value.find(el => el.id === nodeId)
-    const childIds = nodeToDelete?.type === 'table'
-        ? schema.value.filter(el => el.parentNode === nodeId).map(el => el.id)
-        : []
-    const affectedSiblingIds = nodeToDelete?.type === 'row'
-        ? [
-            ...schema.value.filter(el => el.parentNode === nodeToDelete.parentNode && el.type === 'row' && el.position.y > nodeToDelete.position.y).map(el => el.id),
-            ...schema.value.filter(el => el.type === 'add-row-button' && el.parentNode === nodeToDelete.parentNode).map(el => el.id),
-          ]
-        : []
-
-    TableActions.deleteNode(schema, nodeId)
-    isSaved.value = false
-
-    const updates = affectedSiblingIds
-        .map(id => schema.value.find(el => el.id === id))
-        .filter(Boolean)
-        .map(el => ({ id: el.id, position: el.position }))
-    whisper('schema-patch', { remove: [nodeId, ...childIds], update: updates })
-}
-
-const onConnect = (params) => {
-    params.updatable = true
-    const parentNode = findNode(findNode(params.target)?.parentNode)
-    const tableColor = parentNode?.data?.color
-    if (tableColor) {
-        params.style = { stroke: tableColor }
-        params.data = { ...params.data, color: tableColor }
-    }
-    addEdges([params])
-    isSaved.value = false
-    nextTick(() => {
-        const newEdge = schema.value.find(el =>
-            el.source === params.source && el.target === params.target &&
-            el.sourceHandle === params.sourceHandle && el.targetHandle === params.targetHandle
-        )
-        if (newEdge) whisper('schema-patch', { add: [newEdge] })
-    })
-}
-
-const onEdgeUpdate = ({ edge, connection }) => {
-    const oldEdgeId = edge.id
-    updateEdge(edge, connection)
-    isSaved.value = false
-    nextTick(() => {
-        const newEdge = schema.value.find(el =>
-            el.source === connection.source && el.target === connection.target &&
-            el.sourceHandle === connection.sourceHandle && el.targetHandle === connection.targetHandle
-        )
-        whisper('schema-patch', { remove: [oldEdgeId], add: newEdge ? [newEdge] : [] })
-    })
-}
-
-const updateConnectionLineType = (relationshipType) => {
-    if (relationshipType === 'many-to-many') {
-        const result = TableActions.createPivotTable(schema, selectedEdge.value)
-        showRelationshipModal.value = false
-        isSaved.value = false
-        if (result) {
-            const addedNodes = schema.value.filter(el =>
-                el.id === result.pivotTableId ||
-                el.parentNode === result.pivotTableId ||
-                result.addedEdgeIds.includes(el.id)
-            )
-            whisper('schema-patch', { add: addedNodes, remove: [result.removedEdgeId] })
-        }
-        return
-    }
-
-    TableActions.updateConnectionLineType(schema, selectedEdge, relationshipType)
-    showRelationshipModal.value = false
-    isSaved.value = false
-    const edge = schema.value.find(el => el.id === selectedEdge.value.id)
-    if (edge) whisper('schema-patch', { update: [{ id: edge.id, data: { ...edge.data } }] })
-}
-
-const onRowChange = (id) => {
-    isSaved.value = false
-    const node = schema.value.find(el => el.id === id)
-    if (node) whisper('schema-patch', {
-        update: [{ id, data: { sqlType: node.data.sqlType, keyMod: node.data.keyMod, nullable: node.data.nullable, unsigned: node.data.unsigned } }]
-    })
-}
-
-const updateLabel = (id, newLabel) => {
-    const element = schema.value.find(el => el.id === id)
-    if (element) {
-        element.label = newLabel.replace(' ', '_')
-        isSaved.value = false
-        whisper('schema-patch', { update: [{ id, label: element.label }] })
-    }
-}
-
-const updateEdgeColor = (color) => {
-    const edge = schema.value.find(el => el.id === selectedEdge.value?.id)
-    if (!edge) return
-    edge.style = { ...edge.style, stroke: color }
-    edge.data = { ...edge.data, color }
-    isSaved.value = false
-    whisper('schema-patch', { update: [{ id: edge.id, style: { ...edge.style }, data: { color } }] })
-}
-
-const updateTableColor = (tableId, color) => {
-    const tableNode = schema.value.find(el => el.id === tableId)
-    if (!tableNode) return
-    tableNode.style = { ...tableNode.style, background: color, borderColor: color }
-    tableNode.data = { ...tableNode.data, color }
-
-    const childIds = schema.value.filter(el => el.parentNode === tableId).map(el => el.id)
-    const connectedEdges = schema.value.filter(el =>
-        el.source && childIds.includes(el.source)
-    )
-    connectedEdges.forEach(edge => {
-        edge.style = { ...edge.style, stroke: color }
-        edge.data = { ...edge.data, color }
-    })
-
-    isSaved.value = false
-    const edgeUpdates = connectedEdges.map(edge => ({ id: edge.id, style: { ...edge.style }, data: { color } }))
-    whisper('schema-patch', { update: [{ id: tableId, style: { ...tableNode.style }, data: { color } }, ...edgeUpdates] })
-}
-
-// --- Row drag ---
-
-const draggingRowId = ref(null)
-
-const startRowDrag = (id) => {
-    draggingRowId.value = id
-
-    const onMouseMove = (e) => {
-        const rowNodeEl = document.elementsFromPoint(e.clientX, e.clientY)
-            .find(el => el.classList.contains('vue-flow__node-row') && el.getAttribute('data-id') !== draggingRowId.value)
-        if (!rowNodeEl) return
-
-        const sourceNode = schema.value.find(el => el.id === draggingRowId.value)
-        const targetNode = schema.value.find(el => el.id === rowNodeEl.getAttribute('data-id'))
-
-        if (!sourceNode || !targetNode || sourceNode.type !== 'row' || targetNode.type !== 'row' || sourceNode.parentNode !== targetNode.parentNode) return
-
-        const tempY = sourceNode.position.y
-        sourceNode.position.y = targetNode.position.y
-        targetNode.position.y = tempY
-
-        isSaved.value = false
-        const siblingRows = schema.value
-            .filter(el => el.type === 'row' && el.parentNode === sourceNode.parentNode)
-            .sort((a, b) => a.position.y - b.position.y)
-        whisper('schema-patch', {
-            update: siblingRows.map(r => ({ id: r.id, position: { ...r.position } }))
-        })
-    }
-
-    const onMouseUp = () => {
-        draggingRowId.value = null
-        document.removeEventListener('mousemove', onMouseMove)
-        document.removeEventListener('mouseup', onMouseUp)
-    }
-
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseup', onMouseUp)
-}
-
-// --- Options modal ---
-
-const closeAllOptionsModals = () => {
-    schema.value.filter(el => el.type === 'row' && el.data.showOptionsModal).forEach(row => {
-        row.data.showOptionsModal = false
-    })
-}
-
-const toggleOptionsModal = (id) => {
-    const row = schema.value.find(el => el.id === id)
-    const willOpen = !row.data.showOptionsModal
-    closeAllOptionsModals()
-    if (willOpen) {
-        row.data.modalPosition = { x: 350, y: 0 }
-        row.data.showOptionsModal = true
-    }
-    whisper('schema-patch', {
-        update: [{ id, data: { showOptionsModal: row.data.showOptionsModal, modalPosition: row.data.modalPosition } }]
-    })
-}
-
-// --- Table constraints ---
-
-const onTableConstraintsChange = (tableId, newConstraints) => {
-    const tableNode = schema.value?.find(el => el.id === tableId)
-    if (!tableNode) return
-    tableNode.data.uniqueTogether = newConstraints
-    isSaved.value = false
-    whisper('schema-patch', {
-        update: [{ id: tableId, data: { uniqueTogether: newConstraints } }]
-    })
-}
-
-// --- Relationship modal ---
-
-const openRelationshipModal = ({ edge }) => {
-    selectedEdge.value = edge
-    const { left, top, width, height } = document.querySelector(`[id="${edge.id}"]`).getBoundingClientRect()
-    modalPosition.value = { x: left + window.scrollX + width / 2, y: top + window.scrollY + height / 2 }
-    showRelationshipModal.value = true
-}
-
-const closeRelationshipModal = () => {
-    showRelationshipModal.value = false
-}
-
 // --- Import / Export ---
+
+const showImportModal = ref(false)
+const importContent = ref('')
+const importLoading = ref(false)
+const showExportModal = ref(false)
+const exportContent = ref('')
+const exportJsonContent = ref('')
 
 const importSql = async () => {
     if (!importContent.value.trim()) {
@@ -902,9 +432,17 @@ const getDiagram = async () => {
     loading.value = false
 
     initEcho()
-
     if (!isOwner.value) startGuestAccessPolling()
 }
+
+const onEscapeKey = (event) => {
+    if (event.key === 'Escape') {
+        isPlacingTable.value = false
+        copyingTableId.value = null
+    }
+}
+
+let autoSaveTimer = null
 
 onBeforeMount(getDiagram)
 
@@ -1067,23 +605,25 @@ onUnmounted(() => {
 }
 
 .table-navigator__item {
-    padding: 7px 12px;
-    border: none;
+    padding: 6px 12px;
     background: none;
-    text-align: left;
+    border: none;
+    color: var(--text-primary);
     font-size: 13px;
     cursor: pointer;
+    text-align: left;
     white-space: nowrap;
-    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .table-navigator__item:hover {
-    background: var(--hover-bg);
+    background: var(--hover-bg-alt);
 }
 
 .table-navigator__empty {
     padding: 8px 12px;
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-muted);
 }
 </style>
