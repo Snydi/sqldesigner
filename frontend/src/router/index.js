@@ -9,7 +9,7 @@ const Logout = () => import('../components/Auth/Logout.vue');
 const VerifyEmail = () => import('../components/Auth/VerifyEmail.vue');
 const GoogleCallback = () => import('../components/Auth/GoogleCallback.vue');
 const DiagramList = () => import('../components/DiagramList.vue');
-const Diagram = () => import('../components/Diagram.vue');
+const Diagram = () => import('../components/Diagram/Diagram.vue');
 const DiagramEmbed = () => import('../components/DiagramEmbed.vue');
 
 function requireAuth(to, from, next) {

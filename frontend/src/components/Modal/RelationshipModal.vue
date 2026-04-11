@@ -14,7 +14,7 @@
         <button @click="$emit('update-type', 'many-to-one')" title="Many to one">N → 1</button>
         <button @click="$emit('update-type', 'many-to-many')" title="Many to many">N → N</button>
         <button class="relationship_modal__delete" @click="$emit('delete')" title="Delete">
-            <img src="../icons/trash.svg" class="relationship_modal__trash">
+            <img src="../../icons/trash.svg" class="relationship_modal__trash" alt="trash_icon">
         </button>
     </div>
 </template>

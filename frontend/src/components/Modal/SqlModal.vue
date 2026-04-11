@@ -4,19 +4,19 @@
             <div class="sql_modal_header">
                 <span class="sql_modal_title">{{ primaryLabel }} SQL</span>
                 <button class="sql_modal_close" @click="$emit('close')">
-                    <img src="../icons/close.svg" alt="Close">
+                    <img src="../../icons/close.svg" alt="Close">
                 </button>
             </div>
             <div class="sql_textarea_wrapper">
                 <textarea class="sql_textarea" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :placeholder="primaryLabel === 'Import' ? 'Paste your SQL here...' : ''"></textarea>
                 <button v-if="primaryLabel === 'Export'" class="sql_copy_btn" @click="copyText" title="Copy all text">
-                    <img src="../icons/copy.svg" alt="Copy">
+                    <img src="../../icons/copy.svg" alt="Copy">
                 </button>
             </div>
             <div class="sql_modal_footer">
                 <div v-if="primaryLabel === 'Export'" class="download-dropdown">
                     <button class="btn btn-secondary download-dropdown__trigger">
-                        <img src="../icons/download.svg" alt="Download" class="icon">
+                        <img src="../../icons/download.svg" alt="Download" class="icon">
                     </button>
                     <div class="download-dropdown__menu">
                         <button @click="downloadSql('sql')">.sql</button>
@@ -26,7 +26,7 @@
                 </div>
                 <div v-if="primaryLabel === 'Import'" class="import-footer">
                     <label class="btn btn-secondary import-file-btn" title="Import from file">
-                        <img src="../icons/import.svg" alt="Upload" class="icon">
+                        <img src="../../icons/import.svg" alt="Upload" class="icon">
                         <input type="file" accept=".sql,.txt,.json" @change="handleFileUpload" hidden>
                     </label>
                     <button class="btn btn-primary" @click="$emit('primary-action')" :disabled="loading">

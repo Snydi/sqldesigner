@@ -94,7 +94,7 @@
             >
                 <Panel position="top-left" class="table-navigator">
                     <button class="table-navigator__toggle" @click.stop="tableNavOpen = !tableNavOpen" title="Tables">
-                        <img src="../icons/table-list.svg" alt="Tables" class="icon" style="width:18px;height:18px;">
+                        <img src="../../icons/table-list.svg" alt="Tables" class="icon" style="width:18px;height:18px;">
                     </button>
                     <div v-if="tableNavOpen" class="table-navigator__list">
                         <button
@@ -113,7 +113,7 @@
 
                 <Panel position="bottom-left" class="feedback-panel">
                     <button class="feedback-panel__btn" @click.stop="openFeedbackModal" title="Send feedback">
-                        <img src="../icons/chat.svg" alt="Feedback" style="width:16px;height:16px;" />
+                        <img src="../../icons/chat.svg" alt="Feedback" style="width:16px;height:16px;" />
                     </button>
                 </Panel>
 
@@ -204,20 +204,20 @@ import { Diagram } from '@/services/Diagram.js'
 import { DEMO_SCHEMA } from '@/services/demoSchema.js'
 import { useDiagramPresence, CURSOR_COLORS } from '@/composables/useDiagramPresence.js'
 import DiagramHeader from './DiagramHeader.vue'
-import ShareModal from './ShareModal.vue'
-import ChickenFootEdge from './ChickenFootEdge.vue'
+import ShareModal from '../Modal/ShareModal.vue'
+import ChickenFootEdge from '../ChickenFootEdge.vue'
 import TableNode from './TableNode.vue'
-import RowNode from './RowNode.vue'
-import AddRowNode from './AddRowNode.vue'
-import RelationshipModal from './RelationshipModal.vue'
-import SqlModal from './SqlModal.vue'
-import RemoteCursor from './RemoteCursor.vue'
-import FeedbackModal from './FeedbackModal.vue'
+import RowNode from '../RowNode.vue'
+import AddRowNode from '../AddRowNode.vue'
+import RelationshipModal from '../Modal/RelationshipModal.vue'
+import SqlModal from '../Modal/SqlModal.vue'
+import RemoteCursor from '../RemoteCursor.vue'
+import FeedbackModal from '../Modal/FeedbackModal.vue'
 import { useElementSize } from '@vueuse/core'
 import { useToast } from 'vue-toast-notification'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import axios from '@/axios'
+import axios from '@/axios.js'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
 import '@/css/diagram.css'
@@ -825,7 +825,7 @@ const exportSql = async () => {
 
 const saveDiagram = async () => {
     if (props.isDemo) {
-        router.push({ name: 'register' })
+        await router.push({ name: 'register' })
         return
     }
     await (isOwner.value ? Diagram.save(diagramId.value, schema.value) : Diagram.saveByToken(token, schema.value))

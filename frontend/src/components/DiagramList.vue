@@ -106,7 +106,7 @@
 import axios from 'axios'
 import router from '../router/index.js'
 import { useToast } from 'vue-toast-notification'
-import DiagramPreview from './DiagramPreview.vue'
+import DiagramPreview from './Diagram/DiagramPreview.vue'
 import mysqlIcon from '../icons/mysql.svg'
 import postgresqlIcon from '../icons/postgresql.svg'
 

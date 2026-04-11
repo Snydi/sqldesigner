@@ -4,7 +4,7 @@
             <div class="feedback-modal__header">
                 <span class="feedback-modal__title">Feedback</span>
                 <button class="feedback-modal__close" @click="$emit('close')">
-                    <img src="../icons/close.svg" style="width:14px;height:14px;filter:brightness(0) invert(1);" />
+                    <img src="../../icons/close.svg" style="width:14px;height:14px;filter:brightness(0) invert(1);" />
                 </button>
             </div>
 
@@ -59,7 +59,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from '@/axios'
+import axios from '@/axios.js'
 import { useToast } from 'vue-toast-notification'
 
 const props = defineProps({ userEmail: { type: String, default: '' } })
