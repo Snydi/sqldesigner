@@ -42,6 +42,72 @@
     }
     @endverbatim
     </script>
+    <script type="application/ld+json">
+    @verbatim
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is SQL Designer free to use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. SQL Designer is completely free — no credit card required, no subscription, no document limits. You can create unlimited diagrams, export SQL for MySQL and PostgreSQL, and share diagrams with others at no cost."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does SQL Designer work without installation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. SQL Designer runs entirely in the browser — nothing to download or install. It works on any modern browser on Windows, Mac, or Linux."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can SQL Designer export SQL for both MySQL and PostgreSQL?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. SQL Designer can generate CREATE TABLE scripts for both MySQL and PostgreSQL. Switch between dialects and copy the generated DDL to your clipboard with one click."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I share my database diagram with someone else?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. SQL Designer generates shareable links with three access modes: read-only (anyone with the link can view), editable (anyone can edit), or approval-based (you approve each visitor individually). Diagrams can also be embedded as interactive iframes in any webpage or documentation site."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I import an existing SQL schema into SQL Designer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. SQL Designer can parse and import existing CREATE TABLE SQL scripts and render them as a visual diagram automatically."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How many diagrams can I create?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Unlimited. There is no cap on the number of diagrams you can create with a free account."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does SQL Designer support foreign key relationships?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. You can draw foreign key relationships between columns by connecting them visually on the canvas. Relationships are rendered using crow's foot notation and are included in the SQL export."
+                }
+            }
+        ]
+    }
+    @endverbatim
+    </script>
     <style>
         body { overflow-y: auto; margin: 0; }
 

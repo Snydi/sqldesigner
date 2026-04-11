@@ -25,6 +25,10 @@ Route::prefix('/blog')->group(function () {
     Route::get('/mysql-db-designer', fn() => view('blog.mysql-db-designer'));
     Route::get('/postgres-db-designer', fn() => view('blog.postgres-db-designer'));
     Route::get('/database-designer', fn() => view('blog.database-designer'));
+    Route::get('/lucidchart-alternative', fn() => view('blog.lucidchart-alternative'));
+    Route::get('/drawio-alternative', fn() => view('blog.drawio-alternative'));
+    Route::get('/best-erd-tools', fn() => view('blog.best-erd-tools'));
+    Route::get('/share-database-diagram', fn() => view('blog.share-database-diagram'));
 });
 Route::get('/features', fn() => view('features'));
 Route::get('/library', function () {

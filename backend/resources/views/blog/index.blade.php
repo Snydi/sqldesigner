@@ -88,6 +88,34 @@
 
         <ul class="post-list">
             <li>
+                <a class="post-card" href="/blog/best-erd-tools">
+                    <p class="post-meta">April 2026 &mdash; 8 min read</p>
+                    <h2>Best Free ERD Tools Online in 2026 — Compared</h2>
+                    <p>Comparing the best free online entity-relationship diagram tools: SQL Designer, dbdiagram.io, draw.io, Lucidchart, ERDPlus, and QuickDBD — rated on SQL support, usability, and what's genuinely free.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/lucidchart-alternative">
+                    <p class="post-meta">April 2026 &mdash; 6 min read</p>
+                    <h2>Lucidchart Alternative for Database Design — Free Online ERD Tool</h2>
+                    <p>Lucidchart is a polished diagramming tool but it can't export SQL or validate constraints. Here are the best free alternatives purpose-built for MySQL and PostgreSQL database design.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/drawio-alternative">
+                    <p class="post-meta">April 2026 &mdash; 6 min read</p>
+                    <h2>draw.io Alternative for Database Design — SQL-Aware ERD Tool</h2>
+                    <p>draw.io is excellent for general diagrams but has no SQL awareness — no data types, no constraints, no DDL export. Here are the best free alternatives that actually understand your database.</p>
+                </a>
+            </li>
+            <li>
+                <a class="post-card" href="/blog/share-database-diagram">
+                    <p class="post-meta">April 2026 &mdash; 5 min read</p>
+                    <h2>How to Share a Database Diagram Online — Shareable Links &amp; Embeds</h2>
+                    <p>Share your database schema with a live link that always shows the current version, or embed it as an interactive iframe in your docs. Control access with read-only, editable, or approval-based permissions.</p>
+                </a>
+            </li>
+            <li>
                 <a class="post-card" href="/blog/database-designer">
                     <p class="post-meta">April 2026 &mdash; 6 min read</p>
                     <h2>Free Online Database Designer — Visual Schema Builder for MySQL &amp; PostgreSQL</h2>
