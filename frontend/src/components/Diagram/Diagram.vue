@@ -435,10 +435,14 @@ const getDiagram = async () => {
     if (!isOwner.value) startGuestAccessPolling()
 }
 
-const onEscapeKey = (event) => {
+const onKeyDown = (event) => {
     if (event.key === 'Escape') {
         isPlacingTable.value = false
         copyingTableId.value = null
+    }
+    if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+        event.preventDefault()
+        if (canEdit.value) saveDiagram()
     }
 }
 
@@ -454,7 +458,7 @@ onMounted(() => {
     } else {
         nextTick(() => fitView({ padding: 0.15, duration: 0 }))
     }
-    document.addEventListener('keydown', onEscapeKey)
+    document.addEventListener('keydown', onKeyDown)
 })
 
 onUnmounted(() => {
@@ -463,7 +467,7 @@ onUnmounted(() => {
     stopGuestAccessPolling()
     if (!isSaved.value && canEdit.value && !props.isDemo) saveDiagram()
     cleanupEcho()
-    document.removeEventListener('keydown', onEscapeKey)
+    document.removeEventListener('keydown', onKeyDown)
 })
 </script>
 
