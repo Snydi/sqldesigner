@@ -2,20 +2,21 @@
 
 namespace App\Events;
 
+use App\Enums\DiagramAccess;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class VisitorAccessChanged implements ShouldBroadcastNow
+class VisitorAccessChanged implements ShouldBroadcastNow //Don't believe the IDE, every method here is used
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
         public readonly int $userId,
         public readonly string $shareToken,
-        public readonly string $access, // 'read' | 'write' | 'revoked'
+        public readonly DiagramAccess $access,
     ) {}
 
     public function broadcastOn(): array
@@ -32,7 +33,7 @@ class VisitorAccessChanged implements ShouldBroadcastNow
     {
         return [
             'user_id' => $this->userId,
-            'access'  => $this->access,
+            'access'  => $this->access->value,
         ];
     }
 }

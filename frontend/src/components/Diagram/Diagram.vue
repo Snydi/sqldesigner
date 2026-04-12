@@ -387,7 +387,7 @@ const getDiagram = async () => {
         }
     } catch {
         loading.value = false
-        router.push({ name: 'login' })
+        await router.push({ name: 'login' })
         return
     }
 
@@ -468,7 +468,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.is-placing-table,
 .is-placing-table * {
     cursor: crosshair !important;
 }

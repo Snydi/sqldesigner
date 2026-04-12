@@ -484,11 +484,6 @@ export default {
     color: var(--color-primary-text);
 }
 
-.db-option--disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-}
-
 .create-modal__actions {
     display: flex;
     justify-content: flex-end;

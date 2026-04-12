@@ -16,7 +16,7 @@ class SendNewUserRegistrationEmail implements ShouldQueue
 
     public int $tries = 3;
 
-    public function __construct(private string $userEmail) {}
+    public function __construct(private readonly string $userEmail) {}
 
     public function handle(): void
     {

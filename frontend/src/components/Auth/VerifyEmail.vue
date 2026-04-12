@@ -31,7 +31,7 @@ onMounted(async () => {
     const response = await axios.get('/api/user');
     userEmail.value = response.data.email;
     if (response.data.email_verified_at) {
-        router.push({ name: 'diagrams' });
+        await router.push({ name: 'diagrams' });
     }
 });
 

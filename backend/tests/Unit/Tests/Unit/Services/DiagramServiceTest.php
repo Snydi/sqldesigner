@@ -5,6 +5,7 @@ namespace Tests\Unit\Services;
 use App\Models\Diagram;
 use App\Models\User;
 use App\Services\DiagramService;
+use Exception;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -137,13 +138,13 @@ class DiagramServiceTest extends TestCase
                     name VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL UNIQUE
                 );
-    
+
                 CREATE TABLE posts (
                         id INT UNSIGNED NOT NULL PRIMARY KEY,
                         user_id INT UNSIGNED NOT NULL,
                         title VARCHAR(255) NOT NULL
                 );
-    
+
                 ALTER TABLE posts
                 ADD FOREIGN KEY (user_id) REFERENCES users(id);";
 
@@ -295,22 +296,22 @@ class DiagramServiceTest extends TestCase
                     id INT PRIMARY KEY,
                     name VARCHAR(100) NOT NULL
                  );
-        
+
                 CREATE TABLE categories (
                     id INT PRIMARY KEY,
                     name VARCHAR(100) NOT NULL
                 );
-        
+
                 CREATE TABLE books (
                     id INT PRIMARY KEY,
                     title VARCHAR(255) NOT NULL,
                     author_id INT NOT NULL,
                     category_id INT NOT NULL
                 );
-        
+
                 ALTER TABLE books
                     ADD FOREIGN KEY (author_id) REFERENCES authors(id);
-        
+
                 ALTER TABLE books
                     ADD FOREIGN KEY (category_id) REFERENCES categories(id);";
 
@@ -717,7 +718,7 @@ class DiagramServiceTest extends TestCase
             foreach ($statements as $statement) {
                 try {
                     $connection->statement($statement);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $this->fail("PostgreSQL rejected statement:\n\n$statement\n\nError: " . $e->getMessage());
                 }
             }
@@ -741,7 +742,7 @@ class DiagramServiceTest extends TestCase
 
                 try {
                     $connection->statement($statement);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $this->fail("MySQL rejected statement:\n\n$statement\n\nError: " . $e->getMessage());
                 }
 

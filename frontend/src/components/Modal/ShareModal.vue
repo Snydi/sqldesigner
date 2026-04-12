@@ -142,7 +142,7 @@ const copiedEmbed = ref(false)
 const visitors = ref([])
 const visitorsLoading = ref(false)
 const shareUrl = computed(() => `${window.location.origin}/diagrams/${props.token}`)
-const embedCode = computed(() => `<iframe src="${window.location.origin}/embed/${props.token}" width="100%" height="500" frameborder="0" allowfullscreen></iframe>\n<p>Created with <a href="https://sql-designer.com">SQL Designer</a> — free online database schema designer</p>`)
+const embedCode = computed(() => `<iframe src="${window.location.origin}/embed/${props.token}" width="100%" height="500" allowfullscreen></iframe>\n<p>Created with <a href="https://sql-designer.com">SQL Designer</a> — free online database schema designer</p>`)
 
 const fetchVisitors = async () => {
     visitorsLoading.value = true
@@ -504,7 +504,6 @@ const toggleLibrary = async (event) => {
 .share-modal__tooltip {
     position: absolute;
     bottom: 100%;
-    padding-bottom: 8px;
     right: 0;
     width: 220px;
     background: var(--bg-surface-alt);

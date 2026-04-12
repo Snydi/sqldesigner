@@ -17,7 +17,7 @@ class FeedbackMail extends Mailable
         public readonly ?string $senderEmail,
     ) {
         $this->subject = $senderEmail
-            ? "Feedback from {$senderEmail}"
+            ? "Feedback from $senderEmail"
             : 'Anonymous Feedback';
     }
 

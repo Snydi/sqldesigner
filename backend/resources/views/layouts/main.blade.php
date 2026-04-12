@@ -51,7 +51,7 @@
         gtag('js', new Date());
         gtag('config', 'G-4L116MPX4C');
         window.addEventListener('load', function() {
-            var s = document.createElement('script');
+            const s = document.createElement('script')
             s.async = true;
             s.src = 'https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C';
             document.head.appendChild(s);

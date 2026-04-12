@@ -17,18 +17,30 @@ class AuthService
     {
         $this->authRepository = $authRepository;
     }
-    public function register(array $data): true
+
+    public function register(array $data): ?string
     {
-        $user = $this->authRepository->createNewUser($data);
+        $this->authRepository->createNewUser($data);
         SendNewUserRegistrationEmail::dispatch($data['email']);
+
+        if (!Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+            return null;
+        }
+
+        /** @var User $user */
+        $user = Auth::user();
         SendVerificationEmail::dispatch($user);
-        return true;
+
+        return $user->createToken('API TOKEN')->plainTextToken;
     }
 
-    public function login(array $data): string
+    public function login(string $email, string $password): ?string
     {
-        $user = $this->authRepository->findUser($data['email']);
-        return $user->createToken("API TOKEN")->plainTextToken;
+        if (!Auth::attempt(['email' => $email, 'password' => $password])) {
+            return null;
+        }
+
+        return Auth::user()->createToken('API TOKEN')->plainTextToken;
     }
 
     public function loginWithOAuth(string $driver, OAuthUser $oauthUser): string
@@ -53,6 +65,30 @@ class AuthService
         }
 
         return $user->createToken('API TOKEN')->plainTextToken;
+    }
+
+    public function verifyEmail(User $user, string $hash): bool
+    {
+        if (!hash_equals(sha1($user->email), $hash)) {
+            return false;
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
+        return true;
+    }
+
+    public function resendVerification(User $user): bool
+    {
+        if ($user->hasVerifiedEmail()) {
+            return false;
+        }
+
+        SendVerificationEmail::dispatch($user);
+
+        return true;
     }
 
     public function logout(User $user): true

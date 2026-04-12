@@ -4,7 +4,7 @@
             <div class="feedback-modal__header">
                 <span class="feedback-modal__title">Feedback</span>
                 <button class="feedback-modal__close" @click="$emit('close')">
-                    <img src="../../icons/close.svg" style="width:14px;height:14px;filter:brightness(0) invert(1);" />
+                    <img src="../../icons/close.svg" style="width:14px;height:14px;filter:brightness(0) invert(1);"  alt="Close modal"/>
                 </button>
             </div>
 

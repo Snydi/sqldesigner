@@ -17,7 +17,7 @@ class SendVerificationEmail implements ShouldQueue
 
     public int $tries = 3;
 
-    public function __construct(private User $user) {}
+    public function __construct(private readonly User $user) {}
 
     public function handle(): void
     {

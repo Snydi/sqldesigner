@@ -8,7 +8,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class VisitorRequested implements ShouldBroadcastNow
+class VisitorRequested implements ShouldBroadcastNow //Don't believe the IDE, every method here is used
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

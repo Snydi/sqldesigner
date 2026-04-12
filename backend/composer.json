@@ -10,7 +10,8 @@
         "laravel/reverb": "^1.9",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.26",
-        "laravel/tinker": "^3.0"
+        "laravel/tinker": "^3.0",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
