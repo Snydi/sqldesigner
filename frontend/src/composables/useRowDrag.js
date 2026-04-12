@@ -1,9 +1,10 @@
 import { ref } from 'vue'
 
-export function useRowDrag({ schema, isSaved, whisper }) {
+export function useRowDrag({ schema, isSaved, whisper, snapshot }) {
     const draggingRowId = ref(null)
 
     const startRowDrag = (id) => {
+        snapshot()
         draggingRowId.value = id
 
         const onMouseMove = (e) => {

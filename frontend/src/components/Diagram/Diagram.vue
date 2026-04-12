@@ -204,6 +204,7 @@ import { useTableInteraction } from '@/composables/useTableInteraction.js'
 import { useTableResize } from '@/composables/useTableResize.js'
 import { useRowDrag } from '@/composables/useRowDrag.js'
 import { useSchemaActions } from '@/composables/useSchemaActions.js'
+import { useUndoHistory } from '@/composables/useUndoHistory.js'
 import DiagramHeader from './DiagramHeader.vue'
 import ShareModal from '../Modal/ShareModal.vue'
 import ChickenFootEdge from '../ChickenFootEdge.vue'
@@ -252,6 +253,8 @@ const canEdit = computed(() => props.isDemo || isOwner.value || diagramShareAcce
 
 const { width: canvasWidth, height: canvasHeight } = useElementSize(canvasWrapperRef)
 
+const { snapshot, undo, redo } = useUndoHistory(schema)
+
 const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove, broadcastCursor } = useDiagramPresence({
     token, ownerIdentity, viewport, schema, canvasWrapperRef,
     onDiagramSaved: () => $toast.success('Diagram saved'),
@@ -263,13 +266,13 @@ const { hasPendingVisitors, startVisitorPolling, stopVisitorPolling, startGuestA
 
 const { offScreenCursors } = useOffScreenCursors({ remoteCursors, canvasWidth, canvasHeight })
 
-const { onNodeMouseEnter, onNodeMouseLeave, elevateTable, onNodeDragStart, onNodeDrag, onNodeDragStop } = useTableInteraction({
-    findNode, schema, whisper, isSaved, broadcastCursor,
+const { onNodeMouseEnter, onNodeMouseLeave, elevateTable, onNodeDragStart, onNodeDrag, onNodeDragStop, lastInteractedTableId } = useTableInteraction({
+    findNode, schema, whisper, isSaved, broadcastCursor, snapshot,
 })
 
-const { startTableResize } = useTableResize({ schema, viewport, whisper, isSaved })
+const { startTableResize } = useTableResize({ schema, viewport, whisper, isSaved, snapshot })
 
-const { startRowDrag } = useRowDrag({ schema, isSaved, whisper })
+const { startRowDrag } = useRowDrag({ schema, isSaved, whisper, snapshot })
 
 const {
     isPlacingTable, isConnecting, copyingTableId,
@@ -279,7 +282,7 @@ const {
     updateConnectionLineType, onRowChange, updateLabel, updateEdgeColor, updateTableColor,
     onTableConstraintsChange, toggleOptionsModal,
     openRelationshipModal, closeRelationshipModal,
-} = useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate })
+} = useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate, snapshot })
 
 const isValidConnection = ({ source, target }) => {
     const sourceNode = findNode(source)
@@ -440,9 +443,37 @@ const onKeyDown = (event) => {
         isPlacingTable.value = false
         copyingTableId.value = null
     }
+    if ((event.ctrlKey || event.metaKey) && event.key === 'd') {
+        event.preventDefault()
+        if (canEdit.value && lastInteractedTableId.value) copyTable(lastInteractedTableId.value)
+    }
+    if ((event.ctrlKey || event.metaKey) && event.key === 'a') {
+        event.preventDefault()
+        if (canEdit.value) addTable()
+    }
     if ((event.ctrlKey || event.metaKey) && event.key === 's') {
         event.preventDefault()
         if (canEdit.value) saveDiagram()
+    }
+    if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
+        event.preventDefault()
+        if (!canEdit.value) return
+        const prev = undo()
+        if (prev !== null) {
+            schema.value = prev
+            isSaved.value = false
+            whisper('schema-sync', { schema: schema.value })
+        }
+    }
+    if ((event.ctrlKey || event.metaKey) && event.key === 'y') {
+        event.preventDefault()
+        if (!canEdit.value) return
+        const next = redo()
+        if (next !== null) {
+            schema.value = next
+            isSaved.value = false
+            whisper('schema-sync', { schema: schema.value })
+        }
     }
 }
 
