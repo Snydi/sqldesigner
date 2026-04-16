@@ -4,18 +4,42 @@
 
 @section('head')
     <meta name="description" content="Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/library">
+    <meta property="og:title" content="Database Schema Library — Real MySQL &amp; PostgreSQL Schema Examples | SQL Designer">
+    <meta property="og:description" content="Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sql-designer.com/library">
+    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image:width" content="2557">
+    <meta property="og:image:height" content="1269">
+    <meta property="og:image:alt" content="SQL Designer — database schema library with real MySQL and PostgreSQL examples">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Database Schema Library — Real MySQL &amp; PostgreSQL Schema Examples | SQL Designer">
+    <meta name="twitter:description" content="Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.">
+    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
     @verbatim
+    [
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Schema Library", "item": "https://sql-designer.com/library" }
+        ]
+    },
     {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
-        "name": "Schema Library — SQL Designer",
+        "name": "Database Schema Library — SQL Designer",
         "url": "https://sql-designer.com/library",
-        "description": "Browse real database schemas shared by the SQL Designer community.",
-        "isPartOf": { "@type": "WebSite", "url": "https://sql-designer.com" }
+        "description": "Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.",
+        "isPartOf": { "@type": "WebSite", "name": "SQL Designer", "url": "https://sql-designer.com" },
+        "about": { "@type": "SoftwareApplication", "name": "SQL Designer", "url": "https://sql-designer.com" }
     }
+    ]
     @endverbatim
     </script>
     <style>

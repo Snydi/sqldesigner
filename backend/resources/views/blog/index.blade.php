@@ -4,6 +4,7 @@
 
 @section('head')
     <meta name="description" content="Tutorials and guides on MySQL database design, ER diagrams, and schema best practices. Written by the SQL Designer team.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog">
     <meta property="og:title" content="Blog — SQL Designer">
@@ -18,6 +19,29 @@
     <meta name="twitter:title" content="Blog — SQL Designer">
     <meta name="twitter:description" content="Tutorials and guides on MySQL database design, ER diagrams, and schema best practices.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <script type="application/ld+json">
+    @verbatim
+    [
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sql-designer.com/blog" }
+        ]
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "SQL Designer Blog",
+        "url": "https://sql-designer.com/blog",
+        "description": "Tutorials and guides on MySQL database design, ER diagrams, and schema best practices.",
+        "isPartOf": { "@type": "WebSite", "name": "SQL Designer", "url": "https://sql-designer.com" },
+        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+    }
+    ]
+    @endverbatim
+    </script>
     <style>
         body { overflow-y: auto; }
         .blog-index {

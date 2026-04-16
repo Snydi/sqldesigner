@@ -4,8 +4,21 @@
 
 @section('head')
     <meta name="description" content="Everything SQL Designer can do: visual drag-and-drop schema editing, MySQL and PostgreSQL SQL export, foreign keys, constraints, auto-save, and more.">
+    <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/features">
+    <meta property="og:title" content="Features — Free Database Designer &amp; ERD Tool | SQL Designer">
+    <meta property="og:description" content="Everything SQL Designer can do: visual drag-and-drop schema editing, MySQL and PostgreSQL SQL export, foreign keys, constraints, auto-save, and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sql-designer.com/features">
+    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image:width" content="2557">
+    <meta property="og:image:height" content="1269">
+    <meta property="og:image:alt" content="SQL Designer — full feature list for the free database designer and ERD tool">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Features — Free Database Designer &amp; ERD Tool | SQL Designer">
+    <meta name="twitter:description" content="Everything SQL Designer can do: visual drag-and-drop schema editing, MySQL and PostgreSQL SQL export, foreign keys, constraints, auto-save, and more.">
+    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
     @verbatim
     {
