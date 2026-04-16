@@ -782,10 +782,10 @@
                     <h3 class="blog-card__title">Free ER Diagram Tool Online for MySQL</h3>
                     <p class="blog-card__desc">What ER diagrams are, why they matter, and how to build one visually in your browser.</p>
                 </a>
-                <a href="/blog/mysql-workbench-alternative" class="blog-card">
-                    <p class="blog-card__category">Tools</p>
-                    <h3 class="blog-card__title">MySQL Workbench Alternative Online</h3>
-                    <p class="blog-card__desc">Heavy desktop tool not cutting it? Here are the best browser-based alternatives.</p>
+                <a href="/blog/mysql-db-designer" class="blog-card">
+                    <p class="blog-card__category">Schema Design</p>
+                    <h3 class="blog-card__title">MySQL Designer Online — Free Visual Schema Builder</h3>
+                    <p class="blog-card__desc">Design MySQL databases visually in your browser — drag-and-drop tables, define relationships, and export SQL.</p>
                 </a>
             </div>
             <p class="blog-more"><a href="/blog">View All Posts &rarr;</a></p>

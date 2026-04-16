@@ -189,9 +189,9 @@
         <h1>Free ER Diagram Tool Online for MySQL — No Download Required</h1>
 
         <p class="intro">
-            An entity-relationship (ER) diagram is the clearest way to plan and communicate a database structure. If you
-            need to create one for a MySQL database — without installing anything or paying for a subscription — you
-            have more options than you might think.
+            An entity-relationship (ER) diagram is the clearest way to plan and communicate a database structure.
+            If you need an ER diagram maker for a MySQL database — one that works in the browser without any
+            installation or subscription — you have more options than you might think.
         </p>
 
         <h2>What Is an ER Diagram?</h2>

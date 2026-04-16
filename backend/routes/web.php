@@ -29,6 +29,9 @@ Route::prefix('/blog')->group(function () {
     Route::get('/drawio-alternative', fn() => view('blog.drawio-alternative'));
     Route::get('/best-erd-tools', fn() => view('blog.best-erd-tools'));
     Route::get('/share-database-diagram', fn() => view('blog.share-database-diagram'));
+    Route::get('/erd-maker', fn() => view('blog.erd-maker'));
+    Route::get('/sql-to-erd', fn() => view('blog.sql-to-erd'));
+    Route::get('/crowfoot-notation', fn() => view('blog.crowfoot-notation'));
 });
 Route::get('/features', fn() => view('features'));
 Route::get('/library', function () {

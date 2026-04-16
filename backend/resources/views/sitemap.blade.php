@@ -56,7 +56,10 @@
                 <span class="desc">All articles on database design, SQL, and schema best practices.</span>
             </li>
             <li>
-                <a href="/blog/database-designer">Free Online Database Designer</a>
+                <a href="/blog/erd-maker">Free ERD Maker Online</a>
+                <a href="/blog/sql-to-erd">SQL to ERD — Generate an ER Diagram from SQL</a>
+                <a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained</a>
+                <a href="/blog/database-designer">Free DB Designer Online</a>
                 <span class="desc">Visual schema builder for MySQL and PostgreSQL — design databases without writing DDL.</span>
             </li>
             <li>

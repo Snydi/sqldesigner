@@ -112,6 +112,21 @@
 
         <ul class="post-list">
             <li>
+                <a class="post-card" href="/blog/erd-maker">
+                    <p class="post-meta">April 2026 &mdash; 5 min read</p>
+                    <h2>Free ERD Maker Online — Create ER Diagrams in Your Browser</h2>
+                    <p>What an ERD maker is, how it differs from a generic diagram tool, and how to use SQL Designer to create ER diagrams and export working SQL for free.</p>
+                </a>
+                <a class="post-card" href="/blog/sql-to-erd">
+                    <p class="post-meta">April 2026 &mdash; 5 min read</p>
+                    <h2>SQL to ERD — Generate an ER Diagram from a SQL Script</h2>
+                    <p>Import an existing CREATE TABLE script and generate a visual ER diagram automatically — tables, columns, constraints, and foreign key relationships rendered instantly.</p>
+                </a>
+                <a class="post-card" href="/blog/crowfoot-notation">
+                    <p class="post-meta">April 2026 &mdash; 6 min read</p>
+                    <h2>Crow&rsquo;s Foot Notation — ER Diagram Cardinality Explained</h2>
+                    <p>Learn the crow's foot symbols for one-to-one, one-to-many, and many-to-many relationships, how optionality works, and how the notation maps to real foreign key constraints.</p>
+                </a>
                 <a class="post-card" href="/blog/best-erd-tools">
                     <p class="post-meta">April 2026 &mdash; 8 min read</p>
                     <h2>Best Free ERD Tools Online in 2026 — Compared</h2>
@@ -156,14 +171,14 @@
             <li>
                 <a class="post-card" href="/blog/postgres-db-designer">
                     <p class="post-meta">April 2026 &mdash; 6 min read</p>
-                    <h2>Free PostgreSQL DB Designer Online — Visual ERD Tool for Postgres</h2>
+                    <h2>Postgres Designer Online — Free Visual PostgreSQL DB Designer</h2>
                     <p>Design PostgreSQL schemas visually in your browser — with PostgreSQL-specific types, foreign key relationships, and one-click DDL export. Free, no install required.</p>
                 </a>
             </li>
             <li>
                 <a class="post-card" href="/blog/mysql-db-designer">
                     <p class="post-meta">April 2026 &mdash; 6 min read</p>
-                    <h2>Free MySQL DB Designer Online — Visual Schema Builder</h2>
+                    <h2>MySQL Designer Online — Free Visual MySQL DB Designer</h2>
                     <p>Design MySQL databases visually — drag-and-drop tables, define columns with MySQL types, draw foreign key relationships, and export a CREATE TABLE script in one click.</p>
                 </a>
             </li>

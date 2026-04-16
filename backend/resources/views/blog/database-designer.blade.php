@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'Free Online Database Designer — Visual Schema Builder for MySQL & PostgreSQL')
+@section('title', 'Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL')
 
 @section('head')
     <meta name="description"
-          content="Free online database designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL. No install.">
+          content="Free DB designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL. No install required.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-designer">
-    <meta property="og:title" content="Free Online Database Designer — Visual Schema Builder for MySQL & PostgreSQL">
+    <meta property="og:title" content="Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL">
     <meta property="og:description"
-          content="Design relational database schemas visually in your browser — free, no installation required. Build tables, define relationships, export SQL.">
+          content="Free DB designer — design relational schemas visually in your browser. Drag-and-drop tables, foreign keys, MySQL and PostgreSQL SQL export. No install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/database-designer">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
@@ -18,8 +18,8 @@
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free online database designer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Online Database Designer — Visual Schema Builder for MySQL & PostgreSQL">
-    <meta name="twitter:description" content="Design relational database schemas visually — free online database designer with drag-and-drop and SQL export.">
+    <meta name="twitter:title" content="Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL">
+    <meta name="twitter:description" content="Free DB designer for MySQL and PostgreSQL — design schemas visually with drag-and-drop tables and SQL export. No install.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
         @verbatim
@@ -36,8 +36,8 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "Free Online Database Designer — Visual Schema Builder for MySQL & PostgreSQL",
-            "description": "Free online database designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL.",
+            "headline": "Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL",
+            "description": "Free DB designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL.",
             "image": "https://sql-designer.com/images/screenshot.png",
             "url": "https://sql-designer.com/blog/database-designer",
             "datePublished": "2026-04-09",
@@ -73,13 +73,13 @@
     <article class="blog-post">
         <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; Schema Design</p>
         <p class="post-meta"><time datetime="2026-04-09">April 2026</time> &mdash; 6 min read</p>
-        <h1>Free Online Database Designer — Visual Schema Builder for MySQL &amp; PostgreSQL</h1>
+        <h1>Free DB Designer Online — Visual Database Designer for MySQL &amp; PostgreSQL</h1>
 
         <p class="intro">
-            A database designer is a tool for planning and visualising a relational database schema before you build it.
-            Instead of writing <code>CREATE TABLE</code> statements from scratch, you work on a visual canvas —
-            adding tables, defining columns, and drawing relationships between them. This guide explains what to look
-            for in a free online database designer and how to get started.
+            A DB designer (database designer) is a tool for planning and visualising a relational schema before you
+            build it. Instead of writing <code>CREATE TABLE</code> statements from scratch, you work on a visual
+            canvas — adding tables, defining columns, and drawing relationships between them. This guide explains
+            what to look for in a free online DB designer and how to get started.
         </p>
 
         <h2>What Does a Database Designer Do?</h2>

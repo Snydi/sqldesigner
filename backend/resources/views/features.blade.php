@@ -390,8 +390,8 @@
 
     {{-- Main content --}}
     <div class="docs-content">
-        <h1>Features</h1>
-        <p class="docs-intro">SQL Designer is a free, browser-based ERD tool for MySQL and PostgreSQL. Here is everything it can do.</p>
+        <h1>Features — Free ERD Tool &amp; Database Designer</h1>
+        <p class="docs-intro">SQL Designer is a free, browser-based ERD tool and database designer for MySQL and PostgreSQL. Here is everything it can do.</p>
 
         {{-- Canvas & Editing --}}
         <section class="docs-section" id="canvas" aria-labelledby="section-canvas">

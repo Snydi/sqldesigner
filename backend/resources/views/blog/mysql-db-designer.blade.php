@@ -1,25 +1,25 @@
 @extends('layouts.main')
 
-@section('title', 'Free MySQL DB Designer Online — Visual Schema Builder')
+@section('title', 'MySQL Designer Online — Free Visual MySQL DB Designer')
 
 @section('head')
     <meta name="description"
-          content="Design MySQL databases visually in your browser — free MySQL DB designer with drag-and-drop tables, foreign keys, and SQL export. No install required.">
+          content="Free MySQL designer — design MySQL databases visually with drag-and-drop tables, MySQL type support, foreign keys, and CREATE TABLE export. No install required.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-db-designer">
-    <meta property="og:title" content="Free MySQL DB Designer Online — Visual Schema Builder">
+    <meta property="og:title" content="MySQL Designer Online — Free Visual MySQL DB Designer">
     <meta property="og:description"
-          content="Design MySQL databases visually in your browser — free, no installation required. Build tables, define relationships, and export a CREATE TABLE script.">
+          content="Free MySQL designer — design MySQL databases visually in your browser. Drag-and-drop canvas, MySQL type support, foreign keys, CREATE TABLE export. No install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/mysql-db-designer">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
-    <meta property="og:image:alt" content="SQL Designer — free MySQL DB designer with visual canvas">
+    <meta property="og:image:alt" content="SQL Designer — free MySQL designer with visual drag-and-drop canvas">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free MySQL DB Designer Online — Visual Schema Builder">
-    <meta name="twitter:description" content="Design MySQL databases visually in your browser — free, no installation. Build tables, define relationships, and export SQL.">
+    <meta name="twitter:title" content="MySQL Designer Online — Free Visual MySQL DB Designer">
+    <meta name="twitter:description" content="Free MySQL designer — design MySQL databases visually with drag-and-drop tables, foreign keys, and SQL export. No install.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
         @verbatim
@@ -36,8 +36,8 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "Free MySQL DB Designer Online — Visual Schema Builder",
-            "description": "Design MySQL databases visually in your browser — free MySQL DB designer with drag-and-drop tables, foreign keys, and SQL export.",
+            "headline": "MySQL Designer Online — Free Visual MySQL DB Designer",
+            "description": "Free MySQL designer — design MySQL databases visually with drag-and-drop tables, MySQL type support, foreign keys, and CREATE TABLE export.",
             "image": "https://sql-designer.com/images/screenshot.png",
             "url": "https://sql-designer.com/blog/mysql-db-designer",
             "datePublished": "2026-04-09",
@@ -76,23 +76,23 @@
     <article class="blog-post">
         <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; Schema Design</p>
         <p class="post-meta"><time datetime="2026-04-09">April 2026</time> &mdash; 6 min read</p>
-        <h1>Free MySQL DB Designer Online — Visual Schema Builder</h1>
+        <h1>MySQL Designer Online — Free Visual MySQL DB Designer</h1>
 
         <p class="intro">
-            A MySQL DB designer lets you plan and visualise your database structure before writing any SQL. Instead of
+            A MySQL designer lets you plan and visualise your database structure before writing any SQL. Instead of
             editing <code>CREATE TABLE</code> statements by hand, you work on a visual canvas — adding tables, defining
             columns with the right types, and drawing foreign key relationships. This guide explains what a MySQL
-            database designer does and how to use one for free in your browser.
+            DB designer does and how to use one for free in your browser.
         </p>
 
-        <h2>What Is a MySQL DB Designer?</h2>
+        <h2>What Is a MySQL Designer?</h2>
         <p>
-            A MySQL DB designer is a tool for designing MySQL database schemas visually. Rather than writing DDL
-            directly, you interact with a graphical interface where tables are represented as draggable cards, columns
-            are added through a form, and relationships are drawn as lines between tables.
+            A MySQL designer (also called a MySQL DB designer) is a tool for designing MySQL database schemas visually.
+            Rather than writing DDL directly, you interact with a graphical interface where tables are represented as
+            draggable cards, columns are added through a form, and relationships are drawn as lines between tables.
         </p>
         <p>
-            The key output of a MySQL DB designer is a valid <code>CREATE TABLE</code> SQL script — a DDL file you
+            The key output of a MySQL designer is a valid <code>CREATE TABLE</code> SQL script — a DDL file you
             can run directly against a MySQL database to create the exact schema you've designed. Good tools also
             support the full range of MySQL-specific data types and constraint options.
         </p>
@@ -178,7 +178,7 @@
             <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
                 <li><a href="/blog/how-to-design-mysql-database-schema" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">How to Design a MySQL Database Schema &rarr;</a></li>
                 <li><a href="/blog/mysql-data-types" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Data Types Explained &rarr;</a></li>
-                <li><a href="/blog/mysql-workbench-alternative" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Workbench Alternative Online &rarr;</a></li>
+                <li><a href="/blog/postgres-db-designer" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">Postgres Designer Online — Free Visual DB Designer &rarr;</a></li>
             </ul>
         </nav>
 

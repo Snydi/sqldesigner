@@ -1,25 +1,25 @@
 @extends('layouts.main')
 
-@section('title', 'Free PostgreSQL DB Designer Online — Visual ERD Tool for Postgres')
+@section('title', 'Postgres Designer Online — Free Visual PostgreSQL DB Designer')
 
 @section('head')
     <meta name="description"
-          content="Design PostgreSQL databases visually — free Postgres DB designer with drag-and-drop tables, foreign keys, and PostgreSQL SQL export. No install required.">
+          content="Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, PostgreSQL type support, foreign keys, and SQL export. No install required.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/postgres-db-designer">
-    <meta property="og:title" content="Free PostgreSQL DB Designer Online — Visual ERD Tool for Postgres">
+    <meta property="og:title" content="Postgres Designer Online — Free Visual PostgreSQL DB Designer">
     <meta property="og:description"
-          content="Design PostgreSQL databases visually in your browser — free, no installation required. Build tables, define relationships, and export PostgreSQL DDL.">
+          content="Free Postgres designer — design PostgreSQL databases visually in your browser. Drag-and-drop canvas, PostgreSQL type support, foreign keys, CREATE TABLE export. No install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/postgres-db-designer">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
-    <meta property="og:image:alt" content="SQL Designer — free PostgreSQL DB designer with visual canvas">
+    <meta property="og:image:alt" content="SQL Designer — free Postgres designer with visual drag-and-drop canvas">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free PostgreSQL DB Designer Online — Visual ERD Tool for Postgres">
-    <meta name="twitter:description" content="Design PostgreSQL databases visually — free Postgres DB designer with drag-and-drop tables, foreign keys, and SQL export.">
+    <meta name="twitter:title" content="Postgres Designer Online — Free Visual PostgreSQL DB Designer">
+    <meta name="twitter:description" content="Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, foreign keys, and SQL export. No install.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
         @verbatim
@@ -36,8 +36,8 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "Free PostgreSQL DB Designer Online — Visual ERD Tool for Postgres",
-            "description": "Design PostgreSQL databases visually — free Postgres DB designer with drag-and-drop tables, foreign keys, and PostgreSQL SQL export.",
+            "headline": "Postgres Designer Online — Free Visual PostgreSQL DB Designer",
+            "description": "Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, PostgreSQL type support, foreign keys, and SQL export.",
             "image": "https://sql-designer.com/images/screenshot.png",
             "url": "https://sql-designer.com/blog/postgres-db-designer",
             "datePublished": "2026-04-09",
@@ -76,16 +76,16 @@
     <article class="blog-post">
         <p class="breadcrumb"><a href="/blog">Blog</a> &rsaquo; Schema Design</p>
         <p class="post-meta"><time datetime="2026-04-09">April 2026</time> &mdash; 6 min read</p>
-        <h1>Free PostgreSQL DB Designer Online — Visual ERD Tool for Postgres</h1>
+        <h1>Postgres Designer Online — Free Visual PostgreSQL DB Designer</h1>
 
         <p class="intro">
-            Designing a PostgreSQL database visually is faster and less error-prone than writing DDL by hand.
-            A free Postgres DB designer lets you add tables, define columns with PostgreSQL-specific types, draw
-            foreign key relationships, and export a ready-to-run <code>CREATE TABLE</code> script — all in the
-            browser, without installing anything.
+            A free Postgres designer lets you build a PostgreSQL database schema visually — without writing DDL
+            by hand. Add tables, define columns with PostgreSQL-specific types, draw foreign key relationships,
+            and export a ready-to-run <code>CREATE TABLE</code> script, all in the browser with no installation
+            required.
         </p>
 
-        <h2>Why Use a Visual Designer for PostgreSQL?</h2>
+        <h2>Why Use a Visual Postgres Designer?</h2>
         <p>
             PostgreSQL has a richer type system than most databases — <code>SERIAL</code>, <code>UUID</code>,
             <code>JSONB</code>, <code>ARRAY</code>, custom <code>ENUM</code> types, and more. Managing all of this
@@ -168,7 +168,7 @@
             <p style="font-size:0.875rem; text-transform:uppercase; letter-spacing:0.06em; color:#767676; margin:0 0 0.8rem;">Related Articles</p>
             <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem;">
                 <li><a href="/blog/mysql-vs-postgresql" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL vs PostgreSQL — Key Differences for Schema Design &rarr;</a></li>
-                <li><a href="/blog/mysql-db-designer" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">Free MySQL DB Designer Online &rarr;</a></li>
+                <li><a href="/blog/mysql-db-designer" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">MySQL Designer Online — Free Visual DB Designer &rarr;</a></li>
                 <li><a href="/blog/er-diagram-tool-online" style="color:var(--color-primary); font-size:0.88rem; text-decoration:none;">Free ER Diagram Tool Online &rarr;</a></li>
             </ul>
         </nav>

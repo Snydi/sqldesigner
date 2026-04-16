@@ -291,9 +291,10 @@
         <h1>Best Free ERD Tools Online in 2026 — Compared</h1>
 
         <p class="intro">
-            A good ERD tool should do more than draw boxes and lines — it should understand your database. This
-            guide compares the best free online entity-relationship diagram tools available in 2026, rated on SQL
-            support, usability, collaboration, and what's genuinely free versus what's locked behind a paywall.
+            A good ERD tool — sometimes called an ERD maker or ER diagram creator — should do more than draw boxes
+            and lines. It should understand your database. This guide compares the best free online
+            entity-relationship diagram tools available in 2026, rated on SQL support, usability, collaboration,
+            and what's genuinely free versus what's locked behind a paywall.
         </p>
 
         <h2>What Makes a Good ERD Tool?</h2>

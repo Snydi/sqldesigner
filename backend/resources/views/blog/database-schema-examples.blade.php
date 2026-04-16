@@ -226,9 +226,9 @@
 
         <p class="intro">
             Starting a new database from scratch is easier when you have a concrete example to work from. Below are
-            five common real-world schemas — e-commerce, blog, SaaS user management, task tracker, and messaging — with
-            MySQL and PostgreSQL <code>CREATE TABLE</code> scripts you can copy directly or use as a starting point
-            in <a href="/demo">SQL Designer</a>.
+            five common real-world database schema examples — e-commerce, blog, SaaS user management, task tracker,
+            and messaging — with MySQL and PostgreSQL <code>CREATE TABLE</code> scripts you can copy directly, or
+            open as entity relationship diagram examples in <a href="/demo">SQL Designer</a>.
         </p>
 
         <div class="schema-section">
