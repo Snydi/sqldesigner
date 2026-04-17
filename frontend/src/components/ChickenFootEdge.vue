@@ -10,18 +10,21 @@
         </defs>
     </svg>
 
-    <BaseEdge :id="id" :style="style" :path="path[0]"
+    <BaseEdge :id="id" :style="style" :path="edgePath"
               :marker-start="data?.markerStart || 'none'" :marker-end="data?.markerEnd || 'none'" />
 </template>
 
 <script setup>
-import { BaseEdge, getSmoothStepPath } from '@vue-flow/core'
+import { BaseEdge } from '@vue-flow/core'
 import { computed } from 'vue'
+import { useEdgeRouting } from '@/composables/useEdgeRouting.js'
 
 defineOptions({ inheritAttrs: false })
 
 const props = defineProps({
     id: String,
+    source: String,
+    target: String,
     sourceX: Number,
     sourceY: Number,
     targetX: Number,
@@ -32,12 +35,7 @@ const props = defineProps({
     style: Object,
 })
 
-const path = computed(() => {
-    const extend = -5
-    return getSmoothStepPath({
-        ...props,
-        sourceX: props.sourcePosition === 'left' ? props.sourceX - extend : props.sourcePosition === 'right' ? props.sourceX + extend : props.sourceX,
-        targetX: props.targetPosition === 'left' ? props.targetX - extend : props.targetPosition === 'right' ? props.targetX + extend : props.targetX,
-    })
-})
+const { routeEdge } = useEdgeRouting()
+
+const edgePath = computed(() => routeEdge(props))
 </script>
