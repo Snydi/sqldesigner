@@ -1,6 +1,7 @@
-import { watch } from 'vue'
+import { ref, watch } from 'vue'
 
-export function useTableInteraction({ findNode, schema, whisper, isSaved, broadcastCursor }) {
+export function useTableInteraction({ findNode, schema, whisper, isSaved, broadcastCursor, snapshot }) {
+    const lastInteractedTableId = ref(null)
     // Keep last-row border-radius in sync whenever row positions change
     watch(
         () => schema.value?.filter(n => n.type === 'row').map(n => `${n.parentNode}:${n.id}:${n.position.y}`).sort().join(','),
@@ -44,6 +45,7 @@ export function useTableInteraction({ findNode, schema, whisper, isSaved, broadc
     const elevateTable = (node) => {
         const tableId = node.type === 'table' ? node.id : node.parentNode
         if (!tableId) return
+        lastInteractedTableId.value = tableId
         const maxZ = schema.value.reduce((m, el) => (el.zIndex > m ? el.zIndex : m), 0)
         const newZ = maxZ + 1
         schema.value.forEach(el => {
@@ -51,7 +53,10 @@ export function useTableInteraction({ findNode, schema, whisper, isSaved, broadc
         })
     }
 
-    const onNodeDragStart = ({ node }) => elevateTable(node)
+    const onNodeDragStart = ({ node }) => {
+        snapshot()
+        elevateTable(node)
+    }
 
     let lastNodeDragWhisper = 0
     const onNodeDrag = ({ node, event }) => {
@@ -67,5 +72,5 @@ export function useTableInteraction({ findNode, schema, whisper, isSaved, broadc
         whisper('schema-patch', { update: [{ id: node.id, position: node.position }] })
     }
 
-    return { onNodeMouseEnter, onNodeMouseLeave, elevateTable, onNodeDragStart, onNodeDrag, onNodeDragStop }
+    return { onNodeMouseEnter, onNodeMouseLeave, elevateTable, onNodeDragStart, onNodeDrag, onNodeDragStop, lastInteractedTableId }
 }

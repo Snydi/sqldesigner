@@ -1,7 +1,7 @@
 <template>
     <header class="header header--diagram">
         <div class="flex-items">
-            <button v-if="canEdit" class="btn btn-secondary" @click="$emit('add-table')" title="Add Table">
+            <button v-if="canEdit" class="btn btn-secondary" @click="$emit('add-table')" title="Add Table (Ctrl+A)">
                 <img src="../../icons/plus.svg" alt="Add Table" class="icon" style="width:26px;height:26px;">
             </button>
             <button v-if="isOwner || isDemo" class="btn btn-secondary" @click="$emit('import')" title="Import">

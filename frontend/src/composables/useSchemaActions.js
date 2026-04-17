@@ -1,7 +1,7 @@
 import { ref, nextTick } from 'vue'
 import { TableActions } from '@/services/TableActions.js'
 
-export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate }) {
+export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate, snapshot }) {
     const isPlacingTable = ref(false)
     const isConnecting = ref(false)
     const copyingTableId = ref(null)
@@ -23,6 +23,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
 
     const onPaneClick = (event) => {
         if (!isPlacingTable.value) return
+        snapshot()
         isPlacingTable.value = false
         const position = screenToFlowCoordinate({ x: event.clientX, y: event.clientY })
         let tableId
@@ -40,6 +41,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     // --- Row operations ---
 
     const addRow = (nodeProps) => {
+        snapshot()
         const rowId = TableActions.addRow(schema, nodeProps, {
             rowName: 'new_row',
             keyMod: 'None',
@@ -56,6 +58,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     }
 
     const deleteEdge = () => {
+        snapshot()
         const edgeId = selectedEdge.value.id
         TableActions.deleteEdge(schema, selectedEdge)
         showRelationshipModal.value = false
@@ -64,6 +67,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     }
 
     const deleteNode = (nodeId) => {
+        snapshot()
         const nodeToDelete = schema.value.find(el => el.id === nodeId)
         const childIds = nodeToDelete?.type === 'table'
             ? schema.value.filter(el => el.parentNode === nodeId).map(el => el.id)
@@ -86,6 +90,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     }
 
     const onConnect = (params) => {
+        snapshot()
         params.updatable = true
         const parentNode = findNode(findNode(params.target)?.parentNode)
         const tableColor = parentNode?.data?.color
@@ -105,6 +110,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     }
 
     const onEdgeUpdate = ({ edge, connection }) => {
+        snapshot()
         const oldEdgeId = edge.id
         updateEdge(edge, connection)
         isSaved.value = false
@@ -118,6 +124,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     }
 
     const updateConnectionLineType = (relationshipType) => {
+        snapshot()
         if (relationshipType === 'many-to-many') {
             const result = TableActions.createPivotTable(schema, selectedEdge.value)
             showRelationshipModal.value = false
@@ -141,6 +148,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     }
 
     const onRowChange = (id) => {
+        snapshot()
         isSaved.value = false
         const node = schema.value.find(el => el.id === id)
         if (node) whisper('schema-patch', {
@@ -149,6 +157,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     }
 
     const updateLabel = (id, newLabel) => {
+        snapshot()
         const element = schema.value.find(el => el.id === id)
         if (element) {
             element.label = newLabel.replace(' ', '_')
@@ -158,6 +167,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     }
 
     const updateEdgeColor = (color) => {
+        snapshot(`edge-color-${selectedEdge.value?.id}`)
         const edge = schema.value.find(el => el.id === selectedEdge.value?.id)
         if (!edge) return
         edge.style = { ...edge.style, stroke: color }
@@ -167,6 +177,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     }
 
     const updateTableColor = (tableId, color) => {
+        snapshot(`table-color-${tableId}`)
         const tableNode = schema.value.find(el => el.id === tableId)
         if (!tableNode) return
         tableNode.style = { ...tableNode.style, background: color, borderColor: color }
@@ -208,6 +219,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     // --- Table constraints ---
 
     const onTableConstraintsChange = (tableId, newConstraints) => {
+        snapshot()
         const tableNode = schema.value?.find(el => el.id === tableId)
         if (!tableNode) return
         tableNode.data.uniqueTogether = newConstraints

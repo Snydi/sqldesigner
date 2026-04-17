@@ -1,9 +1,10 @@
 const MIN_TABLE_WIDTH = 350
 
-export function useTableResize({ schema, viewport, whisper, isSaved }) {
+export function useTableResize({ schema, viewport, whisper, isSaved, snapshot }) {
     const startTableResize = (tableId, event, side) => {
         const tableNode = schema.value.find(el => el.id === tableId)
         if (!tableNode) return
+        snapshot()
 
         const startX = event.clientX
         const startWidth = parseInt(tableNode.style.width) || MIN_TABLE_WIDTH
