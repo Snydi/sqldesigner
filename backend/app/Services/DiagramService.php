@@ -281,47 +281,21 @@ class DiagramService
         $isPg = $dbType === 'postgresql';
         $q    = $isPg ? '"' : '`';
 
-        $tables = collect();
-        $rows = collect();
-        $connections = collect();
-
-        foreach (json_decode($schema, true) as $item) {
-            match ($item['type'] ?? null) {
-                'table' => $tables->push(['id' => $item['id'], 'name' => $item['label'], 'unique_together' => $item['data']['uniqueTogether'] ?? []]),
-                'row'   => $rows->push([
-                    'id'           => $item['id'],
-                    'name'         => $item['label'],
-                    'table_id'     => $item['parentNode'],
-                    'key_mod'      => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
-                    'sql_type'     => $item['data']['sqlType'] ?? 'VARCHAR(255)',
-                    'nullable'     => ($item['data']['nullable'] ?? false) ? 'NULL' : 'NOT NULL',
-                    'unsigned'     => ($item['data']['unsigned'] ?? false) ? 'UNSIGNED' : null,
-                    'default_value' => $item['data']['defaultValue'] ?? null,
-                    'comment'      => $item['data']['comment'] ?? null,
-                ]),
-                default => isset($item['sourceNode']['id'], $item['targetNode']['id'])
-                    ? $connections->push([
-                        'source_id' => $item['sourceNode']['id'],
-                        'target_id' => $item['targetNode']['id'],
-                    ])
-                    : null,
-            };
-        }
-
+        [$tables, $rows, $connections] = $this->parseSchemaItems($schema);
         $tablesById = $tables->keyBy('id');
         $rowsById   = $rows->keyBy('id');
         $script     = '';
 
         foreach ($tables as $table) {
-            $tableRows = $rows->where('table_id', $table['id']);
+            $tableRows        = $rows->where('table_id', $table['id']);
             $tableColumnNames = $tableRows->pluck('name')->all();
 
             $allDefs = $tableRows->map(function ($row) use ($isPg, $q) {
                 $typeWord = strtoupper(preg_replace('/[\s(].*/', '', $row['sql_type']));
                 if (in_array($typeWord, ['INDEX', 'KEY', 'CONSTRAINT', 'FOREIGN', 'CHECK', 'PRIMARY', 'UNIQUE'])) return null;
                 $parts = ["  {$q}{$row['name']}{$q} {$row['sql_type']}"];
-                if (!$isPg && $row['unsigned']) $parts[] = $row['unsigned'];
-                $parts[] = $row['nullable'];
+                if (!$isPg && $row['unsigned']) $parts[] = 'UNSIGNED';
+                $parts[] = $row['nullable'] ? 'NULL' : 'NOT NULL';
                 if ($row['key_mod'] && $row['key_mod'] !== 'FOREIGN KEY') $parts[] = $row['key_mod'];
                 if ($row['default_value'] !== null && $row['default_value'] !== '') $parts[] = "DEFAULT '{$row['default_value']}'";
                 if (!$isPg && $row['comment'] !== null && $row['comment'] !== '') $parts[] = "COMMENT '{$row['comment']}'";
@@ -331,9 +305,9 @@ class DiagramService
             foreach ($table['unique_together'] as $constraintCols) {
                 $validCols = array_values(array_filter($constraintCols, fn($c) => in_array($c, $tableColumnNames)));
                 if (count($validCols) >= 2) {
-                    $quotedCols = implode(', ', array_map(fn($c) => "{$q}{$c}{$q}", $validCols));
+                    $quotedCols     = implode(', ', array_map(fn($c) => "{$q}{$c}{$q}", $validCols));
                     $constraintName = 'uq_' . $table['name'] . '_' . implode('_', $validCols);
-                    $allDefs[] = $isPg
+                    $allDefs[]      = $isPg
                         ? "  CONSTRAINT {$q}{$constraintName}{$q} UNIQUE ({$quotedCols})"
                         : "  UNIQUE KEY {$q}{$constraintName}{$q} ({$quotedCols})";
                 }
@@ -347,12 +321,9 @@ class DiagramService
         foreach ($connections as $connection) {
             $sourceRow = $rowsById->get($connection['source_id']);
             $targetRow = $rowsById->get($connection['target_id']);
-
             if (!$sourceRow || !$targetRow) continue;
-
             $tableName       = $tablesById->get($sourceRow['table_id'])['name'];
             $targetTableName = $tablesById->get($targetRow['table_id'])['name'];
-
             $script .= "ALTER TABLE {$q}$targetTableName{$q}\nADD FOREIGN KEY ({$q}{$targetRow['name']}{$q}) REFERENCES {$q}$tableName{$q}({$q}{$sourceRow['name']}{$q});\n\n";
         }
 
@@ -361,67 +332,27 @@ class DiagramService
 
     public function createJson(string $schema): string
     {
-        $tables = collect();
-        $rows = collect();
-        $connections = collect();
-
-        foreach (json_decode($schema, true) as $item) {
-            match ($item['type'] ?? null) {
-                'table' => $tables->push(['id' => $item['id'], 'name' => $item['label']]),
-                'row'   => $rows->push([
-                    'id'            => $item['id'],
-                    'name'          => $item['label'],
-                    'table_id'      => $item['parentNode'],
-                    'key'           => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
-                    'type'          => $item['data']['sqlType'] ?? 'VARCHAR(255)',
-                    'nullable'      => $item['data']['nullable'] ?? false,
-                    'unsigned'      => $item['data']['unsigned'] ?? false,
-                    'default_value' => $item['data']['defaultValue'] ?? null,
-                    'comment'       => $item['data']['comment'] ?? null,
-                ]),
-                default => isset($item['sourceNode']['id'], $item['targetNode']['id'])
-                    ? $connections->push([
-                        'source_id' => $item['sourceNode']['id'],
-                        'target_id' => $item['targetNode']['id'],
-                    ])
-                    : null,
-            };
-        }
-
+        [$tables, $rows, $connections] = $this->parseSchemaItems($schema);
         $tablesById = $tables->keyBy('id');
         $rowsById   = $rows->keyBy('id');
-
-        $result = [
-            'tables'      => [],
-            'foreignKeys' => [],
-        ];
+        $result     = ['tables' => [], 'foreignKeys' => []];
 
         foreach ($tables as $table) {
             $columns = $rows->where('table_id', $table['id'])->map(function ($row) {
-                $col = [
-                    'name'     => $row['name'],
-                    'type'     => $row['type'],
-                    'nullable' => $row['nullable'],
-                ];
+                $col = ['name' => $row['name'], 'type' => $row['sql_type'], 'nullable' => $row['nullable']];
                 if ($row['unsigned'])      $col['unsigned']      = true;
-                if ($row['key'])           $col['key']           = $row['key'];
+                if ($row['key_mod'])       $col['key']           = $row['key_mod'];
                 if ($row['default_value']) $col['default_value'] = $row['default_value'];
                 if ($row['comment'])       $col['comment']       = $row['comment'];
                 return $col;
             })->values()->all();
-
-            $result['tables'][] = [
-                'name'    => $table['name'],
-                'columns' => $columns,
-            ];
+            $result['tables'][] = ['name' => $table['name'], 'columns' => $columns];
         }
 
         foreach ($connections as $connection) {
             $sourceRow = $rowsById->get($connection['source_id']);
             $targetRow = $rowsById->get($connection['target_id']);
-
             if (!$sourceRow || !$targetRow) continue;
-
             $result['foreignKeys'][] = [
                 'table'            => $tablesById->get($sourceRow['table_id'])['name'],
                 'column'           => $sourceRow['name'],
@@ -471,30 +402,7 @@ class DiagramService
 
     public function createMigration(string $schema): array
     {
-        $tables      = collect();
-        $rows        = collect();
-        $connections = collect();
-
-        foreach (json_decode($schema, true) as $item) {
-            match ($item['type'] ?? null) {
-                'table' => $tables->push(['id' => $item['id'], 'name' => $item['label']]),
-                'row'   => $rows->push([
-                    'id'            => $item['id'],
-                    'name'          => $item['label'],
-                    'table_id'      => $item['parentNode'],
-                    'key'           => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
-                    'type'          => $item['data']['sqlType'] ?? 'VARCHAR(255)',
-                    'nullable'      => $item['data']['nullable'] ?? false,
-                    'unsigned'      => $item['data']['unsigned'] ?? false,
-                    'default_value' => $item['data']['defaultValue'] ?? null,
-                    'comment'       => $item['data']['comment'] ?? null,
-                ]),
-                default => isset($item['sourceNode']['id'], $item['targetNode']['id'])
-                    ? $connections->push(['source_id' => $item['sourceNode']['id'], 'target_id' => $item['targetNode']['id']])
-                    : null,
-            };
-        }
-
+        [$tables, $rows, $connections] = $this->parseSchemaItems($schema);
         $rowsById   = $rows->keyBy('id');
         $tablesById = $tables->keyBy('id');
         $files      = [];
@@ -526,6 +434,39 @@ class DiagramService
     }
 
     // --- Private helpers ---
+
+    private function parseSchemaItems(string $schema): array
+    {
+        $tables      = collect();
+        $rows        = collect();
+        $connections = collect();
+
+        foreach (json_decode($schema, true) as $item) {
+            match ($item['type'] ?? null) {
+                'table' => $tables->push([
+                    'id'             => $item['id'],
+                    'name'           => $item['label'],
+                    'unique_together' => $item['data']['uniqueTogether'] ?? [],
+                ]),
+                'row' => $rows->push([
+                    'id'            => $item['id'],
+                    'name'          => $item['label'],
+                    'table_id'      => $item['parentNode'],
+                    'key_mod'       => match ($item['data']['keyMod'] ?? null) { null, 'None' => null, default => $item['data']['keyMod'] },
+                    'sql_type'      => $item['data']['sqlType'] ?? 'VARCHAR(255)',
+                    'nullable'      => $item['data']['nullable'] ?? false,
+                    'unsigned'      => $item['data']['unsigned'] ?? false,
+                    'default_value' => $item['data']['defaultValue'] ?? null,
+                    'comment'       => $item['data']['comment'] ?? null,
+                ]),
+                default => isset($item['sourceNode']['id'], $item['targetNode']['id'])
+                    ? $connections->push(['source_id' => $item['sourceNode']['id'], 'target_id' => $item['targetNode']['id']])
+                    : null,
+            };
+        }
+
+        return [$tables, $rows, $connections];
+    }
 
     private function hasWriteAccess(Diagram $diagram, User $user): bool
     {
@@ -717,7 +658,7 @@ class DiagramService
     private function buildLaravelColumn(array $col): ?string
     {
         $name      = $col['name'];
-        $rawType   = trim($col['type'] ?? 'VARCHAR(255)');
+        $rawType   = trim($col['sql_type'] ?? 'VARCHAR(255)');
         $typeUpper = strtoupper($rawType);
         $firstWord = strtoupper(preg_replace('/[\s(].*/', '', $typeUpper));
 
@@ -796,7 +737,7 @@ class DiagramService
                 $mods .= "->default('" . str_replace("'", "\\'", $dv) . "')";
             }
         }
-        if ($col['key'] === 'PRIMARY KEY') $mods .= '->primary()';
+        if ($col['key_mod'] === 'PRIMARY KEY') $mods .= '->primary()';
         if ($col['comment']) $mods .= "->comment('" . str_replace("'", "\\'", $col['comment']) . "')";
 
         return "            \$table->{$method}{$mods};";
