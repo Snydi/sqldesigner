@@ -103,6 +103,33 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    public function exportMigration(Diagram $diagram): \Illuminate\Http\Response
+    {
+        $this->authorize('export', $diagram);
+
+        $files   = $this->diagramService->createMigration($diagram->schema);
+        $tmpFile = tempnam(sys_get_temp_dir(), 'migrations_');
+
+        $zip = new \ZipArchive();
+        $zip->open($tmpFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        foreach ($files as $file) {
+            $zip->addFromString("migrations/{$file['filename']}", $file['content']);
+        }
+        $zip->close();
+
+        $content  = file_get_contents($tmpFile);
+        unlink($tmpFile);
+        $filename = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $diagram->name) . '_migrations.zip';
+
+        return response($content, 200, [
+            'Content-Type'        => 'application/zip',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
     public function exportJson(Diagram $diagram): JsonResponse
     {
         $this->authorize('export', $diagram);
