@@ -141,12 +141,14 @@
                         :canEdit="canEdit"
                         :tableColumns="schema.filter(el => el.type === 'row' && el.parentNode === nodeProps.parentNodeId).sort((a, b) => a.position.y - b.position.y).map(el => el.label)"
                         :tableUniqueTogether="schema.find(el => el.id === nodeProps.parentNodeId)?.data?.uniqueTogether ?? []"
+                        :tableFulltextIndexes="schema.find(el => el.id === nodeProps.parentNodeId)?.data?.fulltextIndexes ?? []"
                         @update-label="updateLabel"
                         @toggle-options-modal="toggleOptionsModal"
                         @delete-node="deleteNode"
                         @change="onRowChange($event)"
                         @row-drag-start="startRowDrag"
                         @update-table-constraints="onTableConstraintsChange(nodeProps.parentNodeId, $event)"
+                        @update-table-fulltext="onTableFulltextChange(nodeProps.parentNodeId, $event)"
                     />
                 </template>
 
@@ -280,7 +282,7 @@ const {
     addTable, copyTable, onPaneClick,
     addRow, deleteEdge, deleteNode, onConnect, onEdgeUpdate,
     updateConnectionLineType, onRowChange, updateLabel, updateEdgeColor, updateTableColor,
-    onTableConstraintsChange, toggleOptionsModal,
+    onTableConstraintsChange, onTableFulltextChange, toggleOptionsModal,
     openRelationshipModal, closeRelationshipModal,
 } = useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate, snapshot })
 

@@ -92,6 +92,31 @@
             </div>
         </template>
         <button v-else class="uq_add_toggle_btn" @click="showAddPicker = true">+ Add constraint</button>
+
+        <!-- Fulltext Indexes section (MySQL only) -->
+        <template v-if="dbType !== 'postgresql'">
+            <div class="options_modal_divider"></div>
+            <p class="options_modal_section_label">Fulltext Indexes</p>
+            <div v-for="(ftIndex, idx) in tableFulltextIndexes" :key="idx" class="uq_constraint_row">
+                <span class="uq_constraint_cols" :title="ftIndex.join(', ')">{{ ftIndex.join(', ') }}</span>
+                <button class="uq_remove_btn" @click="removeFulltextIndex(idx)" title="Remove">×</button>
+            </div>
+            <p v-if="!tableFulltextIndexes.length" class="uq_empty">None</p>
+            <template v-if="showFtAddPicker">
+                <div class="uq_picker">
+                    <label v-for="col in allColumns" :key="col" class="constraints_col_label">
+                        <input type="checkbox" :value="col" v-model="newFtCols" @mousedown.stop @pointerdown.stop @click.stop>
+                        <span>{{ col }}</span>
+                    </label>
+                    <p v-if="!allColumns.length" class="uq_empty">No columns</p>
+                </div>
+                <div class="uq_picker_actions">
+                    <button class="uq_add_confirm_btn" @click="addFulltextIndex" :disabled="newFtCols.length < 1">Add</button>
+                    <button class="uq_cancel_btn" @click="showFtAddPicker = false; newFtCols = []">Cancel</button>
+                </div>
+            </template>
+            <button v-else class="uq_add_toggle_btn" @click="showFtAddPicker = true">+ Add fulltext</button>
+        </template>
     </div>
 
     <!-- Delete row -->
@@ -121,9 +146,10 @@ const props = defineProps({
     canEdit: { type: Boolean, default: true },
     tableColumns: { type: Array, default: () => [] },
     tableUniqueTogether: { type: Array, default: () => [] },
+    tableFulltextIndexes: { type: Array, default: () => [] },
 })
 
-const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start', 'update-table-constraints'])
+const emit = defineEmits(['update-label', 'toggle-options-modal', 'delete-node', 'change', 'row-drag-start', 'update-table-constraints', 'update-table-fulltext'])
 
 const optionsModalRef = ref(null)
 onClickOutside(optionsModalRef, () => emit('toggle-options-modal', props.id))
@@ -136,6 +162,7 @@ const showAddPicker = ref(false)
 const newUqCols = ref([])
 
 const otherColumns = computed(() => props.tableColumns.filter(c => c !== props.label))
+const allColumns = computed(() => props.tableColumns)
 
 const removeUniqueTogether = (idx) => {
     const updated = props.tableUniqueTogether.filter((_, i) => i !== idx)
@@ -150,6 +177,22 @@ const addUniqueTogether = () => {
     showAddPicker.value = false
 }
 
+// --- Fulltext Indexes ---
+
+const showFtAddPicker = ref(false)
+const newFtCols = ref([])
+
+const removeFulltextIndex = (idx) => {
+    emit('update-table-fulltext', props.tableFulltextIndexes.filter((_, i) => i !== idx))
+}
+
+const addFulltextIndex = () => {
+    if (newFtCols.value.length < 1) return
+    emit('update-table-fulltext', [...props.tableFulltextIndexes, [...newFtCols.value]])
+    newFtCols.value = []
+    showFtAddPicker.value = false
+}
+
 // --- Constraint badges ---
 
 const badges = computed(() => {
@@ -160,6 +203,9 @@ const badges = computed(() => {
     else if (km === 'INDEX') result.push({ label: 'IDX', cls: 'badge--idx' })
     if (props.tableUniqueTogether?.some(g => g.includes(props.label))) {
         result.push({ label: 'U+', cls: 'badge--uq-together' })
+    }
+    if (props.tableFulltextIndexes?.some(g => g.includes(props.label))) {
+        result.push({ label: 'FT', cls: 'badge--ft' })
     }
     return result
 })
@@ -347,6 +393,7 @@ label.options_modal_row {
 .badge--uq          { background: #3b82f6; color: #fff; }
 .badge--idx         { background: #6b7280; color: #fff; }
 .badge--uq-together { background: #10b981; color: #fff; }
+.badge--ft          { background: #f97316; color: #fff; }
 
 /* ── Unique Together (options modal section) ─────────────────── */
 .options_modal_divider {
