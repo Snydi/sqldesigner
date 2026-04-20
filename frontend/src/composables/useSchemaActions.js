@@ -227,6 +227,15 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
         whisper('schema-patch', { update: [{ id: tableId, data: { uniqueTogether: newConstraints } }] })
     }
 
+    const onTableFulltextChange = (tableId, newIndexes) => {
+        snapshot()
+        const tableNode = schema.value?.find(el => el.id === tableId)
+        if (!tableNode) return
+        tableNode.data.fulltextIndexes = newIndexes
+        isSaved.value = false
+        whisper('schema-patch', { update: [{ id: tableId, data: { fulltextIndexes: newIndexes } }] })
+    }
+
     // --- Relationship modal ---
 
     const openRelationshipModal = ({ edge }) => {
@@ -246,7 +255,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
         addTable, copyTable, onPaneClick,
         addRow, deleteEdge, deleteNode, onConnect, onEdgeUpdate,
         updateConnectionLineType, onRowChange, updateLabel, updateEdgeColor, updateTableColor,
-        onTableConstraintsChange, toggleOptionsModal,
+        onTableConstraintsChange, onTableFulltextChange, toggleOptionsModal,
         openRelationshipModal, closeRelationshipModal,
     }
 }
