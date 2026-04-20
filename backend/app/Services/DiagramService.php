@@ -693,7 +693,8 @@ class DiagramService
             $method = "text('{$name}')";
         } elseif (preg_match('/^DECIMAL/i', $typeUpper)) {
             if ($sizeStr) {
-                [$prec, $scale] = array_map('trim', explode(',', $sizeStr, 2));
+                $parts = array_map('trim', explode(',', $sizeStr, 2));
+                [$prec, $scale] = [$parts[0], $parts[1] ?? null];
                 $method = $scale ? "decimal('{$name}', {$prec}, {$scale})" : "decimal('{$name}', {$prec})";
             } else {
                 $method = "decimal('{$name}')";
