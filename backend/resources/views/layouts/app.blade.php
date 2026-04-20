@@ -16,12 +16,18 @@
         window.gtag = gtag;
         gtag('js', new Date());
         gtag('config', 'G-4L116MPX4C');
-        window.addEventListener('load', function() {
+        function loadGtag() {
+            if (window._gtagLoaded) return;
+            window._gtagLoaded = true;
             const s = document.createElement('script');
             s.async = true;
             s.src = 'https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C';
             document.head.appendChild(s);
+        }
+        ['click','scroll','keydown','touchstart'].forEach(function(e) {
+            document.addEventListener(e, loadGtag, {once: true, passive: true});
         });
+        setTimeout(loadGtag, 4000);
     </script>
 </head>
 <body>

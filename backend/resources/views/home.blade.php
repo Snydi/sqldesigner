@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Free visual MySQL designer and database designer for PostgreSQL. Design schemas online and export SQL. No install, no subscription.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
-    <link rel="preload" as="image" href="/images/screenshot.webp" imagesrcset="/images/screenshot-375.webp 375w, /images/screenshot-600.webp 600w, /images/screenshot-750.webp 750w, /images/screenshot-1000.webp 1000w, /images/screenshot-2000.webp 2000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/screenshot.webp" imagesrcset="/images/screenshot-375.webp 375w, /images/screenshot-600.webp 600w, /images/screenshot-625.webp 625w, /images/screenshot-750.webp 750w, /images/screenshot-1000.webp 1000w, /images/screenshot-2000.webp 2000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
     <script type="application/ld+json">
     @verbatim
     [
@@ -660,7 +660,7 @@
             <picture>
                 <source
                     type="image/webp"
-                    srcset="{{ asset('images/screenshot-375.webp') }} 375w, {{ asset('images/screenshot-600.webp') }} 600w, {{ asset('images/screenshot-750.webp') }} 750w, {{ asset('images/screenshot-1000.webp') }} 1000w, {{ asset('images/screenshot-2000.webp') }} 2000w, {{ asset('images/screenshot.webp') }} 2557w"
+                    srcset="{{ asset('images/screenshot-375.webp') }} 375w, {{ asset('images/screenshot-600.webp') }} 600w, {{ asset('images/screenshot-625.webp') }} 625w, {{ asset('images/screenshot-750.webp') }} 750w, {{ asset('images/screenshot-1000.webp') }} 1000w, {{ asset('images/screenshot-2000.webp') }} 2000w, {{ asset('images/screenshot.webp') }} 2557w"
                     sizes="(max-width: 660px) calc(100vw - 3rem), 1000px">
                 <img src="{{ asset('images/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2557" height="1269" loading="eager" fetchpriority="high">
             </picture>
