@@ -49,6 +49,11 @@ export const Diagram = {
             return JSON.stringify(response.data, null, 2)
         }),
 
+    exportMigration: async (id) => {
+        const response = await axios.get(`/api/diagrams/migration/export/${id}`, { responseType: 'blob' })
+        return response.data
+    },
+
     save: (id, schema) =>
         request(async () => {
             const response = await axios.put(`/api/diagrams/${id}`, { id, schema: JSON.stringify(schema) })

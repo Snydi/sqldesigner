@@ -172,13 +172,12 @@
             @close="showImportModal = false"
         />
 
-        <SqlModal
+        <ExportModal
             v-if="showExportModal"
-            v-model="exportContent"
-            primaryLabel="Export"
+            :sqlContent="exportContent"
             :filename="diagramName"
             :jsonContent="exportJsonContent"
-            @primary-action="exportSql"
+            :diagramId="diagramId"
             @close="showExportModal = false"
         />
 
@@ -212,6 +211,7 @@ import TableNode from './TableNode.vue'
 import RowNode from '../RowNode.vue'
 import RelationshipModal from '../Modal/RelationshipModal.vue'
 import SqlModal from '../Modal/SqlModal.vue'
+import ExportModal from '../Modal/ExportModal.vue'
 import RemoteCursor from '../RemoteCursor.vue'
 import FeedbackModal from '../Modal/FeedbackModal.vue'
 import { useElementSize } from '@vueuse/core'
