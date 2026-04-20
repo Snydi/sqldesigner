@@ -2,6 +2,21 @@ import { getSmoothStepPath, useVueFlow } from '@vue-flow/core'
 
 const GAP = 20
 const SAFE_ZONE = 10  // obstacles within this distance of an endpoint table are ignored
+const EDGE_SPACING = 6  // px between parallel edges sharing the same handle
+
+function computeHandleOffset(edges, edgeId, side, nodeId) {
+    const edge = edges.find(e => e.id === edgeId)
+    if (!edge) return 0
+    const handleId = side === 'source' ? edge.sourceHandle : edge.targetHandle
+    const siblings = edges
+        .filter(e => e[side] === nodeId && e[`${side}Handle`] === handleId)
+        .map(e => e.id)
+        .sort()
+    const count = siblings.length
+    if (count <= 1) return 0
+    const idx = siblings.indexOf(edgeId)
+    return (idx - (count - 1) / 2) * EDGE_SPACING
+}
 
 function nodeBounds(node, padding = GAP) {
     const pos = node.positionAbsolute ?? node.position
@@ -59,9 +74,12 @@ function polylinePath(pts, r = 6) {
 }
 
 export function useEdgeRouting() {
-    const { getNodes } = useVueFlow()
+    const { getNodes, getEdges } = useVueFlow()
 
     function routeEdge(props) {
+        const srcOffset = computeHandleOffset(getEdges.value, props.id, 'source', props.source)
+        const tgtOffset = computeHandleOffset(getEdges.value, props.id, 'target', props.target)
+
         const extend = -5
         const sx = props.sourcePosition === 'left' ? props.sourceX - extend
                   : props.sourcePosition === 'right' ? props.sourceX + extend
@@ -69,12 +87,12 @@ export function useEdgeRouting() {
         const tx = props.targetPosition === 'left' ? props.targetX - extend
                   : props.targetPosition === 'right' ? props.targetX + extend
                   : props.targetX
-        const sy = props.sourceY
-        const ty = props.targetY
+        const sy = props.sourceY + srcOffset
+        const ty = props.targetY + tgtOffset
 
         const isHorizontal = props.sourcePosition === 'left' || props.sourcePosition === 'right'
         if (!isHorizontal) {
-            return getSmoothStepPath({ ...props, sourceX: sx, targetX: tx })[0]
+            return getSmoothStepPath({ ...props, sourceX: sx, sourceY: sy, targetX: tx, targetY: ty })[0]
         }
 
         const srcTableId = getNodes.value.find(n => n.id === props.source)?.parentNode
@@ -93,7 +111,7 @@ export function useEdgeRouting() {
         const defaultCX = (sx + tx) / 2
 
         if (!obstacles.length || !threeSegmentHits(obstacles, sx, sy, defaultCX, tx, ty)) {
-            return getSmoothStepPath({ ...props, sourceX: sx, targetX: tx })[0]
+            return getSmoothStepPath({ ...props, sourceX: sx, sourceY: sy, targetX: tx, targetY: ty })[0]
         }
 
         // Try routing the vertical bend just left or right of each obstacle
@@ -104,7 +122,7 @@ export function useEdgeRouting() {
 
         for (const cx of candidates) {
             if (!threeSegmentHits(obstacles, sx, sy, cx, tx, ty)) {
-                return getSmoothStepPath({ ...props, sourceX: sx, targetX: tx, centerX: cx })[0]
+                return getSmoothStepPath({ ...props, sourceX: sx, sourceY: sy, targetX: tx, targetY: ty, centerX: cx })[0]
             }
         }
 
