@@ -46,5 +46,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::get('/json/export/{diagram}', [DiagramController::class, 'exportJson']);
+        Route::get('/migration/export/{diagram}', [DiagramController::class, 'exportMigration']);
     });
 });
