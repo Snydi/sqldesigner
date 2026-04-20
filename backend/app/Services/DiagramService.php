@@ -313,6 +313,17 @@ class DiagramService
                 }
             }
 
+            if (!$isPg) {
+                foreach ($table['fulltext_indexes'] as $ftCols) {
+                    $validCols = array_values(array_filter($ftCols, fn($c) => in_array($c, $tableColumnNames)));
+                    if (count($validCols) >= 1) {
+                        $quotedCols = implode(', ', array_map(fn($c) => "`{$c}`", $validCols));
+                        $indexName  = 'ft_' . $table['name'] . '_' . implode('_', $validCols);
+                        $allDefs[]  = "  FULLTEXT KEY `{$indexName}` ({$quotedCols})";
+                    }
+                }
+            }
+
             $script .= "CREATE TABLE IF NOT EXISTS {$q}{$table['name']}{$q} (\n";
             $script .= implode(",\n", $allDefs) . "\n";
             $script .= ");\n\n";
@@ -383,6 +394,9 @@ class DiagramService
                 if (!empty($parsed['uniqueTogether'])) {
                     $tables[count($tables) - 1]['data']['uniqueTogether'] = $parsed['uniqueTogether'];
                 }
+                if (!empty($parsed['fulltextIndexes'])) {
+                    $tables[count($tables) - 1]['data']['fulltextIndexes'] = $parsed['fulltextIndexes'];
+                }
                 foreach ($this->parseInlineForeignKeys($m[2]) as $fk) {
                     $pendingFks[] = array_merge($fk, ['sourceTable' => $m[1]]);
                 }
@@ -444,9 +458,10 @@ class DiagramService
         foreach (json_decode($schema, true) as $item) {
             match ($item['type'] ?? null) {
                 'table' => $tables->push([
-                    'id'             => $item['id'],
-                    'name'           => $item['label'],
-                    'unique_together' => $item['data']['uniqueTogether'] ?? [],
+                    'id'               => $item['id'],
+                    'name'             => $item['label'],
+                    'unique_together'  => $item['data']['uniqueTogether'] ?? [],
+                    'fulltext_indexes' => $item['data']['fulltextIndexes'] ?? [],
                 ]),
                 'row' => $rows->push([
                     'id'            => $item['id'],
@@ -510,7 +525,7 @@ class DiagramService
             'initialized'      => false,
             'isParent'         => true,
             'position'         => ['x' => $x, 'y' => $y],
-            'data'             => ['toolbarPosition' => 'top', 'toolbarVisible' => true, 'editing' => false, 'color' => '#3d7a5c', 'uniqueTogether' => []],
+            'data'             => ['toolbarPosition' => 'top', 'toolbarVisible' => true, 'editing' => false, 'color' => '#3d7a5c', 'uniqueTogether' => [], 'fulltextIndexes' => []],
             'events'           => (object)[],
             'label'            => $name,
             'style'            => [
@@ -582,12 +597,13 @@ class DiagramService
 
     private function parseColumns(string $tableContent, string $tableId, int $tableX, int $tableY = 50): array
     {
-        $lines                 = $this->splitColumnDefinitions($tableContent);
-        $constraints           = [];
+        $lines                     = $this->splitColumnDefinitions($tableContent);
+        $constraints               = [];
         $uniqueTogetherConstraints = [];
-        $usedNames             = [];
-        $rows                  = [];
-        $index                 = 0;
+        $fulltextIndexConstraints  = [];
+        $usedNames                 = [];
+        $rows                      = [];
+        $index                     = 0;
 
         foreach ($lines as $line) {
             // Table-level PRIMARY KEY (single column)
@@ -606,10 +622,20 @@ class DiagramService
                     $uniqueTogetherConstraints[] = $cols;
                 }
             }
+            // FULLTEXT KEY / FULLTEXT INDEX
+            elseif (preg_match('/^FULLTEXT\s+(?:KEY|INDEX)\s+["`]?\w+["`]?\s*\(\s*([^)]+)\s*\)/i', $line, $m)) {
+                $cols = array_values(array_filter(array_map(
+                    fn($c) => trim(str_replace(['`', '"'], '', $c)),
+                    explode(',', $m[1])
+                )));
+                if (count($cols) >= 1) {
+                    $fulltextIndexConstraints[] = $cols;
+                }
+            }
         }
 
         foreach ($lines as $line) {
-            if (preg_match('/^(?:CONSTRAINT\s|PRIMARY\s+KEY|UNIQUE\s+(?:KEY|INDEX)|UNIQUE\s*\(|FOREIGN\s+KEY|KEY\s|INDEX\s|CHECK\s*\()/i', $line)) continue;
+            if (preg_match('/^(?:CONSTRAINT\s|PRIMARY\s+KEY|UNIQUE\s+(?:KEY|INDEX)|UNIQUE\s*\(|FOREIGN\s+KEY|KEY\s|INDEX\s|FULLTEXT\s|CHECK\s*\()/i', $line)) continue;
             if (!preg_match('/^["`]?(\w+)["`]?\s+([a-zA-Z]+)(?:\(([^)]+)\))?(?:\s+(UNSIGNED))?(?:\s+(NOT\s+NULL|NULL))?(?:\s+(PRIMARY\s+KEY|UNIQUE))?(?:\s+DEFAULT\s+\'([^\']*)\')?(?:\s+COMMENT\s+\'([^\']*)\')?/i', $line, $m)) continue;
 
             $baseName = $m[1];
@@ -635,7 +661,7 @@ class DiagramService
             $index++;
         }
 
-        return ['rows' => $rows, 'uniqueTogether' => $uniqueTogetherConstraints];
+        return ['rows' => $rows, 'uniqueTogether' => $uniqueTogetherConstraints, 'fulltextIndexes' => $fulltextIndexConstraints];
     }
 
     private function parseInlineForeignKeys(string $tableContent): array
