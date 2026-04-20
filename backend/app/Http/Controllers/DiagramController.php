@@ -7,23 +7,33 @@ use App\Http\Requests\ValidateSQLRequest;
 use App\Http\Resources\DiagramResource;
 use App\Models\Diagram;
 use App\Models\DiagramVisitor;
-use App\Services\DiagramService;
+use App\Services\DiagramCrudService;
+use App\Services\DiagramSharingService;
+use App\Services\DiagramSqlService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Throwable;
+use ZipArchive;
 
 class DiagramController extends Controller
 {
     use AuthorizesRequests;
 
-    public function __construct(private readonly DiagramService $diagramService) {}
+    public function __construct(
+        private readonly DiagramCrudService    $crudService,
+        private readonly DiagramSharingService $sharingService,
+        private readonly DiagramSqlService     $sqlService,
+    ) {
+    }
 
     public function index(Request $request): AnonymousResourceCollection
     {
-        return DiagramResource::collection($this->diagramService->getUserDiagrams($request->user()));
+        return DiagramResource::collection($this->crudService->getUserDiagrams($request->user()));
     }
 
     /**
@@ -41,7 +51,7 @@ class DiagramController extends Controller
         $data = $request->validated();
         $data['user_id'] = $request->user()->id;
 
-        return $this->diagramService->createDiagram($data)
+        return $this->crudService->createDiagram($data)
             ? response()->json(['status' => true, 'message' => 'Diagram created'])
             : response()->json(['status' => false, 'message' => 'Failed creating the diagram']);
     }
@@ -53,7 +63,7 @@ class DiagramController extends Controller
     {
         $this->authorize('update', $diagram);
 
-        return $this->diagramService->updateDiagram($diagram, $request->all())
+        return $this->crudService->updateDiagram($diagram, $request->all())
             ? response()->json(['status' => true, 'message' => 'Diagram saved'])
             : response()->json(['status' => false, 'message' => 'Failed saving the diagram']);
     }
@@ -65,14 +75,17 @@ class DiagramController extends Controller
     {
         $this->authorize('delete', $diagram);
 
-        return $this->diagramService->deleteDiagram($diagram)
+        return $this->crudService->deleteDiagram($diagram)
             ? response()->json(['status' => true, 'message' => 'Diagram deleted'])
             : response()->json(['status' => false, 'message' => 'Failed deleting the diagram']);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function validateSQL(ValidateSQLRequest $request): JsonResponse
     {
-        $result = $this->diagramService->validateSQL(
+        $result = $this->sqlService->validateSQL(
             $request->input('sql'),
             $request->input('db_type', 'mysql')
         );
@@ -87,7 +100,7 @@ class DiagramController extends Controller
     {
         $this->authorize('import', $diagram);
 
-        return response()->json($this->diagramService->importSchema($diagram, $request->input('script')));
+        return response()->json($this->sqlService->importSchema($diagram, $request->input('script')));
     }
 
     /**
@@ -97,32 +110,32 @@ class DiagramController extends Controller
     {
         $this->authorize('export', $diagram);
 
-        return response()->json($this->diagramService->exportScript($diagram));
+        return response()->json($this->sqlService->exportScript($diagram));
     }
 
     /**
      * @throws AuthorizationException
      */
-    public function exportMigration(Diagram $diagram): \Illuminate\Http\Response
+    public function exportMigration(Diagram $diagram): Response
     {
         $this->authorize('export', $diagram);
 
-        $files   = $this->diagramService->createMigration($diagram->schema);
+        $files = $this->sqlService->createMigration($diagram->schema);
         $tmpFile = tempnam(sys_get_temp_dir(), 'migrations_');
 
-        $zip = new \ZipArchive();
-        $zip->open($tmpFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip = new ZipArchive();
+        $zip->open($tmpFile, ZipArchive::CREATE | ZipArchive::OVERWRITE);
         foreach ($files as $file) {
             $zip->addFromString("migrations/{$file['filename']}", $file['content']);
         }
         $zip->close();
 
-        $content  = file_get_contents($tmpFile);
+        $content = file_get_contents($tmpFile);
         unlink($tmpFile);
         $filename = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $diagram->name) . '_migrations.zip';
 
         return response($content, 200, [
-            'Content-Type'        => 'application/zip',
+            'Content-Type' => 'application/zip',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ]);
     }
@@ -134,7 +147,7 @@ class DiagramController extends Controller
     {
         $this->authorize('export', $diagram);
 
-        return response()->json(json_decode($this->diagramService->createJson($diagram->schema)));
+        return response()->json(json_decode($this->sqlService->createJson($diagram->schema)));
     }
 
     /**
@@ -144,7 +157,7 @@ class DiagramController extends Controller
     {
         $this->authorize('update', $diagram);
 
-        return response()->json(['share_access' => $this->diagramService->ensureShared($diagram)]);
+        return response()->json(['share_access' => $this->sharingService->ensureShared($diagram)]);
     }
 
     /**
@@ -154,7 +167,7 @@ class DiagramController extends Controller
     {
         $this->authorize('update', $diagram);
 
-        $this->diagramService->unshare($diagram);
+        $this->sharingService->unshare($diagram);
 
         return response()->json(['status' => true]);
     }
@@ -171,10 +184,10 @@ class DiagramController extends Controller
             return response()->json(['message' => 'Invalid access type'], 422);
         }
 
-        $requireApproval = $request->has('require_approval') ? (bool) $request->input('require_approval') : null;
-        $library         = $request->has('library') ? (bool) $request->input('library') : null;
+        $requireApproval = $request->has('require_approval') ? (bool)$request->input('require_approval') : null;
+        $library = $request->has('library') ? (bool)$request->input('library') : null;
 
-        return response()->json($this->diagramService->updateShareSettings($diagram, $access, $requireApproval, $library));
+        return response()->json($this->sharingService->updateShareSettings($diagram, $access, $requireApproval, $library));
     }
 
     /**
@@ -184,7 +197,7 @@ class DiagramController extends Controller
     {
         $this->authorize('update', $diagram);
 
-        return response()->json($this->diagramService->getVisitors($diagram));
+        return response()->json($this->sharingService->getVisitors($diagram));
     }
 
     /**
@@ -198,7 +211,7 @@ class DiagramController extends Controller
             abort(404);
         }
 
-        $visitor = $this->diagramService->approveVisitor($diagram, $visitor);
+        $visitor = $this->sharingService->approveVisitor($diagram, $visitor);
 
         return response()->json(['status' => true, 'access' => $visitor->access]);
     }
@@ -219,7 +232,7 @@ class DiagramController extends Controller
             return response()->json(['message' => 'Invalid access value'], 422);
         }
 
-        $visitor = $this->diagramService->setVisitorAccess($diagram, $visitor, $access);
+        $visitor = $this->sharingService->setVisitorAccess($diagram, $visitor, $access);
 
         return response()->json(['status' => true, 'visitor_status' => $visitor->status, 'access' => $visitor->access]);
     }
@@ -228,7 +241,7 @@ class DiagramController extends Controller
     {
         $diagram = Diagram::where('share_token', $token)->firstOrFail();
 
-        if (!$this->diagramService->saveByToken($diagram, $request->user(), $request->input('schema'))) {
+        if (!$this->sharingService->saveByToken($diagram, $request->user(), $request->input('schema'))) {
             abort(403);
         }
 
@@ -243,17 +256,17 @@ class DiagramController extends Controller
             abort(403, 'This diagram is not shared.');
         }
 
-        return response()->json($this->diagramService->getEmbedData($diagram));
+        return response()->json($this->crudService->getEmbedData($diagram));
     }
 
     public function showByToken(string $token, Request $request): DiagramResource|JsonResponse
     {
         $diagram = Diagram::where('share_token', $token)->firstOrFail();
-        $result  = $this->diagramService->resolveSharedAccess($diagram, $request->user());
+        $result = $this->sharingService->resolveSharedAccess($diagram, $request->user());
 
         if ($result['status'] === 'not_shared') abort(403, 'This diagram is not shared.');
-        if ($result['status'] === 'revoked')    return response()->json(['message' => 'Access revoked.'], 403);
-        if ($result['status'] === 'pending')    return response()->json(['pending_approval' => true], 403);
+        if ($result['status'] === 'revoked') return response()->json(['message' => 'Access revoked.'], 403);
+        if ($result['status'] === 'pending') return response()->json(['pending_approval' => true], 403);
 
         return new DiagramResource($result['diagram']);
     }
