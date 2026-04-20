@@ -3,214 +3,25 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Diagram;
-use App\Models\DiagramVisitor;
-use App\Models\User;
-use App\Services\DiagramService;
+use App\Services\DiagramSqlService;
 use Exception;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
-class DiagramServiceTest extends TestCase
+class DiagramSqlServiceTest extends TestCase
 {
     use DatabaseTransactions;
 
-    private DiagramService $service;
+    private DiagramSqlService $service;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->service = app(DiagramService::class);
+        $this->service = app(DiagramSqlService::class);
     }
 
-    // --- CRUD ---
-
-    public function testGetUserDiagrams(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['user_id' => $user->id]);
-        $this->assertEquals($diagram->id, $this->service->getUserDiagrams($user)[0]->id);
-    }
-
-    public function testCreateDiagram(): void
-    {
-        $data = ['name' => 'test', 'user_id' => User::factory()->create()->id];
-        $this->assertDatabaseHas(Diagram::class, $this->service->createDiagram($data)->toArray());
-    }
-
-    public function testUpdateDiagram(): void
-    {
-        $this->assertTrue($this->service->updateDiagram(Diagram::factory()->create(), ['name' => 'Updated']));
-    }
-
-    public function testDeleteDiagram(): void
-    {
-        $diagram = Diagram::factory()->create();
-        $this->assertTrue($this->service->deleteDiagram($diagram));
-        $this->assertDatabaseMissing(Diagram::class, ['id' => $diagram->id]);
-    }
-
-    // --- Sharing ---
-
-    public function testEnsureSharedSetsReadWhenNull(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => null]);
-        $this->assertEquals('read', $this->service->ensureShared($diagram));
-        $this->assertDatabaseHas('diagrams', ['id' => $diagram->id, 'share_access' => 'read']);
-    }
-
-    public function testEnsureSharedReturnsExistingAccess(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => 'write']);
-        $this->assertEquals('write', $this->service->ensureShared($diagram));
-    }
-
-    public function testUnshare(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => 'write', 'library' => true]);
-        $this->service->unshare($diagram);
-        $this->assertNull($diagram->share_access);
-        $this->assertFalse((bool) $diagram->library);
-    }
-
-    public function testUpdateShareSettings(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => 'read', 'require_approval' => false, 'library' => false]);
-        $result = $this->service->updateShareSettings($diagram, 'per_user', true, true);
-        $this->assertEquals(['share_access' => 'per_user', 'require_approval' => true, 'library' => true], $result);
-    }
-
-    public function testUpdateShareSettingsLibraryForcesPerUser(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => 'read', 'library' => false]);
-        $result = $this->service->updateShareSettings($diagram, null, null, true);
-        $this->assertEquals('per_user', $result['share_access']);
-    }
-
-    public function testUpdateShareSettingsLibrarySkipsPerUserWhenAlready(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => 'per_user', 'library' => false]);
-        $result = $this->service->updateShareSettings($diagram, null, null, true);
-        $this->assertEquals('per_user', $result['share_access']);
-    }
-
-    public function testUpdateShareSettingsNullInputsSkip(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => 'write', 'require_approval' => false, 'library' => false]);
-        $result = $this->service->updateShareSettings($diagram, null, null, null);
-        $this->assertEquals('write', $result['share_access']);
-    }
-
-    // --- Visitors ---
-
-    public function testGetVisitors(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create();
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'approved', 'access' => 'read']);
-        $visitors = $this->service->getVisitors($diagram);
-        $this->assertCount(1, $visitors);
-        $this->assertEquals($user->id, $visitors[0]['user_id']);
-        $this->assertEquals('approved', $visitors[0]['status']);
-    }
-
-    public function testApproveVisitor(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => 'read']);
-        $visitor = DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'status' => 'pending']);
-        $this->assertEquals('approved', $this->service->approveVisitor($diagram, $visitor)->status);
-    }
-
-    public function testApproveVisitorPerUserSetsAccessRead(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => 'per_user']);
-        $visitor = DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'status' => 'pending', 'access' => null]);
-        $result = $this->service->approveVisitor($diagram, $visitor);
-        $this->assertEquals('approved', $result->status);
-        $this->assertEquals('read', $result->access);
-    }
-
-    public function testSetVisitorAccessGrant(): void
-    {
-        $diagram = Diagram::factory()->create();
-        $visitor = DiagramVisitor::factory()->create(['diagram_id' => $diagram->id]);
-        $result = $this->service->setVisitorAccess($diagram, $visitor, 'write');
-        $this->assertEquals('approved', $result->status);
-        $this->assertEquals('write', $result->access);
-    }
-
-    public function testSetVisitorAccessRevoke(): void
-    {
-        $diagram = Diagram::factory()->create();
-        $visitor = DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'status' => 'approved', 'access' => 'read']);
-        $result = $this->service->setVisitorAccess($diagram, $visitor, 'revoke');
-        $this->assertEquals('revoked', $result->status);
-        $this->assertNull($result->access);
-    }
-
-    // --- saveByToken / hasWriteAccess ---
-
-    public function testSaveByTokenPerUserWriteAccess(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'per_user']);
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'approved', 'access' => 'write']);
-        $this->assertTrue($this->service->saveByToken($diagram, $user, '[]'));
-    }
-
-    public function testSaveByTokenPerUserReadOnlyReturnsFalse(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'per_user']);
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'approved', 'access' => 'read']);
-        $this->assertFalse($this->service->saveByToken($diagram, $user, '[]'));
-    }
-
-    public function testSaveByTokenWriteNoApprovalRequired(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'write', 'require_approval' => false]);
-        $this->assertTrue($this->service->saveByToken($diagram, $user, '[]'));
-    }
-
-    public function testSaveByTokenWriteRevokedVisitorReturnsFalse(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'write', 'require_approval' => false]);
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'revoked']);
-        $this->assertFalse($this->service->saveByToken($diagram, $user, '[]'));
-    }
-
-    public function testSaveByTokenWriteApprovalRequiredApproved(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'write', 'require_approval' => true]);
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'approved']);
-        $this->assertTrue($this->service->saveByToken($diagram, $user, '[]'));
-    }
-
-    public function testSaveByTokenWriteApprovalRequiredPendingReturnsFalse(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'write', 'require_approval' => true]);
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'pending']);
-        $this->assertFalse($this->service->saveByToken($diagram, $user, '[]'));
-    }
-
-    public function testSaveByTokenReadAccessReturnsFalse(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'read']);
-        $this->assertFalse($this->service->saveByToken($diagram, $user, '[]'));
-    }
-
-    // --- Embed / Import / Export ---
-
-    public function testGetEmbedData(): void
-    {
-        $diagram = Diagram::factory()->create(['name' => 'My Diagram', 'db_type' => 'mysql', 'schema' => '[]']);
-        $this->assertEquals(['name' => 'My Diagram', 'db_type' => 'mysql', 'schema' => '[]'], $this->service->getEmbedData($diagram));
-    }
+    // --- importSchema / exportScript ---
 
     public function testImportSchema(): void
     {
@@ -231,72 +42,6 @@ class DiagramServiceTest extends TestCase
         $result = $this->service->exportScript($diagram);
         $this->assertJson($result);
         $this->assertStringContainsString('users', json_decode($result));
-    }
-
-    // --- resolveSharedAccess ---
-
-    public function testResolveSharedAccessOwner(): void
-    {
-        $diagram = Diagram::factory()->create();
-        $owner = User::find($diagram->user_id);
-        $result = $this->service->resolveSharedAccess($diagram, $owner);
-        $this->assertEquals('ok', $result['status']);
-    }
-
-    public function testResolveSharedAccessNotShared(): void
-    {
-        $diagram = Diagram::factory()->create(['share_access' => null]);
-        $this->assertEquals(['status' => 'not_shared'], $this->service->resolveSharedAccess($diagram, User::factory()->create()));
-    }
-
-    public function testResolveSharedAccessRevoked(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'read', 'require_approval' => false]);
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'revoked']);
-        $this->assertEquals(['status' => 'revoked'], $this->service->resolveSharedAccess($diagram, $user));
-    }
-
-    public function testResolveSharedAccessPerUserApproved(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'per_user', 'require_approval' => false]);
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'approved', 'access' => 'write']);
-        $result = $this->service->resolveSharedAccess($diagram, $user);
-        $this->assertEquals('ok', $result['status']);
-        $this->assertEquals('write', $result['diagram']->share_access);
-    }
-
-    public function testResolveSharedAccessPerUserPending(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'per_user', 'require_approval' => false]);
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'pending']);
-        $this->assertEquals(['status' => 'pending'], $this->service->resolveSharedAccess($diagram, $user));
-    }
-
-    public function testResolveSharedAccessRequireApprovalCreatesVisitorAndReturnsPending(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'read', 'require_approval' => true]);
-        $result = $this->service->resolveSharedAccess($diagram, $user);
-        $this->assertEquals(['status' => 'pending'], $result);
-        $this->assertDatabaseHas('diagram_visitors', ['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'pending']);
-    }
-
-    public function testResolveSharedAccessRequireApprovalApproved(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'read', 'require_approval' => true]);
-        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id, 'status' => 'approved']);
-        $this->assertEquals('ok', $this->service->resolveSharedAccess($diagram, $user)['status']);
-    }
-
-    public function testResolveSharedAccessNoApprovalRequired(): void
-    {
-        $user = User::factory()->create();
-        $diagram = Diagram::factory()->create(['share_access' => 'read', 'require_approval' => false]);
-        $this->assertEquals('ok', $this->service->resolveSharedAccess($diagram, $user)['status']);
     }
 
     // --- validateSQL ---

@@ -2,199 +2,13 @@
 
 namespace App\Services;
 
-use App\Enums\DiagramAccess;
-use App\Events\VisitorAccessChanged;
-use App\Events\VisitorRequested;
 use App\Models\Diagram;
-use App\Models\DiagramVisitor;
-use App\Models\User;
-use App\Repositories\DiagramRepositoryInterface;
 use Exception;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class DiagramService
+class DiagramSqlService
 {
-    protected DiagramRepositoryInterface $diagramRepository;
-
-    public function __construct(DiagramRepositoryInterface $diagramRepository)
-    {
-        $this->diagramRepository = $diagramRepository;
-    }
-
-    public function getUserDiagrams(User $user): Collection
-    {
-        return $this->diagramRepository->all($user);
-    }
-
-    public function createDiagram(array $data): Diagram
-    {
-        return $this->diagramRepository->create($data);
-    }
-
-    public function updateDiagram(Diagram $diagram, array $data): bool
-    {
-        return $this->diagramRepository->update($diagram, $data);
-    }
-
-    public function deleteDiagram(Diagram $diagram): bool
-    {
-        return $this->diagramRepository->delete($diagram);
-    }
-
-    public function ensureShared(Diagram $diagram): string
-    {
-        if (!$diagram->share_access) {
-            $diagram->share_access = 'read';
-            $diagram->save();
-        }
-
-        return $diagram->share_access;
-    }
-
-    public function unshare(Diagram $diagram): void
-    {
-        $diagram->share_access = null;
-        $diagram->library = false;
-        $diagram->save();
-    }
-
-    public function updateShareSettings(Diagram $diagram, ?string $access, ?bool $requireApproval, ?bool $library): array
-    {
-        if ($access !== null) {
-            $diagram->share_access = $access;
-        }
-
-        if ($requireApproval !== null) {
-            $diagram->require_approval = $requireApproval;
-        }
-
-        if ($library !== null) {
-            $diagram->library = $library;
-            if ($library && $diagram->share_access !== 'per_user') {
-                $diagram->share_access = 'per_user';
-            }
-        }
-
-        $diagram->save();
-
-        return [
-            'share_access'     => $diagram->share_access,
-            'require_approval' => (bool) $diagram->require_approval,
-            'library'          => (bool) $diagram->library,
-        ];
-    }
-
-    public function getVisitors(Diagram $diagram): array
-    {
-        return $diagram->visitors()->with('user')->orderByDesc('created_at')->get()->map(fn($v) => [
-            'id'      => $v->id,
-            'user_id' => $v->user_id,
-            'name'    => $v->user->name ?: $v->user->email,
-            'email'   => $v->user->email,
-            'status'  => $v->status,
-            'access'  => $v->access,
-        ])->all();
-    }
-
-    public function approveVisitor(Diagram $diagram, DiagramVisitor $visitor): DiagramVisitor
-    {
-        $visitor->status = 'approved';
-        if ($diagram->share_access === 'per_user') {
-            $visitor->access = $visitor->access ?? 'read';
-        }
-        $visitor->save();
-
-        try {
-            $accessStr = $diagram->share_access === 'per_user' ? ($visitor->access ?? 'read') : $diagram->share_access;
-            broadcast(new VisitorAccessChanged($visitor->user_id, $diagram->share_token, DiagramAccess::from($accessStr)));
-        } catch (Exception) {}
-
-        return $visitor;
-    }
-
-    public function setVisitorAccess(Diagram $diagram, DiagramVisitor $visitor, string $access): DiagramVisitor
-    {
-        if ($access === 'revoke') {
-            $visitor->status = 'revoked';
-            $visitor->access = null;
-        } else {
-            $visitor->status = 'approved';
-            $visitor->access = $access;
-        }
-        $visitor->save();
-
-        try {
-            $broadcastAccessStr = $visitor->status === 'revoked' ? 'revoked' : ($visitor->access ?? $diagram->share_access ?? 'read');
-            broadcast(new VisitorAccessChanged($visitor->user_id, $diagram->share_token, DiagramAccess::from($broadcastAccessStr)));
-        } catch (Exception) {}
-
-        return $visitor;
-    }
-
-    public function saveByToken(Diagram $diagram, User $user, string $schema): bool
-    {
-        if (!$this->hasWriteAccess($diagram, $user)) {
-            return false;
-        }
-
-        $diagram->schema = $schema;
-        $diagram->save();
-
-        return true;
-    }
-
-    public function getEmbedData(Diagram $diagram): array
-    {
-        return [
-            'name'    => $diagram->name,
-            'db_type' => $diagram->db_type,
-            'schema'  => $diagram->schema,
-        ];
-    }
-
-    /**
-     * Resolves shared diagram access for a visitor.
-     * Returns ['status' => 'ok', 'diagram' => $diagram] on success,
-     * or ['status' => 'not_shared' | 'revoked' | 'pending'] on failure.
-     */
-    public function resolveSharedAccess(Diagram $diagram, User $user): array
-    {
-        if ($user->id === $diagram->user_id) {
-            return ['status' => 'ok', 'diagram' => $diagram];
-        }
-
-        if (!$diagram->share_access) {
-            return ['status' => 'not_shared'];
-        }
-
-        $defaultStatus = $diagram->require_approval ? 'pending' : 'approved';
-        $isPerUser     = $diagram->share_access === 'per_user';
-
-        $visitor = DiagramVisitor::firstOrCreate(
-            ['diagram_id' => $diagram->id, 'user_id' => $user->id],
-            $isPerUser ? ['status' => $defaultStatus, 'access' => 'read'] : ['status' => $defaultStatus]
-        );
-
-        if ($visitor->wasRecentlyCreated && $diagram->require_approval) {
-            try {
-                broadcast(new VisitorRequested($diagram->share_token));
-            } catch (Exception) {}
-        }
-
-        if ($visitor->status === 'revoked') return ['status' => 'revoked'];
-
-        if ($isPerUser) {
-            if ($visitor->status !== 'approved') return ['status' => 'pending'];
-            $diagram->share_access = $visitor->access ?? 'read';
-        } else {
-            if ($diagram->require_approval && $visitor->status !== 'approved') return ['status' => 'pending'];
-        }
-
-        return ['status' => 'ok', 'diagram' => $diagram];
-    }
-
     public function importSchema(Diagram $diagram, string $script): string
     {
         $diagram->schema = $this->createSchema(json_decode($script));
@@ -220,60 +34,6 @@ class DiagramService
         return $dbType === 'postgresql'
             ? $this->validatePostgreSQL($sql)
             : $this->validateMySQL($sql);
-    }
-
-    private function validateMySQL(string $sql): array
-    {
-        $connection = DB::connection('mysql_validation');
-        $createdTables = [];
-
-        try {
-            foreach ($this->parseStatements($sql) as $statement) {
-                try {
-                    $connection->statement($statement);
-                } catch (Exception $e) {
-                    return ['valid' => false, 'error' => $e->getMessage(), 'statement' => $statement];
-                }
-
-                if (preg_match('/CREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?(\w+)`?/i', $statement, $m)) {
-                    $createdTables[] = $m[1];
-                }
-            }
-
-            return ['valid' => true];
-        } finally {
-            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
-            foreach (array_reverse($createdTables) as $table) {
-                $connection->statement("DROP TABLE IF EXISTS `$table`");
-            }
-            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
-        }
-    }
-
-    /**
-     * @throws Throwable
-     */
-    private function validatePostgreSQL(string $sql): array
-    {
-        $connection = DB::connection('pgsql');
-        $connection->beginTransaction();
-
-        try {
-            foreach ($this->parseStatements($sql) as $statement) {
-                try {
-                    $connection->statement($statement);
-                } catch (Exception $e) {
-                    $connection->rollBack();
-                    return ['valid' => false, 'error' => $e->getMessage(), 'statement' => $statement];
-                }
-            }
-
-            $connection->rollBack();
-            return ['valid' => true];
-        } catch (Exception $e) {
-            $connection->rollBack();
-            return ['valid' => false, 'error' => $e->getMessage()];
-        }
     }
 
     public function createScript(string $schema, string $dbType = 'mysql'): string
@@ -483,27 +243,58 @@ class DiagramService
         return [$tables, $rows, $connections];
     }
 
-    private function hasWriteAccess(Diagram $diagram, User $user): bool
+    private function validateMySQL(string $sql): array
     {
-        if ($diagram->share_access === 'per_user') {
-            return DiagramVisitor::where('diagram_id', $diagram->id)
-                ->where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->where('access', 'write')
-                ->exists();
+        $connection = DB::connection('mysql_validation');
+        $createdTables = [];
+
+        try {
+            foreach ($this->parseStatements($sql) as $statement) {
+                try {
+                    $connection->statement($statement);
+                } catch (Exception $e) {
+                    return ['valid' => false, 'error' => $e->getMessage(), 'statement' => $statement];
+                }
+
+                if (preg_match('/CREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?(\w+)`?/i', $statement, $m)) {
+                    $createdTables[] = $m[1];
+                }
+            }
+
+            return ['valid' => true];
+        } finally {
+            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
+            foreach (array_reverse($createdTables) as $table) {
+                $connection->statement("DROP TABLE IF EXISTS `$table`");
+            }
+            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
         }
+    }
 
-        if ($diagram->share_access === 'write') {
-            $visitor = DiagramVisitor::where('diagram_id', $diagram->id)
-                ->where('user_id', $user->id)
-                ->first();
+    /**
+     * @throws Throwable
+     */
+    private function validatePostgreSQL(string $sql): array
+    {
+        $connection = DB::connection('pgsql');
+        $connection->beginTransaction();
 
-            if ($visitor?->status === 'revoked') return false;
-            if ($diagram->require_approval) return $visitor?->status === 'approved';
-            return true;
+        try {
+            foreach ($this->parseStatements($sql) as $statement) {
+                try {
+                    $connection->statement($statement);
+                } catch (Exception $e) {
+                    $connection->rollBack();
+                    return ['valid' => false, 'error' => $e->getMessage(), 'statement' => $statement];
+                }
+            }
+
+            $connection->rollBack();
+            return ['valid' => true];
+        } catch (Exception $e) {
+            $connection->rollBack();
+            return ['valid' => false, 'error' => $e->getMessage()];
         }
-
-        return false;
     }
 
     private function parseStatements(string $sql): array
@@ -574,9 +365,9 @@ class DiagramService
 
     private function splitColumnDefinitions(string $content): array
     {
-        $lines  = [];
+        $lines   = [];
         $current = '';
-        $depth  = 0;
+        $depth   = 0;
 
         foreach (str_split(preg_replace('/\s+/', ' ', trim($content))) as $char) {
             if ($char === '(') $depth++;
@@ -606,12 +397,9 @@ class DiagramService
         $index                     = 0;
 
         foreach ($lines as $line) {
-            // Table-level PRIMARY KEY (single column)
             if (preg_match('/^(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?PRIMARY\s+KEY\s*\(\s*["`]?(\w+)["`]?\s*\)/i', $line, $m)) {
                 $constraints[$m[1]] = 'PRIMARY KEY';
-            }
-            // Table-level UNIQUE constraint (single or multi-column)
-            elseif (preg_match('/^(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?UNIQUE(?:\s+KEY(?:\s+["`]?\w+["`]?)?)?\s*\(\s*([^)]+)\s*\)/i', $line, $m)) {
+            } elseif (preg_match('/^(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?UNIQUE(?:\s+KEY(?:\s+["`]?\w+["`]?)?)?\s*\(\s*([^)]+)\s*\)/i', $line, $m)) {
                 $cols = array_values(array_filter(array_map(
                     fn($c) => trim(str_replace(['`', '"'], '', $c)),
                     explode(',', $m[1])
@@ -621,9 +409,7 @@ class DiagramService
                 } elseif (count($cols) >= 2) {
                     $uniqueTogetherConstraints[] = $cols;
                 }
-            }
-            // FULLTEXT KEY / FULLTEXT INDEX
-            elseif (preg_match('/^FULLTEXT\s+(?:KEY|INDEX)\s+["`]?\w+["`]?\s*\(\s*([^)]+)\s*\)/i', $line, $m)) {
+            } elseif (preg_match('/^FULLTEXT\s+(?:KEY|INDEX)\s+["`]?\w+["`]?\s*\(\s*([^)]+)\s*\)/i', $line, $m)) {
                 $cols = array_values(array_filter(array_map(
                     fn($c) => trim(str_replace(['`', '"'], '', $c)),
                     explode(',', $m[1])
