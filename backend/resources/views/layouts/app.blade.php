@@ -10,13 +10,18 @@
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="manifest" href="/manifest.json">
     @vite(['src/css/app.css', 'src/main.js'])
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
         gtag('js', new Date());
         gtag('config', 'G-4L116MPX4C');
+        window.addEventListener('load', function() {
+            const s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-4L116MPX4C';
+            document.head.appendChild(s);
+        });
     </script>
 </head>
 <body>

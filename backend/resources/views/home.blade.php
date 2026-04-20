@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Free visual MySQL designer and database designer for PostgreSQL. Design schemas online and export SQL. No install, no subscription.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
-    <link rel="preload" as="image" href="/images/screenshot.webp" imagesrcset="/images/screenshot-600.webp 600w, /images/screenshot-750.webp 750w, /images/screenshot-1000.webp 1000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 2000px" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/screenshot.webp" imagesrcset="/images/screenshot-375.webp 375w, /images/screenshot-600.webp 600w, /images/screenshot-750.webp 750w, /images/screenshot-1000.webp 1000w, /images/screenshot-2000.webp 2000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
     <script type="application/ld+json">
     @verbatim
     [
@@ -571,8 +571,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
-            border: 2px solid #5865F2;
-            color: #5865F2;
+            border: 2px solid #9198f4;
+            color: #9198f4;
             padding: 0.6rem 1.4rem;
             border-radius: 4px;
             font-size: 0.85rem;
@@ -584,7 +584,7 @@
         }
 
         .btn-feedback-discord:hover {
-            background: #5865F2;
+            background: #9198f4;
             color: #fff;
         }
 
@@ -623,7 +623,7 @@
             text-decoration: none;
             display: block;
         }
-        .blog-card__category { font-size: 0.875rem; color: var(--text-muted); text-transform: none; margin: 0 0 0.5rem; }
+        .blog-card__category { font-size: 0.875rem; color: var(--text-subtle); text-transform: none; margin: 0 0 0.5rem; }
         .blog-card__title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-primary-text); margin: 0 0 0.5rem; }
         .blog-card__desc { font-size: 0.875rem; color: var(--text-subtle); text-transform: none; line-height: 1.7; margin: 0; }
         .blog-more { text-align: center; margin: 2rem 0 0; }
@@ -660,8 +660,8 @@
             <picture>
                 <source
                     type="image/webp"
-                    srcset="{{ asset('images/screenshot-600.webp') }} 600w, {{ asset('images/screenshot-750.webp') }} 750w, {{ asset('images/screenshot-1000.webp') }} 1000w, {{ asset('images/screenshot.webp') }} 2557w"
-                    sizes="(max-width: 660px) calc(100vw - 3rem), 2000px">
+                    srcset="{{ asset('images/screenshot-375.webp') }} 375w, {{ asset('images/screenshot-600.webp') }} 600w, {{ asset('images/screenshot-750.webp') }} 750w, {{ asset('images/screenshot-1000.webp') }} 1000w, {{ asset('images/screenshot-2000.webp') }} 2000w, {{ asset('images/screenshot.webp') }} 2557w"
+                    sizes="(max-width: 660px) calc(100vw - 3rem), 1000px">
                 <img src="{{ asset('images/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2557" height="1269" loading="eager" fetchpriority="high">
             </picture>
         </div>
