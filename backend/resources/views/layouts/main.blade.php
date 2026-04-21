@@ -63,6 +63,7 @@
         });
         setTimeout(loadGtag, 4000);
     </script>
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="6r4lGJ3Fgx0N5p0a4dI/OQ" async></script>
 </head>
 <body class="home-page">
 <header class="header">
