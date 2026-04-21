@@ -26,16 +26,6 @@ class DiagramSqlService
         return $script;
     }
 
-    /**
-     * @throws Throwable
-     */
-    public function validateSQL(string $sql, string $dbType = 'mysql'): array
-    {
-        return $dbType === 'postgresql'
-            ? $this->validatePostgreSQL($sql)
-            : $this->validateMySQL($sql);
-    }
-
     public function createScript(string $schema, string $dbType = 'mysql'): string
     {
         $isPg = $dbType === 'postgresql';
@@ -241,60 +231,6 @@ class DiagramSqlService
         }
 
         return [$tables, $rows, $connections];
-    }
-
-    private function validateMySQL(string $sql): array
-    {
-        $connection = DB::connection('mysql_validation');
-        $createdTables = [];
-
-        try {
-            foreach ($this->parseStatements($sql) as $statement) {
-                try {
-                    $connection->statement($statement);
-                } catch (Exception $e) {
-                    return ['valid' => false, 'error' => $e->getMessage(), 'statement' => $statement];
-                }
-
-                if (preg_match('/CREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?(\w+)`?/i', $statement, $m)) {
-                    $createdTables[] = $m[1];
-                }
-            }
-
-            return ['valid' => true];
-        } finally {
-            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
-            foreach (array_reverse($createdTables) as $table) {
-                $connection->statement("DROP TABLE IF EXISTS `$table`");
-            }
-            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
-        }
-    }
-
-    /**
-     * @throws Throwable
-     */
-    private function validatePostgreSQL(string $sql): array
-    {
-        $connection = DB::connection('pgsql');
-        $connection->beginTransaction();
-
-        try {
-            foreach ($this->parseStatements($sql) as $statement) {
-                try {
-                    $connection->statement($statement);
-                } catch (Exception $e) {
-                    $connection->rollBack();
-                    return ['valid' => false, 'error' => $e->getMessage(), 'statement' => $statement];
-                }
-            }
-
-            $connection->rollBack();
-            return ['valid' => true];
-        } catch (Exception $e) {
-            $connection->rollBack();
-            return ['valid' => false, 'error' => $e->getMessage()];
-        }
     }
 
     private function parseStatements(string $sql): array
