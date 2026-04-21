@@ -15,8 +15,6 @@ services:
         depends_on:
             postgres:
                 condition: service_healthy
-            # mysql_test:
-            #     condition: service_healthy
         environment:
             DB_HOST: postgres
             DB_PORT: 5432
@@ -97,26 +95,6 @@ services:
                 condition: service_completed_successfully
         networks:
             - snydiagram_network
-
-    # mysql_test:
-    #     image: mysql:8
-    #     container_name: mysql_test
-    #     restart: unless-stopped
-    #     command: --innodb-buffer-pool-size=128M --innodb-redo-log-capacity=67108864 --max-connections=50
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: root
-    #         MYSQL_DATABASE: sql_validation
-    #         MYSQL_USER: validator
-    #         MYSQL_PASSWORD: validator
-    #     mem_limit: 512m
-    #     healthcheck:
-    #         test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
-    #         interval: 5s
-    #         timeout: 5s
-    #         retries: 20
-    #         start_period: 30s
-    #     networks:
-    #         - snydiagram_network
 
     postgres:
         image: postgres:15

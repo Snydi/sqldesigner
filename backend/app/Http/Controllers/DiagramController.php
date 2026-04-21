@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DiagramRequest;
-use App\Http\Requests\ValidateSQLRequest;
 use App\Http\Resources\DiagramResource;
 use App\Models\Diagram;
 use App\Models\DiagramVisitor;
@@ -79,20 +78,6 @@ class DiagramController extends Controller
             ? response()->json(['status' => true, 'message' => 'Diagram deleted'])
             : response()->json(['status' => false, 'message' => 'Failed deleting the diagram']);
     }
-
-    /**
-     * @throws Throwable
-     */
-    public function validateSQL(ValidateSQLRequest $request): JsonResponse
-    {
-        $result = $this->sqlService->validateSQL(
-            $request->input('sql'),
-            $request->input('db_type', 'mysql')
-        );
-
-        return response()->json($result, $result['valid'] ? 200 : 422);
-    }
-
     /**
      * @throws AuthorizationException
      */
