@@ -29,10 +29,5 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
-        <env name="MYSQL_VALIDATION_HOST" value="mysql_test"/>
-        <env name="MYSQL_VALIDATION_PORT" value="3306"/>
-        <env name="MYSQL_VALIDATION_DATABASE" value="sql_validation"/>
-        <env name="MYSQL_VALIDATION_USERNAME" value="validator"/>
-        <env name="MYSQL_VALIDATION_PASSWORD" value="validator"/>
     </php>
 </phpunit>

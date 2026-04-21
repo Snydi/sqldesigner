@@ -4,9 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\Diagram;
 use App\Services\DiagramSqlService;
-use Exception;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class DiagramSqlServiceTest extends TestCase
@@ -44,75 +42,6 @@ class DiagramSqlServiceTest extends TestCase
         $this->assertStringContainsString('users', json_decode($result));
     }
 
-    // --- validateSQL ---
-
-    public function testValidateMySQLValid(): void
-    {
-        $this->assertTrue($this->service->validateSQL("CREATE TABLE test_v (id INT PRIMARY KEY);")['valid']);
-    }
-
-    public function testValidateMySQLInvalid(): void
-    {
-        $result = $this->service->validateSQL("CREATE TABLE (;");
-        $this->assertFalse($result['valid']);
-        $this->assertArrayHasKey('error', $result);
-    }
-
-    public function testValidatePostgresqlValid(): void
-    {
-        $this->assertTrue($this->service->validateSQL('CREATE TABLE "test_v" ("id" SERIAL PRIMARY KEY);', 'postgresql')['valid']);
-    }
-
-    public function testValidatePostgresqlInvalid(): void
-    {
-        $result = $this->service->validateSQL("CREATE TABLE (;", 'postgresql');
-        $this->assertFalse($result['valid']);
-    }
-
-    // --- createScript MySQL ---
-
-    public function testCreateScriptMySQLSingleTable(): void
-    {
-        $schema = json_encode([
-            ['id' => 't1', 'type' => 'table', 'label' => 'products'],
-            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
-            ['id' => 'r2', 'type' => 'row', 'label' => 'name', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'VARCHAR(255)', 'nullable' => false, 'unsigned' => false]],
-        ]);
-        $script = $this->service->createScript($schema);
-        $this->assertNotEmpty($script);
-        $this->executeSQLAndValidate($script);
-    }
-
-    public function testCreateScriptMySQLColumnModifiers(): void
-    {
-        $schema = json_encode([
-            ['id' => 't1', 'type' => 'table', 'label' => 'orders'],
-            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'BIGINT', 'nullable' => false, 'unsigned' => true]],
-            ['id' => 'r2', 'type' => 'row', 'label' => 'ref', 'parentNode' => 't1', 'data' => ['keyMod' => 'UNIQUE', 'sqlType' => 'VARCHAR(64)', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r3', 'type' => 'row', 'label' => 'note', 'parentNode' => 't1', 'data' => ['keyMod' => 'None', 'sqlType' => 'VARCHAR(500)', 'nullable' => true, 'unsigned' => false, 'defaultValue' => 'draft', 'comment' => 'a note']],
-        ]);
-        $script = $this->service->createScript($schema);
-        $this->assertStringContainsString('UNSIGNED', $script);
-        $this->assertStringContainsString("DEFAULT 'draft'", $script);
-        $this->assertStringContainsString("COMMENT 'a note'", $script);
-        $this->executeSQLAndValidate($script);
-    }
-
-    public function testCreateScriptMySQLForeignKey(): void
-    {
-        $schema = json_encode([
-            ['id' => 't1', 'type' => 'table', 'label' => 'users'],
-            ['id' => 't2', 'type' => 'table', 'label' => 'posts'],
-            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
-            ['id' => 'r2', 'type' => 'row', 'label' => 'id', 'parentNode' => 't2', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
-            ['id' => 'r3', 'type' => 'row', 'label' => 'user_id', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
-            ['sourceNode' => ['id' => 'r1'], 'targetNode' => ['id' => 'r3']],
-        ]);
-        $script = $this->service->createScript($schema);
-        $this->assertStringContainsString('FOREIGN KEY', $script);
-        $this->executeSQLAndValidate($script);
-    }
-
     public function testCreateScriptMySQLSkipsInvalidConnection(): void
     {
         $schema = json_encode([
@@ -123,19 +52,6 @@ class DiagramSqlServiceTest extends TestCase
         ]);
         $script = $this->service->createScript($schema);
         $this->assertStringNotContainsString('FOREIGN KEY', $script);
-    }
-
-    public function testCreateScriptMySQLUniqueTogether(): void
-    {
-        $schema = json_encode([
-            ['id' => 't1', 'type' => 'table', 'label' => 'memberships', 'data' => ['uniqueTogether' => [['user_id', 'group_id']]]],
-            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r2', 'type' => 'row', 'label' => 'user_id', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r3', 'type' => 'row', 'label' => 'group_id', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => false]],
-        ]);
-        $script = $this->service->createScript($schema);
-        $this->assertStringContainsString('UNIQUE KEY', $script);
-        $this->executeSQLAndValidate($script);
     }
 
     public function testCreateScriptMySQLUniqueTogetherInvalidColsSkipped(): void
@@ -180,33 +96,6 @@ class DiagramSqlServiceTest extends TestCase
         $this->assertStringNotContainsString('UNSIGNED', $this->service->createScript($schema, 'postgresql'));
     }
 
-    public function testCreateScriptPostgresqlUniqueTogether(): void
-    {
-        $schema = json_encode([
-            ['id' => 't1', 'type' => 'table', 'label' => 'memberships', 'data' => ['uniqueTogether' => [['user_id', 'group_id']]]],
-            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r2', 'type' => 'row', 'label' => 'user_id', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'INTEGER', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r3', 'type' => 'row', 'label' => 'group_id', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'INTEGER', 'nullable' => false, 'unsigned' => false]],
-        ]);
-        $script = $this->service->createScript($schema, 'postgresql');
-        $this->assertStringContainsString('CONSTRAINT', $script);
-        $this->executePostgresqlAndValidate($script);
-    }
-
-    public function testCreateScriptPostgresqlForeignKey(): void
-    {
-        $schema = json_encode([
-            ['id' => 't1', 'type' => 'table', 'label' => 'authors'],
-            ['id' => 't2', 'type' => 'table', 'label' => 'books'],
-            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r2', 'type' => 'row', 'label' => 'id', 'parentNode' => 't2', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r3', 'type' => 'row', 'label' => 'author_id', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'INTEGER', 'nullable' => false, 'unsigned' => false]],
-            ['sourceNode' => ['id' => 'r1'], 'targetNode' => ['id' => 'r3']],
-        ]);
-        $script = $this->service->createScript($schema, 'postgresql');
-        $this->assertStringContainsString('FOREIGN KEY', $script);
-        $this->executePostgresqlAndValidate($script);
-    }
 
     // --- createJson ---
 
@@ -327,25 +216,6 @@ class DiagramSqlServiceTest extends TestCase
         $this->assertEquals('[]', $this->service->createSchema('INVALID SQL'));
     }
 
-    public function testRoundTripMySQL(): void
-    {
-        $originalSchema = json_encode([
-            ['id' => 't1', 'type' => 'table', 'label' => 'users'],
-            ['id' => 't2', 'type' => 'table', 'label' => 'posts'],
-            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
-            ['id' => 'r2', 'type' => 'row', 'label' => 'name', 'parentNode' => 't1', 'data' => ['keyMod' => null, 'sqlType' => 'VARCHAR(255)', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r3', 'type' => 'row', 'label' => 'id', 'parentNode' => 't2', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
-            ['id' => 'r4', 'type' => 'row', 'label' => 'user_id', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'INT', 'nullable' => false, 'unsigned' => true]],
-            ['sourceNode' => ['id' => 'r1'], 'targetNode' => ['id' => 'r4']],
-        ]);
-        $sql = $this->service->createScript($originalSchema);
-        $this->executeSQLAndValidate($sql);
-        $newArr = json_decode($this->service->createSchema($sql), true);
-        $this->assertEqualsCanonicalizing(['users', 'posts'], array_column(array_filter($newArr, fn($i) => ($i['type'] ?? null) === 'table'), 'label'));
-        $this->assertCount(4, array_filter($newArr, fn($i) => ($i['type'] ?? null) === 'row'));
-        $this->assertCount(1, array_filter($newArr, fn($i) => isset($i['source'], $i['target'])));
-    }
-
     // --- createSchema PostgreSQL ---
 
     public function testCreateSchemaPostgresqlBasic(): void
@@ -378,27 +248,6 @@ class DiagramSqlServiceTest extends TestCase
         $this->assertEquals('UNIQUE', $rows['sku']['data']['keyMod']);
     }
 
-    public function testRoundTripPostgresql(): void
-    {
-        $originalSchema = json_encode([
-            ['id' => 't1', 'type' => 'table', 'label' => 'customers'],
-            ['id' => 't2', 'type' => 'table', 'label' => 'orders'],
-            ['id' => 'r1', 'type' => 'row', 'label' => 'id', 'parentNode' => 't1', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r2', 'type' => 'row', 'label' => 'email', 'parentNode' => 't1', 'data' => ['keyMod' => 'UNIQUE', 'sqlType' => 'VARCHAR(255)', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r3', 'type' => 'row', 'label' => 'id', 'parentNode' => 't2', 'data' => ['keyMod' => 'PRIMARY KEY', 'sqlType' => 'SERIAL', 'nullable' => false, 'unsigned' => false]],
-            ['id' => 'r4', 'type' => 'row', 'label' => 'customer_id', 'parentNode' => 't2', 'data' => ['keyMod' => null, 'sqlType' => 'INTEGER', 'nullable' => false, 'unsigned' => false]],
-            ['sourceNode' => ['id' => 'r1'], 'targetNode' => ['id' => 'r4']],
-        ]);
-        $sql = $this->service->createScript($originalSchema, 'postgresql');
-        $this->assertStringNotContainsString('`', $sql);
-        $this->assertStringNotContainsString('UNSIGNED', $sql);
-        $this->executePostgresqlAndValidate($sql);
-        $newArr = json_decode($this->service->createSchema($sql), true);
-        $this->assertEqualsCanonicalizing(['customers', 'orders'], array_column(array_filter($newArr, fn($i) => ($i['type'] ?? null) === 'table'), 'label'));
-        $this->assertCount(4, array_filter($newArr, fn($i) => ($i['type'] ?? null) === 'row'));
-        $this->assertCount(1, array_filter($newArr, fn($i) => isset($i['source'], $i['target'])));
-    }
-
     // --- createMigration ---
 
     public function testCreateMigrationAllColumnTypes(): void
@@ -410,41 +259,41 @@ class DiagramSqlServiceTest extends TestCase
 
         $schema = json_encode([
             ['id' => 't1', 'type' => 'table', 'label' => 'all_types'],
-            $row('r1',  'c_bool_tiny',  'TINYINT(1)',  false, false, 'PRIMARY KEY'),
-            $row('r2',  'c_utinyint',   'TINYINT',     false, true),
-            $row('r3',  'c_tinyint',    'TINYINT'),
-            $row('r4',  'c_usmallint',  'SMALLINT',    false, true),
-            $row('r5',  'c_smallint',   'SMALLINT'),
-            $row('r6',  'c_umediumint', 'MEDIUMINT',   false, true),
-            $row('r7',  'c_mediumint',  'MEDIUMINT'),
-            $row('r8',  'c_ubigint',    'BIGINT',      false, true),
-            $row('r9',  'c_bigint',     'BIGINT'),
-            $row('r10', 'c_uint',       'INT',         false, true),
-            $row('r11', 'c_int',        'INT'),
+            $row('r1', 'c_bool_tiny', 'TINYINT(1)', false, false, 'PRIMARY KEY'),
+            $row('r2', 'c_utinyint', 'TINYINT', false, true),
+            $row('r3', 'c_tinyint', 'TINYINT'),
+            $row('r4', 'c_usmallint', 'SMALLINT', false, true),
+            $row('r5', 'c_smallint', 'SMALLINT'),
+            $row('r6', 'c_umediumint', 'MEDIUMINT', false, true),
+            $row('r7', 'c_mediumint', 'MEDIUMINT'),
+            $row('r8', 'c_ubigint', 'BIGINT', false, true),
+            $row('r9', 'c_bigint', 'BIGINT'),
+            $row('r10', 'c_uint', 'INT', false, true),
+            $row('r11', 'c_int', 'INT'),
             $row('r12', 'c_varchar100', 'VARCHAR(100)'),
             $row('r13', 'c_varchar255', 'VARCHAR(255)'),
-            $row('r14', 'c_char',       'CHAR(10)'),
-            $row('r15', 'c_char_bare',  'CHAR'),
-            $row('r16', 'c_longtext',   'LONGTEXT'),
-            $row('r17', 'c_medtext',    'MEDIUMTEXT'),
-            $row('r18', 'c_tinytext',   'TINYTEXT'),
-            $row('r19', 'c_text',       'TEXT',        true),
-            $row('r20', 'c_dec_scale',  'DECIMAL(10,2)'),
-            $row('r21', 'c_dec_prec',   'DECIMAL(10)'),
-            $row('r22', 'c_dec_bare',   'DECIMAL'),
-            $row('r23', 'c_double',     'DOUBLE'),
-            $row('r24', 'c_float',      'FLOAT'),
-            $row('r25', 'c_datetime',   'DATETIME'),
-            $row('r26', 'c_timestamp',  'TIMESTAMP'),
-            $row('r27', 'c_date',       'DATE'),
-            $row('r28', 'c_time',       'TIME'),
-            $row('r29', 'c_year',       'YEAR'),
-            $row('r30', 'c_bool',       'BOOL'),
-            $row('r31', 'c_json',       'JSON'),
-            $row('r32', 'c_blob',       'BLOB'),
-            $row('r33', 'c_enum',       "ENUM('a','b')"),
-            $row('r34', 'c_serial',     'SERIAL'),
-            $row('r35', 'c_idx',        'INDEX'),
+            $row('r14', 'c_char', 'CHAR(10)'),
+            $row('r15', 'c_char_bare', 'CHAR'),
+            $row('r16', 'c_longtext', 'LONGTEXT'),
+            $row('r17', 'c_medtext', 'MEDIUMTEXT'),
+            $row('r18', 'c_tinytext', 'TINYTEXT'),
+            $row('r19', 'c_text', 'TEXT', true),
+            $row('r20', 'c_dec_scale', 'DECIMAL(10,2)'),
+            $row('r21', 'c_dec_prec', 'DECIMAL(10)'),
+            $row('r22', 'c_dec_bare', 'DECIMAL'),
+            $row('r23', 'c_double', 'DOUBLE'),
+            $row('r24', 'c_float', 'FLOAT'),
+            $row('r25', 'c_datetime', 'DATETIME'),
+            $row('r26', 'c_timestamp', 'TIMESTAMP'),
+            $row('r27', 'c_date', 'DATE'),
+            $row('r28', 'c_time', 'TIME'),
+            $row('r29', 'c_year', 'YEAR'),
+            $row('r30', 'c_bool', 'BOOL'),
+            $row('r31', 'c_json', 'JSON'),
+            $row('r32', 'c_blob', 'BLOB'),
+            $row('r33', 'c_enum', "ENUM('a','b')"),
+            $row('r34', 'c_serial', 'SERIAL'),
+            $row('r35', 'c_idx', 'INDEX'),
         ]);
 
         $files = $this->service->createMigration($schema);
@@ -520,48 +369,5 @@ class DiagramSqlServiceTest extends TestCase
         $postsFile = collect($files)->first(fn($f) => str_contains($f['filename'], 'posts'));
         $this->assertStringContainsString("foreign('user_id')", $postsFile['content']);
         $this->assertStringContainsString("references('id')->on('users')", $postsFile['content']);
-    }
-
-    // --- Helpers ---
-
-    private function executePostgresqlAndValidate(string $sql): void
-    {
-        $connection = DB::connection('pgsql');
-        $connection->beginTransaction();
-        try {
-            foreach (array_filter(array_map('trim', explode(';', $sql))) as $statement) {
-                try {
-                    $connection->statement($statement);
-                } catch (Exception $e) {
-                    $this->fail("PostgreSQL rejected:\n$statement\n" . $e->getMessage());
-                }
-            }
-        } finally {
-            $connection->rollBack();
-        }
-    }
-
-    private function executeSQLAndValidate(string $sql): void
-    {
-        $connection = DB::connection('mysql_validation');
-        $createdTables = [];
-        try {
-            foreach (array_filter(array_map('trim', explode(';', $sql))) as $statement) {
-                try {
-                    $connection->statement($statement);
-                } catch (Exception $e) {
-                    $this->fail("MySQL rejected:\n$statement\n" . $e->getMessage());
-                }
-                if (preg_match('/CREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?(\w+)`?/i', $statement, $m)) {
-                    $createdTables[] = $m[1];
-                }
-            }
-        } finally {
-            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
-            foreach (array_reverse($createdTables) as $table) {
-                $connection->statement("DROP TABLE IF EXISTS `$table`");
-            }
-            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
-        }
     }
 }

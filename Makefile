@@ -20,7 +20,6 @@ install:
 	docker-compose -p snydiagram build --no-cache --pull
 	docker-compose -p snydiagram up -d --force-recreate
 	$(MAKE) _wait_postgres
-	$(MAKE) _wait_mysql
 	$(MAKE) _composer_install
 	docker-compose -p snydiagram exec -T php sh -c "cd /var/www/html/backend && php artisan key:generate"
 	docker-compose -p snydiagram exec -T php sh -c "cd /var/www/html/backend && php artisan migrate:fresh --force"
@@ -52,9 +51,6 @@ test_coverage:
 _wait_postgres:
 	docker-compose -p snydiagram exec -T postgres sh -c 'until pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}; do sleep 2; echo "Waiting for PostgreSQL..."; done'
 	docker-compose -p snydiagram exec -T postgres sh -c 'psql -U $${POSTGRES_USER:-postgres} -tc "SELECT 1 FROM pg_database WHERE datname = '\''$${POSTGRES_DB:-snydiagram}'\''" | grep -q 1 || psql -U $${POSTGRES_USER:-postgres} -c "CREATE DATABASE $${POSTGRES_DB:-snydiagram}"'
-
-_wait_mysql:
-	docker-compose -p snydiagram exec -T mysql_test sh -c 'until mysqladmin ping -h localhost -u root -proot --silent; do sleep 2; echo "Waiting for MySQL..."; done'
 
 _composer_install:
 	docker-compose -p snydiagram exec -T php sh -c "\

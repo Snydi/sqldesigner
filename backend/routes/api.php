@@ -40,7 +40,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::patch('/{diagram}/visitors/{visitor}', [DiagramController::class, 'updateVisitorAccess']);
 
         Route::group(['prefix' => 'sql'], function () {
-            Route::post('/validate', [DiagramController::class, 'validateSQL']);
             Route::post('/import/{diagram}', [DiagramController::class, 'import']);
             Route::get('/export/{diagram}', [DiagramController::class, 'export']);
         });

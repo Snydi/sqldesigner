@@ -38,21 +38,6 @@ return [
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
-
-        'mysql_validation' => [
-            'driver' => 'mysql',
-            'host' => env('MYSQL_VALIDATION_HOST', '127.0.0.1'),
-            'port' => env('MYSQL_VALIDATION_PORT', '3306'),
-            'database' => env('MYSQL_VALIDATION_DATABASE', 'sql_validation'),
-            'username' => env('MYSQL_VALIDATION_USERNAME', 'validator'),
-            'password' => env('MYSQL_VALIDATION_PASSWORD', 'validator'),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-        ],
-
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
