@@ -24,3 +24,7 @@ Homestead.yaml
 Thumbs.db
 tests/coverage
 bootstrap/cache
+/.scribe
+/public/vendor
+/resources/views/scribe
+/storage/app/scribe

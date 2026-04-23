@@ -20,14 +20,13 @@
                     </button>
                     <div class="download-dropdown__menu">
                         <button @click="downloadSql('sql')">.sql</button>
-                        <button @click="downloadSql('txt')">.txt</button>
                         <button @click="downloadJson">.json</button>
                     </div>
                 </div>
                 <div v-if="primaryLabel === 'Import'" class="import-footer">
                     <label class="btn btn-secondary import-file-btn" title="Import from file">
                         <img src="../../icons/import.svg" alt="Upload" class="icon">
-                        <input type="file" accept=".sql,.txt,.json" @change="handleFileUpload" hidden>
+                        <input type="file" accept=".sql,.json" @change="handleFileUpload" hidden>
                     </label>
                     <button class="btn btn-primary" @click="$emit('primary-action')" :disabled="loading">
                         {{ loading ? 'Importing...' : primaryLabel }}
