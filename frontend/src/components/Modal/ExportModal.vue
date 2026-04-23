@@ -34,18 +34,6 @@
                     <span class="export-card__desc">SQL script file</span>
                 </button>
 
-                <button class="export-card" @click="downloadSql('txt')">
-                    <div class="export-card__icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 6h20l10 10v26a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" fill="var(--bg-surface-alt)" stroke="var(--border-color)" stroke-width="2"/>
-                            <path d="M30 6v10h10" stroke="var(--border-color)" stroke-width="2" stroke-linejoin="round"/>
-                            <text x="24" y="35" text-anchor="middle" font-size="10" font-weight="700" font-family="monospace" fill="var(--text-secondary)">.txt</text>
-                        </svg>
-                    </div>
-                    <span class="export-card__label">.txt</span>
-                    <span class="export-card__desc">Plain text file</span>
-                </button>
-
                 <button class="export-card" @click="downloadJson">
                     <div class="export-card__icon">
                         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -201,7 +189,7 @@ const downloadLaravelMigrations = async () => {
 
 .export-modal__body {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     padding: 24px;
 }
