@@ -16,9 +16,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Throwable;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Subgroup;
 use ZipArchive;
 
+#[Group("Diagrams")]
 class DiagramController extends Controller
 {
     use AuthorizesRequests;
@@ -27,9 +29,11 @@ class DiagramController extends Controller
         private readonly DiagramCrudService    $crudService,
         private readonly DiagramSharingService $sharingService,
         private readonly DiagramSqlService     $sqlService,
-    ) {
+    )
+    {
     }
 
+    #[Subgroup("CRUD")]
     public function index(Request $request): AnonymousResourceCollection
     {
         return DiagramResource::collection($this->crudService->getUserDiagrams($request->user()));
@@ -38,6 +42,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("CRUD")]
     public function show(Diagram $diagram): DiagramResource
     {
         $this->authorize('view', $diagram);
@@ -45,6 +50,7 @@ class DiagramController extends Controller
         return new DiagramResource($diagram);
     }
 
+    #[Subgroup("CRUD")]
     public function store(DiagramRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -58,6 +64,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("CRUD")]
     public function update(Diagram $diagram, DiagramRequest $request): JsonResponse
     {
         $this->authorize('update', $diagram);
@@ -70,6 +77,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("CRUD")]
     public function destroy(Diagram $diagram): JsonResponse
     {
         $this->authorize('delete', $diagram);
@@ -78,6 +86,7 @@ class DiagramController extends Controller
             ? response()->json(['status' => true, 'message' => 'Diagram deleted'])
             : response()->json(['status' => false, 'message' => 'Failed deleting the diagram']);
     }
+
     /**
      * @throws AuthorizationException
      */
