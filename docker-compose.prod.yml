@@ -67,6 +67,11 @@ services:
             context: .
             dockerfile: docker/node/Dockerfile.prod
             network: host
+            args:
+                VITE_REVERB_APP_KEY: snydiagram-key
+                VITE_REVERB_HOST: sql-designer.com
+                VITE_REVERB_PORT: 443
+                VITE_REVERB_SCHEME: https
         container_name: node
         volumes:
             - ./backend/public:/var/www/html/frontend/public
