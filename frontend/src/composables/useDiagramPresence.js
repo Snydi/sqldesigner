@@ -88,6 +88,10 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
             .listenForWhisper('diagram-saved', () => {
                 if (onDiagramSaved) onDiagramSaved()
             })
+            .listen('.schema.imported', ({ schema: incoming, imported_by }) => {
+                if (String(imported_by) === ownerIdentity.value?.id) return
+                if (incoming?.length) schema.value = incoming
+            })
             .listen('.visitor.requested', () => {
                 if (onVisitorRequested) onVisitorRequested()
             })

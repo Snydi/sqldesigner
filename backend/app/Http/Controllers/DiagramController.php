@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SchemaImported;
 use App\Http\Requests\DiagramRequest;
 use App\Http\Resources\DiagramResource;
 use App\Models\Diagram;
@@ -85,7 +86,11 @@ class DiagramController extends Controller
     {
         $this->authorize('import', $diagram);
 
-        return response()->json($this->sqlService->importSchema($diagram, $request->input('script')));
+        $schema = $this->sqlService->importSchema($diagram, $request->input('script'));
+
+        broadcast(new SchemaImported($diagram->share_token, $schema, (string) auth()->id()));
+
+        return response()->json($schema);
     }
 
     /**
