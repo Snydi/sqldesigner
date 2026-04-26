@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DiagramChangelogController;
 use App\Http\Controllers\DiagramController;
 use App\Http\Controllers\FeedbackController;
 use Illuminate\Http\Request;
@@ -46,5 +47,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/json/export/{diagram}', [DiagramController::class, 'exportJson']);
         Route::get('/migration/export/{diagram}', [DiagramController::class, 'exportMigration']);
+
+        Route::get('/{diagram}/changelog', [DiagramChangelogController::class, 'index']);
+        Route::post('/{diagram}/changelog', [DiagramChangelogController::class, 'store']);
     });
 });

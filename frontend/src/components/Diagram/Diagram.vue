@@ -33,6 +33,7 @@
             @export="isDemo ? router.push({ name: 'register' }) : openExportModal()"
             @save="saveDiagram"
             @show-share="showShareModal = true"
+            @show-changelog="showChangelogModal = true"
         />
 
         <ShareModal
@@ -189,6 +190,12 @@
             @close="showFeedbackModal = false"
         />
 
+        <ChangelogModal
+            v-if="showChangelogModal"
+            :diagramId="diagramId"
+            @close="showChangelogModal = false"
+        />
+
     </template>
 </template>
 
@@ -216,6 +223,7 @@ import SqlModal from '../Modal/SqlModal.vue'
 import ExportModal from '../Modal/ExportModal.vue'
 import RemoteCursor from '../RemoteCursor.vue'
 import FeedbackModal from '../Modal/FeedbackModal.vue'
+import ChangelogModal from '../Modal/ChangelogModal.vue'
 import { useElementSize } from '@vueuse/core'
 import { useToast } from 'vue-toast-notification'
 import { useRoute, useRouter } from 'vue-router'
@@ -245,6 +253,7 @@ const schema = ref()
 const diagramName = ref('schema')
 const diagramDbType = ref('mysql')
 const showShareModal = ref(false)
+const showChangelogModal = ref(false)
 const diagramShareAccess = ref(null)
 const diagramRequireApproval = ref(false)
 const diagramInLibrary = ref(false)
@@ -276,6 +285,11 @@ const { startTableResize } = useTableResize({ schema, viewport, whisper, isSaved
 
 const { startRowDrag } = useRowDrag({ schema, isSaved, whisper, snapshot })
 
+const logAction = (action, details = null) => {
+    if (props.isDemo || !diagramId.value) return
+    Diagram.addChangelogEntry(diagramId.value, action, details)
+}
+
 const {
     isPlacingTable, isConnecting, copyingTableId,
     selectedEdge, showRelationshipModal, modalPosition,
@@ -284,7 +298,7 @@ const {
     updateConnectionLineType, onRowChange, updateLabel, updateEdgeColor, updateTableColor,
     onTableConstraintsChange, onTableFulltextChange, toggleOptionsModal,
     openRelationshipModal, closeRelationshipModal,
-} = useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate, snapshot })
+} = useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate, snapshot, logAction })
 
 const isValidConnection = ({ source, target }) => {
     const sourceNode = findNode(source)
