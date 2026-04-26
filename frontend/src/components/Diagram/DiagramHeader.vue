@@ -19,6 +19,9 @@
                 </button>
                 <div v-if="!isDemo" :title="isSaved ? 'All changes saved' : 'Unsaved changes'"></div>
             </div>
+            <button v-if="canEdit && !isDemo" class="btn btn-secondary" @click="$emit('show-changelog')" title="Changelog">
+                <img src="../../icons/history.svg" alt="Changelog" class="icon" style="filter:brightness(0) invert(1)">
+            </button>
             <div v-if="isOwner" class="share-btn-wrapper">
                 <button class="btn btn-secondary" @click="$emit('show-share')" title="Share">
                     <img src="../../icons/share.svg" alt="Share" class="icon">
@@ -38,5 +41,5 @@ defineProps({
     diagramName: String,
     hasPendingVisitors: { type: Boolean, default: false },
 })
-defineEmits(['add-table', 'import', 'export', 'save', 'show-share'])
+defineEmits(['add-table', 'import', 'export', 'save', 'show-share', 'show-changelog'])
 </script>
