@@ -1,7 +1,7 @@
 import { ref, nextTick } from 'vue'
 import { TableActions } from '@/services/TableActions.js'
 
-export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate, snapshot }) {
+export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addEdges, updateEdge, findNode, screenToFlowCoordinate, snapshot, logAction = () => {} }) {
     const isPlacingTable = ref(false)
     const isConnecting = ref(false)
     const copyingTableId = ref(null)
@@ -27,13 +27,21 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
         isPlacingTable.value = false
         const position = screenToFlowCoordinate({ x: event.clientX, y: event.clientY })
         let tableId
-        if (copyingTableId.value) {
-            tableId = TableActions.copyTable(schema, copyingTableId.value, position)
+        const sourceTableId = copyingTableId.value
+        const sourceTable = sourceTableId ? schema.value.find(el => el.id === sourceTableId) : null
+        if (sourceTableId) {
+            tableId = TableActions.copyTable(schema, sourceTableId, position)
             copyingTableId.value = null
         } else {
             tableId = TableActions.addTable(schema, 'new_table', position)
         }
         isSaved.value = false
+        if (sourceTableId) {
+            logAction('table_copied', { table_name: sourceTable?.label })
+        } else {
+            const tableNode = schema.value.find(el => el.id === tableId)
+            logAction('table_created', { table_name: tableNode?.label })
+        }
         const nodes = schema.value.filter(el => el.id === tableId || el.parentNode === tableId)
         whisper('schema-patch', { add: nodes })
     }
@@ -42,6 +50,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
 
     const addRow = (nodeProps) => {
         snapshot()
+        const parentTable = schema.value.find(el => el.id === nodeProps.id)
         const rowId = TableActions.addRow(schema, nodeProps, {
             rowName: 'new_row',
             keyMod: 'None',
@@ -50,6 +59,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
             unsigned: false,
         })
         isSaved.value = false
+        logAction('column_added', { table_name: parentTable?.label })
         const newRow = schema.value.find(el => el.id === rowId)
         const button = schema.value.find(el => el.type === 'add-row-button' && el.parentNode === nodeProps.id)
         const patch = { add: [newRow] }
@@ -60,9 +70,14 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     const deleteEdge = () => {
         snapshot()
         const edgeId = selectedEdge.value.id
+        const srcRow = schema.value.find(el => el.id === selectedEdge.value.source)
+        const tgtRow = schema.value.find(el => el.id === selectedEdge.value.target)
+        const srcTable = schema.value.find(el => el.id === srcRow?.parentNode)
+        const tgtTable = schema.value.find(el => el.id === tgtRow?.parentNode)
         TableActions.deleteEdge(schema, selectedEdge)
         showRelationshipModal.value = false
         isSaved.value = false
+        logAction('connection_deleted', { from_table: srcTable?.label, from_column: srcRow?.label, to_table: tgtTable?.label, to_column: tgtRow?.label })
         whisper('schema-patch', { remove: [edgeId] })
     }
 
@@ -79,6 +94,13 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
               ]
             : []
 
+        if (nodeToDelete?.type === 'table') {
+            logAction('table_deleted', { table_name: nodeToDelete.label })
+        } else if (nodeToDelete?.type === 'row') {
+            const parentTable = schema.value.find(el => el.id === nodeToDelete.parentNode)
+            logAction('column_deleted', { table_name: parentTable?.label, column_name: nodeToDelete.label })
+        }
+
         TableActions.deleteNode(schema, nodeId)
         isSaved.value = false
 
@@ -92,14 +114,18 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
     const onConnect = (params) => {
         snapshot()
         params.updatable = true
-        const parentNode = findNode(findNode(params.target)?.parentNode)
-        const tableColor = parentNode?.data?.color
+        const srcRow = schema.value.find(el => el.id === params.source)
+        const tgtRow = schema.value.find(el => el.id === params.target)
+        const srcTable = schema.value.find(el => el.id === srcRow?.parentNode)
+        const tgtTable = schema.value.find(el => el.id === tgtRow?.parentNode)
+        const tableColor = tgtTable?.data?.color
         if (tableColor) {
             params.style = { stroke: tableColor }
             params.data = { ...params.data, color: tableColor }
         }
         addEdges([params])
         isSaved.value = false
+        logAction('connection_created', { from_table: srcTable?.label, from_column: srcRow?.label, to_table: tgtTable?.label, to_column: tgtRow?.label })
         nextTick(() => {
             const newEdge = schema.value.find(el =>
                 el.source === params.source && el.target === params.target &&
@@ -130,6 +156,8 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
             showRelationshipModal.value = false
             isSaved.value = false
             if (result) {
+                const pivotTable = schema.value.find(el => el.id === result.pivotTableId)
+                logAction('table_created', { table_name: pivotTable?.label })
                 const addedNodes = schema.value.filter(el =>
                     el.id === result.pivotTableId ||
                     el.parentNode === result.pivotTableId ||
@@ -143,6 +171,11 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
         TableActions.updateConnectionLineType(schema, selectedEdge, relationshipType)
         showRelationshipModal.value = false
         isSaved.value = false
+        const srcRow = schema.value.find(el => el.id === selectedEdge.value.source)
+        const tgtRow = schema.value.find(el => el.id === selectedEdge.value.target)
+        const srcTable = schema.value.find(el => el.id === srcRow?.parentNode)
+        const tgtTable = schema.value.find(el => el.id === tgtRow?.parentNode)
+        logAction('relationship_changed', { type: relationshipType, from_table: srcTable?.label, from_column: srcRow?.label, to_table: tgtTable?.label, to_column: tgtRow?.label })
         const edge = schema.value.find(el => el.id === selectedEdge.value.id)
         if (edge) whisper('schema-patch', { update: [{ id: edge.id, data: { ...edge.data } }] })
     }
