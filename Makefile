@@ -68,16 +68,8 @@ build-frontend:
 		sh -c "npm ci && npm run build"
 	mkdir -p backend/public/build backend/public/images
 	cp -r frontend/public/build/. backend/public/build/
-	docker run --rm \
-		-v "$(CURDIR)/frontend/src/icons":/src \
-		-v "$(CURDIR)/backend/public/images":/out \
-		-w /src \
-		node:18-alpine \
-	docker run --rm \
-		-v "$(CURDIR)/backend/public":/out \
-		node:18-alpine \
+	cp -r frontend/src/icons/. backend/public/images/
 	-$(RM) backend$(SEP)public$(SEP)hot 2>$(DEVNULL)
-	-$(RM) frontend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 
 install-prod:
 	$(MAKE) build-frontend
