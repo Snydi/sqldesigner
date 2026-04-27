@@ -14,800 +14,450 @@
     <meta property="og:description" content="Free visual MySQL designer and database designer for PostgreSQL. Drag-and-drop schema editor with SQL export. No install, no subscription.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
-    <meta property="og:image:width" content="2557">
-    <meta property="og:image:height" content="1269">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
+    <meta property="og:image:width" content="2555">
+    <meta property="og:image:height" content="1267">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL Designer — Free MySQL Designer & PostgreSQL Database Designer | ERD Tool">
     <meta name="twitter:description" content="Free visual MySQL designer and database designer for PostgreSQL. Design schemas online and export SQL. No install, no subscription.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
-    <link rel="preload" as="image" href="/images/screenshot.webp" imagesrcset="/images/screenshot-375.webp 375w, /images/screenshot-600.webp 600w, /images/screenshot-625.webp 625w, /images/screenshot-750.webp 750w, /images/screenshot-1000.webp 1000w, /images/screenshot-2000.webp 2000w, /images/screenshot.webp 2557w" imagesizes="(max-width: 660px) calc(100vw - 3rem), 1000px" fetchpriority="high">
     <script type="application/ld+json">
     @verbatim
-    [
-        {
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            "name": "SQL Designer",
-            "url": "https://sql-designer.com",
-            "description": "Free visual MySQL designer and database designer for PostgreSQL. Online ERD tool with drag-and-drop schema editor and SQL export.",
-            "applicationCategory": "DeveloperApplication",
-            "operatingSystem": "Any",
-            "screenshot": "https://sql-designer.com/images/screenshot.png",
-            "featureList": [
-                "ERD tool — visual entity relationship diagram editor",
-                "Visual drag-and-drop schema editor",
-                "MySQL and PostgreSQL CREATE TABLE SQL export",
-                "Foreign key relationship modelling",
-                "PRIMARY KEY, UNIQUE, NOT NULL constraints",
-                "Multiple diagrams per account",
-                "Auto-save"
-            ],
-            "keywords": "mysql designer, mysql database designer, mysql db designer, visual sql designer, database designer for postgresql, ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, database diagram tool, entity relationship diagram",
-            "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-            }
-        },
-        {
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            "name": "How to design a database schema with SQL Designer",
-            "description": "Step-by-step guide to creating a visual MySQL or PostgreSQL database schema and exporting a SQL script.",
-            "step": [
-                {
-                    "@type": "HowToStep",
-                    "position": 1,
-                    "name": "Create a Diagram",
-                    "text": "Sign up and create a new diagram for your project or database."
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebApplication",
+                "name": "SQL Designer",
+                "url": "https://sql-designer.com",
+                "description": "Free visual MySQL and PostgreSQL database designer. Drag-and-drop tables, define relationships, and export SQL scripts. No install, no subscription.",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Any",
+                "browserRequirements": "Requires a modern browser with JavaScript enabled",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
                 },
-                {
-                    "@type": "HowToStep",
-                    "position": 2,
-                    "name": "Add Tables and Columns",
-                    "text": "Drag tables onto the canvas, add columns, choose data types, and set constraints."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 3,
-                    "name": "Draw Relationships",
-                    "text": "Connect tables with foreign key lines to define your relational structure."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 4,
-                    "name": "Export SQL",
-                    "text": "Click export to generate a clean MySQL or PostgreSQL CREATE TABLE script ready to run in your database."
-                }
-            ]
-        },
-        {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-                {
-                    "@type": "Question",
-                    "name": "Is SQL Designer free?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes, completely free. There is no subscription, no credit card required, and no hidden fees. Create an account with your email and start designing immediately."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Do I need to install anything?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "No. SQL Designer runs entirely in your browser. There is nothing to download or install — just open the site and start designing."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "What SQL does it generate?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "SQL Designer generates MySQL and PostgreSQL CREATE TABLE scripts, including column definitions, data types, constraints (PRIMARY KEY, UNIQUE, NOT NULL), and foreign key relationships."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Do I need to know SQL to use it?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "No. The visual interface lets you build your schema by clicking and dragging — no SQL knowledge required. The SQL is generated for you automatically."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Is my work saved automatically?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. Changes to your diagram are saved automatically to your account. You can close the browser and pick up where you left off at any time."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "How many diagrams can I create?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "There is no limit. Create as many diagrams as you need — one per project, service, or database."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Is SQL Designer a free MySQL Workbench alternative?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. SQL Designer is a free, browser-based alternative to MySQL Workbench for schema design. Unlike MySQL Workbench, it requires no download or installation — you design your schema visually in the browser and export a CREATE TABLE script in seconds."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "How does SQL Designer compare to dbdiagram.io?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Both tools let you design database schemas visually and export SQL. SQL Designer uses a drag-and-drop canvas with a visual ERD layout, supports both MySQL and PostgreSQL, and is completely free with no diagram limits. dbdiagram.io uses a DSL (text-based) input rather than a purely visual editor."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Can I use SQL Designer to create ER diagrams?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. SQL Designer is an ERD (entity-relationship diagram) tool. You add tables as entities, define columns as attributes, and draw foreign key lines between tables to model relationships — all visually on a canvas, with chicken-foot notation."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Is SQL Designer a free MySQL database designer?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. SQL Designer is a free MySQL database designer and MySQL db designer. You can visually create tables, define columns with MySQL data types, set constraints, draw foreign key relationships, and export a MySQL CREATE TABLE script — all in your browser, with no install required."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Can I use SQL Designer as a database designer for PostgreSQL?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. SQL Designer works as a full database designer for PostgreSQL. It supports PostgreSQL data types and exports clean PostgreSQL CREATE TABLE scripts with constraints and foreign keys. Free to use, no download needed."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "What makes SQL Designer a visual SQL designer?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "SQL Designer is a visual SQL designer because you work on a graphical canvas — you drag tables, click to add columns, and draw relationship lines. There is no code or DSL to write. The visual ERD updates live as you design, and you export the SQL when ready."
-                    }
-                }
-            ]
-        },
-        {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "SQL Designer",
-            "url": "https://sql-designer.com",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://sql-designer.com/favicon-192x192.png"
+                "featureList": [
+                    "Drag-and-drop canvas",
+                    "MySQL support",
+                    "PostgreSQL support",
+                    "Foreign key relationships",
+                    "Crow's foot notation",
+                    "PRIMARY and UNIQUE constraints",
+                    "UNSIGNED and NOT NULL properties",
+                    "Unlimited diagrams",
+                    "Auto-save",
+                    "SQL export",
+                    "JSON export",
+                    "Laravel migration export"
+                ]
             },
-            "sameAs": [
-                "https://gitlab.com/Snydi/sql-designer"
-            ]
-        },
-        {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "SQL Designer",
-            "url": "https://sql-designer.com",
-            "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://sql-designer.com/blog?q={search_term_string}",
-                "query-input": "required name=search_term_string"
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Is SQL Designer free?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes, completely free. No subscription or any paywall."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Is there anything to install?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No — SQL Designer runs entirely in your browser."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What SQL dialects are supported?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "MySQL and PostgreSQL, with more coming soon."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Do I need to know SQL?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No. You design visually — drag tables, click columns, draw relationships. The SQL is generated for you."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I import an existing schema?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes. Paste a CREATE TABLE script or import it from file and SQL Designer transforms it into a visual diagram you can edit."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Is my work saved?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes — changes auto-save to your account."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How many diagrams can I create?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "There is no limit. Create as many diagrams as you need."
+                        }
+                    }
+                ]
             }
-        },
-        {
-            "@context": "https://schema.org",
-            "@type": "SiteLinksSearchBox",
-            "url": "https://sql-designer.com",
-            "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://sql-designer.com/blog?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-            }
-        },
-        {
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "name": "SQL Designer — Main Pages",
-            "itemListElement": [
-                {
-                    "@type": "SiteLinksSearchBox",
-                    "@id": "https://sql-designer.com/#sitelinks"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Home",
-                    "url": "https://sql-designer.com/"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Features",
-                    "url": "https://sql-designer.com/features"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 3,
-                    "name": "Try Demo",
-                    "url": "https://sql-designer.com/demo"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 4,
-                    "name": "Blog",
-                    "url": "https://sql-designer.com/blog"
-                }
-            ]
-        }
-    ]
+        ]
+    }
     @endverbatim
     </script>
     <style>
-        body { overflow-y: auto; margin: 0; }
+        /* ── Section primitive ──────────────────────────── */
+        section.block { padding: clamp(3rem, 6vw, 5rem) var(--gutter); }
+        .block-inner { max-width: var(--maxw); margin: 0 auto; }
 
-        .home-page {
-            color: var(--text-primary);
-            background: var(--bg-page);
+        h2.section-h2 {
+            font-size: clamp(1.5rem, 2.6vw, 2rem);
+            letter-spacing: -0.02em; font-weight: 600;
+            margin: 0 0 1.5rem; text-wrap: balance;
         }
 
-        /* Hero */
+        /* ── Hero ───────────────────────────────────────── */
         .hero {
-            background: var(--color-primary);
-            color: #fff;
+            padding: clamp(3rem, 7vw, 5.5rem) var(--gutter) 0;
+            border-bottom: 1px solid var(--border-light);
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background-image:
+                linear-gradient(var(--border-light) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 20%, transparent 70%);
+            opacity: 0.45; pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 680px; margin: 0 auto;
             text-align: center;
-            padding: 5rem 1.5rem 4rem;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative;
+        }
+        .hero-screenshot {
+            max-width: var(--maxw); margin: clamp(2rem, 4vw, 3rem) auto 0;
+            position: relative; border-radius: 10px 10px 0 0;
+            border: 1px solid var(--border-color); border-bottom: none;
+            box-shadow: 0 -8px 40px -8px rgba(93,181,131,0.08), 0 1px 0 rgba(255,255,255,0.02) inset;
+            overflow: hidden; aspect-ratio: 2555 / 1267;
         }
 
-        .hero h1 {
-            font-size: 2rem;
-            margin: 0 0 1rem;
-            line-height: 1.3;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .hero p {
-            font-size: 1rem;
-            max-width: 560px;
-            margin: 0 auto 1.2rem;
-            text-transform: none;
-            line-height: 1.7;
-        }
-
-        .hero-free-badge {
-            display: inline-block;
-            background: rgba(0,0,0,0.22);
-            border: 1px solid rgba(255,255,255,0.5);
-            border-radius: 999px;
-            padding: 0.3rem 1rem;
-            font-size: 0.875rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 1.8rem;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        .btn-hero-primary {
-            background: #fff;
-            color: var(--color-primary);
-            padding: 0.75rem 2rem;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .btn-hero-primary:hover { opacity: 0.85; }
-
-        .btn-hero-secondary {
-            background: transparent;
-            color: #fff;
-            padding: 0.75rem 2rem;
-            border-radius: 4px;
-            border: 2px solid rgba(255,255,255,0.7);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            text-decoration: none;
-            transition: border-color 0.2s;
-        }
-
-        .btn-hero-secondary:hover { border-color: #fff; }
-
-        /* Screenshot preview */
-        .screenshot-section {
-            background: var(--bg-elevated);
-            padding: 3rem 1.5rem;
-            text-align: center;
-        }
-
-        .screenshot-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-            border: 1px solid var(--border-color);
-            line-height: 0;
-        }
-
-        .screenshot-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Features list */
-        .features {
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 4rem 1.5rem;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 1.3rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
             color: var(--color-primary-text);
-            margin: 0 0 2rem;
+            padding: 0.3rem 0.6rem; border: 1px solid var(--border-color);
+            border-radius: 999px; background: var(--bg-surface);
+        }
+        .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary-text); box-shadow: 0 0 10px var(--color-primary-text); }
+
+        h1.hero-h1 {
+            font-size: clamp(2rem, 4.5vw, 3.4rem);
+            line-height: 1.05; letter-spacing: -0.025em; font-weight: 600;
+            margin: 1rem 0 1.1rem; text-wrap: balance;
+        }
+        h1.hero-h1 em { font-style: normal; color: var(--color-primary-text); }
+
+        .hero-sub {
+            font-size: 1.05rem; color: var(--text-secondary);
+            max-width: 48ch; text-wrap: pretty; margin: 0 0 1.6rem;
+        }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+        .hero-meta {
+            display: flex; flex-wrap: wrap; gap: 1.25rem; margin-top: 1.4rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-muted);
+            justify-content: center;
+        }
+        .hero-meta span { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .hero-meta .tick { color: var(--color-primary-text); }
+
+        /* ── Hero diagram frame ─────────────────────────── */
+        .diagram-canvas {
+            position: absolute; inset: 34px 0 0 0;
+            width: 100%; height: calc(100% - 34px);
+            object-fit: cover; object-position: top left; display: block;
         }
 
+        /* ── How it works ───────────────────────────────── */
+        .how { background: var(--bg-page); border-bottom: 1px solid var(--border-light); }
+        .how-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+            background: var(--border-light); border: 1px solid var(--border-light);
+            border-radius: 10px; overflow: hidden; margin-top: 1rem;
+        }
+        @media (max-width: 760px) { .how-grid { grid-template-columns: 1fr; } }
+        .how-step {
+            background: var(--bg-surface); padding: 1.6rem 1.5rem 1.8rem;
+            display: flex; flex-direction: column; gap: 0.5rem;
+        }
+        .how-step .num { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--color-primary-text); letter-spacing: 0.14em; }
+        .how-step h3 { font-size: 1.05rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+        .how-step p { font-size: 0.92rem; color: var(--text-secondary); margin: 0; text-wrap: pretty; }
+        .how-step .glyph {
+            margin-top: 0.6rem; padding-top: 0.9rem; border-top: 1px dashed var(--border-color);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-muted);
+        }
+
+        /* ── Features ───────────────────────────────────── */
+        .features { background: var(--bg-elevated); border-bottom: 1px solid var(--border-light); }
+        .features-grid {
+            display: grid; grid-template-columns: 1.1fr 1fr;
+            gap: clamp(2rem, 5vw, 4rem); align-items: start;
+        }
+        @media (max-width: 820px) { .features-grid { grid-template-columns: 1fr; } }
         .features-list {
-            columns: 2;
-            column-gap: 3rem;
-            list-style: none;
-            max-width: 560px;
-            margin: 0 auto 1.8rem;
-            padding: 0;
+            list-style: none; margin: 0; padding: 0;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.1rem 1.5rem;
         }
-
+        @media (max-width: 540px) { .features-list { grid-template-columns: 1fr; } }
         .features-list li {
-            display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            padding: 0.45rem 0;
-            break-inside: avoid;
-            text-transform: none;
+            display: flex; gap: 0.6rem; align-items: baseline;
+            padding: 0.7rem 0; border-bottom: 1px solid var(--border-light);
+            font-size: 0.92rem; color: var(--text-secondary);
         }
-
         .features-list li::before {
-            content: '';
-            flex-shrink: 0;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--color-primary);
-            margin-top: 0.35em;
+            content: '+'; color: var(--color-primary-text);
+            font-family: 'JetBrains Mono', monospace; font-weight: 600;
         }
+        .features-side { align-self: center; }
+        .features-side h3 { font-size: 1.1rem; margin: 0 0 0.6rem; letter-spacing: -0.01em; }
+        .features-side p { color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 36ch; }
 
-        .features-more {
-            text-align: center;
-            font-size: 0.85rem;
+
+        /* ── FAQ ────────────────────────────────────────── */
+        .faq { border-bottom: 1px solid var(--border-light); }
+        .faq-grid {
+            display: grid; grid-template-columns: 1fr 1.7fr;
+            gap: clamp(1.5rem, 5vw, 4rem); align-items: start;
         }
-
-        .features-more a {
-            color: var(--color-primary-text);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            font-weight: 600;
-        }
-
-        .features-more a:hover { text-decoration: underline; }
-
-        @media (max-width: 560px) { .features-list { columns: 1; } }
-
-        /* Demo nudge */
-        .demo-nudge {
-            background: var(--bg-surface);
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-        }
-
-        .demo-nudge p {
-            max-width: 520px;
-            margin: 0 auto 1.2rem;
-            font-size: 0.9rem;
-            color: var(--text-subtle);
-            line-height: 1.75;
-            text-transform: none;
-        }
-
-        .btn-demo {
-            display: inline-block;
-            border: 2px solid var(--color-primary-text);
-            color: var(--color-primary-text);
-            padding: 0.6rem 1.6rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            text-decoration: none;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .btn-demo:hover {
-            background: var(--color-primary-text);
-            color: #fff;
-        }
-
-        /* FAQ */
-        .faq {
-            max-width: 760px;
-            margin: 0 auto;
-            padding: 4rem 1.5rem;
-        }
-
+        @media (max-width: 820px) { .faq-grid { grid-template-columns: 1fr; } }
         .faq-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            list-style: none; margin: 0; padding: 0;
+            border-top: 1px solid var(--border-color);
         }
-
-        .faq-item {
-            background: var(--bg-surface);
-            border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            overflow: hidden;
-        }
-
+        .faq-item { border-bottom: 1px solid var(--border-color); }
         .faq-item summary {
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--color-primary-text);
-            padding: 1.1rem 1.5rem;
-            cursor: pointer;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            cursor: pointer; list-style: none;
+            padding: 1.05rem 0;
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 0.98rem; font-weight: 500; letter-spacing: -0.005em;
         }
-
         .faq-item summary::-webkit-details-marker { display: none; }
-
         .faq-item summary::after {
-            content: '+';
-            font-size: 1.2rem;
-            font-weight: normal;
-            flex-shrink: 0;
-            margin-left: 1rem;
+            content: '+'; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);
+            font-size: 1.05rem; transition: transform 200ms ease; flex-shrink: 0; margin-left: 1rem;
+        }
+        .faq-item[open] summary::after { content: '−'; color: var(--color-primary-text); }
+        .faq-item p { margin: 0 0 1.1rem; color: var(--text-secondary); font-size: 0.92rem; max-width: 65ch; text-wrap: pretty; }
+        .faq-item code {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85em;
+            background: var(--bg-surface); padding: 1px 6px; border-radius: 3px; color: var(--text-primary);
         }
 
-        .faq-item[open] summary::after { content: '−'; }
-
-        .faq-item p {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            color: var(--text-secondary);
-            text-transform: none;
-            margin: 0;
-            padding: 0 1.5rem 1.2rem;
-        }
-
-        /* Feedback / community section */
-        .feedback-section {
-            background: var(--bg-surface);
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
-            padding: 3.5rem 1.5rem;
-            text-align: center;
-        }
-
-        .feedback-section p {
-            max-width: 540px;
-            margin: 0 auto 1.5rem;
-            font-size: 0.9rem;
-            color: var(--text-subtle);
-            line-height: 1.75;
-            text-transform: none;
-        }
-
-        .feedback-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.75rem;
-        }
-
-        .btn-feedback-email {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            border: 2px solid var(--color-primary-text);
-            color: var(--color-primary-text);
-            padding: 0.6rem 1.4rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            text-decoration: none;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .btn-feedback-email:hover {
-            background: var(--color-primary-text);
-            color: #fff;
-        }
-
-        .btn-feedback-discord {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            border: 2px solid #9198f4;
-            color: #9198f4;
-            padding: 0.6rem 1.4rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            text-decoration: none;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .btn-feedback-discord:hover {
-            background: #9198f4;
-            color: #fff;
-        }
-
-        /* CTA banner */
-        .cta-banner {
-            background: var(--color-primary);
-            color: #fff;
-            text-align: center;
-            padding: 3rem 1.5rem;
-        }
-
-        .cta-banner h2 {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin: 0 0 1.2rem;
-        }
-
-        /* Footer */
-        .home-footer {
-            text-align: center;
-            padding: 1.5rem;
-            font-size: 0.875rem;
-            color: var(--text-subtle);
-            text-transform: none;
-            background: var(--bg-page);
-        }
-
-        /* Blog section (inline-styled, dark overrides) */
-        .blog-section { background: var(--bg-elevated); padding: 4rem 1.5rem; }
+        /* ── Blog ───────────────────────────────────────── */
+        .blog { background: var(--bg-elevated); border-bottom: 1px solid var(--border-light); }
+        .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        @media (max-width: 820px) { .blog-grid { grid-template-columns: 1fr; } }
         .blog-card {
+            display: flex; flex-direction: column; gap: 0.4rem;
+            padding: 1.4rem; border: 1px solid var(--border-color); border-radius: 8px;
             background: var(--bg-surface);
-            border-radius: 6px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            text-decoration: none;
-            display: block;
+            transition: border-color 120ms ease, transform 120ms ease;
         }
-        .blog-card__category { font-size: 0.875rem; color: var(--text-subtle); text-transform: none; margin: 0 0 0.5rem; }
-        .blog-card__title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-primary-text); margin: 0 0 0.5rem; }
-        .blog-card__desc { font-size: 0.875rem; color: var(--text-subtle); text-transform: none; line-height: 1.7; margin: 0; }
-        .blog-more { text-align: center; margin: 2rem 0 0; }
-        .blog-more a { color: var(--color-primary-text); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .blog-card:hover { border-color: var(--color-primary-text); transform: translateY(-2px); }
+        .blog-card .cat { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.14em; color: var(--text-muted); text-transform: uppercase; }
+        .blog-card h3 { margin: 0; font-size: 1rem; letter-spacing: -0.01em; font-weight: 600; }
+        .blog-card p { margin: 0; color: var(--text-secondary); font-size: 0.88rem; line-height: 1.55; }
+        .blog-card .read { margin-top: 0.4rem; color: var(--color-primary-text); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; }
+
+        /* ── Final CTA ──────────────────────────────────── */
+        .final-cta {
+            text-align: center;
+            padding: clamp(3rem, 6vw, 5rem) var(--gutter);
+            background: radial-gradient(ellipse at center, rgba(93,181,131,0.07), transparent 60%), var(--bg-page);
+        }
+        .final-cta h2 {
+            font-size: clamp(1.6rem, 3vw, 2.3rem); letter-spacing: -0.02em;
+            margin: 0 0 0.6rem; text-wrap: balance;
+        }
+        .final-cta p { color: var(--text-secondary); max-width: 48ch; margin: 0 auto 1.4rem; }
     </style>
 @endsection
 
 @section('content')
-    <!-- Hero -->
-    <section class="hero" aria-labelledby="hero-heading">
-        <h1 id="hero-heading">Free Visual MySQL Designer &amp; PostgreSQL Database Designer</h1>
-        <p>
-            SQL Designer is a free visual MySQL designer and database designer for PostgreSQL.
-            Drag tables onto a canvas, define columns and relationships,
-            then export a SQL script — no install, no subscription.
+
+<!-- ── Hero ─────────────────────────────────────────────── -->
+<section class="hero" aria-labelledby="hero-h1">
+    <div class="hero-inner">
+        <span class="eyebrow"><span class="dot"></span> Free ERD tool · MySQL &amp; PostgreSQL</span>
+        <h1 class="hero-h1" id="hero-h1">
+            Design database schemas <em>visually</em>.
+            Export clean SQL.
+        </h1>
+        <p class="hero-sub">
+            A browser-based database design tool for MySQL and PostgreSQL. Drag tables, draw relations, ship a CREATE TABLE script.
         </p>
         <div class="hero-actions">
-            <a id="hero-btn-authed" class="btn-hero-primary" href="/diagrams" style="display:none">Open My Diagrams</a>
-            <a id="hero-btn-register" class="btn-hero-primary" href="/register">Create an account</a>
-            <a id="hero-btn-login" class="btn-hero-secondary" href="/login">Log In</a>
+            <a id="hero-btn-authed" class="btn btn-solid btn-lg" href="/diagrams" style="display:none">Open My Diagrams</a>
+            <a id="hero-btn-register" class="btn btn-solid btn-lg" href="/register">Start designing</a>
+            <a class="btn btn-outline btn-lg" href="/demo">Open demo →</a>
         </div>
-        <script>
-            if (localStorage.getItem('auth_token')) {
-                document.getElementById('hero-btn-authed').style.display = 'inline-block';
-                document.getElementById('hero-btn-register').style.display = 'none';
-                document.getElementById('hero-btn-login').style.display = 'none';
-            }
-        </script>
-    </section>
-
-    <!-- Screenshot -->
-    <div class="screenshot-section">
-        <div class="screenshot-wrapper">
-            <picture>
-                <source
-                    type="image/webp"
-                    srcset="{{ asset('images/screenshot-375.webp') }} 375w, {{ asset('images/screenshot-600.webp') }} 600w, {{ asset('images/screenshot-625.webp') }} 625w, {{ asset('images/screenshot-750.webp') }} 750w, {{ asset('images/screenshot-1000.webp') }} 1000w, {{ asset('images/screenshot-2000.webp') }} 2000w, {{ asset('images/screenshot.webp') }} 2557w"
-                    sizes="(max-width: 660px) calc(100vw - 3rem), 1000px">
-                <img src="{{ asset('images/screenshot.png') }}" alt="SQL Designer diagram editor — tables with columns and foreign key relationships on a visual canvas" width="2557" height="1269" loading="eager" fetchpriority="high">
-            </picture>
+        <div class="hero-meta">
+            <span><span class="tick">✓</span> No install</span>
+            <span><span class="tick">✓</span> Auto-save</span>
+            <span><span class="tick">✓</span> Free</span>
         </div>
     </div>
-
-    <!-- Features -->
-    <section class="features" aria-labelledby="features-heading">
-        <h2 class="section-title" id="features-heading">Features</h2>
-        <ul class="features-list">
-            <li>Drag-and-drop canvas</li>
-            <li>MySQL &amp; PostgreSQL SQL export</li>
-            <li>Foreign key relationships</li>
-            <li>PRIMARY KEY, UNIQUE, NOT NULL constraints</li>
-            <li>Multiple diagrams per account</li>
-            <li>Auto-save</li>
-            <li>Crow's foot (ERD) notation</li>
-            <li>Completely free, no limits</li>
-        </ul>
-        <p class="features-more"><a href="/features">See full feature list &rarr;</a></p>
-    </section>
-
-    <!-- Demo nudge -->
-    <div class="demo-nudge" id="demo-nudge-guest">
-        <p>Not sure if it's worth signing up? Try the demo first — no account needed. Just the editor, with a sample schema preloaded so you can poke around and see if the interface works for you.</p>
-        <a class="btn-demo" href="/demo">Try the demo</a>
+    <div class="hero-screenshot">
+            <img class="diagram-canvas"
+                 src="/images/designer_screenshot.png"
+                 alt="SQL Designer canvas showing an ER diagram with orders, users, products, and categories tables"
+                 width="2555" height="1267">
     </div>
     <script>
         if (localStorage.getItem('auth_token')) {
-            document.getElementById('demo-nudge-guest').style.display = 'none';
+            document.getElementById('hero-btn-authed').style.display = 'inline-flex';
+            document.getElementById('hero-btn-register').style.display = 'none';
         }
     </script>
+</section>
 
-    <!-- FAQ -->
-    <section class="faq" aria-labelledby="faq-heading">
-        <h2 class="section-title" id="faq-heading">Frequently Asked Questions</h2>
-        <ul class="faq-list">
-            <li class="faq-item">
-                <details>
-                    <summary>Is SQL Designer free?</summary>
-                    <p>Yes, completely free. There is no subscription, no credit card required, and no hidden fees. Create an account with your email and start designing immediately.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>Do I need to install anything?</summary>
-                    <p>No. SQL Designer runs entirely in your browser. There is nothing to download or install — just open the site and start designing.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>What SQL does it generate?</summary>
-                    <p>SQL Designer generates MySQL and PostgreSQL <code>CREATE TABLE</code> scripts, including column definitions, data types, constraints (PRIMARY KEY, UNIQUE, NOT NULL), and foreign key relationships.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>Do I need to know SQL to use it?</summary>
-                    <p>No. The visual interface lets you build your schema by clicking and dragging — no SQL knowledge required. The SQL is generated for you automatically.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>Is my work saved automatically?</summary>
-                    <p>Yes. Changes to your diagram are saved automatically to your account. You can close the browser and pick up where you left off at any time.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>How many diagrams can I create?</summary>
-                    <p>There is no limit. Create as many diagrams as you need — one per project, service, or database.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>Is SQL Designer a free MySQL Workbench alternative?</summary>
-                    <p>Yes. SQL Designer is a free, browser-based alternative to MySQL Workbench for schema design. Unlike MySQL Workbench, it requires no download or installation — you design your schema visually in the browser and export a <code>CREATE TABLE</code> script in seconds.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>How does SQL Designer compare to dbdiagram.io?</summary>
-                    <p>Both tools let you design database schemas visually and export SQL. SQL Designer uses a drag-and-drop canvas with a visual ERD layout, supports both MySQL and PostgreSQL, and is completely free with no diagram limits. dbdiagram.io uses a DSL (text-based) input rather than a purely visual editor.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>Is SQL Designer a free MySQL database designer?</summary>
-                    <p>Yes. SQL Designer is a free MySQL database designer and MySQL db designer. You can visually create tables, define columns with MySQL data types, set constraints, draw foreign key relationships, and export a MySQL <code>CREATE TABLE</code> script — all in your browser, with no install required.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>Can I use SQL Designer as a database designer for PostgreSQL?</summary>
-                    <p>Yes. SQL Designer works as a full database designer for PostgreSQL. It supports PostgreSQL data types and exports clean PostgreSQL <code>CREATE TABLE</code> scripts with constraints and foreign keys. Free to use, no download needed.</p>
-                </details>
-            </li>
-            <li class="faq-item">
-                <details>
-                    <summary>What makes SQL Designer a visual SQL designer?</summary>
-                    <p>SQL Designer is a visual SQL designer because you work on a graphical canvas — you drag tables, click to add columns, and draw relationship lines between them. There is no code or DSL to write. The visual ERD updates live as you design, and you export the SQL when ready.</p>
-                </details>
-            </li>
-        </ul>
-    </section>
-
-    <!-- Blog -->
-    <section class="blog-section" aria-labelledby="blog-heading">
-        <div style="max-width:960px; margin:0 auto;">
-            <h2 class="section-title" id="blog-heading">From the Blog</h2>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem;">
-                <a href="/blog/how-to-design-mysql-database-schema" class="blog-card">
-                    <p class="blog-card__category">Schema Design</p>
-                    <h3 class="blog-card__title">How to Design a MySQL Database Schema</h3>
-                    <p class="blog-card__desc">A step-by-step guide covering entities, data types, primary keys, foreign keys, and normalization.</p>
-                </a>
-                <a href="/blog/er-diagram-tool-online" class="blog-card">
-                    <p class="blog-card__category">ER Diagrams</p>
-                    <h3 class="blog-card__title">Free ER Diagram Tool Online for MySQL</h3>
-                    <p class="blog-card__desc">What ER diagrams are, why they matter, and how to build one visually in your browser.</p>
-                </a>
-                <a href="/blog/mysql-db-designer" class="blog-card">
-                    <p class="blog-card__category">Schema Design</p>
-                    <h3 class="blog-card__title">MySQL Designer Online — Free Visual Schema Builder</h3>
-                    <p class="blog-card__desc">Design MySQL databases visually in your browser — drag-and-drop tables, define relationships, and export SQL.</p>
-                </a>
+<section class="block how" aria-labelledby="how-h2">
+    <div class="block-inner">
+        <h2 class="section-h2" id="how-h2">How it works</h2>
+        <div class="how-grid">
+            <div class="how-step">
+                <span class="num">01 / IMPORT</span>
+                <h3>Import your DB or start from scratch</h3>
+                <p>Use SQL or JSON schema you have. Optionally, you can just start designing from scratch</p>
             </div>
-            <p class="blog-more"><a href="/blog">View All Posts &rarr;</a></p>
+            <div class="how-step">
+                <span class="num">02 / DESIGN</span>
+                <h3>Creates tables, draw relations</h3>
+                <p>Press a few buttons to create tables and columns. Draw relations with your mouse.</p>
+            </div>
+            <div class="how-step">
+                <span class="num">03 / EXPORT</span>
+                <h3>Generate CREATE TABLE script</h3>
+                <p>Export valid SQL, JSON or even Laravel migration file. More formats coming soon!</p>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Feedback / Community -->
-    <section class="feedback-section" aria-labelledby="feedback-heading">
-        <h2 class="section-title" id="feedback-heading">Share Your Feedback</h2>
-        <p>
-            Hi, it's Dmitriy, the creator of SQL Designer. If you have suggestions, bug reports, or just want to say hi —
-            I'd love to hear from you. Reach out by email or join the Discord community.
-        </p>
-        <div class="feedback-links">
-            <a class="btn-feedback-email" href="mailto:snydi611@gmail.com">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg>
-                snydi611@gmail.com
+<section class="block features" aria-labelledby="features-h2">
+    <div class="block-inner">
+        <div class="features-grid">
+            <div>
+                <h2 class="section-h2" id="features-h2">Features</h2>
+                <ul class="features-list" aria-label="Feature list">
+                    <li>Drag-and-drop canvas</li>
+                    <li>MySQL &amp; PostgreSQL support</li>
+                    <li>Foreign key relationships</li>
+                    <li>Crow's foot notation</li>
+                    <li>PRIMARY and UNIQUE constraints</li>
+                    <li>UNSIGNED &amp; NOT NULL properties</li>
+                    <li>Unlimited diagrams per user</li>
+                    <li>Auto-save</li>
+                </ul>
+            </div>
+            <aside class="features-side">
+                <p>No SQL code in designer. No download. No login wall in front of the canvas — try the demo, then come back when you need to keep your work.</p>
+                <p><a class="btn btn-outline" href="/features">See all features →</a></p>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<section class="block faq" aria-labelledby="faq-h2">
+    <div class="block-inner faq-grid">
+        <div>
+            <h2 class="section-h2" id="faq-h2">Common questions</h2>
+            <p style="color:var(--text-secondary); font-size:0.92rem; max-width:32ch;">More on the <a href="/blog" style="color:var(--color-primary-text)">blog</a> — including comparisons with MySQL Workbench, dbdiagram.io, and Lucidchart.</p>
+        </div>
+        <ul class="faq-list" aria-label="Frequently asked questions">
+            <li class="faq-item"><details open>
+                <summary>Is SQL Designer free?</summary>
+                <p>Yes, completely free. No subscription or any paywall.</p>
+            </details></li>
+            <li class="faq-item"><details>
+                <summary>Is there anything to install?</summary>
+                <p>No — SQL Designer runs entirely in your browser.</p>
+            </details></li>
+            <li class="faq-item"><details>
+                <summary>What SQL dialects are supported?</summary>
+                <p>MySQL and PostgreSQL, with more coming soon</p>
+            </details></li>
+            <li class="faq-item"><details>
+                <summary>Do I need to know SQL?</summary>
+                <p>No. You design visually — drag tables, click columns, draw relationships. The SQL is generated for you.</p>
+            </details></li>
+            <li class="faq-item"><details>
+                <summary>Can I import an existing schema?</summary>
+                <p>Yes. Paste a CREATE TABLE script or import it from file and SQL Designer transforms it into a visual diagram you can edit.</p>
+            </details></li>
+            <li class="faq-item"><details>
+                <summary>Is my work saved?</summary>
+                <p>Yes — changes auto-save to your account.</p>
+            </details></li>
+            <li class="faq-item"><details>
+                <summary>How many diagrams can I create?</summary>
+                <p>There is no limit. Create as many diagrams as you need.</p>
+            </details></li>
+        </ul>
+    </div>
+</section>
+
+<section class="block blog" aria-labelledby="blog-h2">
+    <div class="block-inner">
+        <h2 class="section-h2" id="blog-h2">From the blog</h2>
+        <div class="blog-grid">
+            <a class="blog-card" href="/blog/how-to-design-mysql-database-schema">
+                <h3>How to design a MySQL schema</h3>
+                <p>Entities, types, primary keys, foreign keys, normalization — a working guide.</p>
+                <span class="read">Read →</span>
             </a>
-            <a class="btn-feedback-discord" href="https://discord.gg/vFwgX7qKqA" target="_blank" rel="noopener noreferrer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                Join Discord
+            <a class="blog-card" href="/blog/er-diagram-tool-online">
+                <h3>ER diagrams, explained</h3>
+                <p>What ER diagrams are, why they matter, and how to build one in the browser.</p>
+                <span class="read">Read →</span>
+            </a>
+            <a class="blog-card" href="/blog/sql-to-erd">
+                <h3>From SQL to ERD in 30 seconds</h3>
+                <p>Paste a <code class="mono">CREATE TABLE</code> script and get a visual diagram you can edit.</p>
+                <span class="read">Read →</span>
             </a>
         </div>
-    </section>
+    </div>
+</section>
+
+<section class="final-cta" aria-labelledby="cta-h2">
+    <h2 id="cta-h2">Sketch a schema. Export the SQL.</h2>
+    <p>Try the demo — no account needed. Sign up when you want to save.</p>
+    <div class="hero-actions" style="justify-content:center">
+        <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
+        <a class="btn btn-outline btn-lg" href="/register">Sign up to save</a>
+    </div>
+</section>
+
 @endsection
