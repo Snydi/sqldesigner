@@ -9,7 +9,7 @@
                 <!-- New diagram card -->
                 <div class="diagram-card diagram-card--new" @click="openNewForm">
                     <div class="diagram-card__preview diagram-card__preview--empty">
-                        <img src="../icons/plus.svg" class="new-diagram-plus" alt="new diagram" />
+                        <SvgIcon name="plus" :size="40" class="new-diagram-plus" />
                     </div>
                     <div class="diagram-card__footer">
                         <span class="diagram-card__name">New Diagram</span>
@@ -30,7 +30,7 @@
                             @click.stop="deleteDiagram(diagram.id)"
                             title="Delete"
                         >
-                            <img src="../icons/trash.svg" alt="delete" />
+                            <SvgIcon name="trash" :size="14" />
                         </button>
                     </div>
                     <div class="diagram-card__footer">
@@ -107,13 +107,14 @@ import axios from 'axios'
 import router from '../router/index.js'
 import { useToast } from 'vue-toast-notification'
 import DiagramPreview from './Diagram/DiagramPreview.vue'
+import SvgIcon from './SvgIcon.vue'
 import mysqlIcon from '../icons/mysql.svg'
 import postgresqlIcon from '../icons/postgresql.svg'
 
 const $toast = useToast()
 
 export default {
-    components: { DiagramPreview },
+    components: { DiagramPreview, SvgIcon },
     data() {
         return {
             diagrams: [],
@@ -292,11 +293,9 @@ export default {
 }
 
 .new-diagram-plus {
-    width: 40px;
-    height: 40px;
     opacity: 0.25;
+    color: var(--text-primary);
     transition: opacity 0.2s;
-    filter: brightness(0) invert(1);
 }
 
 .diagram-card--new:hover .new-diagram-plus {
@@ -318,13 +317,8 @@ export default {
     align-items: center;
     justify-content: center;
     padding: 4px;
-    transition: background 0.15s, border-color 0.15s;
-}
-
-.diagram-card__delete img {
-    width: 14px;
-    height: 14px;
-    filter: brightness(0) invert(0.3);
+    color: var(--text-muted);
+    transition: background 120ms, border-color 120ms, color 120ms;
 }
 
 .diagram-card:hover .diagram-card__delete {
@@ -338,8 +332,9 @@ export default {
 }
 
 .diagram-card__delete:hover {
-    background: #fee;
-    border-color: #f5c0c0;
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #ef4444;
 }
 
 /* ── Card footer ────────────────────────────────────────────── */
@@ -416,19 +411,25 @@ export default {
 }
 
 .create-modal__input {
-    border: none;
-    border-bottom: 1px solid var(--border-color);
-    padding: 0.4rem 0;
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
     font-size: 0.9rem;
     font-family: inherit;
-    outline: none;
     color: var(--text-primary);
-    background: transparent;
+    outline: none;
+    box-sizing: border-box;
     transition: border-color 0.15s;
 }
 
+.create-modal__input::placeholder {
+    color: var(--text-muted);
+}
+
 .create-modal__input:focus {
-    border-bottom-color: var(--color-primary);
+    border-color: var(--color-primary);
 }
 
 .create-modal__db-label {

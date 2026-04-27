@@ -2,23 +2,23 @@ import { Position } from '@vue-flow/core'
 
 export const TABLE_STYLE = {
     display: 'flex',
-    border: '1px solid #2e5c45',
-    background: '#2e5c45',
-    borderColor: '#2e5c45',
+    border: '1px solid #3d7a5c',
+    background: '#3d7a5c',
+    borderColor: '#3d7a5c',
     color: 'white',
     width: '350px',
     height: '40px',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: '6px 6px 0 0',
+    borderRadius: '8px 8px 0 0',
 }
 
 export const ROW_STYLE = {
     display: 'flex',
-    border: '1px solid #10b981',
-    borderColor: '#383838',
-    background: '#484848',
-    color: '#e0e0e0',
+    border: '1px solid var(--border-color)',
+    borderColor: 'var(--border-color)',
+    background: 'var(--bg-surface)',
+    color: 'var(--text-primary)',
     width: '350px',
     height: '40px',
     alignItems: 'center',

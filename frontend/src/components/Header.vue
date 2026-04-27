@@ -6,13 +6,13 @@
             </a>
         </div>
         <div class="flex-items">
-            <button v-if="!store.state.auth_token && route.name !== 'demo'" class="btn btn-primary" @click="router.push({ name: 'demo' })">Try Demo</button>
-            <button v-if="!store.state.auth_token && route.name === 'demo'" class="btn btn-primary" @click="router.push({ name: 'register' })">Register for free</button>
-            <button v-if="store.state.auth_token" class="btn btn-secondary" @click="router.push({ name: 'diagrams' })" title="View diagrams">
-                <img src="../icons/eye.svg" alt="View diagrams" class="icon">
+            <button v-if="!store.state.auth_token && route.name !== 'demo'" class="hbtn-cta" @click="router.push({ name: 'demo' })">Try Demo</button>
+            <button v-if="!store.state.auth_token && route.name === 'demo'" class="hbtn-cta" @click="router.push({ name: 'register' })">Register for free</button>
+            <button v-if="store.state.auth_token" class="hbtn" @click="router.push({ name: 'diagrams' })" title="View diagrams">
+                <SvgIcon name="eye" :size="17" />
             </button>
-            <button v-if="store.state.auth_token" class="btn btn-secondary" @click="Auth.logout()" title="Log out">
-                <img src="../icons/logout.svg" alt="Log out" class="icon">
+            <button v-if="store.state.auth_token" class="hbtn" @click="Auth.logout()" title="Log out">
+                <SvgIcon name="logout" :size="17" />
             </button>
         </div>
     </header>
@@ -21,6 +21,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import { Auth } from '@/services/Auth.js'
+import SvgIcon from './SvgIcon.vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import router from '@/router/index.js'

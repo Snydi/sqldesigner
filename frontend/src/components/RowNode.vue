@@ -1,12 +1,11 @@
 <template>
     <!-- Drag handle -->
-    <img
+    <span
         v-if="canEdit"
         class="drag_handle_icon"
-        src="../icons/drag.svg"
-        alt="Drag to reorder"
+        title="Drag to reorder"
         @mousedown.stop.prevent="$emit('row-drag-start', id)"
-    />
+    ><SvgIcon name="drag" :size="14" /></span>
 
     <input
         class="input input_designer_row ml-5 mr-5"
@@ -35,7 +34,7 @@
 
     <!-- Options -->
     <button v-if="canEdit" class="table_button" @mousedown.stop @click="$emit('toggle-options-modal', id)">
-        <img class="table_icon" src="../icons/gear.svg" alt="More options">
+        <SvgIcon name="gear" :size="13" />
     </button>
 
     <!-- Options modal -->
@@ -121,7 +120,7 @@
 
     <!-- Delete row -->
     <button v-if="canEdit" class="table_button" @mousedown.stop @click="$emit('delete-node', id)">
-        <img class="table_icon" src="../icons/trash.svg" alt="Delete">
+        <SvgIcon name="trash" :size="13" />
     </button>
 
     <!-- Left side handles -->
@@ -137,6 +136,7 @@
 import { computed, ref } from 'vue'
 import { Handle } from '@vue-flow/core'
 import { onClickOutside } from '@vueuse/core'
+import SvgIcon from './SvgIcon.vue'
 
 const props = defineProps({
     id: String,
@@ -315,13 +315,15 @@ const toggleUnsigned = () => {
 
 /* ── Drag handle ─────────────────────────────────────────────── */
 .drag_handle_icon {
-    width: 16px;
-    height: 16px;
     flex-shrink: 0;
+    width: 24px;
     opacity: 0.35;
     cursor: grab;
     user-select: none;
-    filter: brightness(0) invert(1);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .drag_handle_icon:hover { opacity: 0.7; }
@@ -334,9 +336,10 @@ const toggleUnsigned = () => {
     flex-direction: column;
     gap: 6px;
     padding: 10px 12px;
-    border: 1px solid var(--border-strong);
-    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
     background: var(--bg-surface);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     z-index: 10;
     min-width: 200px;
 }
@@ -361,13 +364,20 @@ label.options_modal_row {
 
 .modal_text_input {
     font-size: 14px;
+    font-family: inherit;
     border: 1px solid var(--border-color);
-    border-radius: 3px;
+    border-radius: 6px;
     padding: 2px 6px;
     width: 110px;
     box-sizing: border-box;
     background: var(--input-bg);
     color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.modal_text_input:focus {
+    border-color: var(--color-primary);
 }
 
 /* ── Constraint badges ───────────────────────────────────────── */
@@ -484,18 +494,23 @@ label.options_modal_row {
 
 .uq_add_confirm_btn {
     font-size: 12px;
+    font-family: inherit;
+    font-weight: 600;
     padding: 3px 10px;
     border: none;
     background: var(--color-primary);
     color: #fff;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: opacity 120ms;
 }
 
+.uq_add_confirm_btn:hover:not(:disabled) { opacity: 0.85; }
 .uq_add_confirm_btn:disabled { opacity: 0.45; cursor: default; }
 
 .uq_cancel_btn {
     font-size: 12px;
+    font-family: inherit;
     padding: 3px 6px;
     border: none;
     background: none;
@@ -507,13 +522,15 @@ label.options_modal_row {
 
 .uq_add_toggle_btn {
     font-size: 12px;
-    color: var(--color-primary);
+    font-family: inherit;
+    color: var(--color-primary-text);
     background: none;
     border: none;
     cursor: pointer;
     padding: 2px 0;
     text-align: left;
     margin-top: 2px;
+    transition: opacity 120ms;
 }
 
 .uq_add_toggle_btn:hover { opacity: 0.75; }

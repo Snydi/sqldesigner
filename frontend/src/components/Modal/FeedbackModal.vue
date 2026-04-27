@@ -1,10 +1,10 @@
 <template>
     <div class="feedback-overlay" @click.self="$emit('close')">
         <div class="feedback-modal">
-            <div class="feedback-modal__header">
-                <span class="feedback-modal__title">Feedback</span>
-                <button class="feedback-modal__close" @click="$emit('close')">
-                    <img src="../../icons/close.svg" style="width:14px;height:14px;filter:brightness(0) invert(1);"  alt="Close modal"/>
+            <div class="modal-header">
+                <span class="modal-title">Feedback</span>
+                <button class="modal-close" @click="$emit('close')" aria-label="Close">
+                    <SvgIcon name="close" :size="16" />
                 </button>
             </div>
 
@@ -61,6 +61,7 @@
 import { ref } from 'vue'
 import axios from '@/axios.js'
 import { useToast } from 'vue-toast-notification'
+import SvgIcon from '../SvgIcon.vue'
 
 const props = defineProps({ userEmail: { type: String, default: '' } })
 const emit = defineEmits(['close'])
@@ -103,7 +104,7 @@ const submit = async () => {
 .feedback-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.55);
     z-index: 9999;
     display: flex;
     align-items: center;
@@ -112,8 +113,9 @@ const submit = async () => {
 
 .feedback-modal {
     background: var(--bg-surface);
-    border-radius: 10px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     width: 480px;
     max-width: calc(100vw - 32px);
     display: flex;
@@ -121,38 +123,38 @@ const submit = async () => {
     overflow: hidden;
 }
 
-.feedback-modal__header {
+.modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 14px 18px;
-    background: var(--color-primary);
+    border-bottom: 1px solid var(--border-color);
     flex-shrink: 0;
 }
 
-.feedback-modal__title {
-    font-size: 14px;
+.modal-title {
+    font-size: 0.76rem;
     font-weight: 600;
-    color: white;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    color: var(--text-secondary);
 }
 
-.feedback-modal__close {
-    width: 26px;
-    height: 26px;
-    padding: 4px;
+.modal-close {
+    background: none;
     border: none;
-    background: rgba(255, 255, 255, 0.15);
     cursor: pointer;
-    border-radius: 50%;
+    color: var(--text-muted);
+    padding: 4px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    transition: color 120ms, background 120ms;
 }
 
-.feedback-modal__close:hover {
-    background: rgba(255, 255, 255, 0.3);
+.modal-close:hover {
+    color: var(--text-primary);
+    background: var(--hover-bg);
 }
 
 .feedback-modal__body {
@@ -169,10 +171,6 @@ const submit = async () => {
     color: var(--text-secondary);
 }
 
-.feedback-modal__intro a {
-    color: var(--color-primary);
-}
-
 .feedback-modal__anon-row {
     display: flex;
     align-items: center;
@@ -180,40 +178,31 @@ const submit = async () => {
     font-size: 13px;
     cursor: pointer;
     user-select: none;
+    color: var(--text-secondary);
 }
 
-.feedback-modal__input {
+.feedback-modal__input,
+.feedback-modal__textarea {
     width: 100%;
-    padding: 8px 10px;
+    padding: 9px 12px;
     border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 7px;
+    font-size: 0.88rem;
+    font-family: inherit;
     box-sizing: border-box;
-    background: var(--input-bg);
+    background: var(--bg-surface-alt);
     color: var(--text-primary);
+    outline: none;
+    transition: border-color 120ms;
 }
 
-.feedback-modal__input:focus {
-    outline: none;
+.feedback-modal__input:focus,
+.feedback-modal__textarea:focus {
     border-color: var(--border-strong);
 }
 
 .feedback-modal__textarea {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 14px;
     resize: vertical;
-    font-family: inherit;
-    box-sizing: border-box;
-    background: var(--input-bg);
-    color: var(--text-primary);
-}
-
-.feedback-modal__textarea:focus {
-    outline: none;
-    border-color: var(--border-strong);
 }
 
 .feedback-modal__error {
@@ -225,7 +214,7 @@ const submit = async () => {
 .feedback-modal__success {
     margin: 0;
     font-size: 13px;
-    color: #43a047;
+    color: var(--color-primary-text);
 }
 
 .feedback-modal__footer {
@@ -233,12 +222,11 @@ const submit = async () => {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    background: var(--bg-surface);
-    border-top: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-color);
 }
 
 .feedback-modal__email-link {
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     cursor: pointer;
     text-decoration: underline;
 }
