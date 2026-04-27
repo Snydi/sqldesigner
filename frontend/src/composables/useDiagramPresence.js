@@ -81,7 +81,10 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
                         if (!el) continue
                         const { data, ...rest } = change
                         Object.assign(el, rest)
-                        if (data) Object.assign(el.data, data)
+                        if (data) {
+                            const { showOptionsModal: _, modalPosition: __, ...safeData } = data
+                            Object.assign(el.data, safeData)
+                        }
                     }
                 }
             })

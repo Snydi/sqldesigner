@@ -244,9 +244,6 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
             row.data.modalPosition = { x: 350, y: 0 }
             row.data.showOptionsModal = true
         }
-        whisper('schema-patch', {
-            update: [{ id, data: { showOptionsModal: row.data.showOptionsModal, modalPosition: row.data.modalPosition } }]
-        })
     }
 
     // --- Table constraints ---

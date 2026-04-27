@@ -44,6 +44,7 @@
             v-model:requireApproval="diagramRequireApproval"
             v-model:inLibrary="diagramInLibrary"
             v-model:hasPendingVisitors="hasPendingVisitors"
+            @save="saveDiagram"
             @close="showShareModal = false"
         />
 
@@ -380,6 +381,7 @@ const saveDiagram = async () => {
     await (isOwner.value ? Diagram.save(diagramId.value, schema.value) : Diagram.saveByToken(token, schema.value))
     isSaved.value = true
     whisper('diagram-saved', {})
+    whisper('schema-sync', { schema: schema.value })
 }
 
 // --- Load ---

@@ -134,7 +134,7 @@ const props = defineProps({
     inLibrary: { type: Boolean, default: false },
     hasPendingVisitors: { type: Boolean, default: false },
 })
-const emit = defineEmits(['close', 'update:shareAccess', 'update:requireApproval', 'update:inLibrary', 'update:hasPendingVisitors'])
+const emit = defineEmits(['close', 'save', 'update:shareAccess', 'update:requireApproval', 'update:inLibrary', 'update:hasPendingVisitors'])
 
 const loading = ref(false)
 const copied = ref(false)
@@ -167,6 +167,7 @@ const toggleShare = async () => {
         emit('update:shareAccess', null)
         copied.value = false
     } else {
+        await emit('save')
         emit('update:shareAccess', await Diagram.share(props.diagramId) ?? 'read')
     }
     loading.value = false
@@ -243,7 +244,7 @@ const toggleLibrary = async (event) => {
     background: var(--bg-surface);
     border-radius: 10px;
     padding: 1.5rem;
-    width: 380px;
+    width: 45rem;
     max-width: calc(100vw - 2rem);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
