@@ -217,7 +217,7 @@ export function useSchemaActions({ schema, isSaved, whisper, diagramDbType, addE
         tableNode.data = { ...tableNode.data, color }
 
         const childIds = schema.value.filter(el => el.parentNode === tableId).map(el => el.id)
-        const connectedEdges = schema.value.filter(el => el.source && childIds.includes(el.source))
+        const connectedEdges = schema.value.filter(el => el.target && childIds.includes(el.target))
         connectedEdges.forEach(edge => {
             edge.style = { ...edge.style, stroke: color }
             edge.data = { ...edge.data, color }
