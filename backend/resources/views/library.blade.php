@@ -10,6 +10,8 @@
     <meta property="og:title" content="Database Schema Library — Real MySQL &amp; PostgreSQL Schema Examples | SQL Designer">
     <meta property="og:description" content="Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SQL Designer">
+    <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://sql-designer.com/library">
     <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
     <meta property="og:image:width" content="2557">
@@ -19,6 +21,7 @@
     <meta name="twitter:title" content="Database Schema Library — Real MySQL &amp; PostgreSQL Schema Examples | SQL Designer">
     <meta name="twitter:description" content="Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="keywords" content="database schema examples, MySQL schema examples, PostgreSQL database schemas, ERD examples, database diagram library, SQL schema templates, entity relationship diagram examples, database design examples">
     <script type="application/ld+json">
     @verbatim
     [
@@ -26,8 +29,21 @@
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
+            { "@type": "ListItem", "position": 1, "name": "Home",           "item": "https://sql-designer.com/" },
             { "@type": "ListItem", "position": 2, "name": "Schema Library", "item": "https://sql-designer.com/library" }
+        ]
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "SQL Designer",
+        "url": "https://sql-designer.com",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "sameAs": [
+            "https://gitlab.com/Snydi/sql-designer",
+            "https://discord.gg/vFwgX7qKqA"
         ]
     },
     {
@@ -35,11 +51,62 @@
         "@type": "CollectionPage",
         "name": "Database Schema Library — SQL Designer",
         "url": "https://sql-designer.com/library",
+        "dateModified": "2026-04-27",
         "description": "Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.",
         "isPartOf": { "@type": "WebSite", "name": "SQL Designer", "url": "https://sql-designer.com" },
         "about": { "@type": "SoftwareApplication", "name": "SQL Designer", "url": "https://sql-designer.com" }
     }
     ]
+    @endverbatim
+    </script>
+    <script type="application/ld+json">
+    @verbatim
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the SQL Designer schema library?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The SQL Designer schema library is a public collection of MySQL and PostgreSQL database diagrams shared by the SQL Designer community. Browse real-world schema examples for blogs, e-commerce platforms, SaaS applications, analytics systems, and more."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I add my schema to the library?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Open the share dialog in the SQL Designer diagram editor and tick 'Share in library'. Your diagram will appear in the Shared by users section of the library, publicly viewable by anyone."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I get my schema featured in the library?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Embed your diagram on your own site using the iframe embed code from the share dialog, then contact SQL Designer. Schemas with a live backlink from an external site are eligible for the Featured row, which includes a dofollow backlink back to your site."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Are the schemas in the library free to view?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. All schemas in the SQL Designer library are publicly viewable without an account. You can browse, open, and inspect any shared diagram for free."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use a schema from the library in my own project?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Open any shared diagram from the library to view its full interactive ERD. You can use it as a reference or copy the generated SQL export to bootstrap your own project."
+                }
+            }
+        ]
+    }
     @endverbatim
     </script>
     <style>
@@ -370,7 +437,7 @@
         <div>
             <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><span>Library</span></p>
             <h1 class="page-h1">Real schemas, <em>shared</em> by the community.</h1>
-            <p class="page-sub">Browse MySQL and PostgreSQL examples — blogs, e-commerce, SaaS, analytics.</p>
+            <p class="page-sub">Browse MySQL and PostgreSQL examples — blogs, e-commerce, SaaS, analytics. Built with <a href="/features" style="color:var(--color-primary-text,#5db583)">SQL Designer</a>.</p>
         </div>
     </div>
 </section>
