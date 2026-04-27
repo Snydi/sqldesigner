@@ -19,15 +19,15 @@
     </label>
 
     <button v-if="canEdit" class="table_button table_button--add-row" @mousedown.stop @click="$emit('add-row', id)">
-        <img class="table_icon" src="../../icons/plus.svg" alt="Add row">
+        <SvgIcon name="plus" :size="14" />
     </button>
 
     <button v-if="canEdit" class="table_button table_button--copy" @mousedown.stop @click="$emit('copy-table', id)">
-        <img class="table_icon" src="../../icons/copy.svg" alt="Copy">
+        <SvgIcon name="copy" :size="13" />
     </button>
 
     <button v-if="canEdit" class="table_button" @mousedown.stop @click="$emit('delete-node', id)">
-        <img class="table_icon" src="../../icons/trash.svg" alt="Delete">
+        <SvgIcon name="trash" :size="13" />
     </button>
 
     <template v-if="canEdit">
@@ -37,6 +37,8 @@
 </template>
 
 <script setup>
+import SvgIcon from '../SvgIcon.vue'
+
 defineProps({
     id: String,
     data: Object,

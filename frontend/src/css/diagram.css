@@ -39,16 +39,16 @@ select:focus {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: rgba(255, 255, 255, 0.55);
 }
 
 .table_button:hover {
     background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.table_icon {
-    width: 100%;
-    height: 100%;
-    filter: brightness(0) invert(1);
+.table_button svg {
+    display: block;
 }
 
 .table_color_input {
@@ -105,14 +105,16 @@ select:focus {
 .vue-flow__node-row {
     padding: 0 10px;
     box-sizing: border-box;
-    background: #484848 !important;
-    color: #e0e0e0 !important;
-    border-color: #383838 !important;
+    background: var(--bg-surface) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+    border-top: none !important;
 }
 
 .vue-flow__node-row select {
-    max-width: 120px;
+    max-width: 110px;
     margin-right: 6px;
+    font-size: 12px;
 }
 
 .vue-flow__handle {
@@ -138,6 +140,8 @@ select:focus {
 .vue-flow__node-table {
     cursor: grab;
     justify-content: center !important;
+    border-radius: 8px 8px 0 0 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 .vue-flow__node-table > .table_button {

@@ -4,9 +4,7 @@
             <div class="share-modal__header">
                 <span class="share-modal__title">Share Diagram</span>
                 <button class="share-modal__close" @click="$emit('close')" aria-label="Close">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
+                    <SvgIcon name="close" :size="16" />
                 </button>
             </div>
             <div class="share-modal__body">
@@ -43,7 +41,9 @@
                             <textarea class="share-modal__link-input share-modal__embed-input" :value="embedCode" readonly rows="3"></textarea>
                             <button class="btn btn-primary share-modal__copy-btn share-modal__embed-copy-btn" @click="copyEmbed">{{ copiedEmbed ? 'Copied!' : 'Copy' }}</button>
                         </div>
-                        <p class="share-modal__hint">The link to my site is optional — but if you include it, your diagram gets featured in the <a href="/library" target="_blank" style="color:var(--color-primary);text-decoration:none">Schema Library</a> with a backlink to your site.</p>
+                        <p class="share-modal__hint">The link to my site is optional — but if you include it, your diagram gets featured in the <a href="/library" target="_blank" style="  color: var(--color-primary-text);
+    cursor: pointer;
+    text-decoration: underline;">Schema Library</a> with a backlink to your site.</p>
                     </div>
                 </div>
 
@@ -54,7 +54,9 @@
                     </label>
                     <span class="share-modal__help-icon">
                         ?
-                        <span class="share-modal__tooltip">When enabled, this diagram appears in read-only mode in the public <a href="/library" target="_blank" style="color:var(--color-primary)">Schema Library</a> for anyone to browse.</span>
+                        <span class="share-modal__tooltip">When enabled, this diagram appears in read-only mode in the public <a href="/library" target="_blank" style="color: var(--color-primary-text);
+    cursor: pointer;
+    text-decoration: underline;">Schema Library</a> for anyone to browse.</span>
                     </span>
                 </div>
 
@@ -125,6 +127,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { Diagram } from '@/services/Diagram.js'
+import SvgIcon from '../SvgIcon.vue'
 
 const props = defineProps({
     diagramId: { type: Number, required: true },
@@ -232,7 +235,7 @@ const toggleLibrary = async (event) => {
 .share-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.55);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -241,50 +244,53 @@ const toggleLibrary = async (event) => {
 
 .share-modal {
     background: var(--bg-surface);
-    border-radius: 10px;
-    padding: 1.5rem;
-    width: 380px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    width: 400px;
     max-width: calc(100vw - 2rem);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
 }
 
 .share-modal__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.25rem;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .share-modal__title {
-    color: var(--color-primary);
-    font-size: 0.85rem;
-    letter-spacing: 1px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    color: var(--text-secondary);
 }
 
 .share-modal__close {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 5px;
+    color: var(--text-muted);
+    padding: 4px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.45);
-    border-radius: 6px;
-    transition: color 0.15s, background 0.15s;
+    transition: color 120ms, background 120ms;
     flex-shrink: 0;
 }
 
 .share-modal__close:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    background: var(--hover-bg);
 }
 
 .share-modal__body {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 18px;
 }
 
 .share-modal__toggle-row {
@@ -314,7 +320,7 @@ const toggleLibrary = async (event) => {
 }
 
 .share-toggle--on {
-    background: var(--color-primary);
+    background: var(--color-primary-text);
 }
 
 .share-toggle:disabled {
@@ -374,9 +380,9 @@ const toggleLibrary = async (event) => {
 }
 
 .share-modal__seg-btn--active {
-    border-color: var(--color-primary);
-    background: var(--color-primary);
-    color: white;
+    border-color: var(--color-primary-text);
+    background: rgba(93, 181, 131, 0.15);
+    color: var(--color-primary-text);
 }
 
 .share-modal__seg-btn:disabled {

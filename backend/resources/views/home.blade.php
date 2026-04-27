@@ -155,6 +155,10 @@
         }
         .hero-screenshot {
             max-width: var(--maxw); margin: clamp(2rem, 4vw, 3rem) auto 0;
+            position: relative; border-radius: 10px 10px 0 0;
+            border: 1px solid var(--border-color); border-bottom: none;
+            box-shadow: 0 -8px 40px -8px rgba(93,181,131,0.08), 0 1px 0 rgba(255,255,255,0.02) inset;
+            overflow: hidden; aspect-ratio: 2555 / 1267;
         }
 
         .eyebrow {
@@ -188,21 +192,6 @@
         .hero-meta .tick { color: var(--color-primary-text); }
 
         /* ── Hero diagram frame ─────────────────────────── */
-        .diagram-frame {
-            position: relative; border-radius: 10px 10px 0 0;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color); border-bottom: none;
-            box-shadow: 0 -8px 40px -8px rgba(93,181,131,0.08), 0 1px 0 rgba(255,255,255,0.02) inset;
-            overflow: hidden; aspect-ratio: 2555 / 1267;
-        }
-        .diagram-chrome {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0.55rem 0.85rem; border-bottom: 1px solid var(--border-light);
-            background: linear-gradient(var(--bg-surface-alt), var(--bg-surface));
-            font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);
-        }
-        .diagram-chrome .dots { display: inline-flex; gap: 6px; }
-        .diagram-chrome .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--border-strong); display: inline-block; }
         .diagram-canvas {
             position: absolute; inset: 34px 0 0 0;
             width: 100%; height: calc(100% - 34px);
@@ -340,17 +329,10 @@
         </div>
     </div>
     <div class="hero-screenshot">
-        <div class="diagram-frame">
-            <div class="diagram-chrome">
-                <span class="dots"><i></i><i></i><i></i></span>
-                <span>shop_schema.sql · mysql</span>
-                <span>auto-saved</span>
-            </div>
             <img class="diagram-canvas"
                  src="/images/designer_screenshot.png"
                  alt="SQL Designer canvas showing an ER diagram with orders, users, products, and categories tables"
                  width="2555" height="1267">
-        </div>
     </div>
     <script>
         if (localStorage.getItem('auth_token')) {
