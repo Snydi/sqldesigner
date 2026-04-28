@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'SQL Designer — Free MySQL Designer & PostgreSQL Database Designer | ERD Tool')
+@section('title', 'SQL Designer — Free MySQL & PostgreSQL Database Designer')
 
 @section('head')
-    <meta name="description" content="Free visual MySQL designer and PostgreSQL database designer. Drag-and-drop tables, define relationships, and export SQL scripts in seconds. No install, no subscription.">
+    <meta name="description" content="Free visual MySQL designer and PostgreSQL database designer. Drag-and-drop tables, define relationships, and export SQL scripts in seconds.">
     <meta name="keywords" content="mysql designer, mysql database designer, mysql db designer, visual sql designer, visual database designer, database designer for postgresql, ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, MySQL workbench alternative, pgAdmin alternative, free postgres designer">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#c05252">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="SQL Designer — Free MySQL Designer & PostgreSQL Database Designer | ERD Tool">
+    <meta property="og:title" content="SQL Designer — Free MySQL & PostgreSQL Database Designer">
     <meta property="og:description" content="Free visual MySQL designer and database designer for PostgreSQL. Drag-and-drop schema editor with SQL export. No install, no subscription.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">

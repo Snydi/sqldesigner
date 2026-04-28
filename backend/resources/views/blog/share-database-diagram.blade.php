@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Share your database schema online with a shareable link or embed it as an interactive iframe. Control access with read-only, editable, or approval-based permissions.">
+          content="Share your database schema online with a shareable link or embed it as an interactive iframe. Control access with approval-based permissions.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/share-database-diagram">

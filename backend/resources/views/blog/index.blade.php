@@ -159,19 +159,9 @@
         <p>Learn the crow's foot symbols for one-to-one, one-to-many, and many-to-many relationships, how optionality works, and how the notation maps to real foreign key constraints.</p>
     </a>
     <a class="post-card" href="/blog/best-erd-tools">
-        <p class="card-meta">April 2026 · 8 min read</p>
-        <h2>Best Free ERD Tools Online in 2026 — Compared</h2>
-        <p>Comparing the best free online entity-relationship diagram tools: SQL Designer, dbdiagram.io, draw.io, Lucidchart, ERDPlus, and QuickDBD — rated on SQL support, usability, and what's genuinely free.</p>
-    </a>
-    <a class="post-card" href="/blog/lucidchart-alternative">
-        <p class="card-meta">April 2026 · 6 min read</p>
-        <h2>Lucidchart Alternative for Database Design — Free Online ERD Tool</h2>
-        <p>Lucidchart is a polished diagramming tool but it can't export SQL or validate constraints. Here are the best free alternatives purpose-built for MySQL and PostgreSQL database design.</p>
-    </a>
-    <a class="post-card" href="/blog/drawio-alternative">
-        <p class="card-meta">April 2026 · 6 min read</p>
-        <h2>draw.io Alternative for Database Design — SQL-Aware ERD Tool</h2>
-        <p>draw.io is excellent for general diagrams but has no SQL awareness — no data types, no constraints, no DDL export. Here are the best free alternatives that actually understand your database.</p>
+        <p class="card-meta">April 2026 · 9 min read</p>
+        <h2>Best Free ERD Tools in 2026 — Honest Comparison</h2>
+        <p>Honest comparison of 7 ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, DB Designer, DBeaver, and ChartDB — with real strengths, real weaknesses, and clear use-case guidance.</p>
     </a>
     <a class="post-card" href="/blog/share-database-diagram">
         <p class="card-meta">April 2026 · 5 min read</p>
@@ -202,11 +192,6 @@
         <p class="card-meta">April 2026 · 9 min read</p>
         <h2>Database Schema Examples — MySQL &amp; PostgreSQL Templates</h2>
         <p>Five real-world database schema templates — e-commerce, blog, SaaS, task tracker, and messaging — with complete MySQL and PostgreSQL CREATE TABLE scripts you can copy or build visually.</p>
-    </a>
-    <a class="post-card" href="/blog/dbdiagram-alternative">
-        <p class="card-meta">April 2026 · 6 min read</p>
-        <h2>dbdiagram.io Alternative — Free Visual Schema Designer</h2>
-        <p>dbdiagram.io requires a paid plan for SQL export and private diagrams. Here are the best free alternatives — including a fully visual drag-and-drop option that exports MySQL and PostgreSQL DDL at no cost.</p>
     </a>
     <a class="post-card" href="/blog/how-to-design-mysql-database-schema">
         <p class="card-meta">March 2026 · 7 min read</p>

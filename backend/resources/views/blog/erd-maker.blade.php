@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Free ERD maker — create entity relationship diagrams online with a drag-and-drop canvas. Define tables, relationships, and export MySQL or PostgreSQL SQL. No install required.">
+          content="Free ERD maker — create entity relationship diagrams online with a drag-and-drop canvas. Define tables, relationships, and export MySQL or PostgreSQL SQL.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/erd-maker">
