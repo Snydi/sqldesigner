@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Real-world database schema examples for e-commerce, blog, SaaS, and more. MySQL and PostgreSQL CREATE TABLE templates you can copy or build visually in SQL Designer.">
+          content="Schema examples for e-commerce, blog, SaaS, and more. MySQL and PostgreSQL CREATE TABLE templates you can copy or build visually in SQL Designer.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-schema-examples">

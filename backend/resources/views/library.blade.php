@@ -132,7 +132,7 @@
                 linear-gradient(var(--border-light) 1px, transparent 1px),
                 linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
             background-size: 56px 56px;
-            mask-image: radial-gradient(ellipse 60% 70% at 30% 0%, black 30%, transparent 75%);
+            mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
             opacity: 0.45;
             pointer-events: none;
         }
@@ -203,8 +203,7 @@
             position: sticky;
             top: 56px;
             z-index: 40;
-            backdrop-filter: blur(8px);
-            background: rgba(31,31,31,0.85);
+            background: rgba(31,31,31,0.97);
         }
         .filterbar-inner {
             max-width: var(--maxw);

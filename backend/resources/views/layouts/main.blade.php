@@ -14,7 +14,9 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=optional" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=optional" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=optional" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=optional" rel="stylesheet" /></noscript>
     @vite(['src/css/app.css'])
     <style>
         /* ── Token overrides for Blade pages ──────────────── */
@@ -56,8 +58,7 @@
             position: sticky; top: 0; z-index: 50;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0.85rem var(--gutter);
-            background: rgba(31,31,31,0.88);
-            backdrop-filter: blur(10px);
+            background: rgba(31,31,31,0.96);
             border-bottom: 1px solid var(--border-light);
             color: var(--text-primary);
         }

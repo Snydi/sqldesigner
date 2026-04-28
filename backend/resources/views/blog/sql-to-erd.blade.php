@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Import a SQL script and generate an ER diagram automatically — SQL Designer parses your CREATE TABLE statements and renders tables, columns, and relationships on a visual canvas.">
+          content="Import a SQL script and generate an ER diagram automatically — SQL Designer parses your CREATE TABLE statements and renders a schema.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/sql-to-erd">

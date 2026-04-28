@@ -147,8 +147,8 @@
                 linear-gradient(var(--border-light) 1px, transparent 1px),
                 linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
             background-size: 56px 56px;
-            mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 20%, transparent 70%);
-            opacity: 0.45; pointer-events: none;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
+            opacity: 0.35; pointer-events: none;
         }
         .hero-inner {
             max-width: 680px; margin: 0 auto;

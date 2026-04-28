@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Honest comparison of the best free ERD tools in 2026: SQL Designer, DrawSQL, dbdiagram.io, draw.io, DB Designer, DBeaver, and ChartDB — compared by features, SQL support, and real limitations.">
+          content="Honest comparison of the best free ERD tools in 2026: SQL Designer, DrawSQL, dbdiagram.io, draw.io, DB Designer, DBeaver, and ChartDB.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/best-erd-tools">
