@@ -23,8 +23,8 @@
     <meta name="twitter:description" content="Free visual MySQL designer and database designer for PostgreSQL. Design schemas online and export SQL. No install, no subscription.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
-    <link rel="preload" as="image" type="image/webp"
-          imagesrcset="/images/designer_screenshot-800w.webp 800w, /images/designer_screenshot.webp 2240w"
+    <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+          imagesrcset="/images/designer_screenshot-400w.webp 400w, /images/designer_screenshot-800w.webp 800w, /images/designer_screenshot-1120w.webp 1120w, /images/designer_screenshot.webp 2240w"
           imagesizes="(max-width: 760px) 100vw, 1120px">
     <script type="application/ld+json">
     @verbatim
@@ -335,7 +335,7 @@
         <picture>
             <source
                 type="image/webp"
-                srcset="/images/designer_screenshot-800w.webp 800w, /images/designer_screenshot.webp 2240w"
+                srcset="/images/designer_screenshot-400w.webp 400w, /images/designer_screenshot-800w.webp 800w, /images/designer_screenshot-1120w.webp 1120w, /images/designer_screenshot.webp 2240w"
                 sizes="(max-width: 760px) 100vw, 1120px">
             <img class="diagram-canvas"
                  src="/images/designer_screenshot.png"

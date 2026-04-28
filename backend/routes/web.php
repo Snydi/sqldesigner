@@ -11,7 +11,6 @@ Route::get('/', function () {
 
 Route::prefix('/blog')->group(function () {
     Route::get('/', fn() => view('blog.index'));
-    Route::get('/mysql-workbench-alternative', fn() => view('blog.mysql-workbench-alternative'));
     Route::get('/how-to-design-mysql-database-schema', fn() => view('blog.how-to-design-mysql-database-schema'));
     Route::get('/er-diagram-tool-online', fn() => view('blog.er-diagram-tool-online'));
     Route::get('/mysql-foreign-key', fn() => view('blog.mysql-foreign-key'));
@@ -25,8 +24,6 @@ Route::prefix('/blog')->group(function () {
     Route::get('/mysql-db-designer', fn() => view('blog.mysql-db-designer'));
     Route::get('/postgres-db-designer', fn() => view('blog.postgres-db-designer'));
     Route::get('/database-designer', fn() => view('blog.database-designer'));
-    Route::get('/lucidchart-alternative', fn() => view('blog.lucidchart-alternative'));
-    Route::get('/drawio-alternative', fn() => view('blog.drawio-alternative'));
     Route::get('/best-erd-tools', fn() => view('blog.best-erd-tools'));
     Route::get('/share-database-diagram', fn() => view('blog.share-database-diagram'));
     Route::get('/erd-maker', fn() => view('blog.erd-maker'));

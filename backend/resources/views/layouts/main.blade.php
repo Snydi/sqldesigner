@@ -14,7 +14,7 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=optional" rel="stylesheet" />
     @vite(['src/css/app.css'])
     <style>
         /* ── Token overrides for Blade pages ──────────────── */
@@ -100,9 +100,9 @@
             padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);
         }
         .footer-col { min-width: 130px; }
-        .footer-col h4 {
+        .footer-col h2 {
             font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em;
-            color: var(--text-muted); margin: 0 0 0.6rem; font-weight: 500;
+            color: var(--text-subtle); margin: 0 0 0.6rem; font-weight: 500;
             font-family: 'JetBrains Mono', monospace;
         }
         .footer-col ul { list-style: none; padding: 0; margin: 0; }
@@ -116,7 +116,7 @@
         .footer-bottom {
             max-width: var(--maxw); margin: 1rem auto 0;
             display: flex; justify-content: space-between; flex-wrap: wrap;
-            gap: 0.5rem; font-size: 0.78rem; color: var(--text-muted);
+            gap: 0.5rem; font-size: 0.78rem; color: var(--text-subtle);
         }
         @media (max-width: 540px) {
             .footer-inner { gap: 1.5rem; }
@@ -182,7 +182,7 @@
 <footer class="site">
     <div class="footer-inner">
         <div class="footer-col">
-            <h4>Product</h4>
+            <h2>Product</h2>
             <ul>
                 <li><a href="/features">Features</a></li>
                 <li><a href="/demo">Live demo</a></li>
@@ -190,14 +190,14 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Resources</h4>
+            <h2>Resources</h2>
             <ul>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/sitemap">Sitemap</a></li>
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Code</h4>
+            <h2>Code</h2>
             <ul>
                 <li>
                     <a href="https://gitlab.com/Snydi/sql-designer" target="_blank" rel="noopener noreferrer" class="footer-gitlab" aria-label="View source on GitLab">
@@ -208,7 +208,7 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Community</h4>
+            <h2>Community</h2>
             <ul>
                 <li>
                     <a href="mailto:snydi611@gmail.com" class="footer-email" aria-label="Send an email">
