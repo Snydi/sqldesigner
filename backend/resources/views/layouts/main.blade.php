@@ -143,9 +143,8 @@
         ['click','scroll','keydown','touchstart'].forEach(function(e) {
             document.addEventListener(e, loadGtag, {once: true, passive: true});
         });
-        setTimeout(loadGtag, 4000);
+        setTimeout(loadGtag, 8000);
     </script>
-    <script src="https://analytics.ahrefs.com/analytics.js" data-key="6r4lGJ3Fgx0N5p0a4dI/OQ" async></script>
 </head>
 <body class="home-page">
 

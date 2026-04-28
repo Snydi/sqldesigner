@@ -23,6 +23,9 @@
     <meta name="twitter:description" content="Free visual MySQL designer and database designer for PostgreSQL. Design schemas online and export SQL. No install, no subscription.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <link rel="canonical" href="https://sql-designer.com/">
+    <link rel="preload" as="image" type="image/webp"
+          imagesrcset="/images/designer_screenshot-800w.webp 800w, /images/designer_screenshot.webp 2240w"
+          imagesizes="(max-width: 760px) 100vw, 1120px">
     <script type="application/ld+json">
     @verbatim
     {
@@ -158,7 +161,7 @@
             position: relative; border-radius: 10px 10px 0 0;
             border: 1px solid var(--border-color); border-bottom: none;
             box-shadow: 0 -8px 40px -8px rgba(93,181,131,0.08), 0 1px 0 rgba(255,255,255,0.02) inset;
-            overflow: hidden; aspect-ratio: 2555 / 1267;
+            overflow: hidden; aspect-ratio: 2240 / 1111;
         }
 
         .eyebrow {
@@ -329,10 +332,17 @@
         </div>
     </div>
     <div class="hero-screenshot">
+        <picture>
+            <source
+                type="image/webp"
+                srcset="/images/designer_screenshot-800w.webp 800w, /images/designer_screenshot.webp 2240w"
+                sizes="(max-width: 760px) 100vw, 1120px">
             <img class="diagram-canvas"
                  src="/images/designer_screenshot.png"
                  alt="SQL Designer canvas showing an ER diagram with orders, users, products, and categories tables"
-                 width="2555" height="1267">
+                 width="2240" height="1111"
+                 fetchpriority="high">
+        </picture>
     </div>
     <script>
         if (localStorage.getItem('auth_token')) {

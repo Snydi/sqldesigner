@@ -27,7 +27,7 @@
         ['click','scroll','keydown','touchstart'].forEach(function(e) {
             document.addEventListener(e, loadGtag, {once: true, passive: true});
         });
-        setTimeout(loadGtag, 4000);
+        setTimeout(loadGtag, 8000);
     </script>
 </head>
 <body>
