@@ -84,7 +84,8 @@ install-prod:
 		cd /var/www/html/backend && \
 		php artisan key:generate --no-interaction && \
 		php artisan migrate --force && \
-		php artisan optimize"
+		php artisan optimize && \
+		php artisan scribe:generate"
 
 up-prod:
 	docker compose -f docker-compose.prod.yml -p snydiagram up -d
