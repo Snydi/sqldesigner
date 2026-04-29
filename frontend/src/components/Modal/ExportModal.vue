@@ -46,6 +46,19 @@
                     <span class="export-card__desc">Diagram JSON backup</span>
                 </button>
 
+                <button class="export-card export-card--png" @click="$emit('capture-png')">
+                    <div class="export-card__icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="8" width="40" height="32" rx="4" fill="var(--bg-surface-alt)" stroke="var(--color-primary)" stroke-width="2"/>
+                            <circle cx="16" cy="19" r="4" fill="var(--color-primary)" opacity="0.7"/>
+                            <path d="M4 34l10-10 8 8 6-6 16 12" stroke="var(--color-primary)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                            <text x="24" y="44" text-anchor="middle" font-size="9" font-weight="700" font-family="monospace" fill="var(--color-primary)">.png</text>
+                        </svg>
+                    </div>
+                    <span class="export-card__label">.png</span>
+                    <span class="export-card__desc">Image snapshot</span>
+                </button>
+
                 <button class="export-card export-card--laravel" @click="downloadLaravelMigrations">
                     <div class="export-card__icon">
                         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,7 +94,7 @@ const props = defineProps({
     diagramId:   { type: Number, default: null },
 })
 
-defineEmits(['close'])
+defineEmits(['close', 'capture-png'])
 
 const copyText = async () => {
     await navigator.clipboard.writeText(props.sqlContent)
@@ -142,7 +155,7 @@ const downloadLaravelMigrations = async () => {
     background: var(--bg-surface);
     border-radius: 12px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-    width: 540px;
+    width: 660px;
     max-width: calc(100vw - 2rem);
     overflow: hidden;
 }
@@ -189,7 +202,7 @@ const downloadLaravelMigrations = async () => {
 
 .export-modal__body {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 12px;
     padding: 24px;
 }
@@ -216,6 +229,10 @@ const downloadLaravelMigrations = async () => {
 
 .export-card--laravel:hover {
     border-color: #FF2D20;
+}
+
+.export-card--png:hover {
+    border-color: var(--color-primary);
 }
 
 .export-card__icon {
