@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DiagramChangelogResource;
 use App\Models\Diagram;
 use App\Models\DiagramChangelog;
 use App\Models\DiagramVisitor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Routing\Controller;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Subgroup;
 
+#[Group("Diagrams")]
+#[Subgroup("Changelog")]
 class DiagramChangelogController extends Controller
 {
-    public function index(Diagram $diagram, Request $request): JsonResponse
+    public function index(Diagram $diagram, Request $request): AnonymousResourceCollection|JsonResponse
     {
         $user = $request->user();
 
@@ -24,7 +30,7 @@ class DiagramChangelogController extends Controller
             ->limit(200)
             ->get();
 
-        return response()->json($entries);
+        return DiagramChangelogResource::collection($entries);
     }
 
     public function store(Diagram $diagram, Request $request): JsonResponse

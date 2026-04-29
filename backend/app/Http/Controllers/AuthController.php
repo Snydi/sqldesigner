@@ -11,8 +11,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Knuckles\Scribe\Attributes\Group;
 use Laravel\Socialite\Facades\Socialite;
 
+#[Group("Authentication")]
 class AuthController extends Controller
 {
     public function __construct(private readonly AuthService $authService) {}
