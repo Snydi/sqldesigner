@@ -13,7 +13,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group("Admin")]
 class AdminController extends Controller
 {
     public function __construct(private readonly AdminService $adminService) {}
