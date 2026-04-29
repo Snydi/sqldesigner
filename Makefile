@@ -48,6 +48,9 @@ test:
 test_coverage:
 	docker-compose exec php sh -c "cd /var/www/html/backend && vendor/bin/phpunit --coverage-html=tests/coverage"
 
+docs:
+	docker-compose -p snydiagram exec -T php sh -c "cd /var/www/html/backend && php artisan scribe:generate"
+
 _wait_postgres:
 	docker-compose -p snydiagram exec -T postgres sh -c 'until pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}; do sleep 2; echo "Waiting for PostgreSQL..."; done'
 	docker-compose -p snydiagram exec -T postgres sh -c 'psql -U $${POSTGRES_USER:-postgres} -tc "SELECT 1 FROM pg_database WHERE datname = '\''$${POSTGRES_DB:-snydiagram}'\''" | grep -q 1 || psql -U $${POSTGRES_USER:-postgres} -c "CREATE DATABASE $${POSTGRES_DB:-snydiagram}"'
@@ -81,7 +84,8 @@ install-prod:
 		cd /var/www/html/backend && \
 		php artisan key:generate --no-interaction && \
 		php artisan migrate --force && \
-		php artisan optimize"
+		php artisan optimize && \
+		php artisan scribe:generate"
 
 up-prod:
 	docker compose -f docker-compose.prod.yml -p snydiagram up -d

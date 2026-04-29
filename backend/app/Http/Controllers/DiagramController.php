@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DiagramRequest;
 use App\Http\Resources\DiagramResource;
+use App\Http\Resources\DiagramVisitorResource;
 use App\Models\Diagram;
 use App\Models\DiagramVisitor;
 use App\Services\DiagramCrudService;
@@ -16,9 +17,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Throwable;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Subgroup;
 use ZipArchive;
 
+#[Group("Diagrams")]
 class DiagramController extends Controller
 {
     use AuthorizesRequests;
@@ -27,9 +30,11 @@ class DiagramController extends Controller
         private readonly DiagramCrudService    $crudService,
         private readonly DiagramSharingService $sharingService,
         private readonly DiagramSqlService     $sqlService,
-    ) {
+    )
+    {
     }
 
+    #[Subgroup("CRUD")]
     public function index(Request $request): AnonymousResourceCollection
     {
         return DiagramResource::collection($this->crudService->getUserDiagrams($request->user()));
@@ -38,6 +43,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("CRUD")]
     public function show(Diagram $diagram): DiagramResource
     {
         $this->authorize('view', $diagram);
@@ -45,6 +51,7 @@ class DiagramController extends Controller
         return new DiagramResource($diagram);
     }
 
+    #[Subgroup("CRUD")]
     public function store(DiagramRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -58,6 +65,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("CRUD")]
     public function update(Diagram $diagram, DiagramRequest $request): JsonResponse
     {
         $this->authorize('update', $diagram);
@@ -70,6 +78,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("CRUD")]
     public function destroy(Diagram $diagram): JsonResponse
     {
         $this->authorize('delete', $diagram);
@@ -78,9 +87,11 @@ class DiagramController extends Controller
             ? response()->json(['status' => true, 'message' => 'Diagram deleted'])
             : response()->json(['status' => false, 'message' => 'Failed deleting the diagram']);
     }
+
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("SQL")]
     public function import(Diagram $diagram, Request $request): JsonResponse
     {
         $this->authorize('import', $diagram);
@@ -91,6 +102,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("SQL")]
     public function export(Diagram $diagram): JsonResponse
     {
         $this->authorize('export', $diagram);
@@ -101,6 +113,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("SQL")]
     public function exportMigration(Diagram $diagram): Response
     {
         $this->authorize('export', $diagram);
@@ -128,6 +141,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("SQL")]
     public function exportJson(Diagram $diagram): JsonResponse
     {
         $this->authorize('export', $diagram);
@@ -138,6 +152,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("Sharing")]
     public function share(Diagram $diagram): JsonResponse
     {
         $this->authorize('update', $diagram);
@@ -148,6 +163,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("Sharing")]
     public function unshare(Diagram $diagram): JsonResponse
     {
         $this->authorize('update', $diagram);
@@ -160,6 +176,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("Sharing")]
     public function updateShareAccess(Diagram $diagram, Request $request): JsonResponse
     {
         $this->authorize('update', $diagram);
@@ -178,16 +195,18 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("Sharing")]
     public function getVisitors(Diagram $diagram): JsonResponse
     {
         $this->authorize('update', $diagram);
 
-        return response()->json($this->sharingService->getVisitors($diagram));
+        return DiagramVisitorResource::collection($this->sharingService->getVisitors($diagram));
     }
 
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("Sharing")]
     public function approveVisitor(Diagram $diagram, DiagramVisitor $visitor): JsonResponse
     {
         $this->authorize('update', $diagram);
@@ -204,6 +223,7 @@ class DiagramController extends Controller
     /**
      * @throws AuthorizationException
      */
+    #[Subgroup("Sharing")]
     public function updateVisitorAccess(Diagram $diagram, DiagramVisitor $visitor, Request $request): JsonResponse
     {
         $this->authorize('update', $diagram);
@@ -222,6 +242,7 @@ class DiagramController extends Controller
         return response()->json(['status' => true, 'visitor_status' => $visitor->status, 'access' => $visitor->access]);
     }
 
+    #[Subgroup("Sharing")]
     public function saveByToken(string $token, Request $request): JsonResponse
     {
         $diagram = Diagram::where('share_token', $token)->firstOrFail();
@@ -233,6 +254,7 @@ class DiagramController extends Controller
         return response()->json(['status' => true]);
     }
 
+    #[Subgroup("Sharing")]
     public function showEmbed(string $token): JsonResponse
     {
         $diagram = Diagram::where('share_token', $token)->firstOrFail();
@@ -244,6 +266,7 @@ class DiagramController extends Controller
         return response()->json($this->crudService->getEmbedData($diagram));
     }
 
+    #[Subgroup("Sharing")]
     public function showByToken(string $token, Request $request): DiagramResource|JsonResponse
     {
         $diagram = Diagram::where('share_token', $token)->firstOrFail();

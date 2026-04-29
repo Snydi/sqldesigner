@@ -47,6 +47,10 @@
                 <a href="/login">Log In</a>
                 <span class="desc">Sign in to your SQL Designer account.</span>
             </li>
+            <li>
+                <a href="/docs">API Docs</a>
+                <span class="desc">REST API reference for SQL Designer — endpoints, request parameters, and response schemas.</span>
+            </li>
         </ul>
 
         <h2>Blog</h2>
