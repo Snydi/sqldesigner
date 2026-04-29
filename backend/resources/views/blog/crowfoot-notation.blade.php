@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Crow's foot notation explained — learn the symbols for one-to-one, one-to-many, and many-to-many relationships in ER diagrams, with examples for MySQL and PostgreSQL schemas.">
+          content="Crow's foot notation explained — learn the symbols for one-to-one, one-to-many, and many-to-many relationships in ER diagrams.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/crowfoot-notation">

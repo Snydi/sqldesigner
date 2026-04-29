@@ -49,18 +49,6 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://sql-designer.com/blog/lucidchart-alternative</loc>
-        <lastmod>2026-04-11</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://sql-designer.com/blog/drawio-alternative</loc>
-        <lastmod>2026-04-11</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
         <loc>https://sql-designer.com/blog/share-database-diagram</loc>
         <lastmod>2026-04-11</lastmod>
         <changefreq>monthly</changefreq>
@@ -97,12 +85,6 @@
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://sql-designer.com/blog/dbdiagram-alternative</loc>
-        <lastmod>2026-04-02</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
         <loc>https://sql-designer.com/blog/how-to-design-mysql-database-schema</loc>
         <lastmod>2026-03-18</lastmod>
         <changefreq>monthly</changefreq>
@@ -111,12 +93,6 @@
     <url>
         <loc>https://sql-designer.com/blog/er-diagram-tool-online</loc>
         <lastmod>2026-04-16</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://sql-designer.com/blog/mysql-workbench-alternative</loc>
-        <lastmod>2026-03-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>

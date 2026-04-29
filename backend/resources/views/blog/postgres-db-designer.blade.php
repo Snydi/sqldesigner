@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, PostgreSQL type support, foreign keys, and SQL export. No install required.">
+          content="Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, PostgreSQL type support, foreign keys, and SQL export.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/postgres-db-designer">

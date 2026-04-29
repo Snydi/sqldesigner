@@ -77,8 +77,8 @@ export const DEMO_SCHEMA = [
     row('dr19', 'stock',       200, 'dt4', 'None',        'INT(11)'),
 
     // edges
-    edge('de1', 'dr1',  'dr6',  C.users),      // users.id → orders.user_id
-    edge('de2', 'dr5',  'dr11', C.orders),     // orders.id → order_items.order_id
-    edge('de3', 'dr15', 'dr12', C.products),   // products.id → order_items.product_id
-    edge('de4', 'dr20', 'dr16', C.categories), // categories.id → products.category_id
+    edge('de1', 'dr6',  'dr1',  C.users),      // users.id → orders.user_id
+    edge('de2', 'dr11',  'dr5', C.orders),     // orders.id → order_items.order_id
+    edge('de3', 'dr12', 'dr15', C.products),   // products.id → order_items.product_id
+    edge('de4', 'dr16', 'dr20', C.categories), // categories.id → products.category_id
 ]

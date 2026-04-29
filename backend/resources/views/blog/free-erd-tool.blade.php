@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="The best free ERD tool online — draw entity relationship diagrams visually, define foreign keys, and export MySQL or PostgreSQL SQL. No install, no subscription.">
+          content="The best free ERD tool online — draw entity relationship diagrams visually, define foreign keys, and export MySQL or PostgreSQL SQL.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/free-erd-tool">

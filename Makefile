@@ -71,24 +71,8 @@ build-frontend:
 		sh -c "npm ci && npm run build"
 	mkdir -p backend/public/build backend/public/images
 	cp -r frontend/public/build/. backend/public/build/
-	cp frontend/src/icons/logo.svg backend/public/images/logo.svg
-	cp frontend/src/icons/screenshot.png backend/public/images/screenshot.png
-	docker run --rm \
-		-v "$(CURDIR)/frontend/src/icons":/src \
-		-v "$(CURDIR)/backend/public/images":/out \
-		-w /src \
-		node:18-alpine \
-		sh -c "npm install -g sharp-cli 2>/dev/null; sharp -i screenshot.png -o /out/screenshot.webp"
-	docker run --rm \
-		-v "$(CURDIR)/backend/public":/out \
-		node:18-alpine \
-		sh -c "npm install -g sharp-cli 2>/dev/null; \
-			sharp -i /out/favicon.svg -o /out/favicon-48x48.png resize 48 48; \
-			sharp -i /out/favicon.svg -o /out/favicon-96x96.png resize 96 96; \
-			sharp -i /out/favicon.svg -o /out/favicon-192x192.png resize 192 192; \
-			sharp -i /out/favicon.svg -o /out/apple-touch-icon.png resize 180 180"
+	cp -r frontend/src/icons/. backend/public/images/
 	-$(RM) backend$(SEP)public$(SEP)hot 2>$(DEVNULL)
-	-$(RM) frontend$(SEP)public$(SEP)hot 2>$(DEVNULL)
 
 install-prod:
 	$(MAKE) build-frontend

@@ -1,14 +1,14 @@
 @extends('layouts.main')
 
-@section('title', 'Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL')
+@section('title', 'Free DB Designer Online — Visual Database Designer')
 
 @section('head')
     <meta name="description"
-          content="Free DB designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL. No install required.">
+          content="Free DB designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-designer">
-    <meta property="og:title" content="Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL">
+    <meta property="og:title" content="Free DB Designer Online — Visual Database Designer">
     <meta property="og:description"
           content="Free DB designer — design relational schemas visually in your browser. Drag-and-drop tables, foreign keys, MySQL and PostgreSQL SQL export. No install.">
     <meta property="og:type" content="article">
@@ -18,7 +18,7 @@
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free online database designer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL">
+    <meta name="twitter:title" content="Free DB Designer Online — Visual Database Designer">
     <meta name="twitter:description" content="Free DB designer for MySQL and PostgreSQL — design schemas visually with drag-and-drop tables and SQL export. No install.">
     <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
     <script type="application/ld+json">
@@ -36,7 +36,7 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL",
+            "headline": "Free DB Designer Online — Visual Database Designer",
             "description": "Free DB designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL.",
             "image": "https://sql-designer.com/images/screenshot.png",
             "url": "https://sql-designer.com/blog/database-designer",
