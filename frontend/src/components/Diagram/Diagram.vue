@@ -190,6 +190,7 @@
             :jsonContent="exportJsonContent"
             :diagramId="diagramId"
             @close="showExportModal = false"
+            @capture-png="capturePng"
         />
 
         <FeedbackModal
@@ -370,6 +371,25 @@ const openExportModal = async () => {
     exportContent.value = sql
     exportJsonContent.value = json
     showExportModal.value = true
+}
+
+const capturePng = async () => {
+    showExportModal.value = false
+    fitView({ duration: 0 })
+    await nextTick()
+    const el = canvasWrapperRef.value?.querySelector('.vue-flow')
+    if (!el) return
+    try {
+        const { toPng } = await import('html-to-image')
+        const dataUrl = await toPng(el, { backgroundColor: '#282828' })
+        const a = document.createElement('a')
+        a.href = dataUrl
+        a.download = `${diagramName.value}.png`
+        a.click()
+    } catch (e) {
+        $toast.error('Failed to export image')
+        console.error(e)
+    }
 }
 
 const exportSql = async () => {
