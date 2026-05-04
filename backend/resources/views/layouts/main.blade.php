@@ -212,7 +212,7 @@
             <h2>Community</h2>
             <ul>
                 <li>
-                    <a href="mailto:snydi611@gmail.com" class="footer-email" aria-label="Send an email">
+                    <a href="mailto:dmitriy@sql-designer.com" class="footer-email" aria-label="Send an email">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
                         Email
                     </a>

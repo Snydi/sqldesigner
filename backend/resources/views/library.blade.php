@@ -447,7 +447,7 @@
         <h2 class="section-h2">Featured schemas</h2>
         <span class="section-pill featured">Backlink exchange</span>
     </div>
-    <p class="section-desc">Schemas embedded on the user's own site with a link back to SQL Designer. Use the <em>embed</em> code option in the share dialog, then <a href="mailto:snydi611@gmail.com">contact me</a> and I'll feature your schema here with a DO FOLLOW backlink, leading to your site.</p>
+    <p class="section-desc">Schemas embedded on the user's own site with a link back to SQL Designer. Use the <em>embed</em> code option in the share dialog, then <a href="mailto:dmitriy@sql-designer.com">contact me</a> and I'll feature your schema here with a DO FOLLOW backlink, leading to your site.</p>
 
     @if($featured->isEmpty())
         <div class="lib-empty">
