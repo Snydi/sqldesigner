@@ -49,7 +49,7 @@ test_coverage:
 	docker-compose exec php sh -c "cd /var/www/html/backend && vendor/bin/phpunit --coverage-html=tests/coverage"
 
 docs:
-	docker-compose -p snydiagram exec -T php sh -c "cd /var/www/html/backend && php artisan scribe:generate"
+	docker exec php sh -c "cd /var/www/html/backend && php artisan scribe:generate"
 
 _wait_postgres:
 	docker-compose -p snydiagram exec -T postgres sh -c 'until pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}; do sleep 2; echo "Waiting for PostgreSQL..."; done'
