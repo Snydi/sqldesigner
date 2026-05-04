@@ -18,7 +18,6 @@ Route::prefix('/blog')->group(function () {
     Route::get('/database-normalization', fn() => view('blog.database-normalization'));
     Route::get('/how-to-draw-er-diagram', fn() => view('blog.how-to-draw-er-diagram'));
     Route::get('/mysql-vs-postgresql', fn() => view('blog.mysql-vs-postgresql'));
-    Route::get('/dbdiagram-alternative', fn() => view('blog.dbdiagram-alternative'));
     Route::get('/database-schema-examples', fn() => view('blog.database-schema-examples'));
     Route::get('/free-erd-tool', fn() => view('blog.free-erd-tool'));
     Route::get('/mysql-db-designer', fn() => view('blog.mysql-db-designer'));
@@ -59,6 +58,8 @@ Route::prefix('/admin')->group(function () {
         Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.destroy');
         Route::post('/diagrams/{diagram}/feature', [AdminController::class, 'featureDiagram'])->name('admin.diagrams.feature');
         Route::delete('/diagrams/{diagram}/feature', [AdminController::class, 'unfeatureDiagram'])->name('admin.diagrams.unfeature');
+        Route::post('/users/{user}/email', [AdminController::class, 'sendEmail'])->name('admin.users.email');
+        Route::post('/email-all', [AdminController::class, 'sendEmailToAll'])->name('admin.email-all');
         Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
     });
 });

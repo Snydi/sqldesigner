@@ -268,6 +268,106 @@
             transition: background .2s, border-color .2s;
         }
         .unfeature-btn:hover { background: #fff0f0; border-color: #8f2f2f; }
+        .email-btn {
+            background: none;
+            border: 1px solid #b0c8e0;
+            border-radius: 4px;
+            color: #2c5f8f;
+            padding: 7px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: background .2s, border-color .2s;
+        }
+        .email-btn:hover { background: #f0f5ff; border-color: #2c5f8f; }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s;
+        }
+        .modal-overlay.show { opacity: 1; pointer-events: all; }
+        .modal {
+            background: #fff;
+            border-radius: 6px;
+            padding: 24px 28px;
+            width: 520px;
+            max-width: 95vw;
+            box-shadow: 0 8px 32px rgba(0,0,0,.18);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .modal-title {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            color: #8f2f2f;
+        }
+        .modal-to {
+            font-size: 11px;
+            color: #888;
+            letter-spacing: .04em;
+        }
+        .modal-to strong { color: #2c3e50; text-transform: none; }
+        .modal input[type="text"], .modal textarea {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            padding: 8px 12px;
+            border: 1px solid #e0dede;
+            border-radius: 4px;
+            width: 100%;
+            color: #2c3e50;
+            text-transform: none;
+            outline: none;
+            resize: vertical;
+            transition: border-color .2s;
+        }
+        .modal input[type="text"]:focus, .modal textarea:focus { border-color: #8f2f2f; }
+        .modal textarea { min-height: 140px; }
+        .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+        .modal-cancel {
+            background: none;
+            border: 1px solid #e0dede;
+            border-radius: 4px;
+            color: #888;
+            padding: 8px 18px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: border-color .2s;
+        }
+        .modal-cancel:hover { border-color: #aaa; color: #555; }
+        .modal-send {
+            background: #8f2f2f;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .modal-send:hover { background: #7a2222; }
+        .modal-send:disabled { background: #ccc; cursor: default; }
     </style>
 </head>
 <body>
@@ -321,7 +421,10 @@
             <p class="empty">No diagrams in the library yet.</p>
         @endforelse
 
-        <div class="section-heading">Users — {{ $users->count() }}</div>
+        <div class="section-heading" style="display:flex;align-items:center;justify-content:space-between;">
+            <span>Users — {{ $users->count() }}</span>
+            <button class="feature-btn" style="font-size:10px;padding:5px 12px;" onclick="openBulkEmailModal()">Email All</button>
+        </div>
 
         @forelse ($users as $user)
             <div class="user-card">
@@ -347,6 +450,12 @@
                             onclick="impersonate({{ $user->id }}, this)"
                         >
                             Login As
+                        </button>
+                        <button
+                            class="email-btn"
+                            onclick="openEmailModal({{ $user->id }}, '{{ addslashes($user->email) }}')"
+                        >
+                            Email
                         </button>
                         <button
                             class="delete-btn"
@@ -379,6 +488,32 @@
     </main>
 
     <div class="toast" id="toast"></div>
+
+    <div class="modal-overlay" id="bulkEmailModalOverlay">
+        <div class="modal">
+            <div class="modal-title">Email All Users</div>
+            <div class="modal-to" style="color:#a05020;">Sends to <strong>{{ $users->count() }}</strong> users — jobs will be queued and sent 2 seconds apart</div>
+            <input type="text" id="bulkEmailSubject" placeholder="Subject" maxlength="255" />
+            <textarea id="bulkEmailBody" placeholder="Message body..."></textarea>
+            <div class="modal-actions">
+                <button class="modal-cancel" onclick="closeBulkEmailModal()">Cancel</button>
+                <button class="modal-send" id="bulkEmailSendBtn" onclick="sendEmailToAll()">Send to All</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="emailModalOverlay">
+        <div class="modal">
+            <div class="modal-title">Send Email</div>
+            <div class="modal-to">To: <strong id="emailModalRecipient"></strong></div>
+            <input type="text" id="emailSubject" placeholder="Subject" maxlength="255" />
+            <textarea id="emailBody" placeholder="Message body..."></textarea>
+            <div class="modal-actions">
+                <button class="modal-cancel" onclick="closeEmailModal()">Cancel</button>
+                <button class="modal-send" id="emailSendBtn" onclick="sendEmail()">Send</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         const csrf = document.querySelector('meta[name="csrf-token"]').content;
@@ -472,6 +607,100 @@
             t.textContent = msg;
             t.className = 'toast show' + (isError ? ' error' : '');
             setTimeout(() => { t.className = 'toast'; }, 3000);
+        }
+
+        function openBulkEmailModal() {
+            document.getElementById('bulkEmailSubject').value = '';
+            document.getElementById('bulkEmailBody').value = '';
+            document.getElementById('bulkEmailSendBtn').disabled = false;
+            document.getElementById('bulkEmailSendBtn').textContent = 'Send to All';
+            document.getElementById('bulkEmailModalOverlay').classList.add('show');
+            document.getElementById('bulkEmailSubject').focus();
+        }
+
+        function closeBulkEmailModal() {
+            document.getElementById('bulkEmailModalOverlay').classList.remove('show');
+        }
+
+        document.getElementById('bulkEmailModalOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeBulkEmailModal();
+        });
+
+        async function sendEmailToAll() {
+            const subject = document.getElementById('bulkEmailSubject').value.trim();
+            const body = document.getElementById('bulkEmailBody').value.trim();
+            if (!subject) { showToast('Enter a subject', true); return; }
+            if (!body) { showToast('Enter a message body', true); return; }
+
+            if (!confirm('Queue email to all users?')) return;
+
+            const btn = document.getElementById('bulkEmailSendBtn');
+            btn.disabled = true;
+            btn.textContent = '...';
+
+            try {
+                const res = await fetch('/admin/email-all', {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ subject, body }),
+                });
+                if (!res.ok) throw new Error('Server error');
+                const data = await res.json();
+                showToast(`Queued for ${data.queued} users`);
+                closeBulkEmailModal();
+            } catch (e) {
+                showToast('Error: ' + e.message, true);
+                btn.disabled = false;
+                btn.textContent = 'Send to All';
+            }
+        }
+
+        let emailTargetUserId = null;
+
+        function openEmailModal(userId, email) {
+            emailTargetUserId = userId;
+            document.getElementById('emailModalRecipient').textContent = email;
+            document.getElementById('emailSubject').value = '';
+            document.getElementById('emailBody').value = '';
+            document.getElementById('emailSendBtn').disabled = false;
+            document.getElementById('emailSendBtn').textContent = 'Send';
+            document.getElementById('emailModalOverlay').classList.add('show');
+            document.getElementById('emailSubject').focus();
+        }
+
+        function closeEmailModal() {
+            document.getElementById('emailModalOverlay').classList.remove('show');
+            emailTargetUserId = null;
+        }
+
+        document.getElementById('emailModalOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeEmailModal();
+        });
+
+        async function sendEmail() {
+            const subject = document.getElementById('emailSubject').value.trim();
+            const body = document.getElementById('emailBody').value.trim();
+            if (!subject) { showToast('Enter a subject', true); return; }
+            if (!body) { showToast('Enter a message body', true); return; }
+
+            const btn = document.getElementById('emailSendBtn');
+            btn.disabled = true;
+            btn.textContent = '...';
+
+            try {
+                const res = await fetch(`/admin/users/${emailTargetUserId}/email`, {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ subject, body }),
+                });
+                if (!res.ok) throw new Error('Server error');
+                showToast('Email sent');
+                closeEmailModal();
+            } catch (e) {
+                showToast('Error: ' + e.message, true);
+                btn.disabled = false;
+                btn.textContent = 'Send';
+            }
         }
     </script>
 </body>
