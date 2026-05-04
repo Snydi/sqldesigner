@@ -26,7 +26,7 @@ class DiagramSqlService
         return $script;
     }
 
-    public function createScript(string $schema, string $dbType = 'mysql'): string
+    public function createScript(string $schema, string $dbType = 'mysql', int $chunkSize = 50): string
     {
         $isPg = $dbType === 'postgresql';
         $q    = $isPg ? '"' : '`';
@@ -36,90 +36,102 @@ class DiagramSqlService
         $rowsById   = $rows->keyBy('id');
         $script     = '';
 
-        foreach ($tables as $table) {
-            $tableRows        = $rows->where('table_id', $table['id']);
-            $tableColumnNames = $tableRows->pluck('name')->all();
+        foreach (array_chunk($tables->all(), $chunkSize) as $tableChunk) {
+            foreach ($tableChunk as $table) {
+                $tableRows        = $rows->where('table_id', $table['id']);
+                $tableColumnNames = $tableRows->pluck('name')->all();
 
-            $allDefs = $tableRows->map(function ($row) use ($isPg, $q) {
-                $typeWord = strtoupper(preg_replace('/[\s(].*/', '', $row['sql_type']));
-                if (in_array($typeWord, ['INDEX', 'KEY', 'CONSTRAINT', 'FOREIGN', 'CHECK', 'PRIMARY', 'UNIQUE'])) return null;
-                $parts = ["  {$q}{$row['name']}{$q} {$row['sql_type']}"];
-                if (!$isPg && $row['unsigned']) $parts[] = 'UNSIGNED';
-                $parts[] = $row['nullable'] ? 'NULL' : 'NOT NULL';
-                if ($row['key_mod'] && $row['key_mod'] !== 'FOREIGN KEY') $parts[] = $row['key_mod'];
-                if ($row['default_value'] !== null && $row['default_value'] !== '') $parts[] = "DEFAULT '{$row['default_value']}'";
-                if (!$isPg && $row['comment'] !== null && $row['comment'] !== '') $parts[] = "COMMENT '{$row['comment']}'";
-                return implode(' ', array_filter($parts));
-            })->filter()->values()->all();
+                $allDefs = $tableRows->map(function ($row) use ($isPg, $q) {
+                    $typeWord = strtoupper(preg_replace('/[\s(].*/', '', $row['sql_type']));
+                    if (in_array($typeWord, ['INDEX', 'KEY', 'CONSTRAINT', 'FOREIGN', 'CHECK', 'PRIMARY', 'UNIQUE'])) return null;
+                    $parts = ["  {$q}{$row['name']}{$q} {$row['sql_type']}"];
+                    if (!$isPg && $row['unsigned']) $parts[] = 'UNSIGNED';
+                    $parts[] = $row['nullable'] ? 'NULL' : 'NOT NULL';
+                    if ($row['key_mod'] && $row['key_mod'] !== 'FOREIGN KEY') $parts[] = $row['key_mod'];
+                    if ($row['default_value'] !== null && $row['default_value'] !== '') $parts[] = "DEFAULT '{$row['default_value']}'";
+                    if (!$isPg && $row['comment'] !== null && $row['comment'] !== '') $parts[] = "COMMENT '{$row['comment']}'";
+                    return implode(' ', array_filter($parts));
+                })->filter()->values()->all();
 
-            foreach ($table['unique_together'] as $constraintCols) {
-                $validCols = array_values(array_filter($constraintCols, fn($c) => in_array($c, $tableColumnNames)));
-                if (count($validCols) >= 2) {
-                    $quotedCols     = implode(', ', array_map(fn($c) => "{$q}{$c}{$q}", $validCols));
-                    $constraintName = 'uq_' . $table['name'] . '_' . implode('_', $validCols);
-                    $allDefs[]      = $isPg
-                        ? "  CONSTRAINT {$q}{$constraintName}{$q} UNIQUE ({$quotedCols})"
-                        : "  UNIQUE KEY {$q}{$constraintName}{$q} ({$quotedCols})";
-                }
-            }
-
-            if (!$isPg) {
-                foreach ($table['fulltext_indexes'] as $ftCols) {
-                    $validCols = array_values(array_filter($ftCols, fn($c) => in_array($c, $tableColumnNames)));
-                    if (count($validCols) >= 1) {
-                        $quotedCols = implode(', ', array_map(fn($c) => "`{$c}`", $validCols));
-                        $indexName  = 'ft_' . $table['name'] . '_' . implode('_', $validCols);
-                        $allDefs[]  = "  FULLTEXT KEY `{$indexName}` ({$quotedCols})";
+                foreach ($table['unique_together'] as $constraintCols) {
+                    $validCols = array_values(array_filter($constraintCols, fn($c) => in_array($c, $tableColumnNames)));
+                    if (count($validCols) >= 2) {
+                        $quotedCols     = implode(', ', array_map(fn($c) => "{$q}{$c}{$q}", $validCols));
+                        $constraintName = 'uq_' . $table['name'] . '_' . implode('_', $validCols);
+                        $allDefs[]      = $isPg
+                            ? "  CONSTRAINT {$q}{$constraintName}{$q} UNIQUE ({$quotedCols})"
+                            : "  UNIQUE KEY {$q}{$constraintName}{$q} ({$quotedCols})";
                     }
                 }
-            }
 
-            $script .= "CREATE TABLE IF NOT EXISTS {$q}{$table['name']}{$q} (\n";
-            $script .= implode(",\n", $allDefs) . "\n";
-            $script .= ");\n\n";
+                if (!$isPg) {
+                    foreach ($table['fulltext_indexes'] as $ftCols) {
+                        $validCols = array_values(array_filter($ftCols, fn($c) => in_array($c, $tableColumnNames)));
+                        if (count($validCols) >= 1) {
+                            $quotedCols = implode(', ', array_map(fn($c) => "`{$c}`", $validCols));
+                            $indexName  = 'ft_' . $table['name'] . '_' . implode('_', $validCols);
+                            $allDefs[]  = "  FULLTEXT KEY `{$indexName}` ({$quotedCols})";
+                        }
+                    }
+                }
+
+                $script .= "CREATE TABLE IF NOT EXISTS {$q}{$table['name']}{$q} (\n";
+                $script .= implode(",\n", $allDefs) . "\n";
+                $script .= ");\n\n";
+            }
+            gc_collect_cycles();
         }
 
-        foreach ($connections as $connection) {
-            $sourceRow = $rowsById->get($connection['source_id']);
-            $targetRow = $rowsById->get($connection['target_id']);
-            if (!$sourceRow || !$targetRow) continue;
-            $tableName       = $tablesById->get($sourceRow['table_id'])['name'];
-            $targetTableName = $tablesById->get($targetRow['table_id'])['name'];
-            $script .= "ALTER TABLE {$q}$targetTableName{$q}\nADD FOREIGN KEY ({$q}{$targetRow['name']}{$q}) REFERENCES {$q}$tableName{$q}({$q}{$sourceRow['name']}{$q});\n\n";
+        foreach (array_chunk($connections->all(), $chunkSize) as $connectionChunk) {
+            foreach ($connectionChunk as $connection) {
+                $sourceRow = $rowsById->get($connection['source_id']);
+                $targetRow = $rowsById->get($connection['target_id']);
+                if (!$sourceRow || !$targetRow) continue;
+                $tableName       = $tablesById->get($sourceRow['table_id'])['name'];
+                $targetTableName = $tablesById->get($targetRow['table_id'])['name'];
+                $script .= "ALTER TABLE {$q}$targetTableName{$q}\nADD FOREIGN KEY ({$q}{$targetRow['name']}{$q}) REFERENCES {$q}$tableName{$q}({$q}{$sourceRow['name']}{$q});\n\n";
+            }
+            gc_collect_cycles();
         }
 
         return $script;
     }
 
-    public function createJson(string $schema): string
+    public function createJson(string $schema, int $chunkSize = 50): string
     {
         [$tables, $rows, $connections] = $this->parseSchemaItems($schema);
         $tablesById = $tables->keyBy('id');
         $rowsById   = $rows->keyBy('id');
         $result     = ['tables' => [], 'foreignKeys' => []];
 
-        foreach ($tables as $table) {
-            $columns = $rows->where('table_id', $table['id'])->map(function ($row) {
-                $col = ['name' => $row['name'], 'type' => $row['sql_type'], 'nullable' => $row['nullable']];
-                if ($row['unsigned'])      $col['unsigned']      = true;
-                if ($row['key_mod'])       $col['key']           = $row['key_mod'];
-                if ($row['default_value']) $col['default_value'] = $row['default_value'];
-                if ($row['comment'])       $col['comment']       = $row['comment'];
-                return $col;
-            })->values()->all();
-            $result['tables'][] = ['name' => $table['name'], 'columns' => $columns];
+        foreach (array_chunk($tables->all(), $chunkSize) as $tableChunk) {
+            foreach ($tableChunk as $table) {
+                $columns = $rows->where('table_id', $table['id'])->map(function ($row) {
+                    $col = ['name' => $row['name'], 'type' => $row['sql_type'], 'nullable' => $row['nullable']];
+                    if ($row['unsigned'])      $col['unsigned']      = true;
+                    if ($row['key_mod'])       $col['key']           = $row['key_mod'];
+                    if ($row['default_value']) $col['default_value'] = $row['default_value'];
+                    if ($row['comment'])       $col['comment']       = $row['comment'];
+                    return $col;
+                })->values()->all();
+                $result['tables'][] = ['name' => $table['name'], 'columns' => $columns];
+            }
+            gc_collect_cycles();
         }
 
-        foreach ($connections as $connection) {
-            $sourceRow = $rowsById->get($connection['source_id']);
-            $targetRow = $rowsById->get($connection['target_id']);
-            if (!$sourceRow || !$targetRow) continue;
-            $result['foreignKeys'][] = [
-                'table'            => $tablesById->get($sourceRow['table_id'])['name'],
-                'column'           => $sourceRow['name'],
-                'referencesTable'  => $tablesById->get($targetRow['table_id'])['name'],
-                'referencesColumn' => $targetRow['name'],
-            ];
+        foreach (array_chunk($connections->all(), $chunkSize) as $connectionChunk) {
+            foreach ($connectionChunk as $connection) {
+                $sourceRow = $rowsById->get($connection['source_id']);
+                $targetRow = $rowsById->get($connection['target_id']);
+                if (!$sourceRow || !$targetRow) continue;
+                $result['foreignKeys'][] = [
+                    'table'            => $tablesById->get($sourceRow['table_id'])['name'],
+                    'column'           => $sourceRow['name'],
+                    'referencesTable'  => $tablesById->get($targetRow['table_id'])['name'],
+                    'referencesColumn' => $targetRow['name'],
+                ];
+            }
+            gc_collect_cycles();
         }
 
         return json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

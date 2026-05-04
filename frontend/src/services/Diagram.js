@@ -45,8 +45,14 @@ export const Diagram = {
 
     export: (id) =>
         request(async () => {
-            const response = await axios.get(`/api/diagrams/sql/export/${id}`)
-            return JSON.parse(response.data)
+            const response = await axios.post(`/api/diagrams/sql/export/${id}`)
+            return response.data
+        }),
+
+    exportStatus: (id) =>
+        request(async () => {
+            const response = await axios.get(`/api/diagrams/sql/export-status/${id}`)
+            return response.data
         }),
 
     exportJson: (id) =>

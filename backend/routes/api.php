@@ -43,7 +43,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::group(['prefix' => 'sql'], function () {
             Route::post('/import/{diagram}', [DiagramController::class, 'import']);
             Route::get('/import-status/{diagram}', [DiagramController::class, 'importStatus']);
-            Route::get('/export/{diagram}', [DiagramController::class, 'export']);
+            Route::post('/export/{diagram}', [DiagramController::class, 'export']);
+            Route::get('/export-status/{diagram}', [DiagramController::class, 'exportStatus']);
         });
 
         Route::get('/json/export/{diagram}', [DiagramController::class, 'exportJson']);

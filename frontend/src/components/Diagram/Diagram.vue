@@ -34,6 +34,7 @@
             :isOwner="isOwner"
             :isDemo="isDemo"
             :isSaved="isSaved"
+            :exportLoading="exportLoading"
             :diagramName="diagramName"
             :hasPendingVisitors="hasPendingVisitors"
             @add-table="addTable"
@@ -346,6 +347,7 @@ const showImportModal = ref(false)
 const importContent = ref('')
 const importLoading = ref(false)
 const showExportModal = ref(false)
+const exportLoading = ref(false)
 const exportContent = ref('')
 const exportJsonContent = ref('')
 
@@ -398,11 +400,47 @@ const importSql = async () => {
 }
 
 const openExportModal = async () => {
+    if (exportLoading.value) return
     await saveDiagram()
-    const [sql, json] = await Promise.all([Diagram.export(diagramId.value), Diagram.exportJson(diagramId.value)])
-    exportContent.value = sql
-    exportJsonContent.value = json
-    showExportModal.value = true
+    exportLoading.value = true
+    const result = await Diagram.export(diagramId.value)
+    if (!result) {
+        exportLoading.value = false
+        return
+    }
+
+    const applyExport = (script, json) => {
+        exportContent.value = JSON.parse(script)
+        exportJsonContent.value = JSON.stringify(json, null, 2)
+        exportLoading.value = false
+        showExportModal.value = true
+    }
+
+    if (result.status === 'done' && result.script) {
+        applyExport(result.script, result.json)
+        return
+    }
+
+    let attempts = 0
+    const poll = setInterval(async () => {
+        attempts++
+        if (attempts > 150) {
+            clearInterval(poll)
+            exportLoading.value = false
+            $toast.error('Export timed out')
+            return
+        }
+        const status = await Diagram.exportStatus(diagramId.value)
+        if (!status) return
+        if (status.status === 'done') {
+            clearInterval(poll)
+            applyExport(status.script, status.json)
+        } else if (status.status === 'failed') {
+            clearInterval(poll)
+            exportLoading.value = false
+            $toast.error('Export failed: ' + (status.error || 'Unknown error'))
+        }
+    }, 2000)
 }
 
 const capturePng = async () => {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DiagramRequest;
 use App\Http\Resources\DiagramResource;
 use App\Http\Resources\DiagramVisitorResource;
+use App\Jobs\ExportDiagramJob;
 use App\Jobs\ImportDiagramSchemaJob;
 use App\Models\Diagram;
 use App\Models\DiagramVisitor;
@@ -130,7 +131,29 @@ class DiagramController extends Controller
     {
         $this->authorize('export', $diagram);
 
-        return response()->json($this->sqlService->exportScript($diagram));
+        $diagram->export_status = 'pending';
+        $diagram->export_error  = null;
+        $diagram->save();
+
+        ExportDiagramJob::dispatch($diagram);
+
+        return response()->json(['status' => 'pending'], 202);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    #[Subgroup("SQL")]
+    public function exportStatus(Diagram $diagram): JsonResponse
+    {
+        $this->authorize('export', $diagram);
+
+        return response()->json([
+            'status' => $diagram->export_status,
+            'script' => $diagram->export_status === 'done' ? $diagram->script : null,
+            'json'   => $diagram->export_status === 'done' ? json_decode($diagram->export_json) : null,
+            'error'  => $diagram->export_error,
+        ]);
     }
 
     /**

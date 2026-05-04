@@ -7,7 +7,7 @@
             <button v-if="isOwner || isDemo" class="dh-btn" @click="$emit('import')" title="Import SQL">
                 <SvgIcon name="import" :size="17" />
             </button>
-            <button v-if="isOwner || isDemo" class="dh-btn" @click="$emit('export')" title="Export">
+            <button v-if="isOwner || isDemo" class="dh-btn" @click="$emit('export')" title="Export" :disabled="exportLoading">
                 <SvgIcon name="export" :size="17" />
             </button>
             <span v-if="!isOwner && !isDemo" class="dh-name">{{ diagramName }}</span>
@@ -40,6 +40,7 @@ defineProps({
     isOwner: Boolean,
     isDemo: Boolean,
     isSaved: Boolean,
+    exportLoading: { type: Boolean, default: false },
     diagramName: String,
     hasPendingVisitors: { type: Boolean, default: false },
 })
