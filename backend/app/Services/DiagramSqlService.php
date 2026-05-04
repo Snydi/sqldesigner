@@ -125,35 +125,37 @@ class DiagramSqlService
         return json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
-    public function createSchema(string $script): string
+    public function createSchema(string $script, int $chunkSize = 100): string
     {
-        $tables = [];
-        $rows = [];
+        $tables      = [];
+        $rows        = [];
         $connections = [];
-        $tableX = 50;
+        $tableX      = 50;
+        $pendingFks  = [];
 
-        $pendingFks = [];
-
-        foreach ($this->parseStatements($script) as $statement) {
-            if (preg_match('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?["`]?(\w+)["`]?\s*\((.*)\)/is', $statement, $m)) {
-                $tableX += 400;
-                $tableId  = uniqid();
-                $tables[] = $this->buildTableNode($tableId, $m[1], $tableX);
-                $parsed   = $this->parseColumns($m[2], $tableId, $tableX);
-                array_push($rows, ...$parsed['rows']);
-                if (!empty($parsed['uniqueTogether'])) {
-                    $tables[count($tables) - 1]['data']['uniqueTogether'] = $parsed['uniqueTogether'];
+        foreach (array_chunk($this->parseStatements($script), $chunkSize) as $chunk) {
+            foreach ($chunk as $statement) {
+                if (preg_match('/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?["`]?(\w+)["`]?\s*\((.*)\)/is', $statement, $m)) {
+                    $tableX  += 400;
+                    $tableId  = uniqid();
+                    $tables[] = $this->buildTableNode($tableId, $m[1], $tableX);
+                    $parsed   = $this->parseColumns($m[2], $tableId, $tableX);
+                    array_push($rows, ...$parsed['rows']);
+                    if (!empty($parsed['uniqueTogether'])) {
+                        $tables[count($tables) - 1]['data']['uniqueTogether'] = $parsed['uniqueTogether'];
+                    }
+                    if (!empty($parsed['fulltextIndexes'])) {
+                        $tables[count($tables) - 1]['data']['fulltextIndexes'] = $parsed['fulltextIndexes'];
+                    }
+                    foreach ($this->parseInlineForeignKeys($m[2]) as $fk) {
+                        $pendingFks[] = array_merge($fk, ['sourceTable' => $m[1]]);
+                    }
+                } elseif (preg_match('/ALTER\s+TABLE\s+["`]?(\w+)["`]?\s+ADD\s+(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?FOREIGN\s+KEY\s*\(["`]?(\w+)["`]?\)\s+REFERENCES\s+["`]?(\w+)["`]?\s*\(["`]?(\w+)["`]?\)/i', $statement, $m)) {
+                    $connection = $this->resolveConnection($tables, $rows, $m[1], $m[2], $m[3], $m[4]);
+                    if ($connection) $connections[] = $connection;
                 }
-                if (!empty($parsed['fulltextIndexes'])) {
-                    $tables[count($tables) - 1]['data']['fulltextIndexes'] = $parsed['fulltextIndexes'];
-                }
-                foreach ($this->parseInlineForeignKeys($m[2]) as $fk) {
-                    $pendingFks[] = array_merge($fk, ['sourceTable' => $m[1]]);
-                }
-            } elseif (preg_match('/ALTER\s+TABLE\s+["`]?(\w+)["`]?\s+ADD\s+(?:CONSTRAINT\s+["`]?\w+["`]?\s+)?FOREIGN\s+KEY\s*\(["`]?(\w+)["`]?\)\s+REFERENCES\s+["`]?(\w+)["`]?\s*\(["`]?(\w+)["`]?\)/i', $statement, $m)) {
-                $connection = $this->resolveConnection($tables, $rows, $m[1], $m[2], $m[3], $m[4]);
-                if ($connection) $connections[] = $connection;
             }
+            gc_collect_cycles();
         }
 
         foreach ($pendingFks as $fk) {

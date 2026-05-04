@@ -355,14 +355,46 @@ const importSql = async () => {
         return
     }
     importLoading.value = true
-    schema.value = await Diagram.import(diagramId.value, importContent.value)
-    importLoading.value = false
-    if (schema.value) {
+    const result = await Diagram.import(diagramId.value, importContent.value)
+    if (!result) {
+        importLoading.value = false
+        return
+    }
+
+    const applySchema = (schemaJson) => {
+        schema.value = JSON.parse(schemaJson)
+        importLoading.value = false
         $toast.success('Imported successfully')
         isSaved.value = false
         showImportModal.value = false
         whisper('schema-sync', { schema: schema.value })
     }
+
+    if (result.status === 'done' && result.schema) {
+        applySchema(result.schema)
+        return
+    }
+
+    let attempts = 0
+    const poll = setInterval(async () => {
+        attempts++
+        if (attempts > 150) {
+            clearInterval(poll)
+            importLoading.value = false
+            $toast.error('Import timed out')
+            return
+        }
+        const status = await Diagram.importStatus(diagramId.value)
+        if (!status) return
+        if (status.status === 'done') {
+            clearInterval(poll)
+            applySchema(status.schema)
+        } else if (status.status === 'failed') {
+            clearInterval(poll)
+            importLoading.value = false
+            $toast.error('Import failed: ' + (status.error || 'Unknown error'))
+        }
+    }, 2000)
 }
 
 const openExportModal = async () => {

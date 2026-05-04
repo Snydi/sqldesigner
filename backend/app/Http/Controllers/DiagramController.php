@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DiagramRequest;
 use App\Http\Resources\DiagramResource;
 use App\Http\Resources\DiagramVisitorResource;
+use App\Jobs\ImportDiagramSchemaJob;
 use App\Models\Diagram;
 use App\Models\DiagramVisitor;
 use App\Services\DiagramCrudService;
@@ -96,7 +97,29 @@ class DiagramController extends Controller
     {
         $this->authorize('import', $diagram);
 
-        return response()->json($this->sqlService->importSchema($diagram, $request->input('script')));
+        $diagram->script        = $request->input('script');
+        $diagram->import_status = 'pending';
+        $diagram->import_error  = null;
+        $diagram->save();
+
+        ImportDiagramSchemaJob::dispatch($diagram);
+
+        return response()->json(['status' => 'pending'], 202);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    #[Subgroup("SQL")]
+    public function importStatus(Diagram $diagram): JsonResponse
+    {
+        $this->authorize('import', $diagram);
+
+        return response()->json([
+            'status' => $diagram->import_status,
+            'schema' => $diagram->import_status === 'done' ? $diagram->schema : null,
+            'error'  => $diagram->import_error,
+        ]);
     }
 
     /**

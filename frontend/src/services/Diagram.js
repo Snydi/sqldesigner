@@ -34,7 +34,13 @@ export const Diagram = {
     import: (id, script) =>
         request(async () => {
             const response = await axios.post(`/api/diagrams/sql/import/${id}`, { script: JSON.stringify(script) })
-            return JSON.parse(response.data)
+            return response.data
+        }),
+
+    importStatus: (id) =>
+        request(async () => {
+            const response = await axios.get(`/api/diagrams/sql/import-status/${id}`)
+            return response.data
         }),
 
     export: (id) =>
