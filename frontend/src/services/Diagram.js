@@ -115,7 +115,7 @@ export const Diagram = {
     getChangelog: (id) =>
         request(async () => {
             const response = await axios.get(`/api/diagrams/${id}/changelog`)
-            return response.data
+            return response.data.data
         }),
 
     addChangelogEntry: (id, action, details = null) =>
