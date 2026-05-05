@@ -24,7 +24,7 @@
 
     <!-- SQL Type -->
     <div>
-        <select v-model="data.sqlType" @change="emitChange()" :disabled="!canEdit">
+        <select v-model="sqlTypeForSelect" @change="emitChange()" :disabled="!canEdit">
             <optgroup v-for="(options, groupLabel) in typeGroups" :key="groupLabel" :label="groupLabel">
                 <option v-for="opt in options" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
             </optgroup>
@@ -67,6 +67,10 @@
         <div v-if="dbType !== 'postgresql'" class="options_modal_row">
             <p class="modal_text">Comment</p>
             <input type="text" class="modal_text_input" @mousedown.stop v-model="data.comment" @change="emitChange()" placeholder="">
+        </div>
+        <div v-if="isEnum" class="options_modal_row">
+            <p class="modal_text">Values</p>
+            <input type="text" class="modal_text_input" @mousedown.stop v-model="enumValuesText" placeholder="'A','B','C'">
         </div>
 
         <!-- Unique Together section -->
@@ -289,6 +293,28 @@ const POSTGRESQL_TYPES = {
 }
 
 const typeGroups = computed(() => props.dbType === 'postgresql' ? POSTGRESQL_TYPES : MYSQL_TYPES)
+
+const isEnum = computed(() => /^ENUM\(/i.test(props.data.sqlType))
+
+const sqlTypeForSelect = computed({
+    get() {
+        return isEnum.value ? "ENUM('')" : props.data.sqlType
+    },
+    set(val) {
+        props.data.sqlType = val
+    }
+})
+
+const enumValuesText = computed({
+    get() {
+        const m = props.data.sqlType.match(/^ENUM\((.*)\)$/i)
+        return m ? m[1] : ''
+    },
+    set(val) {
+        props.data.sqlType = `ENUM(${val})`
+        emitChange()
+    }
+})
 
 const toggleNullable = () => {
     props.data.nullable = !props.data.nullable
