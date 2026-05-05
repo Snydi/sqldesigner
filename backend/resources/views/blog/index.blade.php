@@ -143,6 +143,11 @@
 </section>
 
 <div class="blog-grid">
+    <a class="post-card" href="/blog/database-ddl-comparison">
+        <p class="card-meta">May 2026 · 12 min read</p>
+        <h2>DDL Differences: MySQL, PostgreSQL, Oracle, SQL Server, and SQLite</h2>
+        <p>Side-by-side comparison of CREATE TABLE syntax, primary keys, data types, CHECK constraints, and ALTER TABLE across five major relational databases — with code examples for each.</p>
+    </a>
     <a class="post-card" href="/blog/erd-maker">
         <p class="card-meta">April 2026 · 5 min read</p>
         <h2>Free ERD Maker Online — Create ER Diagrams in Your Browser</h2>

@@ -28,6 +28,7 @@ Route::prefix('/blog')->group(function () {
     Route::get('/erd-maker', fn() => view('blog.erd-maker'));
     Route::get('/sql-to-erd', fn() => view('blog.sql-to-erd'));
     Route::get('/crowfoot-notation', fn() => view('blog.crowfoot-notation'));
+    Route::get('/database-ddl-comparison', fn() => view('blog.database-ddl-comparison'));
 });
 Route::get('/features', fn() => view('features'));
 Route::get('/library', function () {
