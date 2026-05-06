@@ -13,14 +13,14 @@
           content="Share your database schema with a link or embed it as an interactive diagram. Read-only, editable, or approval-based access — all free on SQL Designer.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/share-database-diagram">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="How to Share a Database Diagram Online — Shareable Links & Embeds">
     <meta name="twitter:description" content="Share a database schema online with a shareable link or interactive embed. Control who can view or edit — all free on SQL Designer.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
             [
@@ -38,7 +38,7 @@
                 "@type": "TechArticle",
                 "headline": "How to Share a Database Diagram Online — Shareable Links & Embeds",
                 "description": "How to share a database schema diagram online using shareable links and embeddable iframes, with read-only, editable, or approval-based access control.",
-                "image": "https://sql-designer.com/images/screenshot.png",
+                "image": "https://sql-designer.com/images/designer_screenshot.png",
                 "url": "https://sql-designer.com/blog/share-database-diagram",
                 "datePublished": "2026-04-11",
                 "dateModified": "2026-04-11",

@@ -13,14 +13,14 @@
           content="A practical step-by-step guide covering entities, columns, data types, primary keys, foreign keys, and normalization for MySQL.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/how-to-design-mysql-database-schema">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="How to Design a MySQL Database Schema — A Step-by-Step Guide">
     <meta name="twitter:description" content="A practical step-by-step guide covering entities, columns, data types, primary keys, foreign keys, and normalization for MySQL.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
   @verbatim
             [
@@ -38,7 +38,7 @@
                 "@type": "TechArticle",
                 "headline": "How to Design a MySQL Database Schema — A Step-by-Step Guide",
                 "description": "A practical step-by-step guide covering entities, columns, data types, primary keys, foreign keys, and normalization for MySQL.",
-                "image": "https://sql-designer.com/images/screenshot.png",
+                "image": "https://sql-designer.com/images/designer_screenshot.png",
                 "url": "https://sql-designer.com/blog/how-to-design-mysql-database-schema",
                 "datePublished": "2026-03-18",
                 "dateModified": "2026-03-24",

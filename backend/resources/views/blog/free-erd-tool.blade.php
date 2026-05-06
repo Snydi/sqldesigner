@@ -13,14 +13,14 @@
           content="Draw ER diagrams visually in your browser — free, no installation required. Export MySQL or PostgreSQL CREATE TABLE scripts directly from your diagram.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/free-erd-tool">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free ERD tool with drag-and-drop canvas">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free ERD Tool Online — Visual Entity Relationship Diagram Editor">
     <meta name="twitter:description" content="Draw ER diagrams visually in your browser — free, no installation required. Export MySQL or PostgreSQL SQL directly from your diagram.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -38,7 +38,7 @@
             "@type": "TechArticle",
             "headline": "Free ERD Tool Online — Visual Entity Relationship Diagram Editor",
             "description": "The best free ERD tool online — draw entity relationship diagrams visually, define foreign keys, and export MySQL or PostgreSQL SQL.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/free-erd-tool",
             "datePublished": "2026-04-09",
             "dateModified": "2026-04-09",

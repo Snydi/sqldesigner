@@ -13,14 +13,14 @@
           content="Free DB designer — design relational schemas visually in your browser. Drag-and-drop tables, foreign keys, MySQL and PostgreSQL SQL export. No install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/database-designer">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free online database designer">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free DB Designer Online — Visual Database Designer">
     <meta name="twitter:description" content="Free DB designer for MySQL and PostgreSQL — design schemas visually with drag-and-drop tables and SQL export. No install.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -38,7 +38,7 @@
             "@type": "TechArticle",
             "headline": "Free DB Designer Online — Visual Database Designer",
             "description": "Free DB designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/database-designer",
             "datePublished": "2026-04-09",
             "dateModified": "2026-04-09",

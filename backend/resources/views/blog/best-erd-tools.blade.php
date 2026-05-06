@@ -13,14 +13,14 @@
           content="Comparing 7 free ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, DB Designer, DBeaver, and ChartDB. Honest strengths, real weaknesses, and who each tool is actually for.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/best-erd-tools">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Best Free ERD Tools in 2026 — Honest Comparison">
     <meta name="twitter:description" content="Honest comparison of 7 free ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, DB Designer, DBeaver, and ChartDB.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
             [
@@ -38,7 +38,7 @@
                 "@type": "TechArticle",
                 "headline": "Best Free ERD Tools in 2026 — Honest Comparison",
                 "description": "An honest comparison of 7 free ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, DB Designer, DBeaver, and ChartDB — with real strengths, real weaknesses, and clear use-case guidance.",
-                "image": "https://sql-designer.com/images/screenshot.png",
+                "image": "https://sql-designer.com/images/designer_screenshot.png",
                 "url": "https://sql-designer.com/blog/best-erd-tools",
                 "datePublished": "2026-04-11",
                 "dateModified": "2026-04-28",

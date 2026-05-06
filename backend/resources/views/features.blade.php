@@ -13,14 +13,14 @@
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://sql-designer.com/features">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — full feature list for the free database designer and ERD tool">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Features — Visual MySQL &amp; PostgreSQL ERD Tool | SQL Designer">
     <meta name="twitter:description" content="Every feature in SQL Designer: drag-and-drop canvas, MySQL and PostgreSQL export, foreign keys, constraints, SQL import, auto-save, sharing.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta name="keywords" content="ERD tool, database designer, MySQL schema designer, PostgreSQL schema designer, entity relationship diagram, visual SQL tool, foreign key diagram, CREATE TABLE generator, SQL import, free ERD tool, crow's foot notation, database diagram online">
     <script type="application/ld+json">
     @verbatim
@@ -42,7 +42,7 @@
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript. Works in Chrome, Firefox, Safari, Edge.",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "screenshot": "https://sql-designer.com/images/screenshot.png",
+        "screenshot": "https://sql-designer.com/images/designer_screenshot.png",
         "featureList": [
             "Drag-and-drop ERD canvas",
             "MySQL SQL export",

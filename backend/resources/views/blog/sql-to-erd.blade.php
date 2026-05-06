@@ -13,14 +13,14 @@
           content="Import a SQL script and generate an ER diagram automatically. SQL Designer parses CREATE TABLE statements and renders your schema visually — free, no install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/sql-to-erd">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — SQL to ERD diagram import">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL to ERD — Generate an ER Diagram from a SQL Script">
     <meta name="twitter:description" content="Import a SQL script and generate an ER diagram automatically. SQL Designer parses CREATE TABLE statements and renders your schema visually.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -38,7 +38,7 @@
             "@type": "TechArticle",
             "headline": "SQL to ERD — Generate an ER Diagram from a SQL Script",
             "description": "Import a SQL script and generate an ER diagram automatically. SQL Designer parses CREATE TABLE statements and renders tables, columns, and foreign key relationships on a visual canvas.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/sql-to-erd",
             "datePublished": "2026-04-16",
             "dateModified": "2026-04-16",

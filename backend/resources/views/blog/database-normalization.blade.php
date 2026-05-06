@@ -13,14 +13,14 @@
           content="Learn database normalization with clear examples. Understand 1NF, 2NF, and 3NF, why they matter, and when it's acceptable to denormalize.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/database-normalization">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Database Normalization — 1NF, 2NF, and 3NF Explained">
     <meta name="twitter:description" content="Learn database normalization with clear examples. Understand 1NF, 2NF, and 3NF, why they matter, and when it's acceptable to denormalize.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
             [
@@ -38,7 +38,7 @@
                 "@type": "TechArticle",
                 "headline": "Database Normalization Explained — 1NF, 2NF, and 3NF with Examples",
                 "description": "Learn database normalization with clear examples. Understand 1NF, 2NF, and 3NF, why they matter, and when it's acceptable to denormalize.",
-                "image": "https://sql-designer.com/images/screenshot.png",
+                "image": "https://sql-designer.com/images/designer_screenshot.png",
                 "url": "https://sql-designer.com/blog/database-normalization",
                 "datePublished": "2026-03-19",
                 "dateModified": "2026-03-24",

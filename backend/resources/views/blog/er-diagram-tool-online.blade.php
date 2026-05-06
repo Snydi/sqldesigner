@@ -13,14 +13,14 @@
           content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/er-diagram-tool-online">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free ER Diagram Tool Online for MySQL — No Download Required">
     <meta name="twitter:description" content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
 
@@ -39,7 +39,7 @@
                 "@type": "TechArticle",
                 "headline": "Free ER Diagram Tool Online for MySQL — No Download Required",
                 "description": "Create entity-relationship diagrams for MySQL entirely in your browser — free, no installation required.",
-                "image": "https://sql-designer.com/images/screenshot.png",
+                "image": "https://sql-designer.com/images/designer_screenshot.png",
                 "url": "https://sql-designer.com/blog/er-diagram-tool-online",
                 "datePublished": "2026-03-18",
                 "dateModified": "2026-03-24",

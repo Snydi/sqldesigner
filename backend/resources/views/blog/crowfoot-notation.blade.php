@@ -13,14 +13,14 @@
           content="Learn crow's foot notation for ER diagrams — the symbols for cardinality (one, many, zero-or-one) with practical examples for MySQL and PostgreSQL schema design.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/crowfoot-notation">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — ER diagram with crow's foot notation">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Crow's Foot Notation — ER Diagram Cardinality Explained">
     <meta name="twitter:description" content="Crow's foot notation explained — learn the cardinality symbols for ER diagrams with practical database design examples.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -38,7 +38,7 @@
             "@type": "TechArticle",
             "headline": "Crow's Foot Notation — ER Diagram Cardinality Explained",
             "description": "Crow's foot notation explained — the symbols for one-to-one, one-to-many, and many-to-many relationships in ER diagrams, with examples for MySQL and PostgreSQL schemas.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/crowfoot-notation",
             "datePublished": "2026-04-16",
             "dateModified": "2026-04-16",

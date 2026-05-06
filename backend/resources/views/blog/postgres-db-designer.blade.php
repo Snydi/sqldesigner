@@ -13,14 +13,14 @@
           content="Free Postgres designer — design PostgreSQL databases visually in your browser. Drag-and-drop canvas, PostgreSQL type support, foreign keys, CREATE TABLE export. No install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/postgres-db-designer">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free Postgres designer with visual drag-and-drop canvas">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Postgres Designer Online — Free Visual PostgreSQL DB Designer">
     <meta name="twitter:description" content="Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, foreign keys, and SQL export. No install.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -38,7 +38,7 @@
             "@type": "TechArticle",
             "headline": "Postgres Designer Online — Free Visual PostgreSQL DB Designer",
             "description": "Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, PostgreSQL type support, foreign keys, and SQL export.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/postgres-db-designer",
             "datePublished": "2026-04-09",
             "dateModified": "2026-04-09",

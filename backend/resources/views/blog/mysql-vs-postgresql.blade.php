@@ -11,14 +11,14 @@
     <meta property="og:description" content="Comparing MySQL and PostgreSQL for database schema design: data types, constraints, JSON support, and which to choose for your project.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/mysql-vs-postgresql">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MySQL vs PostgreSQL — Key Differences for Schema Design">
     <meta name="twitter:description" content="Comparing MySQL and PostgreSQL for schema design: data types, constraints, JSON support, and which to choose for your project.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
     [
@@ -36,7 +36,7 @@
         "@type": "TechArticle",
         "headline": "MySQL vs PostgreSQL — Key Differences for Schema Design",
         "description": "Comparing MySQL and PostgreSQL for database schema design: data types, constraints, JSON support, and which to choose.",
-        "image": "https://sql-designer.com/images/screenshot.png",
+        "image": "https://sql-designer.com/images/designer_screenshot.png",
         "url": "https://sql-designer.com/blog/mysql-vs-postgresql",
         "datePublished": "2026-03-19",
         "dateModified": "2026-03-24",

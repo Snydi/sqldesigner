@@ -11,14 +11,14 @@
     <meta property="og:description" content="Side-by-side DDL comparison across five major databases: CREATE TABLE, primary keys, data types, constraints, and ALTER TABLE syntax.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/database-ddl-comparison">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual database schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DDL Differences: MySQL, PostgreSQL, Oracle, SQL Server, and SQLite">
     <meta name="twitter:description" content="Side-by-side DDL comparison across five major databases: CREATE TABLE, primary keys, data types, constraints, and ALTER TABLE syntax.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
     [
@@ -36,7 +36,7 @@
         "@type": "TechArticle",
         "headline": "DDL Differences: MySQL, PostgreSQL, Oracle, SQL Server, and SQLite",
         "description": "How CREATE TABLE syntax, primary keys, data types, constraints, and ALTER TABLE differ across MySQL, PostgreSQL, Oracle, Microsoft SQL Server, and SQLite — with side-by-side DDL examples.",
-        "image": "https://sql-designer.com/images/screenshot.png",
+        "image": "https://sql-designer.com/images/designer_screenshot.png",
         "url": "https://sql-designer.com/blog/database-ddl-comparison",
         "datePublished": "2026-05-05",
         "dateModified": "2026-05-05",

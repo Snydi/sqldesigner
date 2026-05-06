@@ -13,14 +13,14 @@
           content="A complete guide to MySQL foreign keys: syntax, ON DELETE and ON UPDATE options, practical examples, and common mistakes to avoid.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/mysql-foreign-key">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MySQL Foreign Key — Syntax, Examples, and Best Practices">
     <meta name="twitter:description" content="A complete guide to MySQL foreign keys: syntax, ON DELETE and ON UPDATE options, practical examples, and common mistakes to avoid.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
             [
@@ -38,7 +38,7 @@
                 "@type": "TechArticle",
                 "headline": "MySQL Foreign Key — Syntax, Examples, and Best Practices",
                 "description": "A complete guide to MySQL foreign keys: syntax, ON DELETE and ON UPDATE options, practical examples, and common mistakes to avoid.",
-                "image": "https://sql-designer.com/images/screenshot.png",
+                "image": "https://sql-designer.com/images/designer_screenshot.png",
                 "url": "https://sql-designer.com/blog/mysql-foreign-key",
                 "datePublished": "2026-03-19",
                 "dateModified": "2026-03-24",

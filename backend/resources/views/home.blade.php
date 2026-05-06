@@ -119,6 +119,16 @@
                         }
                     }
                 ]
+            },
+            {
+                "@type": "Organization",
+                "name": "SQL Designer",
+                "url": "https://sql-designer.com",
+                "logo": "https://sql-designer.com/images/logo.svg",
+                "description": "Free online visual database designer for MySQL and PostgreSQL.",
+                "sameAs": [
+                    "https://alternativeto.net/software/sql-designer/"
+                ]
             }
         ]
     }
