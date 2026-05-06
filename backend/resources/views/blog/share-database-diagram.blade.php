@@ -75,6 +75,31 @@
                         "name": "Copy the link or embed code",
                         "text": "Copy the shareable URL to send to teammates, or copy the iframe embed code to paste into your documentation, wiki, or website."
                     }
+                ],
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Can I share a database diagram without giving edit access?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Yes. SQL Designer lets you generate a read-only shareable link. Anyone with the link can view the diagram, zoom, and inspect table details, but cannot make changes." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I embed a database diagram in a website or wiki?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Yes. SQL Designer generates an iframe embed code you can paste into any documentation page, Notion, Confluence, or website that accepts HTML embeds." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How do I share a database schema with my team for collaboration?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Generate a shareable link with edit permissions and send it to your teammates. Multiple users can open the diagram simultaneously and see each other's changes in real time with live cursors." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I export a database diagram as an image or PDF?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "SQL Designer focuses on SQL export and shareable links rather than image export. For static images, you can use your browser's screenshot tool or a browser extension to capture the canvas." }
+                    }
                 ]
             }
             ]

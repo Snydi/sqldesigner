@@ -42,6 +42,50 @@
         "dateModified": "2026-03-24",
         "author": { "@type": "Organization", "name": "SQL Designer" },
         "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What are the steps to draw an ER diagram?",
+                "acceptedAnswer": { "@type": "Answer", "text": "The main steps are: (1) list your entities, (2) add attributes to each entity, (3) identify the relationships between entities and the foreign key that models each relationship, (4) choose cardinality for each relationship (one-to-many, etc.), (5) draw the diagram with correct notation, and (6) validate by generating SQL and checking for normalization issues." }
+            },
+            {
+                "@type": "Question",
+                "name": "What is cardinality in an ER diagram?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Cardinality describes how many rows in one table can relate to rows in another. The three types are one-to-one, one-to-many, and many-to-many. In crow's foot notation, cardinality is shown by symbols at each end of the relationship line: a single bar for 'one' and a crow's foot for 'many'." }
+            },
+            {
+                "@type": "Question",
+                "name": "How do you model a many-to-many relationship in an ER diagram?",
+                "acceptedAnswer": { "@type": "Answer", "text": "A many-to-many relationship (crow's foot at both ends) cannot be implemented directly in a relational database. It requires a junction table — for example, a student_courses table linking students and courses — with foreign keys to both entities. The junction table's primary key is typically a composite of both foreign keys." }
+            },
+            {
+                "@type": "Question",
+                "name": "On which side of a relationship does the foreign key go?",
+                "acceptedAnswer": { "@type": "Answer", "text": "The foreign key always goes on the 'many' side of a one-to-many relationship. For example, if one user has many orders, the foreign key user_id lives in the orders table. In the ER diagram, the crow's foot end of the line indicates where the foreign key column lives." }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between a conceptual ER diagram and a physical ER diagram?",
+                "acceptedAnswer": { "@type": "Answer", "text": "A conceptual ER diagram shows entities and relationships at a high level without data types or constraint details — useful for communicating with stakeholders. A physical (or logical) ER diagram includes column names, data types, primary keys, foreign keys, and constraints — this is what you use to generate the actual DDL script." }
+            }
+        ]
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Draw an ER Diagram",
+        "step": [
+            { "@type": "HowToStep", "name": "List your entities", "text": "Write down the things your system needs to store data about. Each entity becomes a rectangle in your diagram. For a blog platform: User, Post, Comment." },
+            { "@type": "HowToStep", "name": "Define attributes for each entity", "text": "For each entity, list the columns you need. Start with the primary key, then add meaningful attributes with their data types and constraints (NOT NULL, UNIQUE, etc.)." },
+            { "@type": "HowToStep", "name": "Identify the relationships", "text": "Determine which entities reference each other. Ask: can one record on this side relate to many on the other? Identify the foreign key column for each relationship." },
+            { "@type": "HowToStep", "name": "Choose cardinality for each relationship", "text": "Decide whether each relationship is one-to-one, one-to-many, or many-to-many. Many-to-many relationships require a junction table — you cannot implement them with a single foreign key." },
+            { "@type": "HowToStep", "name": "Draw the diagram", "text": "Draw entities as rectangles with columns listed inside. Connect related entities with lines. Apply crow's foot notation at the 'many' end and a single bar at the 'one' end. Mark primary keys, and use a circle to indicate optional (nullable) relationships." },
+            { "@type": "HowToStep", "name": "Validate with SQL export", "text": "Once the diagram looks correct, generate a CREATE TABLE SQL script from it. Review the output to check that all data types, constraints, and foreign key declarations are accurate before implementing." }
+        ]
     }
     ]
         @endverbatim

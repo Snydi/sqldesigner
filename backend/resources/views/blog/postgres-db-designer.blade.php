@@ -44,6 +44,32 @@
             "dateModified": "2026-04-09",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Can I design a PostgreSQL database visually without pgAdmin?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. Browser-based tools like SQL Designer let you design PostgreSQL schemas visually — adding tables, columns, and foreign key relationships — and export a ready-to-run CREATE TABLE script. No installation needed." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What PostgreSQL-specific data types can I use in a visual designer?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A PostgreSQL designer should support SERIAL and BIGSERIAL for auto-increment primary keys, TEXT for variable-length strings, BOOLEAN, NUMERIC, TIMESTAMPTZ for timezone-aware timestamps, UUID, and JSONB. SQL Designer includes these alongside standard SQL types." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How does PostgreSQL handle foreign key constraints compared to MySQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "The FOREIGN KEY syntax is nearly identical in both databases. PostgreSQL enforces constraints by default through its standard transaction system. Both support ON DELETE and ON UPDATE actions: CASCADE, SET NULL, SET DEFAULT, and RESTRICT." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does a visual PostgreSQL designer export real SQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes — purpose-built tools export PostgreSQL-flavoured DDL with correct syntax for SERIAL or IDENTITY columns, TEXT types, and FOREIGN KEY constraints. The output can be run directly in psql or pasted into a migration file." }
+                }
+            ]
         }
         ]
         @endverbatim

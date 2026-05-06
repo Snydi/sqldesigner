@@ -42,6 +42,32 @@
         "dateModified": "2026-03-24",
         "author": { "@type": "Organization", "name": "SQL Designer" },
         "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the main difference between MySQL and PostgreSQL?",
+                "acceptedAnswer": { "@type": "Answer", "text": "MySQL is optimized for read-heavy web workloads and is simpler to set up, while PostgreSQL is a more standards-compliant, feature-rich database with stronger support for complex queries, custom types, and JSON. Both are widely used and support foreign keys, transactions, and indexing." }
+            },
+            {
+                "@type": "Question",
+                "name": "Does MySQL or PostgreSQL handle JSON better?",
+                "acceptedAnswer": { "@type": "Answer", "text": "PostgreSQL's JSONB type is generally considered more capable — it stores JSON in a binary format that supports indexing and efficient querying. MySQL's JSON type is functional and supports generated columns and path expressions, but PostgreSQL's JSON tooling is more mature." }
+            },
+            {
+                "@type": "Question",
+                "name": "Is AUTO_INCREMENT in MySQL the same as SERIAL in PostgreSQL?",
+                "acceptedAnswer": { "@type": "Answer", "text": "They serve the same purpose — auto-generating a unique integer primary key — but the syntax differs. MySQL uses AUTO_INCREMENT as a column attribute. PostgreSQL uses SERIAL (or BIGSERIAL) as a shorthand type, or GENERATED ALWAYS AS IDENTITY in modern versions." }
+            },
+            {
+                "@type": "Question",
+                "name": "Which should I choose for a new web application: MySQL or PostgreSQL?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Both are solid choices. MySQL is commonly used with PHP/Laravel stacks and is marginally simpler to operate. PostgreSQL is preferred when you need strict SQL compliance, advanced data types, or complex query capabilities. For most web apps either works well — choose based on your team's familiarity and hosting environment." }
+            }
+        ]
     }
     ]
             @endverbatim

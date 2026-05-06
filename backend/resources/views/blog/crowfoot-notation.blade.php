@@ -44,6 +44,37 @@
             "dateModified": "2026-04-16",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is crow's foot notation?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Crow's foot notation is a graphical convention for representing cardinality and optionality in ER diagrams. It uses symbols at the end of relationship lines — a single bar for 'one', a circle for 'zero', and a three-pronged crow's foot for 'many' — to show how many records on each side of a relationship can exist." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What does the crow's foot symbol mean in an ER diagram?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "The crow's foot symbol (three diverging lines at the end of a relationship line) represents the 'many' side of a relationship. It indicates that multiple records in that table can relate to a single record in the connected table." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How do you represent a one-to-many relationship in crow's foot notation?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A one-to-many relationship uses a single vertical bar on the 'one' side and a crow's foot on the 'many' side. For example, one user can have many orders: the users end of the line has a single bar, and the orders end has a crow's foot." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What is the difference between mandatory and optional in crow's foot notation?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Mandatory (shown by a vertical bar next to the entity) means a related record must exist — in SQL this corresponds to a NOT NULL foreign key. Optional (shown by a circle) means the relationship is not required — the foreign key column allows NULL." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How are many-to-many relationships modelled in crow's foot notation?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A many-to-many relationship shows a crow's foot at both ends of the line. In a relational database this cannot be implemented with a single foreign key — it requires a junction table (e.g., product_tags) containing foreign keys to both related tables." }
+                }
+            ]
         }
         ]
         @endverbatim

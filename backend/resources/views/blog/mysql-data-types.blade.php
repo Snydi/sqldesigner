@@ -44,6 +44,37 @@
                 "dateModified": "2026-03-24",
                 "author": { "@type": "Organization", "name": "SQL Designer" },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What MySQL data type should I use for storing money?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Use DECIMAL(p, s) for monetary values, such as DECIMAL(10, 2) for currency with two decimal places. Never use FLOAT or DOUBLE for money — floating-point arithmetic introduces rounding errors that will cause incorrect totals in financial calculations." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the difference between DATETIME and TIMESTAMP in MySQL?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "TIMESTAMP stores values in UTC and automatically converts to the session timezone on retrieval, making it suitable for created_at and updated_at audit columns. DATETIME stores the literal wall-clock time without timezone conversion and has a wider date range (up to year 9999 vs TIMESTAMP's 2038 limit)." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What MySQL type should I use for boolean columns?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "MySQL has no native boolean type. The convention is TINYINT(1), which stores 0 (false) or 1 (true). ORMs like Laravel and Rails treat TINYINT(1) as a boolean automatically. Alternatively, MySQL 8.0+ accepts BOOLEAN as a synonym for TINYINT(1)." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "When should I use VARCHAR vs TEXT in MySQL?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Use VARCHAR(n) for short strings you know the maximum length of — names, emails, URLs, slugs. Use TEXT for long-form content such as article bodies, descriptions, or HTML where the length is unpredictable. Avoid using TEXT columns in WHERE clauses without a full-text index, as it forces a table scan." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What MySQL data type should I use for a primary key?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "INT UNSIGNED NOT NULL AUTO_INCREMENT is the standard choice for most tables, supporting up to approximately 4.3 billion rows. Use BIGINT UNSIGNED NOT NULL AUTO_INCREMENT for tables expected to grow very large, such as event logs or high-volume transactional tables." }
+                    }
+                ]
             }
             ]
         @endverbatim

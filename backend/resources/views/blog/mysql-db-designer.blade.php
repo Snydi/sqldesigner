@@ -44,6 +44,32 @@
             "dateModified": "2026-04-09",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Can I design a MySQL database without installing MySQL Workbench?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. Browser-based MySQL designers like SQL Designer run entirely online — no software installation required. You can design tables, set data types and constraints, draw foreign key relationships, and export a CREATE TABLE script from any browser." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What MySQL data types can I use in a visual designer?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A good MySQL designer supports the full range of common types: INT, BIGINT, VARCHAR, TEXT, CHAR, DECIMAL, FLOAT, BOOLEAN, DATE, DATETIME, TIMESTAMP, JSON, ENUM, and SET. SQL Designer includes all of these with options for length, UNSIGNED, NOT NULL, and AUTO_INCREMENT." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does a visual MySQL designer export real SQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes — purpose-built tools export a complete, runnable CREATE TABLE script including PRIMARY KEY, FOREIGN KEY, and constraint definitions. You can paste it directly into a MySQL client or migration file." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How is a MySQL designer different from a generic diagram tool?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Generic tools like draw.io only produce images. A MySQL-aware designer understands column types, validates constraints, renders crow's foot notation correctly, and generates syntactically correct MySQL DDL. The diagram and the SQL stay in sync." }
+                }
+            ]
         }
         ]
         @endverbatim

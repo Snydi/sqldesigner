@@ -1,6 +1,6 @@
 .PHONY: install up down reinstall clean _wait_postgres _composer_install phpunit \
         install-prod up-prod down-prod build-frontend _wait_postgres_prod _composer_install_prod \
-        clean-prod reinstall-prod backup-db
+        clean-prod reinstall-prod backup-db indexnow
 
 ifeq ($(OS),Windows_NT)
     RM = del /f /q
@@ -111,8 +111,10 @@ _deploy_apply:
 	docker compose -f docker-compose.prod.yml -p snydiagram restart queue
 	docker exec nginx sh -c "mkdir -p /tmp/nginx_fastcgi_cache && nginx -s reload"
 	sleep 2
-	curl -s -o /dev/null https://sql-designer.com/ || true
-	curl -s -o /dev/null https://sql-designer.com/blog || true
+	$(MAKE) indexnow
+
+indexnow:
+	docker exec php sh -c "cd /var/www/html/backend && php artisan seo:indexnow"
 
 _wait_postgres_prod:
 	docker exec postgres sh -c \

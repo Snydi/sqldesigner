@@ -44,6 +44,37 @@
                 "dateModified": "2026-03-24",
                 "author": { "@type": "Organization", "name": "SQL Designer" },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is the MySQL foreign key syntax?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "The syntax is: FOREIGN KEY (column_name) REFERENCES parent_table(parent_column). This is placed inside a CREATE TABLE statement or added with ALTER TABLE. You can also specify ON DELETE and ON UPDATE actions such as CASCADE, SET NULL, or RESTRICT." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What does ON DELETE CASCADE do in MySQL?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "ON DELETE CASCADE automatically deletes child rows when the parent row is deleted. For example, if you delete an order, all associated order_items rows are deleted automatically. Use it when child records have no meaning without the parent." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the difference between ON DELETE CASCADE and ON DELETE SET NULL?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "CASCADE deletes the child row when the parent is deleted. SET NULL sets the foreign key column to NULL instead of deleting the child row. SET NULL requires the foreign key column to be nullable." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Why does MySQL return error 1215 when adding a foreign key?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Error 1215 (Cannot add foreign key constraint) usually means the referenced column types do not match exactly (e.g., INT vs BIGINT, or different UNSIGNED settings), the referenced column is not indexed, or the tables use different storage engines (both must be InnoDB)." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Does MySQL require the referenced column to be a primary key?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "No, but the referenced column must have a UNIQUE index or be the primary key. Referencing a non-unique column is not allowed because MySQL needs to guarantee that each foreign key value maps to exactly one parent row." }
+                    }
+                ]
             }
             ]
         @endverbatim

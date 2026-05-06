@@ -44,6 +44,37 @@
             "dateModified": "2026-04-16",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is an ERD maker?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "An ERD maker (entity relationship diagram maker) is a tool specifically designed for creating ER diagrams. Unlike generic diagram tools, it understands database concepts — primary keys, foreign keys, data types, and constraints — and can generate a valid SQL CREATE TABLE script from the diagram." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can an ERD maker export SQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes — purpose-built ERD makers like SQL Designer can export a complete CREATE TABLE DDL script for MySQL or PostgreSQL directly from the diagram. Generic tools like draw.io only export images and cannot generate SQL." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What is the difference between an ERD maker and a generic diagram tool?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A dedicated ERD maker knows that every column has a data type, every relationship is a real foreign key constraint, and every table needs a primary key. A generic tool lets you draw boxes and lines, but nothing in it corresponds to actual database concepts — there is no SQL output." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I import an existing SQL script into an ERD maker to generate a diagram?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. SQL Designer supports importing an existing CREATE TABLE SQL script and automatically rendering the tables, columns, and foreign key relationships on the canvas. This is useful for visualising a schema that was built without a visual designer." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does an ERD maker show cardinality on relationships?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. ERD makers use cardinality notation — typically crow's foot notation — to show how many records on each side of a relationship can exist (one-to-one, one-to-many, many-to-many). The notation is applied automatically based on whether the foreign key column allows NULL." }
+                }
+            ]
         }
         ]
         @endverbatim

@@ -44,6 +44,50 @@
                 "dateModified": "2026-03-24",
                 "author": { "@type": "Organization", "name": "SQL Designer" },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "How do you start designing a MySQL database schema?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Start by identifying the entities your application needs to store data about — these become your tables. For each entity, list the attributes (columns) you need, choose appropriate MySQL data types, and define a primary key. Then identify the relationships between entities and add foreign keys accordingly." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What MySQL data type should I use for monetary values?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Use DECIMAL(p, s) for monetary values — for example DECIMAL(10, 2) for currency with two decimal places. Never use FLOAT or DOUBLE for money, as floating-point arithmetic introduces rounding errors that compound in financial calculations." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Where does the foreign key column go in a one-to-many relationship?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "The foreign key always goes on the 'many' side of the relationship. For example, in a one-to-many relationship between users and orders (one user, many orders), the foreign key user_id lives in the orders table — not in users." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "When should I use INT vs BIGINT for a primary key?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "INT UNSIGNED supports up to about 4.3 billion rows — sufficient for most tables. Use BIGINT UNSIGNED (max ~18 quintillion) when a table may grow very large, such as event logs or high-volume transactional tables." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the difference between ON DELETE CASCADE and ON DELETE RESTRICT?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "ON DELETE CASCADE automatically deletes child rows when the parent row is deleted. ON DELETE RESTRICT (the default) prevents deletion of the parent if any child rows reference it. Use CASCADE for tightly coupled data (e.g., order_items when an order is deleted) and RESTRICT when you want to force explicit cleanup." }
+                    }
+                ]
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "HowTo",
+                "name": "How to Design a MySQL Database Schema",
+                "step": [
+                    { "@type": "HowToStep", "name": "Identify your entities", "text": "List the real-world things your application needs to store data about. Each entity becomes a table. Start with the core entities and add more as your understanding of the domain grows." },
+                    { "@type": "HowToStep", "name": "Define columns and data types", "text": "For each entity, list the attributes you need to store and assign appropriate MySQL data types. Use INT or BIGINT for IDs, VARCHAR for strings, DECIMAL for money, TINYINT(1) for booleans, and TIMESTAMP for audit dates." },
+                    { "@type": "HowToStep", "name": "Set primary keys", "text": "Every table needs a primary key to uniquely identify each row. The most common approach is an auto-incrementing integer: INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY." },
+                    { "@type": "HowToStep", "name": "Define foreign key relationships", "text": "Identify how your entities relate to each other (one-to-many, many-to-many, one-to-one). Add foreign key columns on the 'many' side of each relationship and define FOREIGN KEY constraints with appropriate ON DELETE and ON UPDATE behaviour." },
+                    { "@type": "HowToStep", "name": "Normalize the schema", "text": "Review the schema for data redundancy. Apply First, Second, and Third Normal Form rules: ensure each column holds a single atomic value, that non-key columns depend on the full primary key, and that there are no transitive dependencies between non-key columns." },
+                    { "@type": "HowToStep", "name": "Export the SQL script", "text": "Once the design is validated visually, export a CREATE TABLE DDL script. Review the generated SQL to confirm all types, constraints, and foreign key declarations are correct before running it against your database." }
+                ]
             }
             ]
         @endverbatim

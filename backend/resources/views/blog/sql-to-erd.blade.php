@@ -44,6 +44,44 @@
             "dateModified": "2026-04-16",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Can I generate an ER diagram from an existing SQL script?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. SQL Designer parses CREATE TABLE statements and automatically renders each table as a node on the canvas with its columns, types, and constraints. FOREIGN KEY definitions are detected and drawn as relationship lines between tables." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What SQL syntax does the SQL-to-ERD import support?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "SQL Designer supports MySQL and PostgreSQL CREATE TABLE syntax including column definitions, PRIMARY KEY, UNIQUE, NOT NULL, AUTO_INCREMENT, SERIAL, and FOREIGN KEY constraints. Comments and multiple statements in one file are handled correctly." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Do I need to clean up my SQL before importing it?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Generally no. SQL Designer is tolerant of standard DDL formatting. If a statement uses unsupported syntax (e.g., vendor-specific extensions), that statement is skipped and the rest are imported." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I edit the diagram after importing SQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. Once the SQL is imported and the diagram is rendered, it behaves like any diagram you created manually — you can add tables, rename columns, change types, draw new relationships, and re-export the updated SQL." }
+                }
+            ]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to generate an ER diagram from a SQL script",
+            "step": [
+                { "@type": "HowToStep", "name": "Copy your SQL script", "text": "Copy the CREATE TABLE statements from your database client, migration file, or schema dump." },
+                { "@type": "HowToStep", "name": "Open SQL Designer", "text": "Go to sql-designer.com and open a diagram (or use the demo without signing in)." },
+                { "@type": "HowToStep", "name": "Import the SQL", "text": "Click the Import button in the toolbar and paste your SQL into the text area, then confirm." },
+                { "@type": "HowToStep", "name": "Review the generated diagram", "text": "SQL Designer renders each table as a canvas node with columns and draws foreign key lines between related tables." },
+                { "@type": "HowToStep", "name": "Edit and save", "text": "Adjust the layout, add missing relationships, or modify columns. Changes auto-save to your account." }
+            ]
         }
         ]
         @endverbatim

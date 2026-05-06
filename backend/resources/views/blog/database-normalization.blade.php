@@ -44,6 +44,37 @@
                 "dateModified": "2026-03-24",
                 "author": { "@type": "Organization", "name": "SQL Designer" },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is database normalization?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Database normalization is the process of structuring a relational schema to reduce data redundancy and improve data integrity. It involves organizing tables so that each piece of data is stored in only one place, following a set of rules called normal forms." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is First Normal Form (1NF)?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "First Normal Form (1NF) requires that every column in a table holds a single, atomic value — no comma-separated lists or repeating groups within a single cell. Each row must be uniquely identifiable by a primary key." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the difference between 2NF and 3NF?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Second Normal Form (2NF) eliminates partial dependencies — non-key columns must depend on the entire primary key, not just part of it (relevant when the primary key is composite). Third Normal Form (3NF) additionally eliminates transitive dependencies — non-key columns must depend only on the primary key, not on other non-key columns." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "When is it acceptable to denormalize a database?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Denormalization can be appropriate for read-heavy workloads where query performance outweighs the cost of redundancy, such as analytics tables or pre-computed aggregates. It should be a deliberate, documented decision — not a shortcut taken during initial design." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Does normalization always require splitting into more tables?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Yes — moving from a lower to a higher normal form typically means extracting dependent data into a new table and replacing it with a foreign key reference. This reduces redundancy but increases the number of joins needed in queries." }
+                    }
+                ]
             }
             ]
         @endverbatim

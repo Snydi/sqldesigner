@@ -44,6 +44,37 @@
             "dateModified": "2026-04-09",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is a free ERD tool?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A free ERD tool is an entity relationship diagram editor available at no cost. A genuinely free ERD tool has no diagram count limits, no table limits per diagram, no SQL export paywalls, and no credit card required to get started." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What features should a free ERD tool have?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A useful free ERD tool should support real SQL data types (not just generic boxes), constraint definitions (PRIMARY KEY, UNIQUE, NOT NULL), visual foreign key lines with crow's foot notation, SQL export to CREATE TABLE scripts, auto-save, and browser-based access with no installation required." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Are free ERD tools limited in the number of tables or diagrams?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Many free ERD tools restrict the number of diagrams or tables on free accounts. Some tools, like SQL Designer, are completely free with no such limits — all features including SQL export are available without a paid plan." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I use a free ERD tool for both MySQL and PostgreSQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Some ERD tools support both MySQL and PostgreSQL with separate type pickers and export modes for each. When you choose your target database, the tool shows only the valid types for that database and generates the correct DDL syntax in the export." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How is a dedicated ERD tool better than draw.io for database design?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A dedicated ERD tool keeps the visual diagram and the SQL schema in sync — every column has a real data type and every relationship is a real foreign key. draw.io produces a picture of a schema but cannot validate constraints or export executable SQL." }
+                }
+            ]
         }
         ]
         @endverbatim
