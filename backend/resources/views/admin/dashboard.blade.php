@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -368,6 +369,21 @@
         }
         .modal-send:hover { background: #7a2222; }
         .modal-send:disabled { background: #ccc; cursor: default; }
+        .chart-card {
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            padding: 18px 20px 14px;
+            margin-bottom: 2rem;
+        }
+        .chart-title {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: .1em;
+            color: #8f2f2f;
+            margin-bottom: 14px;
+        }
+        .chart-canvas-wrap { position: relative; height: 180px; }
     </style>
 </head>
 <body>
@@ -382,6 +398,13 @@
     <main>
         <div class="stats">
             Total users: <strong>{{ $users->count() }}</strong>
+        </div>
+
+        <div class="chart-card">
+            <div class="chart-title">Registrations — Last 60 Days</div>
+            <div class="chart-canvas-wrap">
+                <canvas id="regChart"></canvas>
+            </div>
         </div>
 
         <div class="section-heading">Library — {{ $libraryDiagrams->count() }} diagrams</div>
@@ -514,6 +537,69 @@
             </div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            const labels = @json(array_keys($registrationsByDay));
+            const data   = @json(array_values($registrationsByDay));
+
+            const shortLabels = labels.map(d => {
+                const [, m, day] = d.split('-');
+                return `${day}/${m}`;
+            });
+
+            new Chart(document.getElementById('regChart'), {
+                type: 'line',
+                data: {
+                    labels: shortLabels,
+                    datasets: [{
+                        data,
+                        borderColor: 'rgba(143,47,47,0.85)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(143,47,47,0.85)',
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                        fill: false,
+                        tension: 0.3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (items) => labels[items[0].dataIndex],
+                                label: (item) => ` ${item.raw} user${item.raw !== 1 ? 's' : ''}`,
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                font: { family: "'JetBrains Mono', monospace", size: 9 },
+                                color: '#aaa',
+                                maxRotation: 0,
+                                autoSkip: true,
+                                maxTicksLimit: 20,
+                            },
+                            grid: { display: false },
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: { family: "'JetBrains Mono', monospace", size: 9 },
+                                color: '#aaa',
+                                precision: 0,
+                            },
+                            grid: { color: '#f0eded' },
+                        }
+                    }
+                }
+            });
+        })();
+    </script>
 
     <script>
         const csrf = document.querySelector('meta[name="csrf-token"]').content;
