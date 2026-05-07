@@ -11,9 +11,9 @@
         .sitemap h1 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-primary); margin: 0 0 2.5rem; }
         .sitemap h2 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-primary); margin: 2rem 0 0.8rem; }
         .sitemap ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
-        .sitemap li a { font-size: 0.9rem; color: #2c3e50; text-decoration: none; text-transform: none; border-bottom: 1px solid transparent; }
-        .sitemap li a:hover { border-bottom-color: var(--color-primary); color: var(--color-primary); }
-        .sitemap li .desc { font-size: 0.875rem; color: #888; display: block; margin-top: 0.15rem; text-transform: none; }
+        .sitemap li a { font-size: 0.9rem; color: var(--text-primary); text-decoration: none; text-transform: none; border-bottom: 1px solid transparent; }
+        .sitemap li a:hover { border-bottom-color: var(--color-primary-text); color: var(--color-primary-text); }
+        .sitemap li .desc { font-size: 0.875rem; color: var(--text-subtle); display: block; margin-top: 0.15rem; text-transform: none; }
     </style>
 @endsection
 
@@ -50,6 +50,14 @@
             <li>
                 <a href="/docs">API Docs</a>
                 <span class="desc">REST API reference for SQL Designer — endpoints, request parameters, and response schemas.</span>
+            </li>
+            <li>
+                <a href="/privacy">Privacy Policy</a>
+                <span class="desc">How we collect, use, and protect your data.</span>
+            </li>
+            <li>
+                <a href="/terms">Terms of Service</a>
+                <span class="desc">Rules and conditions for using SQL Designer.</span>
             </li>
         </ul>
 
