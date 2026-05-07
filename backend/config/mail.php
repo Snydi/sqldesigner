@@ -46,6 +46,11 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => 30,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'stream' => [
+                'ssl' => [
+                    'peer_name' => env('MAIL_HOST', 'mail.hosting.reg.ru'),
+                ],
+            ],
         ],
 
         'ses' => [
