@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Real-world database schema examples for e-commerce, blog, SaaS, and more. MySQL and PostgreSQL CREATE TABLE templates you can copy or build visually in SQL Designer.">
+          content="Schema examples for e-commerce, blog, SaaS, and more. MySQL and PostgreSQL CREATE TABLE templates you can copy or build visually in SQL Designer.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-schema-examples">
@@ -13,14 +13,14 @@
           content="Real-world database schema examples for e-commerce, blog, SaaS, and more — with MySQL and PostgreSQL SQL you can use directly.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/database-schema-examples">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Database Schema Examples — MySQL & PostgreSQL Templates">
     <meta name="twitter:description" content="Real-world database schema examples for e-commerce, blog, SaaS, and more — with MySQL and PostgreSQL SQL.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
             [
@@ -38,12 +38,43 @@
                 "@type": "TechArticle",
                 "headline": "Database Schema Examples — MySQL & PostgreSQL Templates",
                 "description": "Real-world database schema examples for e-commerce, blog, SaaS, and more — with MySQL and PostgreSQL SQL you can use directly.",
-                "image": "https://sql-designer.com/images/screenshot.png",
+                "image": "https://sql-designer.com/images/designer_screenshot.png",
                 "url": "https://sql-designer.com/blog/database-schema-examples",
                 "datePublished": "2026-04-02",
                 "dateModified": "2026-04-02",
                 "author": { "@type": "Organization", "name": "SQL Designer" },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What tables does a basic e-commerce database schema need?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "A minimal e-commerce schema typically includes tables for categories, products, customers, orders, and order_items. The order_items table links orders to products and stores the price at time of purchase so historical orders are not affected by future price changes." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How do you model a many-to-many relationship in a database schema?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Many-to-many relationships require a junction (join) table. For example, posts and tags: a post can have many tags, and a tag can apply to many posts. A post_tags table with foreign keys to both posts and tags resolves this — the junction table's primary key is typically a composite of both foreign keys." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Should I store the product price in the order_items table or look it up from the products table?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Store the price at time of purchase in order_items (e.g., a price_at_purchase column). If you look it up from products, a price change would retroactively alter the total of past orders, which is almost never correct." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is a soft delete and when should I use it?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "A soft delete adds a deleted_at column (nullable timestamp) to a table. Rather than removing the row, you set deleted_at to the current time. It is useful when you need an audit trail or when deleting would break referential integrity — but it requires filtering deleted rows in every query." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the difference between TIMESTAMP and TIMESTAMPTZ for created_at columns?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "In PostgreSQL, TIMESTAMPTZ (timestamp with time zone) stores values in UTC and converts them to the session timezone on retrieval, making it the better choice for audit timestamps. In MySQL, TIMESTAMP also stores in UTC with automatic conversion, while DATETIME stores the literal value without timezone awareness." }
+                    }
+                ]
             }
             ]
         @endverbatim

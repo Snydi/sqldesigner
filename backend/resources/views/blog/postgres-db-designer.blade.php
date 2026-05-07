@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, PostgreSQL type support, foreign keys, and SQL export. No install required.">
+          content="Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, PostgreSQL type support, foreign keys, and SQL export.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/postgres-db-designer">
@@ -13,14 +13,14 @@
           content="Free Postgres designer — design PostgreSQL databases visually in your browser. Drag-and-drop canvas, PostgreSQL type support, foreign keys, CREATE TABLE export. No install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/postgres-db-designer">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free Postgres designer with visual drag-and-drop canvas">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Postgres Designer Online — Free Visual PostgreSQL DB Designer">
     <meta name="twitter:description" content="Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, foreign keys, and SQL export. No install.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -38,12 +38,38 @@
             "@type": "TechArticle",
             "headline": "Postgres Designer Online — Free Visual PostgreSQL DB Designer",
             "description": "Free Postgres designer — design PostgreSQL databases visually with drag-and-drop tables, PostgreSQL type support, foreign keys, and SQL export.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/postgres-db-designer",
             "datePublished": "2026-04-09",
             "dateModified": "2026-04-09",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Can I design a PostgreSQL database visually without pgAdmin?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. Browser-based tools like SQL Designer let you design PostgreSQL schemas visually — adding tables, columns, and foreign key relationships — and export a ready-to-run CREATE TABLE script. No installation needed." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What PostgreSQL-specific data types can I use in a visual designer?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A PostgreSQL designer should support SERIAL and BIGSERIAL for auto-increment primary keys, TEXT for variable-length strings, BOOLEAN, NUMERIC, TIMESTAMPTZ for timezone-aware timestamps, UUID, and JSONB. SQL Designer includes these alongside standard SQL types." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How does PostgreSQL handle foreign key constraints compared to MySQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "The FOREIGN KEY syntax is nearly identical in both databases. PostgreSQL enforces constraints by default through its standard transaction system. Both support ON DELETE and ON UPDATE actions: CASCADE, SET NULL, SET DEFAULT, and RESTRICT." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does a visual PostgreSQL designer export real SQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes — purpose-built tools export PostgreSQL-flavoured DDL with correct syntax for SERIAL or IDENTITY columns, TEXT types, and FOREIGN KEY constraints. The output can be run directly in psql or pasted into a migration file." }
+                }
+            ]
         }
         ]
         @endverbatim

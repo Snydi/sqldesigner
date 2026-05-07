@@ -13,14 +13,14 @@
           content="Free MySQL designer — design MySQL databases visually in your browser. Drag-and-drop canvas, MySQL type support, foreign keys, CREATE TABLE export. No install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/mysql-db-designer">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free MySQL designer with visual drag-and-drop canvas">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MySQL Designer Online — Free Visual MySQL DB Designer">
     <meta name="twitter:description" content="Free MySQL designer — design MySQL databases visually with drag-and-drop tables, foreign keys, and SQL export. No install.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -38,12 +38,38 @@
             "@type": "TechArticle",
             "headline": "MySQL Designer Online — Free Visual MySQL DB Designer",
             "description": "Free MySQL designer — design MySQL databases visually with drag-and-drop tables, MySQL type support, foreign keys, and CREATE TABLE export.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/mysql-db-designer",
             "datePublished": "2026-04-09",
             "dateModified": "2026-04-09",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Can I design a MySQL database without installing MySQL Workbench?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. Browser-based MySQL designers like SQL Designer run entirely online — no software installation required. You can design tables, set data types and constraints, draw foreign key relationships, and export a CREATE TABLE script from any browser." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What MySQL data types can I use in a visual designer?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A good MySQL designer supports the full range of common types: INT, BIGINT, VARCHAR, TEXT, CHAR, DECIMAL, FLOAT, BOOLEAN, DATE, DATETIME, TIMESTAMP, JSON, ENUM, and SET. SQL Designer includes all of these with options for length, UNSIGNED, NOT NULL, and AUTO_INCREMENT." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does a visual MySQL designer export real SQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes — purpose-built tools export a complete, runnable CREATE TABLE script including PRIMARY KEY, FOREIGN KEY, and constraint definitions. You can paste it directly into a MySQL client or migration file." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How is a MySQL designer different from a generic diagram tool?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Generic tools like draw.io only produce images. A MySQL-aware designer understands column types, validates constraints, renders crow's foot notation correctly, and generates syntactically correct MySQL DDL. The diagram and the SQL stay in sync." }
+                }
+            ]
         }
         ]
         @endverbatim

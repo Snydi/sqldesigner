@@ -11,7 +11,6 @@ Route::get('/', function () {
 
 Route::prefix('/blog')->group(function () {
     Route::get('/', fn() => view('blog.index'));
-    Route::get('/mysql-workbench-alternative', fn() => view('blog.mysql-workbench-alternative'));
     Route::get('/how-to-design-mysql-database-schema', fn() => view('blog.how-to-design-mysql-database-schema'));
     Route::get('/er-diagram-tool-online', fn() => view('blog.er-diagram-tool-online'));
     Route::get('/mysql-foreign-key', fn() => view('blog.mysql-foreign-key'));
@@ -19,19 +18,17 @@ Route::prefix('/blog')->group(function () {
     Route::get('/database-normalization', fn() => view('blog.database-normalization'));
     Route::get('/how-to-draw-er-diagram', fn() => view('blog.how-to-draw-er-diagram'));
     Route::get('/mysql-vs-postgresql', fn() => view('blog.mysql-vs-postgresql'));
-    Route::get('/dbdiagram-alternative', fn() => view('blog.dbdiagram-alternative'));
     Route::get('/database-schema-examples', fn() => view('blog.database-schema-examples'));
     Route::get('/free-erd-tool', fn() => view('blog.free-erd-tool'));
     Route::get('/mysql-db-designer', fn() => view('blog.mysql-db-designer'));
     Route::get('/postgres-db-designer', fn() => view('blog.postgres-db-designer'));
     Route::get('/database-designer', fn() => view('blog.database-designer'));
-    Route::get('/lucidchart-alternative', fn() => view('blog.lucidchart-alternative'));
-    Route::get('/drawio-alternative', fn() => view('blog.drawio-alternative'));
     Route::get('/best-erd-tools', fn() => view('blog.best-erd-tools'));
     Route::get('/share-database-diagram', fn() => view('blog.share-database-diagram'));
     Route::get('/erd-maker', fn() => view('blog.erd-maker'));
     Route::get('/sql-to-erd', fn() => view('blog.sql-to-erd'));
     Route::get('/crowfoot-notation', fn() => view('blog.crowfoot-notation'));
+    Route::get('/database-ddl-comparison', fn() => view('blog.database-ddl-comparison'));
 });
 Route::get('/features', fn() => view('features'));
 Route::get('/library', function () {
@@ -62,6 +59,8 @@ Route::prefix('/admin')->group(function () {
         Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.destroy');
         Route::post('/diagrams/{diagram}/feature', [AdminController::class, 'featureDiagram'])->name('admin.diagrams.feature');
         Route::delete('/diagrams/{diagram}/feature', [AdminController::class, 'unfeatureDiagram'])->name('admin.diagrams.unfeature');
+        Route::post('/users/{user}/email', [AdminController::class, 'sendEmail'])->name('admin.users.email');
+        Route::post('/email-all', [AdminController::class, 'sendEmailToAll'])->name('admin.email-all');
         Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
     });
 });

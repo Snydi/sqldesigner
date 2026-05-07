@@ -1,26 +1,26 @@
 @extends('layouts.main')
 
-@section('title', 'Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL')
+@section('title', 'Free DB Designer Online — Visual Database Designer')
 
 @section('head')
     <meta name="description"
-          content="Free DB designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL. No install required.">
+          content="Free DB designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-designer">
-    <meta property="og:title" content="Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL">
+    <meta property="og:title" content="Free DB Designer Online — Visual Database Designer">
     <meta property="og:description"
           content="Free DB designer — design relational schemas visually in your browser. Drag-and-drop tables, foreign keys, MySQL and PostgreSQL SQL export. No install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/database-designer">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free online database designer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL">
+    <meta name="twitter:title" content="Free DB Designer Online — Visual Database Designer">
     <meta name="twitter:description" content="Free DB designer for MySQL and PostgreSQL — design schemas visually with drag-and-drop tables and SQL export. No install.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -36,14 +36,45 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "Free DB Designer Online — Visual Database Designer for MySQL & PostgreSQL",
+            "headline": "Free DB Designer Online — Visual Database Designer",
             "description": "Free DB designer — design relational database schemas visually with drag-and-drop tables, foreign keys, and SQL export for MySQL and PostgreSQL.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/database-designer",
             "datePublished": "2026-04-09",
             "dateModified": "2026-04-09",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is an online database designer tool?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "An online database designer is a browser-based tool for planning relational database schemas visually. You add tables to a canvas, define columns with data types and constraints, draw foreign key relationships between tables, and export a CREATE TABLE SQL script — without writing DDL by hand." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What does a database designer tool actually output?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Most database designer tools output a SQL DDL script — a set of CREATE TABLE statements you can run directly against a MySQL or PostgreSQL database. Some also allow exporting a diagram image or sharing a read-only link." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I use a database designer tool without installing anything?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. Browser-based database designer tools run entirely in your browser — there is nothing to download or install. You create a free account and start designing immediately from any device." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What is the difference between a database designer and a generic diagram tool?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A generic diagram tool (like draw.io or Figma) lets you draw boxes and lines but doesn't understand SQL. A purpose-built database designer knows your column types, validates constraints, and can generate a correct CREATE TABLE script. The diagram and the DDL are kept in sync." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Do free database designer tools have limits on diagrams or tables?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Some tools limit free accounts to a small number of diagrams or tables per diagram. Others, like SQL Designer, are fully free with no diagram count limits, no table limits, and no SQL export paywall." }
+                }
+            ]
         }
         ]
         @endverbatim

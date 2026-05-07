@@ -49,12 +49,20 @@ Completely free. No paid tiers, no feature limits, no credit card required. All 
 ## Blog articles
 
 - https://sql-designer.com/blog/database-schema-examples — Five real-world schema templates (e-commerce, blog, SaaS, task tracker, messaging) with MySQL and PostgreSQL SQL
-- https://sql-designer.com/blog/dbdiagram-alternative — Free visual alternatives to dbdiagram.io with SQL export
-- https://sql-designer.com/blog/how-to-design-mysql-database-schema — Step-by-step guide to designing a MySQL schema
-- https://sql-designer.com/blog/er-diagram-tool-online — What ER diagrams are and how to create one for free
-- https://sql-designer.com/blog/mysql-workbench-alternative — Free browser-based MySQL Workbench alternatives
-- https://sql-designer.com/blog/mysql-foreign-key — MySQL foreign key syntax, ON DELETE/UPDATE, examples
-- https://sql-designer.com/blog/mysql-data-types — Choosing the right MySQL data types
-- https://sql-designer.com/blog/database-normalization — 1NF, 2NF, 3NF explained with examples
+- https://sql-designer.com/blog/how-to-design-mysql-database-schema — Step-by-step guide to designing a MySQL schema visually
+- https://sql-designer.com/blog/er-diagram-tool-online — What ER diagrams are and how to create one online for free
 - https://sql-designer.com/blog/how-to-draw-er-diagram — How to draw an ER diagram step by step
+- https://sql-designer.com/blog/free-erd-tool — Overview of free ERD tools with a visual, browser-based editor
+- https://sql-designer.com/blog/erd-maker — How to create ER diagrams online without installing software
+- https://sql-designer.com/blog/best-erd-tools — Honest comparison of the best free ERD tools in 2026
+- https://sql-designer.com/blog/database-designer — What a visual database designer is and how to use one online
+- https://sql-designer.com/blog/mysql-db-designer — Free visual MySQL database designer, browser-based
+- https://sql-designer.com/blog/postgres-db-designer — Free visual PostgreSQL database designer, browser-based
+- https://sql-designer.com/blog/crowfoot-notation — Crow's foot notation explained: one-to-many, many-to-many, cardinality symbols
+- https://sql-designer.com/blog/mysql-foreign-key — MySQL foreign key syntax, ON DELETE/UPDATE, examples
+- https://sql-designer.com/blog/mysql-data-types — Choosing the right MySQL data types for each column
+- https://sql-designer.com/blog/database-normalization — 1NF, 2NF, 3NF explained with examples
 - https://sql-designer.com/blog/mysql-vs-postgresql — MySQL vs PostgreSQL key differences for schema design
+- https://sql-designer.com/blog/sql-to-erd — How to generate an ER diagram from an existing SQL script
+- https://sql-designer.com/blog/share-database-diagram — How to share a database diagram online via link or embed
+- https://sql-designer.com/blog/database-ddl-comparison — DDL syntax differences across MySQL, PostgreSQL, Oracle, SQL Server, and SQLite

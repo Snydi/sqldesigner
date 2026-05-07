@@ -1,32 +1,72 @@
 @extends('layouts.main')
 
-@section('title', 'Features — Free Database Designer & ERD Tool | SQL Designer')
+@section('title', 'Features — Visual MySQL & PostgreSQL ERD Tool | SQL Designer')
 
 @section('head')
-    <meta name="description" content="Everything SQL Designer can do: visual drag-and-drop schema editing, MySQL and PostgreSQL SQL export, foreign keys, constraints, auto-save, and more.">
+    <meta name="description" content="Every feature in SQL Designer: drag-and-drop canvas, MySQL and PostgreSQL export, foreign keys, constraints, SQL import, auto-save, sharing.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/features">
-    <meta property="og:title" content="Features — Free Database Designer &amp; ERD Tool | SQL Designer">
-    <meta property="og:description" content="Everything SQL Designer can do: visual drag-and-drop schema editing, MySQL and PostgreSQL SQL export, foreign keys, constraints, auto-save, and more.">
+    <meta property="og:title" content="Features — Visual MySQL &amp; PostgreSQL ERD Tool | SQL Designer">
+    <meta property="og:description" content="Every feature in SQL Designer: drag-and-drop canvas, MySQL and PostgreSQL export, foreign keys, constraints, SQL import, auto-save, sharing.">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SQL Designer">
+    <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://sql-designer.com/features">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — full feature list for the free database designer and ERD tool">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Features — Free Database Designer &amp; ERD Tool | SQL Designer">
-    <meta name="twitter:description" content="Everything SQL Designer can do: visual drag-and-drop schema editing, MySQL and PostgreSQL SQL export, foreign keys, constraints, auto-save, and more.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:title" content="Features — Visual MySQL &amp; PostgreSQL ERD Tool | SQL Designer">
+    <meta name="twitter:description" content="Every feature in SQL Designer: drag-and-drop canvas, MySQL and PostgreSQL export, foreign keys, constraints, SQL import, auto-save, sharing.">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
+    <meta name="keywords" content="ERD tool, database designer, MySQL schema designer, PostgreSQL schema designer, entity relationship diagram, visual SQL tool, foreign key diagram, CREATE TABLE generator, SQL import, free ERD tool, crow's foot notation, database diagram online">
     <script type="application/ld+json">
     @verbatim
+    [
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home",     "item": "https://sql-designer.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Features", "item": "https://sql-designer.com/features" }
+        ]
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "SQL Designer",
+        "url": "https://sql-designer.com",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript. Works in Chrome, Firefox, Safari, Edge.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "screenshot": "https://sql-designer.com/images/designer_screenshot.png",
+        "featureList": [
+            "Drag-and-drop ERD canvas",
+            "MySQL SQL export",
+            "PostgreSQL SQL export",
+            "SQL import — reverse-engineer existing schemas",
+            "Foreign key relationships with crow's foot notation",
+            "PRIMARY KEY, UNIQUE, NOT NULL constraints",
+            "Share links with read-only, editable, or approval-based access",
+            "Embeddable iframe diagrams",
+            "Auto-save to account",
+            "Unlimited diagrams"
+        ],
+        "sameAs": [
+            "https://gitlab.com/Snydi/sql-designer",
+            "https://discord.gg/vFwgX7qKqA"
+        ]
+    },
     {
         "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "Features — SQL Designer",
         "url": "https://sql-designer.com/features",
-        "description": "Everything SQL Designer can do: visual drag-and-drop schema editing, MySQL and PostgreSQL SQL export, foreign keys, constraints, auto-save, and more.",
+        "dateModified": "2026-04-27",
+        "description": "Every feature in SQL Designer: drag-and-drop canvas, MySQL and PostgreSQL export, foreign keys, constraints, SQL import, auto-save, sharing.",
         "isPartOf": { "@type": "WebSite", "url": "https://sql-designer.com" },
         "about": {
             "@type": "SoftwareApplication",
@@ -37,22 +77,25 @@
             "@type": "ItemList",
             "name": "SQL Designer Features",
             "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Drag-and-Drop Canvas" },
-                { "@type": "ListItem", "position": 2, "name": "Tables & Columns" },
-                { "@type": "ListItem", "position": 3, "name": "Column Data Types" },
-                { "@type": "ListItem", "position": 4, "name": "Auto-Save" },
-                { "@type": "ListItem", "position": 5, "name": "Foreign Key Relationships" },
-                { "@type": "ListItem", "position": 6, "name": "PRIMARY KEY constraint" },
-                { "@type": "ListItem", "position": 7, "name": "UNIQUE & NOT NULL constraints" },
-                { "@type": "ListItem", "position": 8, "name": "MySQL SQL Export" },
-                { "@type": "ListItem", "position": 9, "name": "PostgreSQL SQL Export" },
-                { "@type": "ListItem", "position": 10, "name": "One-Click Copy" },
-                { "@type": "ListItem", "position": 11, "name": "Free Account" },
-                { "@type": "ListItem", "position": 12, "name": "Multiple Diagrams" },
-                { "@type": "ListItem", "position": 13, "name": "Browser-Based, Nothing to Install" }
+                { "@type": "ListItem", "position": 1,  "name": "Drag-and-Drop Canvas" },
+                { "@type": "ListItem", "position": 2,  "name": "Tables & Columns" },
+                { "@type": "ListItem", "position": 3,  "name": "Column Data Types" },
+                { "@type": "ListItem", "position": 4,  "name": "Auto-Save" },
+                { "@type": "ListItem", "position": 5,  "name": "Foreign Key Relationships" },
+                { "@type": "ListItem", "position": 6,  "name": "PRIMARY KEY constraint" },
+                { "@type": "ListItem", "position": 7,  "name": "UNIQUE & NOT NULL constraints" },
+                { "@type": "ListItem", "position": 8,  "name": "MySQL SQL Export" },
+                { "@type": "ListItem", "position": 9,  "name": "PostgreSQL SQL Export" },
+                { "@type": "ListItem", "position": 10, "name": "SQL Import" },
+                { "@type": "ListItem", "position": 11, "name": "One-Click Copy" },
+                { "@type": "ListItem", "position": 12, "name": "Share Links" },
+                { "@type": "ListItem", "position": 13, "name": "Embeds" },
+                { "@type": "ListItem", "position": 14, "name": "Multiple Diagrams" },
+                { "@type": "ListItem", "position": 15, "name": "Browser-Based, Nothing to Install" }
             ]
         }
     }
+    ]
     @endverbatim
     </script>
     <script type="application/ld+json">
@@ -116,6 +159,30 @@
                     "@type": "Answer",
                     "text": "Yes. You can draw foreign key relationships between columns by connecting them visually on the canvas. Relationships are rendered using crow's foot notation and are included in the SQL export."
                 }
+            },
+            {
+                "@type": "Question",
+                "name": "What is crow's foot notation in SQL Designer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Crow's foot notation is a visual convention for showing the cardinality of database relationships. In SQL Designer, when you draw a foreign key between two columns, the connection line uses crow's foot symbols to indicate whether the relationship is one-to-one or one-to-many, making cardinality immediately clear on the diagram."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I embed a SQL Designer diagram in my website?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. SQL Designer generates an iframe embed code for any shared diagram. Paste it into a blog post, documentation page, or internal wiki and the diagram renders as an interactive preview."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What browsers does SQL Designer support?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "SQL Designer runs in all modern browsers: Chrome, Firefox, Safari, and Edge on Windows, Mac, and Linux. No installation or browser extension is required."
+                }
             }
         ]
     }
@@ -124,33 +191,87 @@
     <style>
         body { overflow-y: auto; margin: 0; }
 
-        /* ── Layout ── */
-        .docs-layout {
-            display: flex;
-            align-items: flex-start;
-            max-width: 1100px;
+        /* ── Page intro ── */
+        .page-intro {
+            padding: clamp(2.5rem, 5vw, 4rem) var(--gutter, 2rem) clamp(1.5rem, 3vw, 2.5rem);
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+        .page-intro::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border-light) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
+            opacity: 0.45;
+            pointer-events: none;
+        }
+        .intro-inner {
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 3rem 1.5rem 5rem;
-            gap: 3rem;
+            position: relative;
+        }
+        .breadcrumb {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            margin: 0 0 1rem;
+        }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--color-primary-text); }
+        .breadcrumb .sep { margin: 0 0.4rem; color: var(--border-strong); }
+        h1.page-h1 {
+            font-size: clamp(1.9rem, 4vw, 2.8rem);
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            font-weight: 600;
+            margin: 0 0 0.8rem;
+            text-wrap: balance;
+            max-width: 22ch;
+        }
+        h1.page-h1 em { font-style: normal; color: var(--color-primary-text); }
+        .page-sub {
+            font-size: 1.02rem;
+            color: var(--text-secondary);
+            margin: 0;
+            max-width: 56ch;
+            text-wrap: pretty;
+        }
+
+        /* ── Docs layout ── */
+        .docs-layout {
+            display: grid;
+            grid-template-columns: 220px minmax(0, 1fr);
+            gap: clamp(2rem, 5vw, 4rem);
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: clamp(2rem, 5vw, 3.5rem) var(--gutter, 2rem) clamp(3rem, 6vw, 5rem);
+            align-items: start;
+        }
+        @media (max-width: 820px) {
+            .docs-layout { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 1.5rem; }
         }
 
         /* ── Sidebar ── */
         .docs-sidebar {
-            flex-shrink: 0;
-            width: 200px;
             position: sticky;
-            top: 2rem;
+            top: 5rem;
         }
+        @media (max-width: 820px) { .docs-sidebar { position: static; } }
 
         .sidebar-label {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
             color: var(--text-muted);
-            margin: 0 0 0.6rem;
-            padding: 0 0 0.5rem;
+            margin: 0 0 0.8rem;
         }
-
         .sidebar-nav {
             list-style: none;
             margin: 0;
@@ -159,138 +280,120 @@
             flex-direction: column;
             gap: 0.1rem;
         }
-
-        .sidebar-nav li {
+        .sidebar-nav > li {
             display: flex;
             flex-direction: column;
         }
-
         .sidebar-nav a.sidebar-section {
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-subtle);
-            text-decoration: none;
-            padding: 0.45rem 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            padding: 0.45rem 0.8rem;
             border-left: 2px solid var(--border-color);
-            transition: color 0.15s, border-color 0.15s;
+            transition: color 120ms, border-color 120ms;
             display: block;
+            text-decoration: none;
         }
-
         .sidebar-nav a.sidebar-section:hover,
         .sidebar-nav a.sidebar-section.active {
             color: var(--color-primary-text);
             border-left-color: var(--color-primary-text);
         }
-
         .sidebar-sub {
             list-style: none;
-            margin: 0;
+            margin: 0 0 0.5rem;
             padding: 0;
-            display: flex;
-            flex-direction: column;
         }
-
         .sidebar-sub a {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            padding: 0.3rem 0.75rem 0.3rem 1.4rem;
-            border-left: 2px solid var(--border-color);
             display: block;
-            transition: color 0.15s, border-color 0.15s;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            padding: 0.3rem 0.8rem 0.3rem 1.6rem;
+            border-left: 2px solid var(--border-color);
+            transition: color 120ms, border-color 120ms;
+            text-decoration: none;
         }
-
         .sidebar-sub a:hover,
         .sidebar-sub a.active {
             color: var(--color-primary-text);
             border-left-color: var(--color-primary-text);
         }
+        @media (max-width: 820px) {
+            .sidebar-nav { flex-direction: row; flex-wrap: wrap; gap: 0.4rem; }
+            .sidebar-nav > li { flex-direction: row; }
+            .sidebar-nav a.sidebar-section { border-left: none; border-bottom: 2px solid var(--border-color); padding: 0.35rem 0.6rem; }
+            .sidebar-sub { display: none; }
+        }
 
         /* ── Content ── */
-        .docs-content {
-            flex: 1;
-            min-width: 0;
+        .docs-content { min-width: 0; }
+        .docs-section {
+            margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+            scroll-margin-top: 5rem;
         }
+        .docs-section:last-child { margin-bottom: 0; }
 
-        .docs-content h1 {
-            font-size: 1.6rem;
+        .section-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--color-primary-text);
+            color: var(--text-muted);
             margin: 0 0 0.5rem;
         }
-
-        .docs-intro {
-            font-size: 0.95rem;
-            color: var(--text-subtle);
-            line-height: 1.8;
-            margin: 0 0 3.5rem;
-            text-transform: none;
-        }
-
-        .docs-section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 2rem;
-        }
-
-        .docs-section h2 {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--text-muted);
+        h2.section-h2 {
+            font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+            letter-spacing: -0.02em;
+            font-weight: 600;
             margin: 0 0 1.4rem;
-            padding-bottom: 0.6rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* ── Feature list ── */
+        .feat-list { display: flex; flex-direction: column; }
+        .feat {
+            display: grid;
+            grid-template-columns: 56px minmax(0, 1fr);
+            gap: 1.1rem;
+            padding: 1.3rem 0;
             border-bottom: 1px solid var(--border-light);
+            scroll-margin-top: 5rem;
         }
-
-        .feature-entry {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-            padding: 1.2rem 0;
-            border-bottom: 1px solid var(--border-light);
-            scroll-margin-top: 2rem;
-        }
-
-        .feature-entry:last-child {
-            border-bottom: none;
-        }
-
-        .feat-icon {
+        .feat:last-child { border-bottom: none; }
+        .feat-glyph {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-surface);
+            display: grid;
+            place-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--color-primary-text);
             flex-shrink: 0;
-            width: 2rem;
-            height: 2rem;
-            background: var(--color-primary);
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-
-        .feat-icon svg {
-            width: 1rem;
-            height: 1rem;
-            fill: #fff;
-        }
-
+        .feat-glyph.fk { color: var(--accent-fk, #c9a86a); border-color: rgba(201,168,106,0.35); }
         .feat-body h3 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
+            font-size: 1rem;
+            letter-spacing: -0.005em;
+            font-weight: 600;
+            margin: 0.15rem 0 0.35rem;
             color: var(--text-primary);
-            margin: 0.1rem 0 0.35rem;
-        }
-
-        .feat-body p {
-            font-size: 0.875rem;
-            color: var(--text-subtle);
-            line-height: 1.75;
-            margin: 0;
             text-transform: none;
         }
-
+        .feat-body p {
+            font-size: 0.93rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin: 0;
+            text-wrap: pretty;
+            max-width: 62ch;
+        }
+        .feat-body a { color: var(--color-primary-text); }
         .feat-body code {
             font-size: 0.82rem;
             background: var(--bg-elevated);
@@ -300,52 +403,36 @@
 
         /* ── CTA ── */
         .docs-cta {
-            margin-top: 1rem;
-            background: var(--color-primary);
-            color: #fff;
-            border-radius: 8px;
-            padding: 2.5rem 2rem;
+            margin: clamp(2rem, 5vw, 3rem) auto 0;
+            max-width: 1120px;
+            padding: clamp(2rem, 4vw, 2.8rem) var(--gutter, 2rem);
+            border-top: 1px solid var(--border-color);
             text-align: center;
         }
-
         .docs-cta h2 {
-            font-size: 1.05rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin: 0 0 1.2rem;
+            font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+            letter-spacing: -0.02em;
+            margin: 0 0 0.6rem;
+            text-transform: none;
+            color: var(--text-primary);
         }
-
-        .btn-cta {
-            display: inline-block;
-            background: #fff;
-            color: var(--color-primary);
-            padding: 0.7rem 2rem;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .btn-cta:hover { opacity: 0.85; }
-
-        /* ── Mobile ── */
-        @media (max-width: 720px) {
-            .docs-layout { flex-direction: column; gap: 2rem; padding-top: 2rem; }
-            .docs-sidebar { width: 100%; position: static; }
-            .sidebar-nav { flex-direction: row; flex-wrap: wrap; gap: 0.4rem; }
-            .sidebar-nav li { flex-direction: row; flex-wrap: wrap; }
-            .sidebar-nav a.sidebar-section { border-left: none; border-bottom: 2px solid var(--border-color); padding: 0.3rem 0.5rem; }
-            .sidebar-nav a.sidebar-section:hover,
-            .sidebar-nav a.sidebar-section.active { border-bottom-color: var(--color-primary-text); }
-            .sidebar-sub { display: none; }
-        }
+        .docs-cta p { color: var(--text-secondary); margin: 0 auto 1.2rem; max-width: 50ch; }
+        .docs-cta .actions { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
     </style>
 @endsection
 
 @section('content')
+
+{{-- Page intro --}}
+<section class="page-intro">
+    <div class="intro-inner">
+        <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><span>Features</span></p>
+        <h1 class="page-h1">Everything an <em>ERD tool</em> should do.</h1>
+        <p class="page-sub">A visual database designer for MySQL and PostgreSQL. Drag-and-drop canvas, foreign keys with crow's foot notation, SQL import and export — all in the browser.</p>
+    </div>
+</section>
+
+{{-- Docs layout --}}
 <div class="docs-layout">
 
     {{-- Sidebar --}}
@@ -353,36 +440,43 @@
         <p class="sidebar-label">On this page</p>
         <ul class="sidebar-nav">
             <li>
-                <a class="sidebar-section" href="#canvas">Canvas &amp; Editing</a>
+                <a class="sidebar-section" href="#canvas">Canvas &amp; editing</a>
                 <ul class="sidebar-sub">
-                    <li><a href="#drag-drop">Drag-and-Drop</a></li>
-                    <li><a href="#tables-columns">Tables &amp; Columns</a></li>
-                    <li><a href="#data-types">Data Types</a></li>
-                    <li><a href="#auto-save">Auto-Save</a></li>
+                    <li><a href="#drag-drop">Drag-and-drop</a></li>
+                    <li><a href="#tables-columns">Tables &amp; columns</a></li>
+                    <li><a href="#data-types">Data types</a></li>
+                    <li><a href="#auto-save">Auto-save</a></li>
                 </ul>
             </li>
             <li>
-                <a class="sidebar-section" href="#relationships">Relationships &amp; Constraints</a>
+                <a class="sidebar-section" href="#relationships">Relationships</a>
                 <ul class="sidebar-sub">
-                    <li><a href="#foreign-keys">Foreign Keys</a></li>
+                    <li><a href="#foreign-keys">Foreign keys</a></li>
                     <li><a href="#primary-key">PRIMARY KEY</a></li>
-                    <li><a href="#unique-not-null">UNIQUE &amp; NOT NULL</a></li>
+                    <li><a href="#unique-not-null">UNIQUE / NOT NULL</a></li>
                 </ul>
             </li>
             <li>
-                <a class="sidebar-section" href="#sql-export">SQL Export</a>
+                <a class="sidebar-section" href="#sql">SQL in &amp; out</a>
                 <ul class="sidebar-sub">
-                    <li><a href="#mysql-export">MySQL</a></li>
-                    <li><a href="#postgres-export">PostgreSQL</a></li>
-                    <li><a href="#one-click-copy">One-Click Copy</a></li>
+                    <li><a href="#mysql-export">MySQL export</a></li>
+                    <li><a href="#postgres-export">PostgreSQL export</a></li>
+                    <li><a href="#sql-import">SQL import</a></li>
+                    <li><a href="#one-click-copy">One-click copy</a></li>
                 </ul>
             </li>
             <li>
-                <a class="sidebar-section" href="#account">Account &amp; Organisation</a>
+                <a class="sidebar-section" href="#sharing">Sharing</a>
                 <ul class="sidebar-sub">
-                    <li><a href="#free-account">Free Account</a></li>
-                    <li><a href="#multiple-diagrams">Multiple Diagrams</a></li>
-                    <li><a href="#browser-based">Browser-Based</a></li>
+                    <li><a href="#share-links">Share links</a></li>
+                    <li><a href="#embeds">Embeds</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="sidebar-section" href="#workspace">Workspace</a>
+                <ul class="sidebar-sub">
+                    <li><a href="#multiple-diagrams">Multiple diagrams</a></li>
+                    <li><a href="#browser-based">Browser-based</a></li>
                 </ul>
             </li>
         </ul>
@@ -390,184 +484,192 @@
 
     {{-- Main content --}}
     <div class="docs-content">
-        <h1>Features — Free ERD Tool &amp; Database Designer</h1>
-        <p class="docs-intro">SQL Designer is a free, browser-based ERD tool and database designer for MySQL and PostgreSQL. Here is everything it can do.</p>
 
-        {{-- Canvas & Editing --}}
-        <section class="docs-section" id="canvas" aria-labelledby="section-canvas">
-            <h2 id="section-canvas">Canvas &amp; Editing</h2>
+        <section class="docs-section" id="canvas" aria-labelledby="canvas-h2">
+            <p class="section-eyebrow">01 / Canvas</p>
+            <h2 class="section-h2" id="canvas-h2">Canvas &amp; editing</h2>
+            <div class="feat-list">
 
-            <div class="feature-entry" id="drag-drop">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M2 2h4v4H2zm8 0h4v4h-4zM2 10h4v4H2zm8 0h4v4h-4z"/></svg>
+                <div class="feat" id="drag-drop">
+                    <div class="feat-glyph">⌘</div>
+                    <div class="feat-body">
+                        <h3>Drag-and-drop canvas</h3>
+                        <p>An infinite, pan-and-zoom canvas. Drop tables anywhere, rearrange freely, work with schemas of any size without losing the shape.</p>
+                    </div>
                 </div>
-                <div class="feat-body">
-                    <h3>Drag-and-Drop Canvas</h3>
-                    <p>Place and reposition tables freely on an infinite canvas. Pan and zoom to work with schemas of any size without losing track of structure.</p>
-                </div>
-            </div>
 
-            <div class="feature-entry" id="tables-columns">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M1 3h14v2H1zm0 4h14v2H1zm0 4h14v2H1z"/></svg>
+                <div class="feat" id="tables-columns">
+                    <div class="feat-glyph">⊞</div>
+                    <div class="feat-body">
+                        <h3>Tables &amp; columns</h3>
+                        <p>Add tables, add columns, rename inline, reorder by drag. Each column gets a name, a type, and optional constraints.</p>
+                    </div>
                 </div>
-                <div class="feat-body">
-                    <h3>Tables &amp; Columns</h3>
-                    <p>Add as many tables as you need. Each table holds any number of columns with a name, data type, and optional constraints. Rename and reorder on the fly.</p>
-                </div>
-            </div>
 
-            <div class="feature-entry" id="data-types">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M2 2h12v3H2zm0 5h12v3H2zm0 5h12v2H2z"/></svg>
+                <div class="feat" id="data-types">
+                    <div class="feat-glyph">T</div>
+                    <div class="feat-body">
+                        <h3>Data types</h3>
+                        <p>Common MySQL and PostgreSQL types: <code>INT</code>, <code>BIGINT</code>, <code>VARCHAR</code>, <code>TEXT</code>, <code>BOOLEAN</code>, <code>DATE</code>, <code>TIMESTAMP</code>, <code>UUID</code>, <code>DECIMAL</code>, <code>JSON</code>.</p>
+                    </div>
                 </div>
-                <div class="feat-body">
-                    <h3>Column Data Types</h3>
-                    <p>Choose from all common MySQL and PostgreSQL data types: <code>INT</code>, <code>BIGINT</code>, <code>VARCHAR</code>, <code>TEXT</code>, <code>BOOLEAN</code>, <code>DATE</code>, <code>TIMESTAMP</code>, <code>UUID</code>, <code>DECIMAL</code>, <code>JSON</code>, and more.</p>
-                </div>
-            </div>
 
-            <div class="feature-entry" id="auto-save">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M13 1H3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V3a2 2 0 00-2-2zm-2 12H5v-4h6v4zm2 0h-1v-5H4v5H3V3h10v10z"/></svg>
+                <div class="feat" id="auto-save">
+                    <div class="feat-glyph">↻</div>
+                    <div class="feat-body">
+                        <h3>Auto-save</h3>
+                        <p>Every edit is saved to your account. Close the tab, switch machines, come back tomorrow — it's still there.</p>
+                    </div>
                 </div>
-                <div class="feat-body">
-                    <h3>Auto-Save</h3>
-                    <p>Every change is saved automatically to your account. Close the browser, switch devices, come back later — your work is exactly where you left it.</p>
-                </div>
-            </div>
 
-        </section>
-
-        {{-- Relationships --}}
-        <section class="docs-section" id="relationships" aria-labelledby="section-relationships">
-            <h2 id="section-relationships">Relationships &amp; Constraints</h2>
-
-            <div class="feature-entry" id="foreign-keys">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M1 2h6v5H1zm8 0h6v5H9zM1 10h6v4H1zm8 0h6v4H9z"/></svg>
-                </div>
-                <div class="feat-body">
-                    <h3>Foreign Key Relationships</h3>
-                    <p>Draw lines between columns to define foreign key constraints. Relationships are visualised with crow's foot (chicken-foot) notation so cardinality is immediately clear.</p>
-                </div>
-            </div>
-
-            <div class="feature-entry" id="primary-key">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M7 0a5 5 0 100 10 5 5 0 000-10zm0 8a3 3 0 110-6 3 3 0 010 6zm1 2h4v2h-2v2h-2v-4z"/></svg>
-                </div>
-                <div class="feat-body">
-                    <h3>PRIMARY KEY</h3>
-                    <p>Mark any column as the primary key directly in the diagram. The generated SQL includes the <code>PRIMARY KEY</code> constraint automatically.</p>
-                </div>
-            </div>
-
-            <div class="feature-entry" id="unique-not-null">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm-.75 3.5h1.5v5h-1.5v-5zm0 6h1.5v1.5h-1.5V10.5z"/></svg>
-                </div>
-                <div class="feat-body">
-                    <h3>UNIQUE &amp; NOT NULL</h3>
-                    <p>Toggle <code>UNIQUE</code> and <code>NOT NULL</code> constraints per column with a checkbox. No DDL to write — the SQL is generated correctly for you.</p>
-                </div>
-            </div>
-
-        </section>
-
-        {{-- SQL Export --}}
-        <section class="docs-section" id="sql-export" aria-labelledby="section-export">
-            <h2 id="section-export">SQL Export</h2>
-
-            <div class="feature-entry" id="mysql-export">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M2 1h12a1 1 0 011 1v3H1V2a1 1 0 011-1zm-1 5h14v8a1 1 0 01-1 1H2a1 1 0 01-1-1V6z"/></svg>
-                </div>
-                <div class="feat-body">
-                    <h3>MySQL Export</h3>
-                    <p>Generate a complete MySQL <code>CREATE TABLE</code> script for your entire schema — column definitions, data types, constraints, and foreign keys included. Ready to paste into MySQL Workbench, DBeaver, or a terminal.</p>
-                </div>
-            </div>
-
-            <div class="feature-entry" id="postgres-export">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M2 1h12a1 1 0 011 1v3H1V2a1 1 0 011-1zm-1 5h14v8a1 1 0 01-1 1H2a1 1 0 01-1-1V6z"/></svg>
-                </div>
-                <div class="feat-body">
-                    <h3>PostgreSQL Export</h3>
-                    <p>Switch to PostgreSQL dialect and export a schema script compatible with <code>psql</code>, pgAdmin, Supabase, or any Postgres-compatible tool. The same diagram, the right syntax.</p>
-                </div>
-            </div>
-
-            <div class="feature-entry" id="one-click-copy">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M10 1H2a1 1 0 00-1 1v10h1V2h8V1zm2 2H5a1 1 0 00-1 1v11a1 1 0 001 1h7a1 1 0 001-1V4a1 1 0 00-1-1zm0 12H5V4h7v11z"/></svg>
-                </div>
-                <div class="feat-body">
-                    <h3>One-Click Copy</h3>
-                    <p>Copy the full generated SQL to your clipboard with a single click. No file to download, no extra steps.</p>
-                </div>
-            </div>
-
-        </section>
-
-        {{-- Account --}}
-        <section class="docs-section" id="account" aria-labelledby="section-account">
-            <h2 id="section-account">Account &amp; Organisation</h2>
-
-            <div class="feature-entry" id="free-account">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M8 8a4 4 0 100-8 4 4 0 000 8zm0 1c-5.33 0-8 2.67-8 4v1h16v-1c0-1.33-2.67-4-8-4z"/></svg>
-                </div>
-                <div class="feat-body">
-                    <h3>Free Account</h3>
-                    <p>Sign up with your email address. No credit card, no subscription, no trial — all features are available immediately after registration with no expiry.</p>
-                </div>
-            </div>
-
-            <div class="feature-entry" id="multiple-diagrams">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M1 1h8v8H1zm6 6H3V3h4v4zM7 9h8v6H7zm6 4H9v-2h4v2zM0 9h6v6H0zm5 4H1v-2h4v2z"/></svg>
-                </div>
-                <div class="feat-body">
-                    <h3>Multiple Diagrams</h3>
-                    <p>Create unlimited diagrams — one per project, microservice, or database. All are saved to your account and accessible from any device.</p>
-                </div>
-            </div>
-
-            <div class="feature-entry" id="browser-based">
-                <div class="feat-icon">
-                    <svg viewBox="0 0 16 16"><path d="M0 3a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3zm14 0H2v1h12V3zm0 3H2v7h12V6z"/></svg>
-                </div>
-                <div class="feat-body">
-                    <h3>Browser-Based, Nothing to Install</h3>
-                    <p>SQL Designer runs entirely in your browser. Open <a href="https://sql-designer.com" style="color:var(--color-primary-text)">sql-designer.com</a> in Chrome, Firefox, Safari, or Edge and start designing — no download, no extension, no setup.</p>
-                </div>
             </div>
         </section>
+
+        <section class="docs-section" id="relationships" aria-labelledby="rel-h2">
+            <p class="section-eyebrow">02 / Relationships</p>
+            <h2 class="section-h2" id="rel-h2">Relationships &amp; constraints</h2>
+            <div class="feat-list">
+
+                <div class="feat" id="foreign-keys">
+                    <div class="feat-glyph fk">⤳</div>
+                    <div class="feat-body">
+                        <h3>Foreign keys</h3>
+                        <p>Drag from one column to another to define a foreign key. Cardinality is rendered in <a href="/blog/crowfoot-notation">crow's foot notation</a> and the constraint is included on export.</p>
+                    </div>
+                </div>
+
+                <div class="feat" id="primary-key">
+                    <div class="feat-glyph">PK</div>
+                    <div class="feat-body">
+                        <h3>PRIMARY KEY</h3>
+                        <p>Mark a column as the primary key with one click. The generated DDL adds the <code>PRIMARY KEY</code> constraint for you.</p>
+                    </div>
+                </div>
+
+                <div class="feat" id="unique-not-null">
+                    <div class="feat-glyph">!=</div>
+                    <div class="feat-body">
+                        <h3>UNIQUE &amp; NOT NULL</h3>
+                        <p>Toggle <code>UNIQUE</code> and <code>NOT NULL</code> per column. The SQL output reflects exactly what you set.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="docs-section" id="sql" aria-labelledby="sql-h2">
+            <p class="section-eyebrow">03 / SQL</p>
+            <h2 class="section-h2" id="sql-h2">SQL in &amp; out</h2>
+            <div class="feat-list">
+
+                <div class="feat" id="mysql-export">
+                    <div class="feat-glyph">My</div>
+                    <div class="feat-body">
+                        <h3>MySQL export</h3>
+                        <p>A complete MySQL <code>CREATE TABLE</code> script — types, constraints, foreign keys. Paste into MySQL Workbench, DBeaver, or a terminal and run.</p>
+                    </div>
+                </div>
+
+                <div class="feat" id="postgres-export">
+                    <div class="feat-glyph">Pg</div>
+                    <div class="feat-body">
+                        <h3>PostgreSQL export</h3>
+                        <p>Switch dialects and the same diagram comes out as Postgres-compatible DDL — works with <code>psql</code>, pgAdmin, Supabase, anything that speaks Postgres.</p>
+                    </div>
+                </div>
+
+                <div class="feat" id="sql-import">
+                    <div class="feat-glyph">↧</div>
+                    <div class="feat-body">
+                        <h3>SQL import</h3>
+                        <p>Paste a <code>CREATE TABLE</code> script and SQL Designer parses it into a <a href="/blog/sql-to-erd">visual ER diagram</a> automatically. Reverse-engineer an existing schema in seconds.</p>
+                    </div>
+                </div>
+
+                <div class="feat" id="one-click-copy">
+                    <div class="feat-glyph">⎘</div>
+                    <div class="feat-body">
+                        <h3>One-click copy</h3>
+                        <p>Copy the full generated SQL to your clipboard with one click. No download, no extra step.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="docs-section" id="sharing" aria-labelledby="share-h2">
+            <p class="section-eyebrow">04 / Sharing</p>
+            <h2 class="section-h2" id="share-h2">Sharing &amp; embedding</h2>
+            <div class="feat-list">
+
+                <div class="feat" id="share-links">
+                    <div class="feat-glyph">⌬</div>
+                    <div class="feat-body">
+                        <h3>Share links</h3>
+                        <p>Generate a link with three access modes: read-only, editable, or approval-based — you approve each visitor individually. <a href="/blog/share-database-diagram">How sharing works →</a></p>
+                    </div>
+                </div>
+
+                <div class="feat" id="embeds">
+                    <div class="feat-glyph">&lt;/&gt;</div>
+                    <div class="feat-body">
+                        <h3>Embeds</h3>
+                        <p>Embed a diagram as an interactive iframe in any docs site, README, or internal wiki. Embedded diagrams with a backlink can be <a href="/library">featured in the schema library</a>.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="docs-section" id="workspace" aria-labelledby="ws-h2">
+            <p class="section-eyebrow">05 / Workspace</p>
+            <h2 class="section-h2" id="ws-h2">Workspace</h2>
+            <div class="feat-list">
+
+                <div class="feat" id="multiple-diagrams">
+                    <div class="feat-glyph">▦</div>
+                    <div class="feat-body">
+                        <h3>Multiple diagrams</h3>
+                        <p>One diagram per project, microservice, or database. All saved to your account, accessible from any device.</p>
+                    </div>
+                </div>
+
+                <div class="feat" id="browser-based">
+                    <div class="feat-glyph">⌘W</div>
+                    <div class="feat-body">
+                        <h3>Browser-based</h3>
+                        <p>Runs in Chrome, Firefox, Safari, Edge. No download, no extension, no setup — just <a href="https://sql-designer.com">sql-designer.com</a>.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
     </div>
-
 </div>
 
+{{-- CTA --}}
+<section class="docs-cta">
+    <h2>Ready to draw a schema?</h2>
+    <p>Open the demo and try it on a real schema — no account required.</p>
+    <div class="actions">
+        <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
+        <a class="btn btn-outline btn-lg" href="/register">Sign up to save</a>
+    </div>
+</section>
+
 <script>
-    // Highlight active sidebar link on scroll
     (function () {
-        const anchors = document.querySelectorAll('.docs-section, .feature-entry[id]');
-        const sidebarLinks = document.querySelectorAll('.docs-sidebar a');
-
-        function onScroll() {
+        const targets = document.querySelectorAll('.docs-section[id], .feat[id]');
+        const links = document.querySelectorAll('.docs-sidebar a[href^="#"]');
+        function update() {
             let current = '';
-            anchors.forEach(el => {
-                if (window.scrollY >= el.offsetTop - 80) current = el.id;
-            });
-            sidebarLinks.forEach(a => {
-                const href = a.getAttribute('href');
-                a.classList.toggle('active', href === '#' + current);
-            });
+            const y = window.scrollY + 100;
+            targets.forEach(el => { if (el.offsetTop <= y) current = el.id; });
+            links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
         }
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
+        window.addEventListener('scroll', update, { passive: true });
+        update();
     })();
 </script>
 @endsection

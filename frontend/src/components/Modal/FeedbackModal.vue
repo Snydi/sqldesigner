@@ -1,10 +1,10 @@
 <template>
     <div class="feedback-overlay" @click.self="$emit('close')">
         <div class="feedback-modal">
-            <div class="feedback-modal__header">
-                <span class="feedback-modal__title">Feedback</span>
-                <button class="feedback-modal__close" @click="$emit('close')">
-                    <img src="../../icons/close.svg" style="width:14px;height:14px;filter:brightness(0) invert(1);"  alt="Close modal"/>
+            <div class="modal-header">
+                <span class="modal-title">Feedback</span>
+                <button class="modal-close" @click="$emit('close')" aria-label="Close">
+                    <SvgIcon name="close" :size="16" />
                 </button>
             </div>
 
@@ -13,7 +13,7 @@
                     Hi, it's Dmitriy, creator of this website.
                     If you have any complaints or suggestions,
                     feel free to use this form, send me a message directly at
-                    <a class="feedback-modal__email-link" @click.prevent="copyEmail">snydi611@gmail.com</a>,
+                    <a class="feedback-modal__email-link" @click.prevent="copyEmail">dmitriy@sql-designer.com</a>,
                     or join the
                     <a class="feedback-modal__discord-link" href="https://discord.gg/vFwgX7qKqA" target="_blank" rel="noopener noreferrer">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true" style="vertical-align:-1px"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
@@ -61,6 +61,7 @@
 import { ref } from 'vue'
 import axios from '@/axios.js'
 import { useToast } from 'vue-toast-notification'
+import SvgIcon from '../SvgIcon.vue'
 
 const props = defineProps({ userEmail: { type: String, default: '' } })
 const emit = defineEmits(['close'])
@@ -74,7 +75,7 @@ const error = ref('')
 const success = ref(false)
 
 const copyEmail = () => {
-    navigator.clipboard.writeText('snydi611@gmail.com')
+    navigator.clipboard.writeText('dmitriy@sql-designer.com')
     $toast.success('Email copied to clipboard')
 }
 
@@ -103,7 +104,7 @@ const submit = async () => {
 .feedback-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.55);
     z-index: 9999;
     display: flex;
     align-items: center;
@@ -112,8 +113,9 @@ const submit = async () => {
 
 .feedback-modal {
     background: var(--bg-surface);
-    border-radius: 10px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     width: 480px;
     max-width: calc(100vw - 32px);
     display: flex;
@@ -121,38 +123,38 @@ const submit = async () => {
     overflow: hidden;
 }
 
-.feedback-modal__header {
+.modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 14px 18px;
-    background: var(--color-primary);
+    border-bottom: 1px solid var(--border-color);
     flex-shrink: 0;
 }
 
-.feedback-modal__title {
-    font-size: 14px;
+.modal-title {
+    font-size: 0.76rem;
     font-weight: 600;
-    color: white;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    color: var(--text-secondary);
 }
 
-.feedback-modal__close {
-    width: 26px;
-    height: 26px;
-    padding: 4px;
+.modal-close {
+    background: none;
     border: none;
-    background: rgba(255, 255, 255, 0.15);
     cursor: pointer;
-    border-radius: 50%;
+    color: var(--text-muted);
+    padding: 4px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    transition: color 120ms, background 120ms;
 }
 
-.feedback-modal__close:hover {
-    background: rgba(255, 255, 255, 0.3);
+.modal-close:hover {
+    color: var(--text-primary);
+    background: var(--hover-bg);
 }
 
 .feedback-modal__body {
@@ -169,10 +171,6 @@ const submit = async () => {
     color: var(--text-secondary);
 }
 
-.feedback-modal__intro a {
-    color: var(--color-primary);
-}
-
 .feedback-modal__anon-row {
     display: flex;
     align-items: center;
@@ -180,40 +178,31 @@ const submit = async () => {
     font-size: 13px;
     cursor: pointer;
     user-select: none;
+    color: var(--text-secondary);
 }
 
-.feedback-modal__input {
+.feedback-modal__input,
+.feedback-modal__textarea {
     width: 100%;
-    padding: 8px 10px;
+    padding: 9px 12px;
     border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 7px;
+    font-size: 0.88rem;
+    font-family: inherit;
     box-sizing: border-box;
-    background: var(--input-bg);
+    background: var(--bg-surface-alt);
     color: var(--text-primary);
+    outline: none;
+    transition: border-color 120ms;
 }
 
-.feedback-modal__input:focus {
-    outline: none;
+.feedback-modal__input:focus,
+.feedback-modal__textarea:focus {
     border-color: var(--border-strong);
 }
 
 .feedback-modal__textarea {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 14px;
     resize: vertical;
-    font-family: inherit;
-    box-sizing: border-box;
-    background: var(--input-bg);
-    color: var(--text-primary);
-}
-
-.feedback-modal__textarea:focus {
-    outline: none;
-    border-color: var(--border-strong);
 }
 
 .feedback-modal__error {
@@ -225,7 +214,7 @@ const submit = async () => {
 .feedback-modal__success {
     margin: 0;
     font-size: 13px;
-    color: #43a047;
+    color: var(--color-primary-text);
 }
 
 .feedback-modal__footer {
@@ -233,12 +222,11 @@ const submit = async () => {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    background: var(--bg-surface);
-    border-top: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-color);
 }
 
 .feedback-modal__email-link {
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     cursor: pointer;
     text-decoration: underline;
 }

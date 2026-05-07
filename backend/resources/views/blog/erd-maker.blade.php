@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Free ERD maker — create entity relationship diagrams online with a drag-and-drop canvas. Define tables, relationships, and export MySQL or PostgreSQL SQL. No install required.">
+          content="Free ERD maker — create entity relationship diagrams online with a drag-and-drop canvas. Define tables, relationships, and export MySQL or PostgreSQL SQL.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/erd-maker">
@@ -13,14 +13,14 @@
           content="Free ERD maker — create entity relationship diagrams online with drag-and-drop tables, foreign key relationships, and MySQL or PostgreSQL SQL export. No install.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/erd-maker">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free ERD maker with drag-and-drop canvas">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free ERD Maker Online — Create ER Diagrams in Your Browser">
     <meta name="twitter:description" content="Free ERD maker — create ER diagrams online with drag-and-drop tables, foreign keys, and SQL export. No install required.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -38,12 +38,43 @@
             "@type": "TechArticle",
             "headline": "Free ERD Maker Online — Create ER Diagrams in Your Browser",
             "description": "Free ERD maker — create entity relationship diagrams online with a drag-and-drop canvas, foreign key relationships, and MySQL or PostgreSQL SQL export.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/erd-maker",
             "datePublished": "2026-04-16",
             "dateModified": "2026-04-16",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is an ERD maker?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "An ERD maker (entity relationship diagram maker) is a tool specifically designed for creating ER diagrams. Unlike generic diagram tools, it understands database concepts — primary keys, foreign keys, data types, and constraints — and can generate a valid SQL CREATE TABLE script from the diagram." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can an ERD maker export SQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes — purpose-built ERD makers like SQL Designer can export a complete CREATE TABLE DDL script for MySQL or PostgreSQL directly from the diagram. Generic tools like draw.io only export images and cannot generate SQL." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What is the difference between an ERD maker and a generic diagram tool?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A dedicated ERD maker knows that every column has a data type, every relationship is a real foreign key constraint, and every table needs a primary key. A generic tool lets you draw boxes and lines, but nothing in it corresponds to actual database concepts — there is no SQL output." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I import an existing SQL script into an ERD maker to generate a diagram?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. SQL Designer supports importing an existing CREATE TABLE SQL script and automatically rendering the tables, columns, and foreign key relationships on the canvas. This is useful for visualising a schema that was built without a visual designer." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does an ERD maker show cardinality on relationships?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. ERD makers use cardinality notation — typically crow's foot notation — to show how many records on each side of a relationship can exist (one-to-one, one-to-many, many-to-many). The notation is applied automatically based on whether the foreign key column allows NULL." }
+                }
+            ]
         }
         ]
         @endverbatim

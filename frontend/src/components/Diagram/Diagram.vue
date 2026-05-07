@@ -6,15 +6,23 @@
 
     <!-- Not available state -->
     <div v-else-if="notAvailable" class="diagram-status-screen">
+        <div class="diagram-status-screen__icon-wrap">
+            <span class="diagram-status-screen__logo-mark">S</span>
+        </div>
         <span class="diagram-status-screen__text">This diagram is not available.</span>
-        <button class="btn btn-secondary" style="margin-top:1rem" @click="router.push({ name: 'diagrams' })">My Diagrams</button>
+        <div style="display:flex;gap:0.5rem;margin-top:1.25rem">
+            <button class="btn btn-secondary" @click="router.push({ name: 'diagrams' })">My Diagrams</button>
+        </div>
     </div>
 
     <!-- Pending approval state -->
     <div v-else-if="pendingApproval" class="diagram-status-screen">
+        <div class="diagram-status-screen__icon-wrap">
+            <span class="diagram-status-screen__logo-mark">S</span>
+        </div>
         <span class="diagram-status-screen__text">Access requires approval.</span>
         <span class="diagram-status-screen__subtext">Your request has been sent to the diagram owner. Check back once they've approved you.</span>
-        <div style="display:flex;gap:0.5rem;margin-top:1rem">
+        <div style="display:flex;gap:0.5rem;margin-top:1.25rem">
             <button class="btn btn-primary" @click="retryAccess" :disabled="loading">{{ loading ? 'Checking…' : 'Retry' }}</button>
             <button class="btn btn-secondary" @click="router.push({ name: 'diagrams' })">My Diagrams</button>
         </div>
@@ -26,6 +34,7 @@
             :isOwner="isOwner"
             :isDemo="isDemo"
             :isSaved="isSaved"
+            :exportLoading="exportLoading"
             :diagramName="diagramName"
             :hasPendingVisitors="hasPendingVisitors"
             @add-table="addTable"
@@ -96,7 +105,7 @@
             >
                 <Panel position="top-left" class="table-navigator">
                     <button class="table-navigator__toggle" @click.stop="tableNavOpen = !tableNavOpen" title="Tables">
-                        <img src="../../icons/table-list.svg" alt="Tables" class="icon" style="width:18px;height:18px;">
+                        <SvgIcon name="table-list" :size="18" />
                     </button>
                     <div v-if="tableNavOpen" class="table-navigator__list">
                         <button
@@ -115,7 +124,7 @@
 
                 <Panel position="bottom-left" class="feedback-panel">
                     <button class="feedback-panel__btn" @click.stop="openFeedbackModal" title="Send feedback">
-                        <img src="../../icons/chat.svg" alt="Feedback" style="width:16px;height:16px;" />
+                        <SvgIcon name="chat" :size="16" />
                     </button>
                 </Panel>
 
@@ -183,6 +192,7 @@
             :jsonContent="exportJsonContent"
             :diagramId="diagramId"
             @close="showExportModal = false"
+            @capture-png="capturePng"
         />
 
         <FeedbackModal
@@ -214,6 +224,7 @@ import { useTableResize } from '@/composables/useTableResize.js'
 import { useRowDrag } from '@/composables/useRowDrag.js'
 import { useSchemaActions } from '@/composables/useSchemaActions.js'
 import { useUndoHistory } from '@/composables/useUndoHistory.js'
+import SvgIcon from '../SvgIcon.vue'
 import DiagramHeader from './DiagramHeader.vue'
 import ShareModal from '../Modal/ShareModal.vue'
 import ChickenFootEdge from '../ChickenFootEdge.vue'
@@ -337,6 +348,7 @@ const showImportModal = ref(false)
 const importContent = ref('')
 const importLoading = ref(false)
 const showExportModal = ref(false)
+const exportLoading = ref(false)
 const exportContent = ref('')
 const exportJsonContent = ref('')
 
@@ -346,22 +358,109 @@ const importSql = async () => {
         return
     }
     importLoading.value = true
-    schema.value = await Diagram.import(diagramId.value, importContent.value)
-    importLoading.value = false
-    if (schema.value) {
+    const result = await Diagram.import(diagramId.value, importContent.value)
+    if (!result) {
+        importLoading.value = false
+        return
+    }
+
+    const applySchema = (schemaJson) => {
+        schema.value = JSON.parse(schemaJson)
+        importLoading.value = false
         $toast.success('Imported successfully')
         isSaved.value = false
         showImportModal.value = false
         whisper('schema-sync', { schema: schema.value })
     }
+
+    if (result.status === 'done' && result.schema) {
+        applySchema(result.schema)
+        return
+    }
+
+    let attempts = 0
+    const poll = setInterval(async () => {
+        attempts++
+        if (attempts > 150) {
+            clearInterval(poll)
+            importLoading.value = false
+            $toast.error('Import timed out')
+            return
+        }
+        const status = await Diagram.importStatus(diagramId.value)
+        if (!status) return
+        if (status.status === 'done') {
+            clearInterval(poll)
+            applySchema(status.schema)
+        } else if (status.status === 'failed') {
+            clearInterval(poll)
+            importLoading.value = false
+            $toast.error('Import failed: ' + (status.error || 'Unknown error'))
+        }
+    }, 2000)
 }
 
 const openExportModal = async () => {
+    if (exportLoading.value) return
     await saveDiagram()
-    const [sql, json] = await Promise.all([Diagram.export(diagramId.value), Diagram.exportJson(diagramId.value)])
-    exportContent.value = sql
-    exportJsonContent.value = json
-    showExportModal.value = true
+    exportLoading.value = true
+    const result = await Diagram.export(diagramId.value)
+    if (!result) {
+        exportLoading.value = false
+        return
+    }
+
+    const applyExport = (script, json) => {
+        exportContent.value = JSON.parse(script)
+        exportJsonContent.value = JSON.stringify(json, null, 2)
+        exportLoading.value = false
+        showExportModal.value = true
+    }
+
+    if (result.status === 'done' && result.script) {
+        applyExport(result.script, result.json)
+        return
+    }
+
+    let attempts = 0
+    const poll = setInterval(async () => {
+        attempts++
+        if (attempts > 150) {
+            clearInterval(poll)
+            exportLoading.value = false
+            $toast.error('Export timed out')
+            return
+        }
+        const status = await Diagram.exportStatus(diagramId.value)
+        if (!status) return
+        if (status.status === 'done') {
+            clearInterval(poll)
+            applyExport(status.script, status.json)
+        } else if (status.status === 'failed') {
+            clearInterval(poll)
+            exportLoading.value = false
+            $toast.error('Export failed: ' + (status.error || 'Unknown error'))
+        }
+    }, 2000)
+}
+
+const capturePng = async () => {
+    showExportModal.value = false
+    fitView({ duration: 0 })
+    await nextTick()
+    const el = canvasWrapperRef.value?.querySelector('.vue-flow')
+    if (!el) return
+    try {
+        const { toPng } = await import('html-to-image')
+        const dataUrl = await toPng(el, { backgroundColor: '#282828' })
+        const a = document.createElement('a')
+        a.href = dataUrl
+        a.download = `${diagramName.value}.png`
+        a.click()
+    } catch (e) {
+        $toast.error('Failed to export image')
+        console.error(e)
+    }
 }
 
 const exportSql = async () => {
@@ -531,19 +630,42 @@ onUnmounted(() => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background: var(--bg-page);
+}
+
+.diagram-status-screen__icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    margin-bottom: 16px;
     background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    display: grid;
+    place-items: center;
+}
+
+.diagram-status-screen__logo-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, var(--color-primary-text), var(--color-primary));
+    display: grid;
+    place-items: center;
+    color: #0c0c0c;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 11px;
 }
 
 .diagram-status-screen__text {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    font-family: monospace;
 }
 
 .diagram-status-screen__subtext {
     font-size: 0.78rem;
     color: var(--text-muted);
-    letter-spacing: 0;
     text-align: center;
     max-width: 320px;
     line-height: 1.5;
@@ -609,9 +731,8 @@ onUnmounted(() => {
     background: var(--hover-bg-alt);
 }
 
-.feedback-panel__btn img {
-    flex-shrink: 0;
-    filter: brightness(0) invert(1);
+.feedback-panel__btn {
+    color: var(--text-secondary);
 }
 
 /* ── Table navigator ─────────────────────────────────────────── */
@@ -635,8 +756,8 @@ onUnmounted(() => {
     box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 }
 
-.table-navigator__toggle img {
-    filter: brightness(0) invert(1);
+.table-navigator__toggle {
+    color: var(--text-secondary);
 }
 
 .table-navigator__toggle:hover {

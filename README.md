@@ -25,7 +25,7 @@
 ## License
 
 This project is source-available. See [LICENSE](./LICENSE) for details.
-Author: Snyatkov Dmitriy Andreevich. Feel free to message me any questions and suggestions about this project on snydi611@gmail.com
+Author: Snyatkov Dmitriy Andreevich. Feel free to message me any questions and suggestions about this project on dmitriy@sql-designer.com
 
 ---
 
@@ -58,4 +58,4 @@ Author: Snyatkov Dmitriy Andreevich. Feel free to message me any questions and s
 ## Лицензия
 
 Исходный код проекта открыт для просмотра. Подробности — в файле [LICENSE](./LICENSE).
-Автор: Снятков Дмитрий Андреевич. По любым вопросам и предложениям относительно проекта, пишите на мою почту - snydi611@gmail.com
+Автор: Снятков Дмитрий Андреевич. По любым вопросам и предложениям относительно проекта, пишите на мою почту - dmitriy@sql-designer.com

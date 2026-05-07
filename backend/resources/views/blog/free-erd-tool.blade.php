@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="The best free ERD tool online — draw entity relationship diagrams visually, define foreign keys, and export MySQL or PostgreSQL SQL. No install, no subscription.">
+          content="The best free ERD tool online — draw entity relationship diagrams visually, define foreign keys, and export MySQL or PostgreSQL SQL.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/free-erd-tool">
@@ -13,14 +13,14 @@
           content="Draw ER diagrams visually in your browser — free, no installation required. Export MySQL or PostgreSQL CREATE TABLE scripts directly from your diagram.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/free-erd-tool">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2557">
     <meta property="og:image:height" content="1269">
     <meta property="og:image:alt" content="SQL Designer — free ERD tool with drag-and-drop canvas">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free ERD Tool Online — Visual Entity Relationship Diagram Editor">
     <meta name="twitter:description" content="Draw ER diagrams visually in your browser — free, no installation required. Export MySQL or PostgreSQL SQL directly from your diagram.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
         [
@@ -38,12 +38,43 @@
             "@type": "TechArticle",
             "headline": "Free ERD Tool Online — Visual Entity Relationship Diagram Editor",
             "description": "The best free ERD tool online — draw entity relationship diagrams visually, define foreign keys, and export MySQL or PostgreSQL SQL.",
-            "image": "https://sql-designer.com/images/screenshot.png",
+            "image": "https://sql-designer.com/images/designer_screenshot.png",
             "url": "https://sql-designer.com/blog/free-erd-tool",
             "datePublished": "2026-04-09",
             "dateModified": "2026-04-09",
             "author": { "@type": "Organization", "name": "SQL Designer" },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is a free ERD tool?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A free ERD tool is an entity relationship diagram editor available at no cost. A genuinely free ERD tool has no diagram count limits, no table limits per diagram, no SQL export paywalls, and no credit card required to get started." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What features should a free ERD tool have?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A useful free ERD tool should support real SQL data types (not just generic boxes), constraint definitions (PRIMARY KEY, UNIQUE, NOT NULL), visual foreign key lines with crow's foot notation, SQL export to CREATE TABLE scripts, auto-save, and browser-based access with no installation required." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Are free ERD tools limited in the number of tables or diagrams?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Many free ERD tools restrict the number of diagrams or tables on free accounts. Some tools, like SQL Designer, are completely free with no such limits — all features including SQL export are available without a paid plan." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I use a free ERD tool for both MySQL and PostgreSQL?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Some ERD tools support both MySQL and PostgreSQL with separate type pickers and export modes for each. When you choose your target database, the tool shows only the valid types for that database and generates the correct DDL syntax in the export." }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How is a dedicated ERD tool better than draw.io for database design?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "A dedicated ERD tool keeps the visual diagram and the SQL schema in sync — every column has a real data type and every relationship is a real foreign key. draw.io produces a picture of a schema but cannot validate constraints or export executable SQL." }
+                }
+            ]
         }
         ]
         @endverbatim

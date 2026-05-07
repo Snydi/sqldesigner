@@ -47,6 +47,10 @@
                 <a href="/login">Log In</a>
                 <span class="desc">Sign in to your SQL Designer account.</span>
             </li>
+            <li>
+                <a href="/docs">API Docs</a>
+                <span class="desc">REST API reference for SQL Designer — endpoints, request parameters, and response schemas.</span>
+            </li>
         </ul>
 
         <h2>Blog</h2>
@@ -56,10 +60,31 @@
                 <span class="desc">All articles on database design, SQL, and schema best practices.</span>
             </li>
             <li>
+                <a href="/blog/database-ddl-comparison">DDL Differences: MySQL, PostgreSQL, Oracle, SQL Server, and SQLite</a>
+                <span class="desc">Side-by-side comparison of CREATE TABLE syntax, primary keys, data types, constraints, and ALTER TABLE across five major databases.</span>
+            </li>
+            <li>
                 <a href="/blog/erd-maker">Free ERD Maker Online</a>
+                <span class="desc">What an ERD maker is, how it differs from a generic diagram tool, and how to create ER diagrams and export SQL for free.</span>
+            </li>
+            <li>
                 <a href="/blog/sql-to-erd">SQL to ERD — Generate an ER Diagram from SQL</a>
+                <span class="desc">Import a CREATE TABLE script and generate a visual ER diagram automatically — tables, columns, and foreign key relationships rendered instantly.</span>
+            </li>
+            <li>
                 <a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained</a>
-                <a href="/blog/database-designer">Free DB Designer Online</a>
+                <span class="desc">Crow's foot symbols for one-to-one, one-to-many, and many-to-many relationships, and how they map to real foreign key constraints.</span>
+            </li>
+            <li>
+                <a href="/blog/best-erd-tools">Best Free ERD Tools in 2026 — Honest Comparison</a>
+                <span class="desc">Honest comparison of 7 ERD tools with real strengths, real weaknesses, and clear use-case guidance.</span>
+            </li>
+            <li>
+                <a href="/blog/share-database-diagram">How to Share a Database Diagram Online</a>
+                <span class="desc">Share your schema with a live link or embed it as an interactive iframe in your docs, with access control.</span>
+            </li>
+            <li>
+                <a href="/blog/database-designer">Free Online Database Designer</a>
                 <span class="desc">Visual schema builder for MySQL and PostgreSQL — design databases without writing DDL.</span>
             </li>
             <li>
@@ -75,16 +100,16 @@
                 <span class="desc">Design MySQL databases visually with drag-and-drop tables, foreign keys, and SQL export.</span>
             </li>
             <li>
+                <a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates</a>
+                <span class="desc">Five real-world schema templates — e-commerce, blog, SaaS, task tracker, and messaging — with complete CREATE TABLE scripts.</span>
+            </li>
+            <li>
                 <a href="/blog/how-to-design-mysql-database-schema">How to Design a MySQL Database Schema</a>
                 <span class="desc">Step-by-step guide covering entities, data types, primary keys, foreign keys, and normalization.</span>
             </li>
             <li>
                 <a href="/blog/er-diagram-tool-online">Free ER Diagram Tool Online for MySQL</a>
                 <span class="desc">What ER diagrams are, why they matter, and how to create one in the browser for free.</span>
-            </li>
-            <li>
-                <a href="/blog/mysql-workbench-alternative">MySQL Workbench Alternative Online</a>
-                <span class="desc">The best free browser-based alternatives to MySQL Workbench — no download required.</span>
             </li>
             <li>
                 <a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax, Examples, and Best Practices</a>

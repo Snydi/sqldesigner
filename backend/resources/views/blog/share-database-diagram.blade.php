@@ -4,7 +4,7 @@
 
 @section('head')
     <meta name="description"
-          content="Share your database schema online with a shareable link or embed it as an interactive iframe. Control access with read-only, editable, or approval-based permissions.">
+          content="Share your database schema online with a shareable link or embed it as an interactive iframe. Control access with approval-based permissions.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/share-database-diagram">
@@ -13,14 +13,14 @@
           content="Share your database schema with a link or embed it as an interactive diagram. Read-only, editable, or approval-based access — all free on SQL Designer.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/share-database-diagram">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="How to Share a Database Diagram Online — Shareable Links & Embeds">
     <meta name="twitter:description" content="Share a database schema online with a shareable link or interactive embed. Control who can view or edit — all free on SQL Designer.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
             [
@@ -38,7 +38,7 @@
                 "@type": "TechArticle",
                 "headline": "How to Share a Database Diagram Online — Shareable Links & Embeds",
                 "description": "How to share a database schema diagram online using shareable links and embeddable iframes, with read-only, editable, or approval-based access control.",
-                "image": "https://sql-designer.com/images/screenshot.png",
+                "image": "https://sql-designer.com/images/designer_screenshot.png",
                 "url": "https://sql-designer.com/blog/share-database-diagram",
                 "datePublished": "2026-04-11",
                 "dateModified": "2026-04-11",
@@ -74,6 +74,31 @@
                         "position": 4,
                         "name": "Copy the link or embed code",
                         "text": "Copy the shareable URL to send to teammates, or copy the iframe embed code to paste into your documentation, wiki, or website."
+                    }
+                ],
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Can I share a database diagram without giving edit access?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Yes. SQL Designer lets you generate a read-only shareable link. Anyone with the link can view the diagram, zoom, and inspect table details, but cannot make changes." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I embed a database diagram in a website or wiki?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Yes. SQL Designer generates an iframe embed code you can paste into any documentation page, Notion, Confluence, or website that accepts HTML embeds." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How do I share a database schema with my team for collaboration?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Generate a shareable link with edit permissions and send it to your teammates. Multiple users can open the diagram simultaneously and see each other's changes in real time with live cursors." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I export a database diagram as an image or PDF?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "SQL Designer focuses on SQL export and shareable links rather than image export. For static images, you can use your browser's screenshot tool or a browser extension to capture the canvas." }
                     }
                 ]
             }

@@ -9,6 +9,7 @@ use App\Models\Diagram;
 use App\Models\DiagramVisitor;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 
 class DiagramSharingService
 {
@@ -55,16 +56,9 @@ class DiagramSharingService
         ];
     }
 
-    public function getVisitors(Diagram $diagram): array
+    public function getVisitors(Diagram $diagram): Collection
     {
-        return $diagram->visitors()->with('user')->orderByDesc('created_at')->get()->map(fn($v) => [
-            'id'      => $v->id,
-            'user_id' => $v->user_id,
-            'name'    => $v->user->name ?: $v->user->email,
-            'email'   => $v->user->email,
-            'status'  => $v->status,
-            'access'  => $v->access,
-        ])->all();
+        return $diagram->visitors()->with('user')->orderByDesc('created_at')->get();
     }
 
     public function approveVisitor(Diagram $diagram, DiagramVisitor $visitor): DiagramVisitor

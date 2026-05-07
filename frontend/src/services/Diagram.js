@@ -34,13 +34,25 @@ export const Diagram = {
     import: (id, script) =>
         request(async () => {
             const response = await axios.post(`/api/diagrams/sql/import/${id}`, { script: JSON.stringify(script) })
-            return JSON.parse(response.data)
+            return response.data
+        }),
+
+    importStatus: (id) =>
+        request(async () => {
+            const response = await axios.get(`/api/diagrams/sql/import-status/${id}`)
+            return response.data
         }),
 
     export: (id) =>
         request(async () => {
-            const response = await axios.get(`/api/diagrams/sql/export/${id}`)
-            return JSON.parse(response.data)
+            const response = await axios.post(`/api/diagrams/sql/export/${id}`)
+            return response.data
+        }),
+
+    exportStatus: (id) =>
+        request(async () => {
+            const response = await axios.get(`/api/diagrams/sql/export-status/${id}`)
+            return response.data
         }),
 
     exportJson: (id) =>
@@ -115,7 +127,7 @@ export const Diagram = {
     getChangelog: (id) =>
         request(async () => {
             const response = await axios.get(`/api/diagrams/${id}/changelog`)
-            return response.data
+            return response.data.data
         }),
 
     addChangelogEntry: (id, action, details = null) =>

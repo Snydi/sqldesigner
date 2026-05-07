@@ -1,12 +1,11 @@
 <template>
     <!-- Drag handle -->
-    <img
+    <span
         v-if="canEdit"
         class="drag_handle_icon"
-        src="../icons/drag.svg"
-        alt="Drag to reorder"
+        title="Drag to reorder"
         @mousedown.stop.prevent="$emit('row-drag-start', id)"
-    />
+    ><SvgIcon name="drag" :size="14" /></span>
 
     <input
         class="input input_designer_row ml-5 mr-5"
@@ -25,7 +24,7 @@
 
     <!-- SQL Type -->
     <div>
-        <select v-model="data.sqlType" @change="emitChange()" :disabled="!canEdit">
+        <select v-model="sqlTypeForSelect" @change="emitChange()" :disabled="!canEdit">
             <optgroup v-for="(options, groupLabel) in typeGroups" :key="groupLabel" :label="groupLabel">
                 <option v-for="opt in options" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
             </optgroup>
@@ -35,7 +34,7 @@
 
     <!-- Options -->
     <button v-if="canEdit" class="table_button" @mousedown.stop @click="$emit('toggle-options-modal', id)">
-        <img class="table_icon" src="../icons/gear.svg" alt="More options">
+        <SvgIcon name="gear" :size="13" />
     </button>
 
     <!-- Options modal -->
@@ -55,7 +54,7 @@
 
     <!-- Delete row -->
     <button v-if="canEdit" class="table_button" @mousedown.stop @click="$emit('delete-node', id)">
-        <img class="table_icon" src="../icons/trash.svg" alt="Delete">
+        <SvgIcon name="trash" :size="13" />
     </button>
 
     <!-- Left side handles -->
@@ -70,6 +69,7 @@
 <script setup>
 import { computed } from 'vue'
 import { Handle } from '@vue-flow/core'
+import SvgIcon from './SvgIcon.vue'
 import RowOptionsModal from './RowOptionsModal.vue'
 
 const props = defineProps({
@@ -183,6 +183,17 @@ const POSTGRESQL_TYPES = {
 }
 
 const typeGroups = computed(() => props.dbType === 'postgresql' ? POSTGRESQL_TYPES : MYSQL_TYPES)
+
+const isEnum = computed(() => /^ENUM\(/i.test(props.data.sqlType))
+
+const sqlTypeForSelect = computed({
+    get() {
+        return isEnum.value ? "ENUM('')" : props.data.sqlType
+    },
+    set(val) {
+        props.data.sqlType = val
+    }
+})
 </script>
 
 <style scoped>
@@ -199,13 +210,15 @@ const typeGroups = computed(() => props.dbType === 'postgresql' ? POSTGRESQL_TYP
 
 /* ── Drag handle ─────────────────────────────────────────────── */
 .drag_handle_icon {
-    width: 16px;
-    height: 16px;
     flex-shrink: 0;
+    width: 24px;
     opacity: 0.35;
     cursor: grab;
     user-select: none;
-    filter: brightness(0) invert(1);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .drag_handle_icon:hover { opacity: 0.7; }

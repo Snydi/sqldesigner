@@ -13,14 +13,14 @@
           content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sql-designer.com/blog/er-diagram-tool-online">
-    <meta property="og:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <meta property="og:image:width" content="2556">
     <meta property="og:image:height" content="1271">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free ER Diagram Tool Online for MySQL — No Download Required">
     <meta name="twitter:description" content="Create ER diagrams for MySQL in your browser — free, no installation required. Draw tables, define foreign key relationships, and export SQL.">
-    <meta name="twitter:image" content="https://sql-designer.com/images/screenshot.png">
+    <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.png">
     <script type="application/ld+json">
         @verbatim
 
@@ -39,12 +39,43 @@
                 "@type": "TechArticle",
                 "headline": "Free ER Diagram Tool Online for MySQL — No Download Required",
                 "description": "Create entity-relationship diagrams for MySQL entirely in your browser — free, no installation required.",
-                "image": "https://sql-designer.com/images/screenshot.png",
+                "image": "https://sql-designer.com/images/designer_screenshot.png",
                 "url": "https://sql-designer.com/blog/er-diagram-tool-online",
                 "datePublished": "2026-03-18",
                 "dateModified": "2026-03-24",
                 "author": { "@type": "Organization", "name": "SQL Designer" },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is an ER diagram tool?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "An ER diagram tool is software for creating entity-relationship diagrams — visual representations of a database schema. Each table is shown as a rectangle with its columns listed inside, and lines between tables represent foreign key relationships with cardinality notation." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I create an ER diagram online for free without downloading anything?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Browser-based ER diagram tools run entirely in your browser with no software to install. You create a free account and start adding tables, defining columns, and drawing relationships immediately from any device." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the difference between a MySQL-specific ER diagram tool and a generic diagramming tool?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "A MySQL-specific tool understands MySQL data types, validates constraints like PRIMARY KEY and NOT NULL, and can export a valid CREATE TABLE SQL script. A generic tool like draw.io or Lucidchart produces a visual that looks like an ER diagram but cannot generate SQL or validate relational correctness." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Does an online ER diagram tool support exporting SQL?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Purpose-built online ER diagram tools like SQL Designer can export a complete CREATE TABLE DDL script directly from your diagram. Generic diagramming tools typically only export images or PDFs." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How does an online ER diagram tool handle foreign key relationships?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "You draw a line from the foreign key column in one table to the primary key column in another. The tool renders the line with crow's foot notation to indicate cardinality, and the exported SQL includes the corresponding FOREIGN KEY constraint clause." }
+                    }
+                ]
             }
             ]
         @endverbatim

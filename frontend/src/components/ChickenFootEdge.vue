@@ -2,16 +2,16 @@
     <svg>
         <defs>
             <!--God knows how this svg is constructed-->
-            <marker id="chickenFoot" viewBox="0 0 20 20" refX="8" refY="5"
+            <marker :id="markerId" viewBox="0 0 20 20" refX="8" refY="5"
                     markerWidth="70" markerHeight="140" orient="auto-start-reverse">
-                <path d="M0,0 L5,5 M5,5 L5,5 M5,5 L10,0 M5,5 L10,0" fill="none" stroke="context-stroke"
+                <path d="M0,0 L5,5 M5,5 L5,5 M5,5 L10,0 M5,5 L10,0" fill="none" :stroke="strokeColor"
                       transform="rotate(90 5 5)" stroke-width="0.15" />
             </marker>
         </defs>
     </svg>
 
-    <BaseEdge :id="id" :style="style" :path="edgePath"
-              :marker-start="data?.markerStart || 'none'" :marker-end="data?.markerEnd || 'none'" />
+    <BaseEdge :id="id" :style="edgeStyle" :path="edgePath"
+              :marker-start="resolveMarker(data?.markerStart)" :marker-end="resolveMarker(data?.markerEnd)" />
 </template>
 
 <script setup>
@@ -38,4 +38,8 @@ const props = defineProps({
 const { routeEdge } = useEdgeRouting()
 
 const edgePath = computed(() => routeEdge(props))
+const markerId = computed(() => `chickenFoot-${props.id}`)
+const strokeColor = computed(() => props.style?.stroke || 'var(--color-primary)')
+const edgeStyle = computed(() => ({ fill: 'none', ...props.style }))
+const resolveMarker = (val) => val === 'url(#chickenFoot)' ? `url(#${markerId.value})` : (val || 'none')
 </script>

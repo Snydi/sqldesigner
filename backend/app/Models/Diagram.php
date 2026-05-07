@@ -24,6 +24,11 @@ class Diagram extends Model
         'library',
         'featured',
         'featured_url',
+        'import_status',
+        'import_error',
+        'export_status',
+        'export_error',
+        'export_json',
     ];
 
     protected static function booted(): void
