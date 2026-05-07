@@ -119,6 +119,7 @@
             display: flex; justify-content: space-between; flex-wrap: wrap;
             gap: 0.5rem; font-size: 0.78rem; color: var(--text-subtle);
         }
+        .footer-bottom a:hover { color: var(--color-primary-text); }
         @media (max-width: 540px) {
             .footer-inner { gap: 1.5rem; }
             .footer-bottom { flex-direction: column; }
@@ -228,6 +229,11 @@
     </div>
     <div class="footer-bottom">
         <span>&copy; {{ date('Y') }} SQL Designer &mdash; visual MySQL &amp; PostgreSQL schema designer</span>
+        <span>
+            <a href="/privacy" style="color:inherit;">Privacy Policy</a>
+            &nbsp;&middot;&nbsp;
+            <a href="/terms" style="color:inherit;">Terms of Service</a>
+        </span>
     </div>
 </footer>
 

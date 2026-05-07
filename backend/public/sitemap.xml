@@ -25,6 +25,18 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://sql-designer.com/privacy</loc>
+        <lastmod>2026-05-07</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.2</priority>
+    </url>
+    <url>
+        <loc>https://sql-designer.com/terms</loc>
+        <lastmod>2026-05-07</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.2</priority>
+    </url>
+    <url>
         <loc>https://sql-designer.com/blog</loc>
         <lastmod>2026-04-16</lastmod>
         <changefreq>weekly</changefreq>
