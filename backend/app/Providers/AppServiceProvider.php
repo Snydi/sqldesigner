@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
                     parent::configureSmtpTransport($transport, $config);
                     $stream = $transport->getStream();
                     if ($stream instanceof SocketStream && isset($config['stream'])) {
-                        $stream->setStreamContextOptions($config['stream']);
+                        $stream->setStreamOptions($config['stream']);
                     }
                     return $transport;
                 }
