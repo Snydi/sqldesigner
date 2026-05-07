@@ -44,13 +44,9 @@ return [
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-            'timeout' => 30,
+            'timeout' => 90,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
-            'stream' => [
-                'ssl' => [
-                    'peer_name' => env('MAIL_HOST', 'mail.hosting.reg.ru'),
-                ],
-            ],
+            'stream' => ['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]],
         ],
 
         'ses' => [
