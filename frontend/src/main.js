@@ -1,5 +1,6 @@
 import 'vue-toast-notification/dist/theme-sugar.css';
 import { createApp } from 'vue';
+import Clarity from '@microsoft/clarity';
 import ToastPlugin from 'vue-toast-notification';
 import { useToast } from 'vue-toast-notification';
 import axios from '@/axios';
@@ -7,6 +8,8 @@ import axios from '@/axios';
 import store from '@/store/index.js'
 import router from '@/router/index.js';
 import App from '@/App.vue';
+
+Clarity.init('wndxp2jbej');
 
 store.dispatch('initializeAuth');
 
