@@ -44,6 +44,8 @@ Route::get('/library', function () {
     return view('library', compact('featured', 'diagrams'));
 });
 Route::get('/sitemap', fn() => view('sitemap'));
+Route::get('/privacy', fn() => view('privacy'));
+Route::get('/terms', fn() => view('terms'));
 
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
     ->middleware(['signed', 'throttle:6,1'])
