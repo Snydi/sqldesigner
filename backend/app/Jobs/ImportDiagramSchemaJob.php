@@ -17,8 +17,12 @@ class ImportDiagramSchemaJob implements ShouldQueue
 
     public int $timeout = 300;
     public int $tries   = 1;
+    public bool $deleteWhenMissingModels = true;
 
-    public function __construct(private Diagram $diagram) {}
+    public function __construct(private Diagram $diagram)
+    {
+        $this->onQueue('diagrams');
+    }
 
     public function handle(DiagramSqlService $service): void
     {
