@@ -247,7 +247,7 @@ class DiagramController extends Controller
     {
         $this->authorize('update', $diagram);
 
-        return DiagramVisitorResource::collection($this->sharingService->getVisitors($diagram));
+        return DiagramVisitorResource::collection($this->sharingService->getVisitors($diagram))->response();
     }
 
     /**
