@@ -32,7 +32,6 @@ class SchemaImported implements ShouldBroadcastNow
     {
         return [
             'imported_by' => $this->importedBy,
-            'schema'      => json_decode($this->schema),
         ];
     }
 }

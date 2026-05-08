@@ -1,6 +1,7 @@
 import { reactive, watch } from 'vue'
 import { useThrottleFn } from '@vueuse/core'
 import { createEcho } from '@/echo.js'
+import { Diagram } from '@/services/Diagram.js'
 
 export const CURSOR_COLORS = ['#E53935', '#D81B60', '#8E24AA', '#3949AB', '#1E88E5', '#00ACC1', '#43A047', '#FB8C00']
 
@@ -91,9 +92,10 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
             .listenForWhisper('diagram-saved', () => {
                 if (onDiagramSaved) onDiagramSaved()
             })
-            .listen('.schema.imported', ({ schema: incoming, imported_by }) => {
+            .listen('.schema.imported', async ({ imported_by }) => {
                 if (String(imported_by) === ownerIdentity.value?.id) return
-                if (incoming?.length) schema.value = incoming
+                const result = await Diagram.getByToken(token)
+                if (result?.schema) schema.value = JSON.parse(result.schema)
             })
             .listen('.visitor.requested', () => {
                 if (onVisitorRequested) onVisitorRequested()
