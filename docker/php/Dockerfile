@@ -5,18 +5,15 @@ RUN apk add --no-cache \
     curl \
     libpng-dev \
     libxml2-dev \
-    postgresql-dev \
+    libpq-dev \
     oniguruma-dev \
     zip \
     unzip \
     libzip-dev \
-    mariadb-dev \
-    shadow \
-    $PHPIZE_DEPS
+    shadow
 
-RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql mbstring exif pcntl bcmath gd zip
+RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd zip
 
-RUN pecl install pcov && docker-php-ext-enable pcov
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

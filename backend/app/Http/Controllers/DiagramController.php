@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SchemaImported;
 use App\Http\Requests\DiagramRequest;
 use App\Http\Resources\DiagramResource;
 use App\Http\Resources\DiagramVisitorResource;
@@ -104,7 +105,7 @@ class DiagramController extends Controller
         $diagram->save();
 
         ImportDiagramSchemaJob::dispatch($diagram);
-
+        broadcast(new SchemaImported($diagram->share_token, $diagram->schema, (string) auth()->id()));
         return response()->json(['status' => 'pending'], 202);
     }
 
@@ -246,7 +247,7 @@ class DiagramController extends Controller
     {
         $this->authorize('update', $diagram);
 
-        return DiagramVisitorResource::collection($this->sharingService->getVisitors($diagram));
+        return DiagramVisitorResource::collection($this->sharingService->getVisitors($diagram))->response();
     }
 
     /**

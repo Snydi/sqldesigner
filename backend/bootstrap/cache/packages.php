@@ -1,104 +1,104 @@
 <?php return array (
-  'knuckleswtf/scribe' =>
+  'knuckleswtf/scribe' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Knuckles\\Scribe\\ScribeServiceProvider',
     ),
   ),
-  'laravel/boost' =>
+  'laravel/boost' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Boost\\BoostServiceProvider',
     ),
   ),
-  'laravel/mcp' =>
+  'laravel/mcp' => 
   array (
-    'aliases' =>
+    'aliases' => 
     array (
       'Mcp' => 'Laravel\\Mcp\\Server\\Facades\\Mcp',
     ),
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Mcp\\Server\\McpServiceProvider',
     ),
   ),
-  'laravel/reverb' =>
+  'laravel/reverb' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Reverb\\ApplicationManagerServiceProvider',
       1 => 'Laravel\\Reverb\\ReverbServiceProvider',
     ),
   ),
-  'laravel/roster' =>
+  'laravel/roster' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Roster\\RosterServiceProvider',
     ),
   ),
-  'laravel/sail' =>
+  'laravel/sail' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Sail\\SailServiceProvider',
     ),
   ),
-  'laravel/sanctum' =>
+  'laravel/sanctum' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Sanctum\\SanctumServiceProvider',
     ),
   ),
-  'laravel/socialite' =>
+  'laravel/socialite' => 
   array (
-    'aliases' =>
+    'aliases' => 
     array (
       'Socialite' => 'Laravel\\Socialite\\Facades\\Socialite',
     ),
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Socialite\\SocialiteServiceProvider',
     ),
   ),
-  'laravel/tinker' =>
+  'laravel/tinker' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
-  'nesbot/carbon' =>
+  'nesbot/carbon' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Carbon\\Laravel\\ServiceProvider',
     ),
   ),
-  'nunomaduro/collision' =>
+  'nunomaduro/collision' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
-  'nunomaduro/termwind' =>
+  'nunomaduro/termwind' => 
   array (
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
-  'spatie/laravel-ignition' =>
+  'spatie/laravel-ignition' => 
   array (
-    'aliases' =>
+    'aliases' => 
     array (
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
     ),
-    'providers' =>
+    'providers' => 
     array (
       0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     ),
