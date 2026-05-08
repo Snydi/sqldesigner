@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Diagram;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class AdminService
 {
@@ -14,9 +15,23 @@ class AdminService
             && hash_equals((string)config('app.admin_password'), $password);
     }
 
-    /** @return array{users: Collection, libraryDiagrams: Collection} */
+    /** @return array{users: Collection, libraryDiagrams: Collection, registrationsByDay: array} */
     public function getDashboardData(): array
     {
+        $rows = DB::table('users')
+            ->selectRaw("DATE(created_at) as day, COUNT(*) as count")
+            ->where('created_at', '>=', now()->subDays(59)->startOfDay())
+            ->groupByRaw("DATE(created_at)")
+            ->orderBy('day')
+            ->get()
+            ->keyBy('day');
+
+        $days = [];
+        for ($i = 59; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('Y-m-d');
+            $days[$date] = $rows->has($date) ? (int) $rows[$date]->count : 0;
+        }
+
         return [
             'users' => User::with('diagrams')->orderBy('created_at', 'desc')->get(),
             'libraryDiagrams' => Diagram::with('user')
@@ -25,6 +40,7 @@ class AdminService
                 ->orderByDesc('featured')
                 ->orderByDesc('updated_at')
                 ->get(),
+            'registrationsByDay' => $days,
         ];
     }
 

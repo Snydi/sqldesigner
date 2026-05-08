@@ -16,8 +16,14 @@ class SendVerificationEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 3;
+    public int $timeout = 30;
+    public int $backoff = 60;
+    public bool $deleteWhenMissingModels = true;
 
-    public function __construct(private readonly User $user) {}
+    public function __construct(private readonly User $user)
+    {
+        $this->onQueue('emails');
+    }
 
     public function handle(): void
     {

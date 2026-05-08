@@ -33,7 +33,26 @@ services:
         environment:
             DB_HOST: postgres
             DB_PORT: 5432
-        command: ["php", "artisan", "queue:work", "--tries=3", "--sleep=3"]
+        command: ["php", "artisan", "queue:work", "--queue=diagrams", "--tries=1", "--sleep=3", "--timeout=300"]
+
+    queue-emails:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+        container_name: queue-emails
+        restart: unless-stopped
+        working_dir: /var/www/html/backend
+        volumes:
+            - ./backend:/var/www/html/backend
+        networks:
+            - snydiagram_network
+        depends_on:
+            postgres:
+                condition: service_healthy
+        environment:
+            DB_HOST: postgres
+            DB_PORT: 5432
+        command: ["php", "artisan", "queue:work", "--queue=emails", "--tries=3", "--sleep=3", "--timeout=30"]
 
     reverb:
         build:
