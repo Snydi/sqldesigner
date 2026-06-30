@@ -12,6 +12,12 @@ async function request(fn) {
 }
 
 export const Diagram = {
+    create: (payload) =>
+        request(async () => {
+            const response = await axios.post('/api/diagrams', payload)
+            return response.data
+        }),
+
     get: (id) =>
         request(async () => {
             const response = await axios.get(`/api/diagrams/${id}`)

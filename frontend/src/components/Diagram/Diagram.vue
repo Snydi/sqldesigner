@@ -37,8 +37,8 @@
             :diagramName="diagramName"
             :hasPendingVisitors="hasPendingVisitors"
             @add-table="addTable"
-            @import="isDemo ? router.push({ name: 'register' }) : showImportModal = true"
-            @export="isDemo ? router.push({ name: 'register' }) : openExportModal()"
+            @import="isDemo ? goRegister() : showImportModal = true"
+            @export="isDemo ? goRegister() : openExportModal()"
             @save="saveDiagram"
             @show-share="showShareModal = true"
             @show-changelog="showChangelogModal = true"
@@ -224,11 +224,11 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, onMounted, onUnmounted, ref, nextTick } from 'vue'
+import { computed, onBeforeMount, onMounted, onUnmounted, ref, nextTick, watch } from 'vue'
 import { Panel, Position, useVueFlow, VueFlow } from '@vue-flow/core'
 import { TABLE_STYLE } from '@/services/TableActions.js'
 import { Diagram } from '@/services/Diagram.js'
-import { DEMO_SCHEMA } from '@/services/demoSchema.js'
+import { DEMO_SCHEMA, DEMO_SCHEMA_STORAGE_KEY } from '@/services/demoSchema.js'
 import { useDiagramPresence, CURSOR_COLORS } from '@/composables/useDiagramPresence.js'
 import { useDiagramPolling } from '@/composables/useDiagramPolling.js'
 import { useOffScreenCursors } from '@/composables/useOffScreenCursors.js'
@@ -460,9 +460,16 @@ const capturePng = async () => {
 
 // --- Save ---
 
+const goRegister = async () => {
+    saveDemoSchema()
+    $toast.info("Don't worry, your diagram is saved — sign up to continue")
+    await router.push({ name: 'register' })
+}
+
 const saveDiagram = async (silent = false) => {
     if (props.isDemo) {
-        await router.push({ name: 'register' })
+        saveDemoSchema()
+        if (!silent) $toast.success('Diagram saved')
         return
     }
     await (isOwner.value ? Diagram.save(diagramId.value, schema.value) : Diagram.saveByToken(token, schema.value))
@@ -480,9 +487,20 @@ const retryAccess = async () => {
     await getDiagram()
 }
 
+const loadDemoSchema = () => {
+    try {
+        const stored = localStorage.getItem(DEMO_SCHEMA_STORAGE_KEY)
+        const parsed = stored ? JSON.parse(stored) : null
+        if (Array.isArray(parsed) && parsed.length) return parsed
+    } catch {
+        // ignore corrupt storage, fall back to the default demo schema
+    }
+    return DEMO_SCHEMA
+}
+
 const getDiagram = async () => {
     if (props.isDemo) {
-        schema.value = DEMO_SCHEMA
+        schema.value = loadDemoSchema()
         return
     }
 
@@ -586,6 +604,23 @@ const onKeyDown = (event) => {
 }
 
 let autoSaveTimer = null
+let demoSaveTimer = null
+
+const saveDemoSchema = () => {
+    clearTimeout(demoSaveTimer)
+    try {
+        localStorage.setItem(DEMO_SCHEMA_STORAGE_KEY, JSON.stringify(schema.value))
+    } catch {
+        // localStorage unavailable or full — demo work just won't persist
+    }
+}
+
+if (props.isDemo) {
+    watch(schema, () => {
+        clearTimeout(demoSaveTimer)
+        demoSaveTimer = setTimeout(saveDemoSchema, 500)
+    }, { deep: true })
+}
 
 onBeforeMount(getDiagram)
 
@@ -605,6 +640,7 @@ onUnmounted(() => {
     stopVisitorPolling()
     stopGuestAccessPolling()
     if (!isSaved.value && canEdit.value && !props.isDemo) saveDiagram()
+    if (props.isDemo) saveDemoSchema()
     cleanupEcho()
     document.removeEventListener('keydown', onKeyDown)
 })
