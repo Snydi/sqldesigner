@@ -1,6 +1,8 @@
 import { Position } from '@vue-flow/core'
 import { TABLE_STYLE, ROW_STYLE } from './TableActions.js'
 
+export const DEMO_SCHEMA_STORAGE_KEY = 'demo_schema'
+
 const table = (id, label, x, y, color) => ({
     id,
     type: 'table',
