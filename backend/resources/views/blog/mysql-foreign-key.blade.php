@@ -195,6 +195,10 @@
             <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; font-style: italic;">Source: <a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener" style="color: var(--text-muted);">Stack Overflow Developer Survey 2025</a></p>
         </figure>
 
+        <div class="citation-capsule">
+            MySQL supports <code>FOREIGN KEY</code> enforcement on InnoDB and NDB storage engines only. The <a href="https://dev.mysql.com/doc/refman/8.4/en/create-table-foreign-keys.html" target="_blank" rel="noopener">MySQL 8.4 Reference Manual</a> confirms that MyISAM accepts the constraint syntax without complaint but does not enforce it — child rows that violate the constraint are accepted silently. As of MySQL 8.0, InnoDB is the default storage engine, so tables created without an explicit <code>ENGINE=</code> clause will enforce foreign key constraints automatically.
+        </div>
+
         <h2 id="basic-syntax">Basic Syntax</h2>
         <p>
             MySQL foreign key syntax follows two patterns: inline during <code>CREATE TABLE</code>, or added later with <code>ALTER TABLE</code>. Both work identically at runtime. The inline approach is simpler for new schemas; <code>ALTER TABLE</code> is what you'll use when adding constraints to existing tables.
@@ -271,6 +275,10 @@ ADD CONSTRAINT fk_orders_user
         <p>
             If you omit the clause entirely, MySQL defaults to <code>RESTRICT</code>. That's a safe default for most cases, but it's better to be explicit so the intent is clear to anyone reading the schema later.
         </p>
+
+        <div class="citation-capsule">
+            MySQL InnoDB treats <code>RESTRICT</code> and <code>NO ACTION</code> identically — both reject the parent operation immediately if any child rows reference the affected row. <code>SET DEFAULT</code> is accepted by the parser but rejected by InnoDB at runtime with an error. The default action when no clause is specified is <code>RESTRICT</code>, which is also the safest default: it blocks unintended deletes rather than silently cascading them (<a href="https://dev.mysql.com/doc/refman/8.4/en/create-table-foreign-keys.html" target="_blank" rel="noopener">MySQL 8.4 Reference Manual</a>).
+        </div>
 
         <h2 id="a-practical-example-e-commerce-schema">A Practical Example: E-commerce Schema</h2>
         <p>
@@ -355,6 +363,10 @@ CREATE TABLE order_items (
             Scroll to the <code>LATEST FOREIGN KEY ERROR</code> section. It tells you exactly which column or type caused the rejection, which is much faster than guessing. The <a href="https://dev.mysql.com/doc/refman/8.4/en/create-table-foreign-keys.html" target="_blank" rel="noopener">MySQL 8.4 Reference Manual</a> documents the full list of constraint validation rules if you need to go deeper.
         </p>
 
+        <div class="citation-capsule">
+            Error 1215 fires whenever MySQL cannot validate a foreign key constraint during <code>CREATE TABLE</code> or <code>ALTER TABLE</code>. The three most common causes are a type mismatch between child and parent column (including <code>UNSIGNED</code> vs signed), a missing index on the referenced column, and a storage engine mismatch (one table is MyISAM, the other InnoDB). Run <code>SHOW ENGINE INNODB STATUS\G</code> and look for the <code>LATEST FOREIGN KEY ERROR</code> block for the exact diagnosis (<a href="https://dev.mysql.com/doc/refman/8.4/en/create-table-foreign-keys.html" target="_blank" rel="noopener">MySQL 8.4 Reference Manual</a>).
+        </div>
+
         <h2 id="performance-considerations">Performance Considerations</h2>
         <p>
             Adding foreign keys introduces a modest performance cost. Every INSERT, UPDATE, and DELETE on a child table triggers an index lookup against the parent to verify the reference. That lookup hits a B-tree index, so it's fast in practice, but it isn't free.
@@ -371,6 +383,10 @@ SET FOREIGN_KEY_CHECKS = 1;</code></pre>
         <p>
             On the read side, foreign key indexes on child columns also speed up <code>JOIN</code> queries. MySQL can use those indexes to efficiently look up related rows. The index overhead from foreign keys often pays for itself in query performance, especially in heavily normalized schemas. See the <a href="/blog/database-normalization">database normalization guide</a> for when normalization actually helps vs when it adds unnecessary joins.
         </p>
+
+        <div class="citation-capsule">
+            MySQL InnoDB automatically creates a B-tree index on the child's foreign key column when you add the constraint, which makes the referential integrity lookup fast. That same index also speeds up <code>JOIN</code> queries on the FK column. For bulk data loads, <code>SET FOREIGN_KEY_CHECKS = 0</code> skips per-row validation during the import; re-enabling it does not retroactively validate existing data, so confirm data integrity before disabling checks (<a href="https://dev.mysql.com/doc/refman/8.4/en/create-table-foreign-keys.html" target="_blank" rel="noopener">MySQL 8.4 Reference Manual</a>).
+        </div>
 
         <h2 id="common-mistakes">Common Mistakes</h2>
         <ul>
@@ -395,23 +411,23 @@ SET FOREIGN_KEY_CHECKS = 1;</code></pre>
         <section class="faq-section" aria-label="Frequently asked questions">
             <h2 id="faq">Frequently Asked Questions</h2>
             <div class="faq-item">
-                <p class="faq-q">What is the MySQL foreign key syntax?</p>
+                <h3 class="faq-q">What is the MySQL foreign key syntax?</h3>
                 <p class="faq-a">The full syntax is: <code>CONSTRAINT constraint_name FOREIGN KEY (child_column) REFERENCES parent_table(parent_column) ON DELETE action ON UPDATE action</code>. Place it inside <code>CREATE TABLE</code> or add it with <code>ALTER TABLE</code>. The constraint name is optional but strongly recommended for readability and easier debugging.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">What does ON DELETE CASCADE do in MySQL?</p>
+                <h3 class="faq-q">What does ON DELETE CASCADE do in MySQL?</h3>
                 <p class="faq-a"><code>ON DELETE CASCADE</code> automatically deletes child rows when the parent row is deleted. If you delete an order, all associated <code>order_items</code> rows are removed automatically. Use it when child records have no meaning independent of the parent, and you're certain you want that automatic cleanup behaviour.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">What is the difference between ON DELETE CASCADE and ON DELETE SET NULL?</p>
+                <h3 class="faq-q">What is the difference between ON DELETE CASCADE and ON DELETE SET NULL?</h3>
                 <p class="faq-a"><code>CASCADE</code> removes the child row when the parent is deleted. <code>SET NULL</code> instead sets the foreign key column to <code>NULL</code>, leaving the child row in place. <code>SET NULL</code> requires the foreign key column to be nullable. Use it when the child record can exist independently, such as a comment whose author account was deleted.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">Why does MySQL return error 1215 when adding a foreign key?</p>
+                <h3 class="faq-q">Why does MySQL return error 1215 when adding a foreign key?</h3>
                 <p class="faq-a">Error 1215 almost always means one of three things: the child and parent column types don't match exactly (including <code>UNSIGNED</code>), the referenced column isn't indexed, or the tables use different storage engines. Run <code>SHOW ENGINE INNODB STATUS\G</code> and look for the <code>LATEST FOREIGN KEY ERROR</code> section for the exact cause.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">Does MySQL require the referenced column to be a primary key?</p>
+                <h3 class="faq-q">Does MySQL require the referenced column to be a primary key?</h3>
                 <p class="faq-a">No. The referenced column must have a <code>UNIQUE</code> index or be the primary key, but it doesn't have to be the primary key. MySQL requires uniqueness on the referenced column to guarantee that each foreign key value maps to exactly one parent row.</p>
             </div>
         </section>
@@ -424,6 +440,8 @@ SET FOREIGN_KEY_CHECKS = 1;</code></pre>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation Explained &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — TIMESTAMPTZ, JSONB, UUID, Arrays &rarr;</a></li>
+                <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
             </ul>
         </nav>
     </article>

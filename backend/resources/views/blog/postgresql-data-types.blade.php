@@ -53,12 +53,12 @@
         {
             "@context": "https://schema.org",
             "@type": "VideoObject",
-            "name": "Understanding Advanced Datatypes in PostgreSQL",
-            "description": "Citus Data's conference talk covering advanced PostgreSQL data types: arrays, JSONB, composite types, hstore, and range types with practical use cases.",
-            "thumbnailUrl": "https://img.youtube.com/vi/wzKWMF-kWGc/maxresdefault.jpg",
-            "uploadDate": "2016-06-01",
-            "embedUrl": "https://www.youtube.com/embed/wzKWMF-kWGc",
-            "publisher": { "@type": "Organization", "name": "Citus Data" }
+            "name": "Understanding Data Types in PostgreSQL — CHAR, VARCHAR, TEXT, and More",
+            "description": "A practical guide to choosing the right PostgreSQL data types, covering CHAR, VARCHAR, TEXT, and their differences in storage and behavior.",
+            "thumbnailUrl": "https://img.youtube.com/vi/kCK6VD1rzT0/hqdefault.jpg",
+            "uploadDate": "2024-12-19",
+            "embedUrl": "https://www.youtube.com/embed/kCK6VD1rzT0",
+            "url": "https://www.youtube.com/watch?v=kCK6VD1rzT0"
         },
         {
             "@context": "https://schema.org",
@@ -426,16 +426,16 @@ CREATE INDEX ON products USING GIN (attributes);</code></pre>
         <figure class="video-embed">
             <iframe
                 width="100%" height="400"
-                src="https://www.youtube.com/embed/wzKWMF-kWGc"
-                title="Understanding Advanced Datatypes in PostgreSQL — Citus Data"
+                src="https://www.youtube-nocookie.com/embed/kCK6VD1rzT0"
+                title="Understanding Data Types in PostgreSQL — CHAR, VARCHAR, TEXT, and More"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
                 loading="lazy"
-                aria-label="Understanding Advanced Datatypes in PostgreSQL — conference talk by Citus Data covering arrays, JSONB, composite types, and range types">
+                aria-label="Understanding Data Types in PostgreSQL — practical guide to CHAR, VARCHAR, TEXT, and more (2024)">
             </iframe>
-            <noscript><a href="https://www.youtube.com/watch?v=wzKWMF-kWGc" target="_blank" rel="noopener">Understanding Advanced Datatypes in PostgreSQL — Citus Data (YouTube)</a></noscript>
-            <figcaption>Citus Data's conference talk on advanced PostgreSQL types: arrays, JSONB, composite types, and range types. Worth watching before finalizing your schema.</figcaption>
+            <noscript><a href="https://www.youtube.com/watch?v=kCK6VD1rzT0" target="_blank" rel="noopener">Understanding Data Types in PostgreSQL — CHAR, VARCHAR, TEXT, and More (YouTube, 2024)</a></noscript>
+            <figcaption>Understanding Data Types in PostgreSQL — CHAR, VARCHAR, TEXT, and More (2024). A practical walkthrough of PostgreSQL type selection for real schemas.</figcaption>
         </figure>
 
         <h2 id="arrays">Arrays — A PostgreSQL-Only Feature</h2>
@@ -551,27 +551,27 @@ CREATE TABLE events (
         <section class="faq-section" aria-label="Frequently asked questions">
             <h2 id="faq">Frequently Asked Questions</h2>
             <div class="faq-item">
-                <p class="faq-q">What is the difference between NUMERIC and DECIMAL in PostgreSQL?</p>
+                <h3 class="faq-q">What is the difference between NUMERIC and DECIMAL in PostgreSQL?</h3>
                 <p class="faq-a"><code>NUMERIC</code> and <code>DECIMAL</code> are identical in PostgreSQL. They're aliases for the same exact-precision type. Both accept <code>NUMERIC(precision, scale)</code> and <code>DECIMAL(precision, scale)</code> with the same behavior. Use either; <code>NUMERIC</code> is slightly more common in PostgreSQL convention.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">Should I use TIMESTAMP or TIMESTAMPTZ in PostgreSQL?</p>
+                <h3 class="faq-q">Should I use TIMESTAMP or TIMESTAMPTZ in PostgreSQL?</h3>
                 <p class="faq-a">Prefer <code>TIMESTAMPTZ</code> (timestamp with time zone) for almost all datetime columns. PostgreSQL stores <code>TIMESTAMPTZ</code> values in UTC and converts to the client session timezone on retrieval. Plain <code>TIMESTAMP</code> (without time zone) stores the literal value with no conversion. Only use it when your application explicitly manages timezone logic itself.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">What is the difference between JSON and JSONB in PostgreSQL?</p>
+                <h3 class="faq-q">What is the difference between JSON and JSONB in PostgreSQL?</h3>
                 <p class="faq-a"><code>JSON</code> stores the document as-is in text form, preserving whitespace, key order, and duplicate keys. <code>JSONB</code> parses and stores the document in a binary format, which is faster to query and supports GIN indexes for full-document search. Use <code>JSONB</code> unless you specifically need to preserve exact input representation.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">How do I store a UUID primary key in PostgreSQL?</p>
+                <h3 class="faq-q">How do I store a UUID primary key in PostgreSQL?</h3>
                 <p class="faq-a">PostgreSQL has a native <code>UUID</code> type that stores the value as 16 bytes internally. Use <code>UUID DEFAULT gen_random_uuid() PRIMARY KEY</code> (PostgreSQL 13+) or <code>uuid_generate_v4()</code> with the <code>uuid-ossp</code> extension on older versions. The UUID type is natively indexable and requires no manual conversion, unlike MySQL's <code>CHAR(36)</code> or <code>BINARY(16)</code>.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">What is the PostgreSQL equivalent of MySQL AUTO_INCREMENT?</p>
+                <h3 class="faq-q">What is the PostgreSQL equivalent of MySQL AUTO_INCREMENT?</h3>
                 <p class="faq-a">PostgreSQL offers two options. The legacy <code>SERIAL</code> pseudo-type creates an implicit sequence. The SQL-standard alternative is <code>GENERATED ALWAYS AS IDENTITY</code> or <code>GENERATED BY DEFAULT AS IDENTITY</code>, available since PostgreSQL 10. Prefer <code>GENERATED ALWAYS AS IDENTITY</code> in new schemas. It's standards-compliant and gives explicit control over sequence behavior.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">Does PostgreSQL have a native boolean type?</p>
+                <h3 class="faq-q">Does PostgreSQL have a native boolean type?</h3>
                 <p class="faq-a">Yes. PostgreSQL's <code>BOOLEAN</code> type stores <code>true</code>, <code>false</code>, or <code>NULL</code> natively. It accepts multiple input formats: <code>TRUE</code>/<code>FALSE</code>, <code>'t'</code>/<code>'f'</code>, <code>'yes'</code>/<code>'no'</code>, <code>'on'</code>/<code>'off'</code>, and <code>1</code>/<code>0</code>. This is a key difference from MySQL, which has no native boolean and uses <code>TINYINT(1)</code> as a convention.</p>
             </div>
         </section>
@@ -583,6 +583,13 @@ CREATE TABLE events (
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — full feature comparison &rarr;</a></li>
                 <li><a href="/blog/database-ddl-comparison">DDL syntax across MySQL, PostgreSQL, Oracle, and SQLite &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database normalization — first through third normal form &rarr;</a></li>
+                <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 — Tested and Compared &rarr;</a></li>
+                <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
+                <li><a href="/blog/database-designer">Free Online Database Designer &rarr;</a></li>
+                <li><a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates &rarr;</a></li>
+                <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Best Practices &rarr;</a></li>
             </ul>
         </nav>
     </article>

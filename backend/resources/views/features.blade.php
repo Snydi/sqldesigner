@@ -1,14 +1,14 @@
 @extends('layouts.main')
 
-@section('title', 'SQL Designer Features — Free ERD & Schema Designer')
+@section('title', 'SQL Designer Features — Visual SQL Schema Builder')
 
 @section('head')
-    <meta name="description" content="All SQL Designer features: drag-and-drop canvas, SQL export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, foreign keys, SQL import, and auto-save.">
+    <meta name="description" content="Visual SQL schema builder and online database modeler — drag-and-drop ERD canvas, SQL export for 6 dialects, foreign keys, crow's foot notation, auto-save.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/features">
-    <meta property="og:title" content="SQL Designer Features — Free ERD &amp; Schema Designer">
-    <meta property="og:description" content="Every feature in SQL Designer: drag-and-drop canvas, SQL export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access, foreign keys, constraints, SQL import, auto-save, sharing.">
+    <meta property="og:title" content="SQL Designer Features — Visual SQL Schema Builder">
+    <meta property="og:description" content="Visual SQL schema builder and online database modeler — drag-and-drop ERD canvas, SQL export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access, foreign keys, auto-save.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
@@ -18,10 +18,10 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — full feature list for the free database designer and ERD tool">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SQL Designer Features — Free ERD &amp; Schema Designer">
-    <meta name="twitter:description" content="Every feature in SQL Designer: drag-and-drop canvas, SQL export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access, foreign keys, constraints, SQL import, auto-save, sharing.">
+    <meta name="twitter:title" content="SQL Designer Features — Visual SQL Schema Builder">
+    <meta name="twitter:description" content="Visual SQL schema builder and online database modeler — drag-and-drop ERD canvas, SQL export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access, foreign keys, auto-save.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
-    <meta name="keywords" content="ERD tool, database designer, MySQL schema designer, PostgreSQL schema designer, SQLite schema designer, Oracle schema designer, SQL Server schema designer, MS Access schema designer, entity relationship diagram, visual SQL tool, foreign key diagram, CREATE TABLE generator, SQL import, free ERD tool, crow's foot notation, database diagram online, multi-dialect SQL export">
+    <meta name="keywords" content="visual sql schema builder, database diagram maker free, online database modeler, database modeler online, sql table designer online, ERD tool, database designer, MySQL schema designer, PostgreSQL schema designer, SQLite schema designer, Oracle schema designer, SQL Server schema designer, MS Access schema designer, entity relationship diagram, visual SQL tool, foreign key diagram, CREATE TABLE generator, SQL import, free ERD tool, crow's foot notation, database diagram online, multi-dialect SQL export">
     <script type="application/ld+json">
     @verbatim
     [
@@ -437,8 +437,8 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><span>Features</span></p>
-        <h1 class="page-h1">Everything an <em>ERD tool</em> should do.</h1>
-        <p class="page-sub">A visual database designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Drag-and-drop canvas, foreign keys with crow's foot notation, SQL import and export — all in the browser.</p>
+        <h1 class="page-h1">Everything a <em>visual SQL schema builder</em> should do.</h1>
+        <p class="page-sub">The free visual SQL schema builder and online database modeler for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Drag-and-drop ERD canvas, foreign keys with crow's foot notation, SQL import and export — all in the browser, nothing to install.</p>
     </div>
 </section>
 

@@ -155,10 +155,10 @@
 
         <h2 id="what-is">What Is Crow&rsquo;s Foot Notation?</h2>
         <p>
-            Crow&rsquo;s foot notation is the graphical standard for showing how many records on each side of a relationship can exist in a relational database. Gordon Everest introduced it in his 1976 IEEE paper &ldquo;Basic Data Structure Models Explained with a Common Example,&rdquo; presented at the Fifth Texas Conference on Computing Systems in Austin, Texas (<a href="https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model" target="_blank" rel="noopener">Wikipedia</a>, <a href="https://www.red-gate.com/blog/crow-s-foot-notation/" target="_blank" rel="noopener">Redgate</a>). Everest originally called the symbol an &ldquo;inverted arrow&rdquo; or &ldquo;fork.&rdquo; The term &ldquo;crow&rsquo;s foot&rdquo; emerged through academic and industry use over the following decade.
+            Crow&rsquo;s foot notation is the graphical standard for showing how many records on each side of a relationship can exist in a relational database. Gordon Everest introduced it in his 1976 IEEE paper &ldquo;Basic Data Structure Models Explained with a Common Example,&rdquo; presented at the Fifth Texas Conference on Computing Systems in Austin, Texas (<a href="https://www.red-gate.com/blog/crow-s-foot-notation/" target="_blank" rel="noopener">Redgate</a>). Everest originally called the symbol an &ldquo;inverted arrow&rdquo; or &ldquo;fork.&rdquo; The term &ldquo;crow&rsquo;s foot&rdquo; emerged through academic and industry use over the following decade.
         </p>
         <p>
-            The notation spread through ICL, CACI consultancy, and later Oracle UK before becoming the default in most modern database design tools. Today, the relational database market is valued at $74 billion (2024) and projected to reach $84 billion in 2025 at a 13.3% annual growth rate (<a href="https://www.giiresearch.com/report/tbrc1706233-relational-database-global-market-report.html" target="_blank" rel="noopener">The Business Research Company, 2025</a>). In that context, reading a crow&rsquo;s foot diagram is a baseline skill for database professionals, not an advanced one.
+            The notation spread through ICL, CACI consultancy, and later Oracle UK before becoming the default in most modern database design tools. Today, the relational database market is valued at $74 billion (2024) and projected to reach $84 billion in 2025 at a 13.3% annual growth rate (<a href="https://www.thebusinessresearchcompany.com/report/relational-database-global-market-report" target="_blank" rel="noopener">The Business Research Company, 2025</a>). In that context, reading a crow&rsquo;s foot diagram is a baseline skill for database professionals, not an advanced one.
         </p>
         <p>
             You&rsquo;ll also hear it called &ldquo;chicken foot notation&rdquo; or &ldquo;IE notation&rdquo; (after the Information Engineering methodology). James Martin and Clive Finkelstein popularized it through their information engineering frameworks in the 1980s, which helped cement it as the industry default.
@@ -252,7 +252,7 @@
                 <text x="315" y="57" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11.5" fill="#d0d0f0" font-weight="600">$83.98B</text>
                 <text x="315" y="172" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10.5" fill="#8080a0">2025 (projected)</text>
                 <text x="315" y="46" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#50e080" font-weight="600">+13.3% CAGR</text>
-                <text x="240" y="200" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" fill="#44445a">Source: The Business Research Company, 2025 &#183; GII Research</text>
+                <text x="240" y="200" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" fill="#44445a">Source: The Business Research Company, 2025</text>
             </svg>
             <figcaption>The relational database market is growing at 13.3% annually, reaching a projected $83.98 billion in 2025. (Source: The Business Research Company, 2025)</figcaption>
         </figure>
@@ -317,34 +317,34 @@
             <li>If the FK column allows <code>NULL</code>, the child end shows an optional crow&rsquo;s foot (zero-or-many)</li>
         </ul>
         <p>
-            The result is a complete, readable ER diagram using standard crow&rsquo;s foot notation, ready to share with your team or embed in technical documentation.
+            The result is a complete, readable ER diagram using standard crow&rsquo;s foot notation, ready to share with your team or embed in technical documentation. SQL Designer is a free <a href="/blog/er-diagram-maker-online">online ER diagram maker</a> — open the canvas and start drawing relationships immediately, no install required.
         </p>
 
         <section class="faq-section" aria-label="Frequently asked questions">
             <h2 id="faq">Frequently Asked Questions</h2>
 
             <div class="faq-item">
-                <p class="faq-q">What is crow&rsquo;s foot notation?</p>
+                <h3 class="faq-q">What is crow&rsquo;s foot notation?</h3>
                 <p class="faq-a">Crow&rsquo;s foot notation is a graphical convention for representing cardinality and optionality in ER diagrams. It uses symbols at the end of relationship lines — a single bar for &ldquo;one,&rdquo; a circle for &ldquo;zero,&rdquo; and a three-pronged crow&rsquo;s foot for &ldquo;many&rdquo; — to show how many records on each side of a relationship can exist.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">What does the crow&rsquo;s foot symbol mean in an ER diagram?</p>
+                <h3 class="faq-q">What does the crow&rsquo;s foot symbol mean in an ER diagram?</h3>
                 <p class="faq-a">The crow&rsquo;s foot symbol (three diverging lines at the end of a relationship line) represents the &ldquo;many&rdquo; side of a relationship. It means multiple records in that table can relate to a single record in the connected table.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">How do you represent a one-to-many relationship in crow&rsquo;s foot notation?</p>
+                <h3 class="faq-q">How do you represent a one-to-many relationship in crow&rsquo;s foot notation?</h3>
                 <p class="faq-a">A one-to-many relationship uses a single vertical bar on the &ldquo;one&rdquo; side and a crow&rsquo;s foot on the &ldquo;many&rdquo; side. For example, one user can have many orders: the <code>users</code> end has a single bar, and the <code>orders</code> end has a crow&rsquo;s foot.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">What is the difference between mandatory and optional in crow&rsquo;s foot notation?</p>
+                <h3 class="faq-q">What is the difference between mandatory and optional in crow&rsquo;s foot notation?</h3>
                 <p class="faq-a">Mandatory (shown by a vertical bar next to the entity) means a related record must exist — in SQL this maps to a <code>NOT NULL</code> foreign key. Optional (shown by a circle) means the relationship isn&rsquo;t required, and the foreign key column allows <code>NULL</code>.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">How are many-to-many relationships modelled in crow&rsquo;s foot notation?</p>
+                <h3 class="faq-q">How are many-to-many relationships modelled in crow&rsquo;s foot notation?</h3>
                 <p class="faq-a">A many-to-many relationship shows a crow&rsquo;s foot at both ends of the line. In a relational database this can&rsquo;t be implemented with a single foreign key — it requires a junction table (e.g., <code>product_tags</code>) containing foreign keys to both related tables.</p>
             </div>
         </section>
@@ -357,6 +357,8 @@
                 <li><a href="/blog/database-normalization">Database Normalization — 1NF, 2NF, 3NF Explained &rarr;</a></li>
                 <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 &rarr;</a></li>
                 <li><a href="/blog/database-designer">Free Online Database Designer — Visual Schema Editor &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
             </ul>
         </nav>
     </article>

@@ -154,9 +154,19 @@
         <h2>Crow&rsquo;s Foot Notation — ER Diagram Cardinality Explained</h2>
         <p>Learn the crow's foot symbols for one-to-one, one-to-many, and many-to-many relationships, how optionality works, and how the notation maps to real foreign key constraints.</p>
     </a>
+    <a class="post-card" href="/blog/er-diagram-maker-online">
+        <p class="card-meta">June 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 6 min read</p>
+        <h2>Free Online ER Diagram Maker — Draw, Export SQL, No Install</h2>
+        <p>SQL Designer is a free browser-based ER diagram maker for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access. Draw entities, define relationships, export a complete CREATE TABLE script — no signup needed to start.</p>
+    </a>
+    <a class="post-card" href="/blog/create-database-schema-online">
+        <p class="card-meta">June 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 7 min read</p>
+        <h2>How to Create a Database Schema Online — Step-by-Step Guide</h2>
+        <p>Create a relational database schema online in 5 steps using a free browser-based tool. Design tables, define columns, draw foreign key relationships, and export a complete CREATE TABLE script — no install required.</p>
+    </a>
     <a class="post-card" href="/blog/best-free-erd-tools">
         <p class="card-meta">May 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 10 min read</p>
-        <h2>10 Best Free ERD Tools in 2026 — Tested and Compared</h2>
+        <h2>10 Best Free Online ERD Tools in 2026 — Tested and Compared</h2>
         <p>We tested 10 free ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, and DBeaver — with honest strengths, real limits, pricing, and use-case guidance.</p>
     </a>
     <a class="post-card" href="/blog/database-designer">

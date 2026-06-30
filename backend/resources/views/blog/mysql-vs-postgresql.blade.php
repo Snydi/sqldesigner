@@ -208,7 +208,7 @@ ALTER TABLE events
     ADD INDEX idx_user_id (user_id_extracted);</code></pre>
         <p>For occasional JSON reads, MySQL's approach works fine. For workloads where you're querying by document content, filtering large datasets by nested keys, or running aggregations across JSON fields, JSONB wins clearly.</p>
 
-        <p>PostgreSQL's JSONB type stores JSON in a decomposed binary format, enabling GIN indexes on the full document for fast key-existence and path queries. MySQL's JSON type validates input on insert but requires generated columns to index specific paths. For document-style queries, JSONB performs substantially better, according to Bytebase's technical analysis (<a href="https://www.bytebase.com/blog/postgres-vs-mysql-json-support/" target="_blank" rel="noopener">bytebase.com</a>, May 2025).</p>
+        <p>PostgreSQL's JSONB type stores JSON in a decomposed binary format, enabling GIN indexes on the full document for fast key-existence and path queries. MySQL's JSON type validates input on insert but requires generated columns to index specific paths. The PostgreSQL documentation covers GIN index support for JSONB in detail (<a href="https://www.postgresql.org/docs/current/datatype-json.html" target="_blank" rel="noopener">PostgreSQL docs — JSON types</a>).</p>
 
         <figure>
             <div class="video-wrap">
@@ -402,27 +402,27 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
             <h2 id="faq">Frequently Asked Questions</h2>
 
             <div class="faq-item">
-                <p class="faq-q">What is the main difference between MySQL and PostgreSQL?</p>
+                <h3 class="faq-q">What is the main difference between MySQL and PostgreSQL?</h3>
                 <p class="faq-a">MySQL is optimized for read-heavy web workloads and simpler to operate. PostgreSQL is more standards-compliant, with stronger support for complex queries, custom types, and JSON. PostgreSQL has led MySQL in developer adoption since 2022, reaching 55.6% vs 40.5% in the 2025 Stack Overflow Developer Survey.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">Does MySQL or PostgreSQL handle JSON better?</p>
+                <h3 class="faq-q">Does MySQL or PostgreSQL handle JSON better?</h3>
                 <p class="faq-a">PostgreSQL's <code>JSONB</code> type is more capable. It stores JSON in a binary format that supports GIN indexing on the full document, enabling fast key-existence and path queries. MySQL's <code>JSON</code> type is functional and supports path expressions, but you can't index a JSON column directly — only generated columns on specific paths.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">Is AUTO_INCREMENT in MySQL the same as SERIAL in PostgreSQL?</p>
+                <h3 class="faq-q">Is AUTO_INCREMENT in MySQL the same as SERIAL in PostgreSQL?</h3>
                 <p class="faq-a">They do the same job: auto-generate a unique integer primary key. But the syntax differs. MySQL uses <code>AUTO_INCREMENT</code> as a column attribute. PostgreSQL uses <code>SERIAL</code> as a shorthand type, or <code>GENERATED ALWAYS AS IDENTITY</code> in PostgreSQL 10+ (released 2017), which is the SQL-standard equivalent and the preferred form in new schemas.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">Which should I choose for a new web application?</p>
+                <h3 class="faq-q">Which should I choose for a new web application?</h3>
                 <p class="faq-a">PostgreSQL is the safer long-term choice for new projects: more standards-compliant, better JSON and array support, and leading in developer adoption since 2022. Choose MySQL when joining a team already using it, or when using a MySQL-specific managed platform like PlanetScale where MySQL is the right operational fit.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">Did PostgreSQL pass MySQL in developer popularity?</p>
+                <h3 class="faq-q">Did PostgreSQL pass MySQL in developer popularity?</h3>
                 <p class="faq-a">Yes. PostgreSQL overtook MySQL in the 2022 Stack Overflow Developer Survey and has widened the gap since. By 2025, PostgreSQL is used by 55.6% of developers vs 40.5% for MySQL. It's also the most admired database for the third consecutive year, with 66% of users wanting to continue using it (Stack Overflow, 2025).</p>
             </div>
         </section>
@@ -435,6 +435,8 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
                 <li><a href="/blog/database-normalization">Database Normalization Explained &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained — full type reference &rarr;</a></li>
+                <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
             </ul>
         </nav>
     </article>

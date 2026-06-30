@@ -292,6 +292,37 @@
             <li>Avoid <code>ENUM</code>. It's inflexible to alter and opaque to external tools. Use a <code>VARCHAR</code> with a <code>CHECK</code> constraint, or a separate lookup table instead.</li>
         </ul>
 
+        <h3>Binary types: the BLOB family</h3>
+        <p>The BLOB family stores binary data — file contents, images, encrypted payloads — with no character set interpretation. The size tiers mirror the TEXT family exactly:</p>
+        <table>
+            <tr>
+                <th>Type</th>
+                <th>Max size</th>
+                <th>Use for</th>
+            </tr>
+            <tr>
+                <td><code>TINYBLOB</code></td>
+                <td>255 bytes</td>
+                <td>Very small binary values: icons, thumbnails</td>
+            </tr>
+            <tr>
+                <td><code>BLOB</code></td>
+                <td>65,535 bytes (64 KB)</td>
+                <td>Small binary objects: low-res images, short files</td>
+            </tr>
+            <tr>
+                <td><code>MEDIUMBLOB</code></td>
+                <td>16,777,215 bytes (16 MB)</td>
+                <td>Documents, audio clips, mid-size files</td>
+            </tr>
+            <tr>
+                <td><code>LONGBLOB</code></td>
+                <td>4,294,967,295 bytes (4 GB)</td>
+                <td>Large files, video, binary archives</td>
+            </tr>
+        </table>
+        <p>In SQL Designer, we had to handle the BLOB family separately from TEXT during MySQL DDL generation — they share the same size hierarchy but have different character set semantics, and generating <code>CHARACTER SET</code> clauses for a BLOB column produces an error. Worth knowing if you're writing DDL tooling: BLOB columns don't accept charset or collation attributes, while the equivalent TEXT types do. In practice, storing files larger than a few kilobytes in MySQL directly is rarely the right architectural choice; object storage (S3, GCS) scales better. Use BLOB for small binary values tightly coupled to their parent row, where the overhead of a separate storage system isn't justified (<a href="https://dev.mysql.com/doc/refman/8.0/en/blob.html" target="_blank" rel="noopener">MySQL 8.0 Reference Manual</a>).</p>
+
         <div class="citation-capsule">
             <p>VARCHAR and CHAR differ primarily in storage behavior: CHAR(n) always occupies exactly n bytes, padded with spaces, while VARCHAR(n) uses 1 byte of overhead for values up to 255 characters plus actual content length (<a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank" rel="noopener">MySQL 8.0 Reference Manual</a>). For columns where every value is exactly the same length, CHAR is marginally more efficient to index than VARCHAR.</p>
         </div>
@@ -412,31 +443,31 @@ SELECT * FROM users WHERE preferences->>'$.notifications' = 'true';</code></pre>
         <section class="faq-section" aria-label="Frequently asked questions">
             <h2 id="faq">Frequently Asked Questions</h2>
             <div class="faq-item">
-                <p class="faq-q">What MySQL data type should I use for storing money?</p>
+                <h3 class="faq-q">What MySQL data type should I use for storing money?</h3>
                 <p class="faq-a">Use <code>DECIMAL(p, s)</code> — for example <code>DECIMAL(10, 2)</code> for two decimal places. Never use <code>FLOAT</code> or <code>DOUBLE</code> for money. Both use IEEE 754 binary floating-point, which cannot represent most decimal fractions exactly, causing rounding errors that accumulate in financial totals.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">What is the difference between DATETIME and TIMESTAMP in MySQL?</p>
+                <h3 class="faq-q">What is the difference between DATETIME and TIMESTAMP in MySQL?</h3>
                 <p class="faq-a"><code>TIMESTAMP</code> stores values in UTC and automatically converts to the session timezone on retrieval, making it ideal for <code>created_at</code> and <code>updated_at</code> audit columns. <code>DATETIME</code> stores the literal wall-clock time without timezone conversion and has a wider date range (up to year 9999 vs TIMESTAMP's 2038-01-19 limit).</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">What MySQL type should I use for boolean columns?</p>
+                <h3 class="faq-q">What MySQL type should I use for boolean columns?</h3>
                 <p class="faq-a">MySQL has no native boolean type. The convention is <code>TINYINT(1)</code>, which stores 0 (false) or 1 (true). ORMs like Laravel and Rails treat <code>TINYINT(1)</code> as a boolean automatically. MySQL 8.0+ also accepts <code>BOOLEAN</code> as a synonym for <code>TINYINT(1)</code>.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">When should I use VARCHAR vs TEXT in MySQL?</p>
+                <h3 class="faq-q">When should I use VARCHAR vs TEXT in MySQL?</h3>
                 <p class="faq-a">Use <code>VARCHAR(n)</code> for short strings where you know the maximum length: names, emails, URLs, slugs. Use <code>TEXT</code> for long-form content such as article bodies, descriptions, or HTML where the length is unpredictable. Avoid using TEXT columns in <code>WHERE</code> clauses without a full-text index, as it forces a full table scan.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">What MySQL data type should I use for a primary key?</p>
+                <h3 class="faq-q">What MySQL data type should I use for a primary key?</h3>
                 <p class="faq-a"><code>INT UNSIGNED NOT NULL AUTO_INCREMENT</code> is the standard choice for most tables, supporting up to approximately 4.3 billion rows. Use <code>BIGINT UNSIGNED NOT NULL AUTO_INCREMENT</code> for tables expected to grow very large, such as event logs or high-volume transactional tables.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">Why should I avoid ENUM in MySQL?</p>
+                <h3 class="faq-q">Why should I avoid ENUM in MySQL?</h3>
                 <p class="faq-a"><code>ENUM</code> stores allowed values as a one- or two-byte integer mapped to a list of strings. Adding a new value requires an <code>ALTER TABLE</code> that rewrites the entire table in older MySQL versions, causing downtime on large tables. ENUM values are also opaque to ORMs and external tools. A <code>VARCHAR</code> column with a <code>CHECK</code> constraint, or a separate lookup table, is more maintainable and easier to extend.</p>
             </div>
             <div class="faq-item">
-                <p class="faq-q">What MySQL data type should I use for a UUID?</p>
+                <h3 class="faq-q">What MySQL data type should I use for a UUID?</h3>
                 <p class="faq-a"><code>CHAR(36)</code> stores the standard hyphenated UUID string. For storage efficiency, MySQL 8.0+ provides <code>UUID_TO_BIN()</code> and <code>BIN_TO_UUID()</code> to convert a UUID into <code>BINARY(16)</code>, halving the storage compared to <code>CHAR(36)</code> and improving index performance. Use <code>CHAR(36)</code> for readability; use <code>BINARY(16)</code> for high-volume tables where index size matters.</p>
             </div>
         </section>
@@ -449,6 +480,8 @@ SELECT * FROM users WHERE preferences->>'$.notifications' = 'true';</code></pre>
                 <li><a href="/blog/database-ddl-comparison">DDL syntax across MySQL, PostgreSQL, and SQLite &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database normalization — first through third normal form &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — BOOLEAN, JSONB, UUID, TIMESTAMPTZ &rarr;</a></li>
+                <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
             </ul>
         </nav>
     </article>

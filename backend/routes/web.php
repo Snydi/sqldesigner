@@ -23,6 +23,8 @@ Route::prefix('/blog')->group(function () {
     Route::get('/database-ddl-comparison', fn () => view('blog.database-ddl-comparison'));
     Route::get('/best-free-erd-tools', fn () => view('blog.best-free-erd-tools'));
     Route::get('/postgresql-data-types', fn () => view('blog.postgresql-data-types'));
+    Route::get('/create-database-schema-online', fn () => view('blog.create-database-schema-online'));
+    Route::get('/er-diagram-maker-online', fn () => view('blog.er-diagram-maker-online'));
 });
 Route::get('/about', fn () => view('about'));
 Route::get('/features', fn () => view('features'));

@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'What to Look for in a Database Designer — Evaluation Guide')
+@section('title', 'Free Online Database Schema Designer — All SQL Dialects')
 
 @section('head')
     <meta name="description"
-          content="How to evaluate a database designer tool: which features matter, what free tiers hide, and how to choose the right one for MySQL or PostgreSQL work.">
+          content="Free online database schema designer for MySQL, PostgreSQL, SQLite, Oracle and more. Draw tables, define relationships, export CREATE TABLE SQL instantly.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-designer">
-    <meta property="og:title" content="What to Look for in a Database Designer — Evaluation Guide">
+    <meta property="og:title" content="Free Online Database Schema Designer — All SQL Dialects">
     <meta property="og:description"
-          content="How to evaluate a database designer tool: which features matter, what free tiers hide, and how to choose the right one for MySQL or PostgreSQL work.">
+          content="Free online database schema designer for MySQL, PostgreSQL, SQLite, Oracle and more. Draw tables, define relationships, export CREATE TABLE SQL instantly.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/database-designer">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — free online database designer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="What to Look for in a Database Designer — Evaluation Guide">
-    <meta name="twitter:description" content="How to evaluate database designer tools: features that matter, common free-tier tricks, and how to pick the right one for MySQL or PostgreSQL.">
+    <meta name="twitter:title" content="Free Online Database Schema Designer — All SQL Dialects">
+    <meta name="twitter:description" content="Free online database schema designer for MySQL, PostgreSQL, SQLite, Oracle and more. Draw tables, define relationships, export CREATE TABLE SQL instantly.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -32,18 +32,18 @@
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
                 { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sql-designer.com/blog" },
-                { "@type": "ListItem", "position": 3, "name": "What to Look for in a Database Designer", "item": "https://sql-designer.com/blog/database-designer" }
+                { "@type": "ListItem", "position": 3, "name": "Free Online Database Schema Designer", "item": "https://sql-designer.com/blog/database-designer" }
             ]
         },
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "What to Look for in a Database Designer — Evaluation Guide",
-            "description": "How to evaluate a database designer tool: which features matter, what free tiers hide, and how to choose the right one for MySQL or PostgreSQL work.",
+            "headline": "Free Online Database Schema Designer — MySQL, PostgreSQL, SQLite and More",
+            "description": "Free online database schema designer for MySQL, PostgreSQL, SQLite, Oracle and more. Draw tables, define relationships, export CREATE TABLE SQL instantly.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/database-designer",
             "datePublished": "2026-04-09",
-            "dateModified": "2026-05-23",
+            "dateModified": "2026-06-30",
             "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -114,10 +114,10 @@
 
 <section class="page-intro">
     <div class="intro-inner">
-        <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Database Designer</span></p>
-        <p class="post-eyebrow">April 2026 · <time datetime="2026-05-23">Last updated: May 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
-        <h1 class="page-h1">What to Look for in a Free Database Designer</h1>
-        <p class="page-sub">Not all database designer tools are equal — and not all "free" tiers are genuinely free. This guide covers the features that separate a purpose-built schema designer from a generic diagram tool, the restrictions to watch for on free plans, and a feature checklist for choosing the right tool for MySQL or PostgreSQL work.</p>
+        <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Online Database Schema Designer</span></p>
+        <p class="post-eyebrow">April 2026 · <time datetime="2026-06-30">Last updated: June 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
+        <h1 class="page-h1">The Free Online Database Schema Designer for MySQL, PostgreSQL, SQLite and More</h1>
+        <p class="page-sub">SQL Designer is a free, browser-based online database schema designer and visual SQL schema builder. Design tables on a drag-and-drop canvas, draw foreign key relationships, and export a complete CREATE TABLE script for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access — no install, no paywall.</p>
     </div>
 </section>
 

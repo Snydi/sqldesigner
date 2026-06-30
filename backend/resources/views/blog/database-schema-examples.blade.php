@@ -56,7 +56,7 @@
                     {
                         "@type": "Question",
                         "name": "Should I use MySQL or PostgreSQL for a new project in 2026?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "PostgreSQL is the stronger default for new projects. In the 2025 Stack Overflow Developer Survey (65,437 respondents), PostgreSQL reached 55.6% usage versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead. PostgreSQL also ranks first in most-admired and most-desired database for the third consecutive year." }
+                        "acceptedAnswer": { "@type": "Answer", "text": "PostgreSQL is the stronger default for new projects. In the 2025 Stack Overflow Developer Survey (89,000+ respondents), PostgreSQL reached 55.6% usage versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead. PostgreSQL also ranks first in most-admired and most-desired database for the third consecutive year." }
                     },
                     {
                         "@type": "Question",
@@ -160,7 +160,7 @@
                 <rect x="154" y="207" width="90" height="22" fill="#4a90d9" rx="3" opacity="0.4"/>
                 <text x="250" y="223" fill="#e0e0ee" font-size="12" font-family="system-ui,sans-serif"> 22.4%</text>
                 <!-- source -->
-                <text x="300" y="250" text-anchor="middle" fill="#555570" font-size="10" font-family="system-ui,sans-serif">Source: Stack Overflow Developer Survey 2025 (n = 65,437 respondents)</text>
+                <text x="300" y="250" text-anchor="middle" fill="#555570" font-size="10" font-family="system-ui,sans-serif">Source: Stack Overflow Developer Survey 2025 (89,000+ respondents)</text>
             </svg>
             <p class="chart-caption">PostgreSQL overtook MySQL in developer adoption in 2025 — a full reversal from its 33% share when it first appeared in the survey in 2018 (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>).</p>
         </div>
@@ -305,11 +305,11 @@ CREATE TABLE comments (
             <h2 id="saas">3. SaaS User &amp; Subscription Schema</h2>
             <!-- [PERSONAL EXPERIENCE] -->
             <p>
-                In the 2025 Stack Overflow Developer Survey (65,437 respondents), PostgreSQL reached 55.6% adoption versus MySQL's 40.5% (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>). That shift shows up most clearly in SaaS work. <code>TIMESTAMPTZ</code>, native UUID support, and row-level security map cleanly to multi-tenant requirements. This schema models organisations, members, plans, and subscriptions with the same price-snapshot discipline as the e-commerce example.
+                In the 2025 Stack Overflow Developer Survey (89,000+ respondents), PostgreSQL reached 55.6% adoption versus MySQL's 40.5% (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>). That shift shows up most clearly in SaaS work. <code>TIMESTAMPTZ</code>, native UUID support, and row-level security map cleanly to multi-tenant requirements. This schema models organisations, members, plans, and subscriptions with the same price-snapshot discipline as the e-commerce example.
             </p>
 
             <p class="citation-capsule">
-                According to the Stack Overflow Developer Survey 2025 (n = 65,437), PostgreSQL is used by 55.6% of developers versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead. It ranks first in most-admired (65%) and most-desired (46%) database for the third year running, making it the natural default for new SaaS projects (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>).
+                According to the Stack Overflow Developer Survey 2025 (89,000+), PostgreSQL is used by 55.6% of developers versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead. It ranks first in most-admired (65%) and most-desired (46%) database for the third year running, making it the natural default for new SaaS projects (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>).
             </p>
 
             <h3>Key design decisions</h3>
@@ -503,7 +503,7 @@ CREATE TABLE messages (
             <li><strong>Use <code>TIMESTAMPTZ</code> in PostgreSQL</strong> over <code>TIMESTAMP</code>. It stores UTC and converts correctly per session timezone, which matters the moment your users span more than one timezone.</li>
             <li><strong>Index FK columns in PostgreSQL manually.</strong> MySQL creates indexes on foreign key columns automatically; PostgreSQL doesn't. Add an explicit index on any FK column you'll use in a <code>WHERE</code> or <code>JOIN</code>.</li>
             <li><strong>Think twice before adding soft deletes.</strong> A <code>deleted_at</code> column requires <code>WHERE deleted_at IS NULL</code> in every query. One forgotten filter is a data leak waiting to happen. Use it only where the audit trail is genuinely worth that cost.</li>
-            <li><strong>Design visually first</strong> — missing relationships and redundant tables are obvious in a diagram and invisible in a wall of DDL. Use the <a href="/demo">SQL Designer demo</a> to drag, connect, and adjust before you commit to code.</li>
+            <li><strong>Design visually first</strong> — missing relationships and redundant tables are obvious in a diagram and invisible in a wall of DDL. Use the <a href="/demo">SQL Designer demo</a> to drag, connect, and adjust before you commit to code. For a step-by-step walkthrough of the process, see <a href="/blog/create-database-schema-online">how to create a database schema online</a>.</li>
             <li><strong>Check DDL syntax when targeting a different database.</strong> The <code>CREATE TABLE</code> syntax for primary keys, boolean types, timestamp defaults, and <code>ALTER TABLE</code> differs significantly between MySQL, PostgreSQL, Oracle, SQL Server, and SQLite. For a full side-by-side reference, see the <a href="/blog/database-ddl-comparison">DDL syntax comparison guide</a>.</li>
         </ul>
 
@@ -512,7 +512,7 @@ CREATE TABLE messages (
 
             <div class="faq-item">
                 <p class="faq-q">Should I use MySQL or PostgreSQL for a new project in 2026?</p>
-                <p class="faq-a">PostgreSQL is the stronger default for greenfield work. In the 2025 Stack Overflow Developer Survey (65,437 respondents), it reached 55.6% usage versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead — and ranked first in most-admired and most-desired database for the third year running (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>). MySQL remains dominant in legacy web stacks and shared hosting environments, but for new work PostgreSQL's feature set is now broadly preferred.</p>
+                <p class="faq-a">PostgreSQL is the stronger default for greenfield work. In the 2025 Stack Overflow Developer Survey (89,000+ respondents), it reached 55.6% usage versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead — and ranked first in most-admired and most-desired database for the third year running (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>). MySQL remains dominant in legacy web stacks and shared hosting environments, but for new work PostgreSQL's feature set is now broadly preferred.</p>
             </div>
 
             <div class="faq-item">
@@ -550,6 +550,8 @@ CREATE TABLE messages (
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Which Should You Use? &rarr;</a></li>
                 <li><a href="/blog/best-free-erd-tools">Best Free ERD Tools — 10 Tested in 2026 &rarr;</a></li>
+                <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
             </ul>
         </nav>
 

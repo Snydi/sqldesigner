@@ -68,11 +68,19 @@
                 <span class="desc">Crow's foot symbols for one-to-one, one-to-many, and many-to-many relationships, and how they map to real foreign key constraints.</span>
             </li>
             <li>
-                <a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 — Tested and Compared</a>
+                <a href="/blog/best-free-erd-tools">10 Best Free Online ERD Tools in 2026 — Tested and Compared</a>
                 <span class="desc">We tested 10 free ERD tools — SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, and DBeaver — with honest strengths, real limits, and use-case guidance.</span>
             </li>
             <li>
-                <a href="/blog/database-designer">Free Online Database Designer</a>
+                <a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step Guide</a>
+                <span class="desc">Create a relational database schema online in 5 steps using a free browser-based SQL designer. Design tables, draw relationships, and export SQL — no install required.</span>
+            </li>
+            <li>
+                <a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — No Install, No Signup Required</a>
+                <span class="desc">Free online ER diagram maker for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access. Draw tables, define relationships, export SQL — browser-based, no install.</span>
+            </li>
+            <li>
+                <a href="/blog/database-designer">Free Online Database Schema Designer — All SQL Dialects</a>
                 <span class="desc">Visual schema builder for MySQL and PostgreSQL — design databases without writing DDL.</span>
             </li>
             <li>

@@ -1,17 +1,17 @@
 @extends('layouts.main')
 
-@section('title', 'SQL Designer — Free ERD & Database Schema Designer')
+@section('title', 'SQL Designer — Free Online Database Schema Designer')
 
 @section('head')
-    <meta name="description" content="Free visual database designer for MySQL, PostgreSQL, SQLite, Oracle, and SQL Server. Drag-and-drop tables, define relationships, and export SQL in seconds.">
-    <meta name="keywords" content="mysql designer, mysql database designer, mysql db designer, visual sql designer, visual database designer, database designer for postgresql, ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, SQLite designer, Oracle schema designer, SQL Server database designer, MS Access designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, open source database designer, open source ERD tool, MySQL workbench alternative, pgAdmin alternative, free postgres designer">
+    <meta name="description" content="Free online database schema designer and ER diagram tool for MySQL, PostgreSQL, SQLite and more. Build tables visually, draw relationships, export SQL.">
+    <meta name="keywords" content="online database schema designer, create database schema online, er diagram maker online, database diagram maker free, database modeler online, sql table designer online, design relational database online, mysql designer, mysql database designer online, mysql db designer, visual sql designer, visual database designer, database designer for postgresql, ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, SQLite designer, Oracle schema designer, SQL Server database designer, MS Access designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, open source database designer, open source ERD tool, MySQL workbench alternative, pgAdmin alternative, free postgres designer">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#5db583">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="SQL Designer — Free ERD & Schema Designer">
-    <meta property="og:description" content="Free visual database designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Drag-and-drop schema editor with SQL export. No install, no subscription.">
+    <meta property="og:title" content="SQL Designer — Free Online Database Schema Designer">
+    <meta property="og:description" content="Free online database schema designer and ER diagram tool for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. No install, no subscription.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
     <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.webp">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — visual database schema editor for MySQL, PostgreSQL, SQLite, Oracle and more">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SQL Designer — Free ERD & Schema Designer">
-    <meta name="twitter:description" content="Free visual database designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Design schemas online and export SQL. No install, no subscription.">
+    <meta name="twitter:title" content="SQL Designer — Free Online Database Schema Designer">
+    <meta name="twitter:description" content="Free online database schema designer and ER diagram tool for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. No install, no subscription.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="canonical" href="https://sql-designer.com/">
     <link rel="preload" as="image" type="image/webp" fetchpriority="high"
@@ -144,6 +144,30 @@
                         "acceptedAnswer": {
                             "@type": "Answer",
                             "text": "Yes. The source code is publicly available on GitHub at https://github.com/Snydi/sqldesigner."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How do I create a database schema online?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Open SQL Designer, click New Table to add your first table, define columns and data types, then draw foreign key relationships by connecting columns on the canvas. When ready, click Export to generate a complete CREATE TABLE script. No account needed to start — sign up only when you want to save your work."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I use SQL Designer as a MySQL database designer?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes. SQL Designer has a dedicated MySQL mode with MySQL-specific data types (TINYINT, MEDIUMINT, ENUM, SET, and more) and exports valid MySQL CREATE TABLE syntax. The same applies to PostgreSQL, SQLite, Oracle, SQL Server, and MS Access."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is an ER diagram maker?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "An ER diagram maker (entity-relationship diagram maker) is a tool for visually designing database schemas. You create entities (tables), define attributes (columns), and draw relationships between them. SQL Designer is a free, browser-based ER diagram maker that also generates the SQL CREATE TABLE script from your diagram."
                         }
                     }
                 ]
@@ -391,11 +415,11 @@
     <div class="hero-inner">
         <span class="eyebrow"><span class="dot"></span> Free ERD tool · MySQL · PostgreSQL · SQLite · Oracle · SQL Server · MS Access</span>
         <h1 class="hero-h1" id="hero-h1">
-            Design database schemas <em>visually</em>.
+            Free online <em>database schema designer</em>.
             Export clean SQL.
         </h1>
         <p class="hero-sub">
-            SQL Designer is a free, browser-based ERD and database schema designer — build tables visually, draw relationships, and export clean CREATE TABLE SQL for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access. No install required.
+            The free online database schema designer and ER diagram maker — build tables visually, draw relationships, and export clean SQL for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access. No install required.
         </p>
         <div class="hero-actions">
             <a id="hero-btn-authed" class="btn btn-solid btn-lg" href="/diagrams" style="display:none">Open My Diagrams</a>
@@ -542,6 +566,18 @@
             <li class="faq-item"><details>
                 <summary>Is SQL Designer open source?</summary>
                 <p>Yes. The full source code is available on <a href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary-text)">GitHub</a>. You can inspect it, report issues, or contribute.</p>
+            </details></li>
+            <li class="faq-item"><details>
+                <summary>How do I create a database schema online?</summary>
+                <p>Open SQL Designer, click <code>New Table</code> to add your first table, define columns and data types, then draw foreign key relationships by connecting columns on the canvas. Click <code>Export</code> to generate a complete CREATE TABLE script. No account needed to start — sign up only when you want to save your work.</p>
+            </details></li>
+            <li class="faq-item"><details>
+                <summary>Can I use this as a MySQL database designer?</summary>
+                <p>Yes. SQL Designer has a dedicated MySQL mode with MySQL-specific data types (TINYINT, MEDIUMINT, ENUM, SET, and more) and exports valid MySQL CREATE TABLE syntax. The same applies to PostgreSQL, SQLite, Oracle, SQL Server, and MS Access.</p>
+            </details></li>
+            <li class="faq-item"><details>
+                <summary>What is an ER diagram maker?</summary>
+                <p>An ER diagram maker is a tool for visually designing database schemas. You create entities (tables), define attributes (columns), and draw relationships between them. SQL Designer is a free, browser-based ER diagram maker that also generates the SQL CREATE TABLE script directly from your diagram.</p>
             </details></li>
         </ul>
     </div>
