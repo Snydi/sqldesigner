@@ -2,10 +2,16 @@
     <div class="modal flex-centered" @click.self="$emit('close')">
         <div class="export-modal">
             <div class="export-modal__header">
-                <span class="export-modal__title">Export</span>
+                <div class="export-modal__header-left">
+                    <span class="export-modal__title">Export</span>
+                    <span class="export-modal__count-badge" title="Exports used today / plan limit">{{ exportCount }} / <span v-if="exportLimit === null">∞</span><span v-else>{{ exportLimit }}</span></span>
+                </div>
                 <button class="export-modal__close" @click="$emit('close')">
                     <img src="../../icons/close.svg" alt="Close">
                 </button>
+            </div>
+            <div v-if="exportLimit !== null" class="export-modal__quota-row">
+                Resets in {{ resetCountdown }} <span class="export-modal__quota-tz">(00:00 MSK)</span>
             </div>
             <div v-if="isExporting" class="export-modal__status">
                 <span class="export-modal__status-spinner"></span>
@@ -145,7 +151,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import axios from '@/axios.js'
 import { useToast } from 'vue-toast-notification'
 import { Diagram } from '@/services/Diagram.js'
@@ -161,6 +167,42 @@ const isExporting  = ref(false)
 const activeExport = ref(null)
 const sqlCache     = ref(null)
 
+
+const MSK_OFFSET_MS = 3 * 60 * 60 * 1000 //UTC+3
+
+const msUntilMskReset = () => {
+    const mskNow = Date.now() + MSK_OFFSET_MS
+    const mskDate = new Date(mskNow)
+    const y = mskDate.getUTCFullYear()
+    const m = mskDate.getUTCMonth()
+    const d = mskDate.getUTCDate()
+    const nextMskMidnight = Date.UTC(y, m, d + 1)
+    return nextMskMidnight - mskNow
+}
+
+const exportLimit    = ref(null)
+const exportCount    = ref(0)
+const resetCountdown = ref('')
+let quotaTimer = null
+
+const updateCountdown = () => {
+    const msUntilReset = msUntilMskReset()
+    const hours   = Math.floor(msUntilReset / 3600000)
+    const minutes = Math.floor((msUntilReset % 3600000) / 60000)
+    resetCountdown.value = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`
+}
+
+const refreshQuota = async () => {
+    updateCountdown()
+    try {
+        const { data } = await axios.get('/api/plan-limits')
+        exportLimit.value = data.export_limit
+        exportCount.value = data.exports_used_today
+    } catch {
+        // silently skip — badge falls back to its previous state
+    }
+}
+
 const reviewDismissed = ref(true)
 const reviewSubmitted = ref(false)
 const reviewLoading   = ref(false)
@@ -175,6 +217,13 @@ onMounted(async () => {
     } catch {
         // silently skip — keep hidden on error
     }
+
+    await refreshQuota()
+    quotaTimer = setInterval(refreshQuota, 30000)
+})
+
+onUnmounted(() => {
+    if (quotaTimer) clearInterval(quotaTimer)
 })
 
 const submitReview = async () => {
@@ -197,6 +246,7 @@ const withExporting = async (key, fn) => {
     activeExport.value = key
     try {
         await fn()
+        await refreshQuota()
     } catch (e) {
         $toast.error(e?.message || 'Export failed')
         console.error(e)
@@ -268,10 +318,14 @@ const downloadJson = () => withExporting('json', async () => {
 
 const emit = defineEmits(['close', 'capture-png'])
 
-const capturePng = () => withExporting('png', () => new Promise(resolve => {
-    emit('capture-png')
-    setTimeout(resolve, 4000)
-}))
+const capturePng = () => withExporting('png', async () => {
+    const allowed = await Diagram.recordPngExport(props.diagramId)
+    if (!allowed) return
+    await new Promise(resolve => {
+        emit('capture-png')
+        setTimeout(resolve, 4000)
+    })
+})
 
 const downloadLaravelMigrations = () => withExporting('laravel', async () => {
     const blob = await Diagram.exportMigration(props.diagramId)
@@ -315,12 +369,42 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
     background: var(--color-primary);
 }
 
+.export-modal__header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .export-modal__title {
     font-size: 14px;
     font-weight: 600;
     color: white;
     letter-spacing: 0.8px;
     text-transform: uppercase;
+}
+
+.export-modal__count-badge {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: white;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    padding: 2px 10px;
+}
+
+.export-modal__quota-row {
+    padding: 6px 24px;
+    background: var(--bg-surface-alt);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.export-modal__quota-tz {
+    color: var(--text-muted);
 }
 
 .export-modal__close {

@@ -2,6 +2,7 @@
     <div class="diagrams-page">
         <div class="diagrams-header">
             <h2 class="diagrams-title">Diagrams</h2>
+            <span class="diagrams-count-badge" title="Diagrams used / plan limit">{{ diagrams.length }} / <span v-if="diagramLimit === null" class="diagrams-count-badge__infinity">∞</span><span v-else>{{ diagramLimit }}</span></span>
         </div>
 
         <div class="diagrams-grid-container">
@@ -159,6 +160,7 @@ export default {
     data() {
         return {
             diagrams: [],
+            diagramLimit: null,
             newDiagramName: '',
             newDiagramDbType: 'mysql',
             newDiagramPublic: true,
@@ -257,10 +259,19 @@ export default {
                     $toast.error('Something went wrong!')
                 }
             }
+        },
+        async fetchPlanLimits() {
+            try {
+                const response = await axios.get('/api/plan-limits')
+                this.diagramLimit = response.data.diagram_limit
+            } catch {
+                // silently skip — badge falls back to ∞
+            }
         }
     },
     created() {
         this.fetchDiagrams()
+        this.fetchPlanLimits()
     }
 }
 </script>
@@ -279,6 +290,9 @@ export default {
     padding: 1.25rem 2rem;
     background: var(--bg-surface);
     border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .diagrams-title {
@@ -286,6 +300,25 @@ export default {
     color: var(--color-primary-text);
     font-size: 1rem;
     letter-spacing: 1px;
+}
+
+.diagrams-count-badge {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 2px 10px;
+}
+
+.diagrams-count-badge__infinity {
+    font-size: 1.1rem;
+    line-height: 1;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .diagrams-grid-container {
