@@ -12,6 +12,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
+    <link rel="license" href="https://github.com/Snydi/sqldesigner/blob/master/LICENSE">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/geist-latin.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/jetbrains-mono-latin.woff2">
     <style>
