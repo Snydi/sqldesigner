@@ -49,4 +49,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Diagram::class);
     }
+
+    //TODO add this logic as soon as Robokassa activates
+    public function isPro(): bool
+    {
+        return false;
+    }
 }
