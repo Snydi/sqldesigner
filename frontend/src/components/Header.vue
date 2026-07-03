@@ -9,7 +9,7 @@
             <button v-if="!store.state.auth_token && route.name !== 'demo'" class="hbtn-cta" @click="router.push({ name: 'demo' })">Try Demo</button>
             <button v-if="!store.state.auth_token && route.name === 'demo'" class="hbtn-cta" @click="router.push({ name: 'register' })">Register for free</button>
             <button v-if="store.state.auth_token" class="hbtn" @click="router.push({ name: 'diagrams' })" title="View diagrams">
-                <SvgIcon name="eye" :size="17" />
+                <SvgIcon name="table-list" :size="17" />
             </button>
             <button v-if="store.state.auth_token" class="hbtn" @click="Auth.logout()" title="Log out">
                 <SvgIcon name="logout" :size="17" />
