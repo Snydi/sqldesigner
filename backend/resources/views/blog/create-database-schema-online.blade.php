@@ -49,45 +49,6 @@
         },
         {
             "@context": "https://schema.org",
-            "@type": "HowTo",
-            "name": "How to Create a Database Schema Online",
-            "description": "Create a relational database schema online using a free browser-based SQL designer — no install required.",
-            "tool": { "@type": "HowToTool", "name": "SQL Designer", "url": "https://sql-designer.com" },
-            "step": [
-                {
-                    "@type": "HowToStep",
-                    "position": 1,
-                    "name": "Open the online SQL table designer",
-                    "text": "Go to sql-designer.com and open the demo or sign up for a free account. No installation or credit card required. Select your target database dialect: MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 2,
-                    "name": "Create your tables",
-                    "text": "Click New Table to add a table to the canvas. Give it a name that represents an entity in your domain: for example, users, products, or orders. Add all tables before drawing relationships."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 3,
-                    "name": "Define columns and data types",
-                    "text": "Add columns to each table. For each column, set the name, data type (INT, VARCHAR, TEXT, DECIMAL, TIMESTAMP, etc.), and any constraints: PRIMARY KEY, UNIQUE, NOT NULL, or AUTO_INCREMENT."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 4,
-                    "name": "Draw foreign key relationships",
-                    "text": "Click the relationship connector on a foreign key column and drag it to the primary key column it references in another table. SQL Designer draws a crow's foot line and records the foreign key constraint automatically."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 5,
-                    "name": "Export your SQL",
-                    "text": "Click Export to generate a complete, valid CREATE TABLE DDL script for your chosen database. Copy or download the script and run it against your database to create the schema."
-                }
-            ]
-        },
-        {
-            "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
                 {

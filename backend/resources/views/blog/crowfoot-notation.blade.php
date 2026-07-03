@@ -90,18 +90,6 @@
         },
         {
             "@context": "https://schema.org",
-            "@type": "HowTo",
-            "name": "How to Read Crow's Foot Notation in an ER Diagram",
-            "step": [
-                { "@type": "HowToStep", "name": "Look at the symbols at both ends of the line", "text": "Each end of a relationship line carries two symbols. The outer symbol shows the maximum cardinality (one or many). The inner symbol shows the minimum cardinality (zero/optional, or one/mandatory)." },
-                { "@type": "HowToStep", "name": "Read the maximum cardinality", "text": "A single vertical line means 'at most one'. Three diverging lines (the crow's foot) means 'many'. So a crow's foot at the orders end means one customer can have many orders." },
-                { "@type": "HowToStep", "name": "Read the minimum cardinality (optionality)", "text": "A vertical bar next to the entity means mandatory — the relationship must exist (NOT NULL foreign key). A circle means optional — the relationship may be absent (nullable foreign key)." },
-                { "@type": "HowToStep", "name": "Combine both symbols to get the full cardinality label", "text": "Bar + crow's foot = one or more (mandatory many). Circle + crow's foot = zero or more (optional many). Bar + bar = exactly one (mandatory one). Circle + bar = zero or one (optional one)." },
-                { "@type": "HowToStep", "name": "Map the foreign key direction", "text": "The foreign key column always lives on the 'many' side — the end with the crow's foot. In the SQL schema, that table will have a foreign key column referencing the primary key of the 'one' side." }
-            ]
-        },
-        {
-            "@context": "https://schema.org",
             "@type": "VideoObject",
             "name": "Crow's Foot Symbols with Cardinalities",
             "description": "An academic walkthrough of all crow's foot cardinality symbols, covering one-to-many, many-to-many, and one-to-one relationships in ER diagrams.",

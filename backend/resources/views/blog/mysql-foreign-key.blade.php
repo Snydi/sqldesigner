@@ -82,19 +82,6 @@
             },
             {
                 "@context": "https://schema.org",
-                "@type": "HowTo",
-                "name": "How to Add a Foreign Key in MySQL",
-                "step": [
-                    { "@type": "HowToStep", "name": "Ensure both tables use InnoDB", "text": "MySQL only enforces foreign key constraints on InnoDB tables. If either table uses MyISAM, the constraint will be silently ignored." },
-                    { "@type": "HowToStep", "name": "Match column types exactly", "text": "The foreign key column and the referenced column must have identical types, including UNSIGNED. A mismatch (e.g., INT vs BIGINT, or signed vs UNSIGNED) causes error 1215." },
-                    { "@type": "HowToStep", "name": "Ensure the referenced column is indexed", "text": "The referenced column must be a PRIMARY KEY or have a UNIQUE index. MySQL requires this to guarantee referential integrity." },
-                    { "@type": "HowToStep", "name": "Write the FOREIGN KEY clause in CREATE TABLE", "text": "Inside the CREATE TABLE statement for the child table, add: CONSTRAINT fk_name FOREIGN KEY (child_column) REFERENCES parent_table(parent_column) ON DELETE CASCADE ON UPDATE CASCADE. Choose the ON DELETE and ON UPDATE actions that match your data lifecycle." },
-                    { "@type": "HowToStep", "name": "Alternatively, add the constraint with ALTER TABLE", "text": "On an existing table: ALTER TABLE child_table ADD CONSTRAINT fk_name FOREIGN KEY (child_column) REFERENCES parent_table(parent_column). Existing rows that violate the constraint will cause the ALTER to fail." },
-                    { "@type": "HowToStep", "name": "Verify with SHOW CREATE TABLE", "text": "After adding the constraint, run SHOW CREATE TABLE child_table to confirm the constraint is listed with the correct name, columns, and actions." }
-                ]
-            },
-            {
-                "@context": "https://schema.org",
                 "@type": "VideoObject",
                 "name": "MySQL: FOREIGN KEYS are easy (kind of)",
                 "description": "A practical tutorial on MySQL foreign key syntax, ON DELETE CASCADE, SET NULL, and common mistakes — Bro Code on YouTube (2022).",
