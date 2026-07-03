@@ -15,5 +15,6 @@ readonly class CreateDiagramDTO
         public DbType $dbType = DbType::MYSQL,
         public ?DiagramAccess $shareAccess = null,
         public bool $library = false,
+        public mixed $schema = null,
     ) {}
 }

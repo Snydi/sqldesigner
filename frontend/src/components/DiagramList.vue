@@ -143,6 +143,8 @@
 import axios from 'axios'
 import router from '../router/index.js'
 import { useToast } from 'vue-toast-notification'
+import { Diagram } from '@/services/Diagram.js'
+import { DEMO_SCHEMA_STORAGE_KEY } from '@/services/demoSchema.js'
 import DiagramPreview from './Diagram/DiagramPreview.vue'
 import SvgIcon from './SvgIcon.vue'
 import mysqlIcon from '../icons/mysql.svg'
@@ -257,10 +259,28 @@ export default {
                     $toast.error('Something went wrong!')
                 }
             }
+        },
+        async importDemoDiagram() {
+            const stored = localStorage.getItem(DEMO_SCHEMA_STORAGE_KEY)
+            if (!stored) return
+
+            localStorage.removeItem(DEMO_SCHEMA_STORAGE_KEY)
+
+            let schema
+            try {
+                schema = JSON.parse(stored)
+            } catch {
+                return
+            }
+            if (!Array.isArray(schema) || !schema.length) return
+
+            const result = await Diagram.create({ name: 'My Demo Diagram', db_type: 'mysql', schema })
+            if (result) $toast.success('Your demo diagram was saved to your account')
         }
     },
-    created() {
-        this.fetchDiagrams()
+    async created() {
+        await this.importDemoDiagram()
+        await this.fetchDiagrams()
     }
 }
 </script>
