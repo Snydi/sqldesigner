@@ -118,11 +118,14 @@
         .hamburger {
             display: none;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
             gap: 5px;
+            width: 48px;
+            height: 48px;
             background: none;
             border: none;
             cursor: pointer;
-            padding: 0.75rem;
             margin-left: 0.25rem;
         }
         .hamburger span {
@@ -140,11 +143,12 @@
         .mobile-nav {
             display: none;
             position: fixed;
-            top: 53px;
+            top: 56px;
             left: 0; right: 0;
-            background: rgba(31,31,31,0.98);
+            background: var(--bg-surface);
             border-bottom: 1px solid var(--border-color);
             padding: 0.75rem 1rem 1rem;
+            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.5);
             z-index: 49;
             flex-direction: column;
             gap: 0.2rem;
@@ -153,15 +157,17 @@
         .mobile-nav a {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            padding: 0.6rem 0.5rem;
+            padding: 0 0.5rem;
+            min-height: 48px;
             border-radius: 5px;
-            display: block;
+            display: flex;
+            align-items: center;
         }
         .mobile-nav a:hover { color: var(--text-primary); background: var(--bg-surface); }
         .mobile-nav .divider { height: 1px; background: var(--border-light); margin: 0.4rem 0; }
 
         @media (max-width: 720px) {
-            .header { padding: 0.65rem 1rem; }
+            .header { padding: 0 1rem; height: 56px; }
             .nav-hide-mobile { display: none !important; }
             .hamburger { display: flex; }
         }

@@ -86,7 +86,7 @@
                 "name": "MySQL: FOREIGN KEYS are easy (kind of)",
                 "description": "A practical tutorial on MySQL foreign key syntax, ON DELETE CASCADE, SET NULL, and common mistakes — Bro Code on YouTube (2022).",
                 "thumbnailUrl": "https://img.youtube.com/vi/rFssfx37UJw/hqdefault.jpg",
-                "uploadDate": "2022-10-27",
+                "uploadDate": "2022-10-27T00:00:00+00:00",
                 "embedUrl": "https://www.youtube.com/embed/rFssfx37UJw",
                 "url": "https://www.youtube.com/watch?v=rFssfx37UJw"
             }
@@ -331,6 +331,10 @@ CREATE TABLE order_items (
         <p>
             The child column type must match the parent exactly, including <code>UNSIGNED</code>. A plain <code>INT</code> child referencing an <code>INT UNSIGNED</code> parent fails every time. Same with <code>INT</code> vs <code>BIGINT</code>, or different character sets on string columns. Check your column definitions side by side before adding the constraint.
         </p>
+        <!-- [PERSONAL EXPERIENCE] -->
+        <p>
+            We hit this exact failure in production once, from a migration that changed a primary key from <code>INT</code> to <code>INT UNSIGNED</code> to accommodate row counts past 2.1 billion, without updating the matching foreign key columns on three dependent tables. The <code>ALTER TABLE</code> on the parent succeeded silently; every subsequent deploy that touched the child tables failed with error 1215 until we tracked down the mismatch column by column. Now any primary key type change gets grepped across the schema for referencing columns before it ships.
+        </p>
 
         <h3>Missing index on the referenced column</h3>
         <p>
@@ -429,6 +433,9 @@ SET FOREIGN_KEY_CHECKS = 1;</code></pre>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — TIMESTAMPTZ, JSONB, UUID, Arrays &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
+                <li><a href="/blog/database-ddl-comparison">DDL Syntax Comparison: MySQL, PostgreSQL &amp; More &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 &rarr;</a></li>
             </ul>
         </nav>
     </article>

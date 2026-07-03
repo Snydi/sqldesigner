@@ -4,7 +4,6 @@
 
 @section('head')
     <meta name="description" content="Free online database schema designer and ER diagram tool for MySQL, PostgreSQL, SQLite and more. Build tables visually, draw relationships, export SQL.">
-    <meta name="keywords" content="online database schema designer, create database schema online, er diagram maker online, database diagram maker free, database modeler online, sql table designer online, design relational database online, mysql designer, mysql database designer online, mysql db designer, visual sql designer, visual database designer, database designer for postgresql, ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, SQLite designer, Oracle schema designer, SQL Server database designer, MS Access designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, open source database designer, open source ERD tool, MySQL workbench alternative, pgAdmin alternative, free postgres designer">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#5db583">
@@ -178,7 +177,7 @@
                 "name": "SQL Designer: Free Online Database Schema Tool (Demo)",
                 "description": "SQL Designer is a free, online visual tool for designing, editing, and exporting database schemas. This 2-minute demo shows the /demo page, signing up, creating and editing tables, exporting a diagram, and importing an existing SQL database into a visual ERD.",
                 "thumbnailUrl": "https://i.ytimg.com/vi/10gHB66qR_o/maxresdefault.jpg",
-                "uploadDate": "2026-07-03",
+                "uploadDate": "2026-07-03T00:00:00+00:00",
                 "duration": "PT2M",
                 "contentUrl": "https://youtu.be/10gHB66qR_o",
                 "embedUrl": "https://www.youtube.com/embed/10gHB66qR_o",
@@ -198,7 +197,8 @@
                 "description": "Free online visual database designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access.",
                 "sameAs": [
                     "https://github.com/Snydi/sqldesigner",
-                    "https://alternativeto.net/software/sql-designer/"
+                    "https://alternativeto.net/software/sql-designer/",
+                    "https://www.youtube.com/@sql-designer"
                 ],
                 "founder": {
                     "@type": "Person",

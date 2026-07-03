@@ -25,6 +25,9 @@ Route::prefix('/blog')->group(function () {
     Route::get('/postgresql-data-types', fn () => view('blog.postgresql-data-types'));
     Route::get('/create-database-schema-online', fn () => view('blog.create-database-schema-online'));
     Route::get('/er-diagram-maker-online', fn () => view('blog.er-diagram-maker-online'));
+    Route::get('/sql-joins', fn () => view('blog.sql-joins'));
+    Route::get('/mysql-indexes', fn () => view('blog.mysql-indexes'));
+    Route::get('/postgresql-indexes', fn () => view('blog.postgresql-indexes'));
 });
 Route::get('/about', fn () => view('about'));
 Route::get('/features', fn () => view('features'));

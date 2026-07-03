@@ -43,7 +43,7 @@
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/database-normalization",
                 "datePublished": "2026-03-19",
-                "dateModified": "2026-05-16",
+                "dateModified": "2026-07-03",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -56,27 +56,27 @@
                     {
                         "@type": "Question",
                         "name": "What is database normalization?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "Database normalization is the process of structuring a relational schema to reduce data redundancy and improve data integrity. It organizes tables so each piece of data is stored in only one place, following a set of rules called normal forms (1NF through 4NF and beyond)." }
+                        "acceptedAnswer": { "@type": "Answer", "text": "Database normalization is the process of structuring a relational schema to reduce data redundancy and improve data integrity. It organizes tables so each piece of data is stored in only one place, following a set of rules called normal forms: 1NF through 4NF and beyond." }
                     },
                     {
                         "@type": "Question",
                         "name": "What is First Normal Form (1NF)?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "First Normal Form (1NF) requires that every column holds a single, atomic value — no comma-separated lists or repeating groups in a single cell. Each row must be uniquely identifiable by a primary key." }
+                        "acceptedAnswer": { "@type": "Answer", "text": "First Normal Form (1NF) requires that every column holds a single, atomic value: no comma-separated lists or repeating groups in a single cell. Each row must be uniquely identifiable by a primary key." }
                     },
                     {
                         "@type": "Question",
                         "name": "What is the difference between 2NF and 3NF?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "Second Normal Form (2NF) eliminates partial dependencies — non-key columns must depend on the entire primary key, not just part of it (relevant when the primary key is composite). Third Normal Form (3NF) additionally eliminates transitive dependencies — non-key columns must depend only on the primary key, not on other non-key columns." }
+                        "acceptedAnswer": { "@type": "Answer", "text": "Second Normal Form (2NF) eliminates partial dependencies: non-key columns must depend on the entire primary key, not just part of it (relevant when the primary key is composite). Third Normal Form (3NF) additionally eliminates transitive dependencies, so non-key columns must depend only on the primary key, not on other non-key columns." }
                     },
                     {
                         "@type": "Question",
                         "name": "When is it acceptable to denormalize a database?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "Denormalization makes sense for read-heavy workloads where query performance outweighs redundancy costs — analytics tables, pre-computed aggregates, or historical snapshots where you need a value frozen at a point in time. It should always be deliberate and documented, not a shortcut during initial design." }
+                        "acceptedAnswer": { "@type": "Answer", "text": "Denormalization makes sense for read-heavy workloads where query performance outweighs redundancy costs, such as analytics tables, pre-computed aggregates, or historical snapshots where you need a value frozen at a point in time. It should always be deliberate and documented, not a shortcut during initial design." }
                     },
                     {
                         "@type": "Question",
                         "name": "Does normalization always require splitting into more tables?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "Yes — moving to a higher normal form typically means extracting dependent data into a new table and replacing it with a foreign key reference. This reduces redundancy but increases the number of joins needed in queries, which is why some read-heavy workloads are deliberately denormalized." }
+                        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Moving to a higher normal form typically means extracting dependent data into a new table and replacing it with a foreign key reference. This reduces redundancy but increases the number of joins needed in queries, which is why some read-heavy workloads are deliberately denormalized." }
                     }
                 ]
             },
@@ -94,7 +94,7 @@
                 "name": "Learn Database Normalization — 1NF, 2NF, 3NF, 4NF, 5NF",
                 "description": "A complete walkthrough of database normalization from 1NF through 5NF with worked examples — Decomplexify on YouTube.",
                 "thumbnailUrl": "https://img.youtube.com/vi/GFQaEYEc8_8/hqdefault.jpg",
-                "uploadDate": "2021-11-21",
+                "uploadDate": "2021-11-21T00:00:00+00:00",
                 "embedUrl": "https://www.youtube.com/embed/GFQaEYEc8_8",
                 "url": "https://www.youtube.com/watch?v=GFQaEYEc8_8"
             }
@@ -108,9 +108,9 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Schema Design</span></p>
-        <p class="post-eyebrow">March 2026 · <time datetime="2026-05-16">Last updated: May 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
+        <p class="post-eyebrow">March 2026 · <time datetime="2026-07-03">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
         <h1 class="page-h1">Database Normalization Explained — 1NF, 2NF, and 3NF with Examples</h1>
-        <p class="page-sub">Bad schema design doesn't just cause bugs — it creates structural problems that compound at scale. In almost every case, the root cause is the same: the same fact stored in multiple rows, each copy free to drift out of sync. Database normalization fixes this at the design level — organizing tables so each piece of data is stored exactly once, in exactly one place.</p>
+        <p class="page-sub">Bad schema design doesn't just cause bugs. It creates structural problems that compound at scale. In almost every case, the root cause is the same: the same fact stored in multiple rows, each copy free to drift out of sync. Database normalization fixes this at the design level by organizing tables so each piece of data is stored exactly once, in exactly one place.</p>
     </div>
 </section>
 
@@ -135,16 +135,19 @@
         <div class="key-takeaways">
             <p class="kt-label">Key Takeaways</p>
             <ul>
-                <li>Most data anomalies — update conflicts, insert errors, orphaned rows — are preventable at the schema design stage through normalization.</li>
+                <li>Most data anomalies (update conflicts, insert errors, orphaned rows) are preventable at the schema design stage through normalization. Poor data quality costs over a quarter of organizations more than $5 million a year (<a href="https://www.ibm.com/think/insights/cost-of-poor-data-quality" target="_blank" rel="noopener noreferrer">IBM, 2025</a>).</li>
                 <li>1NF requires atomic values; 2NF removes partial key dependencies; 3NF removes transitive dependencies. Each step splits one table into two, linked by a foreign key.</li>
                 <li>For most production apps, 3NF is the right target. BCNF and 4NF address edge cases with overlapping candidate keys or independent multi-valued columns.</li>
-                <li>Denormalize only deliberately — for analytics, pre-computed caches, or historical snapshots — and document why. Never denormalize during initial design as a shortcut.</li>
+                <li>Denormalize only deliberately, for analytics, pre-computed caches, or historical snapshots, and document why. Never denormalize during initial design as a shortcut.</li>
             </ul>
         </div>
 
         <h2 id="why-wrong">Why Does Database Design Go Wrong?</h2>
         <p>
-            Bad schema design doesn't fail loudly — it fails quietly. It comes from early schema choices: storing the same customer email in fifty order rows, embedding a product price that needs updating across hundreds of records every time it changes. Every redundant copy is a future inconsistency waiting to happen.
+            Bad schema design doesn't fail loudly. It fails quietly, starting with early schema choices: storing the same customer email in fifty order rows, embedding a product price that needs updating across hundreds of records every time it changes. Every redundant copy is a future inconsistency waiting to happen.
+        </p>
+        <p>
+            That inconsistency has a real price tag. A 2025 IBM Institute for Business Value report found that more than a quarter of organizations lose over $5 million a year to poor data quality, and 7% lose $25 million or more (<a href="https://www.ibm.com/think/insights/cost-of-poor-data-quality" target="_blank" rel="noopener noreferrer">IBM, 2025</a>). Redundant, poorly normalized schemas are one of the most common root causes.
         </p>
         <p>Consider a single <code>orders</code> table that stores everything:</p>
         <table>
@@ -178,12 +181,7 @@
             </tr>
         </table>
         <p>
-            Alice's email appears twice. Change it in one row and miss the other, and your data is broken. The Widget price also appears twice — a price change means hunting down every row that references it. Normalization eliminates that class of error at the design stage.
-        </p>
-
-
-        <p>
-            Normalization eliminates that class of error by design — before a single row is ever written to production.
+            Alice's email appears twice. Change it in one row and miss the other, and your data is broken. The Widget price also appears twice, so a price change means hunting down every row that references it. Why does this keep happening even to experienced teams? Usually because nobody stopped to ask which table actually owns each fact before the schema shipped.
         </p>
 
         <figure>
@@ -196,7 +194,7 @@
 
         <h2 id="1nf">What Is First Normal Form (1NF)?</h2>
         <p>
-            1NF is the foundation everything else builds on. It fixes the most obvious problem: data that can't be queried reliably because multiple values are crammed into a single cell. Multi-valued columns — comma-separated lists, pipe-delimited values, or repeating groups — are among the most common structural errors in schema design. 1NF requires every cell to hold exactly one atomic value, and every row to be uniquely identifiable by a primary key.
+            1NF is the foundation everything else builds on. It fixes the most obvious problem: data that can't be queried reliably because multiple values are crammed into a single cell. Multi-valued columns, whether comma-separated lists, pipe-delimited values, or repeating groups, are among the most common structural errors in schema design. 1NF requires every cell to hold exactly one atomic value, and every row to be uniquely identifiable by a primary key.
         </p>
         <p><strong>Rule:</strong> Every column must hold a single, atomic value. No repeating groups, no comma-separated lists in a cell.</p>
 
@@ -212,7 +210,7 @@
             </tr>
         </table>
         <p class="label-bad">&#x2717; Not in 1NF</p>
-        <p>The <code>products</code> column holds multiple values. Querying "all orders containing a Widget" requires a <code>LIKE</code> hack — fragile, unindexable, and wrong.</p>
+        <p>The <code>products</code> column holds multiple values. Querying "all orders containing a Widget" requires a <code>LIKE</code> hack: fragile, unindexable, and wrong.</p>
 
         <h3>Fixed</h3>
         <table>
@@ -229,9 +227,9 @@
 
         <h2 id="2nf">What Is Second Normal Form (2NF)?</h2>
         <p>
-            2NF only applies when you have a composite primary key — and it's where most real-world schema redundancy problems surface. Every non-key column must depend on the <em>entire</em> composite key, not just part of it. If a column only needs one component of the key to determine its value, it's partially dependent. It belongs in a separate table. Miss this step and a price change cascades across hundreds of rows instead of one.
+            2NF only applies when you have a composite primary key, and it's where most real-world schema redundancy problems surface. Every non-key column must depend on the <em>entire</em> composite key, not just part of it. If a column only needs one component of the key to determine its value, it's partially dependent. It belongs in a separate table. Miss this step and a price change cascades across hundreds of rows instead of one.
         </p>
-        <p><strong>Rule:</strong> The table must be in 1NF, and every non-key column must depend on the <em>entire</em> primary key — not just part of it. This only applies to tables with composite primary keys.</p>
+        <p><strong>Rule:</strong> The table must be in 1NF, and every non-key column must depend on the <em>entire</em> primary key, not just part of it. This only applies to tables with composite primary keys.</p>
 
         <h3>Violation example</h3>
         <table>
@@ -246,9 +244,9 @@
             <tr><td>2</td><td>42</td><td>1</td><td>Widget</td><td>9.99</td></tr>
         </table>
         <p class="label-bad">&#x2717; Not in 2NF</p>
-        <p>The primary key is <code>(order_id, product_id)</code>. But <code>product_name</code> and <code>product_price</code> depend only on <code>product_id</code> — not on the full composite key. They're stored redundantly in every order line.</p>
+        <p>The primary key is <code>(order_id, product_id)</code>. But <code>product_name</code> and <code>product_price</code> depend only on <code>product_id</code>, not on the full composite key. They're stored redundantly in every order line.</p>
 
-        <h3>Fixed — split into two tables</h3>
+        <h3>Fixed: split into two tables</h3>
         <pre><code>-- order_items: only order-specific data
 order_id | product_id | quantity
 
@@ -259,7 +257,7 @@ product_id | product_name | product_price</code></pre>
 
         <h2 id="3nf">What Is Third Normal Form (3NF)?</h2>
         <p>
-            3NF is the practical target for almost every relational database. A table can be in 2NF and still have a hidden problem: a non-key column that determines another non-key column. That's a transitive dependency, and it produces the same update anomaly we've been fixing throughout — renaming a department touches every employee row instead of just one. 3NF eliminates this by requiring every non-key column to depend directly on the primary key, not on another non-key column.
+            3NF is the practical target for almost every relational database. A table can be in 2NF and still have a hidden problem: a non-key column that determines another non-key column. That's a transitive dependency. It produces the same update anomaly we've been fixing throughout: renaming a department touches every employee row instead of just one. 3NF eliminates this by requiring every non-key column to depend directly on the primary key, not on another non-key column.
         </p>
         <p><strong>Rule:</strong> The table must be in 2NF, and no non-key column should depend on another non-key column (no transitive dependencies).</p>
 
@@ -277,7 +275,7 @@ product_id | product_name | product_price</code></pre>
         <p class="label-bad">&#x2717; Not in 3NF</p>
         <p><code>department_name</code> depends on <code>department_id</code>, not on <code>employee_id</code>. It's a transitive dependency through a non-key column. Renaming the department means updating every employee row that references it.</p>
 
-        <h3>Fixed — extract the dependency</h3>
+        <h3>Fixed: extract the dependency</h3>
         <pre><code>-- employees
 employee_id | department_id
 
@@ -359,9 +357,9 @@ department_id | department_name</code></pre>
 
         <h2 id="bcnf">Boyce-Codd Normal Form (BCNF)</h2>
         <p>
-            BCNF tightens the 3NF rule for one specific edge case: tables where multiple overlapping candidate keys exist. A table in 3NF can still allow a non-key column to determine part of the primary key. BCNF closes that gap entirely — every determinant must be a candidate key, no exceptions. In practice, you'll hit this with complex key structures or in academic exercises, not in typical CRUD apps.
+            BCNF tightens the 3NF rule for one specific edge case: tables where multiple overlapping candidate keys exist. A table in 3NF can still allow a non-key column to determine part of the primary key. BCNF closes that gap entirely. Every determinant must be a candidate key, no exceptions. In practice, you'll hit this with complex key structures or in academic exercises, not in typical CRUD apps.
         </p>
-        <p><strong>Rule:</strong> The table must be in 3NF, and for every functional dependency X &rarr; Y, X must be a candidate key — a minimal set of columns that uniquely identifies each row.</p>
+        <p><strong>Rule:</strong> The table must be in 3NF, and for every functional dependency X &rarr; Y, X must be a candidate key: a minimal set of columns that uniquely identifies each row.</p>
         <p>3NF allows a non-key column to be a determinant if it's part of a candidate key. BCNF doesn't allow this. Every determinant must be a candidate key, full stop.</p>
 
         <h3>Violation example</h3>
@@ -372,21 +370,21 @@ department_id | department_name</code></pre>
             <tr><td>1</td><td>T2</td><td>Python Basics</td></tr>
             <tr><td>2</td><td>T1</td><td>SQL Fundamentals</td></tr>
         </table>
-        <p>Functional dependencies: <code>(student_id, teacher_id)</code> &rarr; <code>course_name</code>, and <code>teacher_id</code> &rarr; <code>course_name</code>. The composite <code>(student_id, teacher_id)</code> is the primary key. The table is in 3NF — but not BCNF, because <code>teacher_id</code> determines <code>course_name</code> while not being a candidate key itself.</p>
+        <p>Functional dependencies: <code>(student_id, teacher_id)</code> &rarr; <code>course_name</code>, and <code>teacher_id</code> &rarr; <code>course_name</code>. The composite <code>(student_id, teacher_id)</code> is the primary key. The table is in 3NF, but not BCNF, because <code>teacher_id</code> determines <code>course_name</code> while not being a candidate key itself.</p>
         <p class="label-bad">&#x2717; Not in BCNF</p>
 
-        <h3>Fixed — split the dependency</h3>
+        <h3>Fixed: split the dependency</h3>
         <pre><code>-- teachers: teacher determines course
 teacher_id | course_name
 
 -- enrollments: student enrolls with a teacher
 student_id | teacher_id</code></pre>
         <p class="label-good">&#x2713; In BCNF</p>
-        <p>Every determinant is now a candidate key. For most application schemas, reaching 3NF is the practical target — BCNF becomes relevant mainly in academic contexts or schemas with complex key structures. The official definition is formalized in <a href="https://dl.acm.org/doi/10.1145/320493.320489" target="_blank" rel="noopener noreferrer">Boyce and Codd (1974)</a>.</p>
+        <p>Every determinant is now a candidate key. For most application schemas, reaching 3NF is the practical target. BCNF becomes relevant mainly in academic contexts or schemas with complex key structures. The official definition is formalized in <a href="https://dl.acm.org/doi/10.1145/320493.320489" target="_blank" rel="noopener noreferrer">Boyce and Codd (1974)</a>.</p>
 
         <h2 id="4nf">Fourth Normal Form (4NF)</h2>
         <p>
-            4NF addresses a subtler problem: multi-valued dependencies. These appear when one column independently determines multiple values in two separate columns, forcing a combinatorial explosion of rows even when there's no actual relationship between those two columns. It's a rare edge case in typical application development — if you're designing a standard CRUD app, you won't encounter it.
+            4NF addresses a subtler problem: multi-valued dependencies. These appear when one column independently determines multiple values in two separate columns, forcing a combinatorial explosion of rows even when there's no actual relationship between those two columns. Will you ever run into this in a standard CRUD app? Rarely. It's mostly a concern for specialized schemas with genuinely independent multi-valued attributes.
         </p>
         <p><strong>Rule:</strong> The table must be in BCNF and have no non-trivial multi-valued dependencies.</p>
 
@@ -398,7 +396,7 @@ student_id | teacher_id</code></pre>
             <tr><td>1</td><td>SQL</td><td>English</td></tr>
             <tr><td>1</td><td>SQL</td><td>French</td></tr>
         </table>
-        <p>Skills and languages are independent — both depend on <code>person_id</code>, but there's no relationship between a specific skill and a specific language. Every combination gets stored anyway.</p>
+        <p>Skills and languages are independent. Both depend on <code>person_id</code>, but there's no relationship between a specific skill and a specific language, and every combination gets stored anyway.</p>
         <p class="label-bad">&#x2717; Not in 4NF</p>
         <pre><code>-- Fix: split into two independent tables
 person_skills(person_id, skill)
@@ -444,7 +442,7 @@ projects(project_id, project_name)
 employee_projects(emp_id, project_id)</code></pre>
         <p class="label-good">&#x2713; In 3NF</p>
         <p>
-            Four clean tables, each storing exactly one kind of fact. Renaming a department updates one row in <code>departments</code>. Adding a new project adds one row in <code>projects</code>. The <code>employee_projects</code> junction handles the many-to-many relationship. You can <a href="/demo">visualize this schema in SQL Designer</a> by importing the CREATE TABLE script — the foreign key relationships render automatically.
+            Four clean tables, each storing exactly one kind of fact. Renaming a department updates one row in <code>departments</code>. Adding a new project adds one row in <code>projects</code>. The <code>employee_projects</code> junction handles the many-to-many relationship. You can <a href="/demo">visualize this schema in SQL Designer</a> by importing the CREATE TABLE script; the foreign key relationships render automatically.
         </p>
         <p>For the formal treatment of functional dependencies and normalization theory, see E.F. Codd's foundational paper <em>A Relational Model of Data for Large Shared Data Banks</em> (<a href="https://dl.acm.org/doi/10.1145/362384.362685" target="_blank" rel="noopener noreferrer">ACM, 1970</a>), the <a href="https://www.postgresql.org/docs/current/ddl-constraints.html" target="_blank" rel="noopener noreferrer">PostgreSQL DDL Constraints documentation</a>, and the MySQL docs on <a href="https://dev.mysql.com/doc/refman/8.0/en/create-table.html" target="_blank" rel="noopener noreferrer">foreign key constraint syntax</a>. When moving a normalized schema across databases, the <a href="/blog/database-ddl-comparison">DDL syntax comparison</a> covers where MySQL, PostgreSQL, Oracle, SQL Server, and SQLite diverge on primary keys, booleans, and timestamp defaults.</p>
 
@@ -458,12 +456,12 @@ employee_projects(emp_id, project_id)</code></pre>
 
         <h2 id="denormalize">When Should You Denormalize?</h2>
         <p>
-            3NF is the right default for any transactional database. But sometimes you'll deliberately break the rules — and that's fine, as long as it's a conscious, documented choice. The question isn't whether to denormalize. It's whether the performance gain is worth the consistency cost you're taking on.
+            3NF is the right default for any transactional database. But sometimes you'll deliberately break the rules, and that's fine, as long as it's a conscious, documented choice. The question isn't whether to denormalize. It's whether the performance gain is worth the consistency cost you're taking on.
         </p>
         <ul>
-            <li><strong>Reporting and analytics</strong> — denormalized "wide" tables skip expensive joins across many tables in read-heavy workloads.</li>
-            <li><strong>Caching derived values</strong> — storing a pre-computed <code>order_total</code> avoids summing <code>order_items</code> on every page load, at the cost of keeping it in sync.</li>
-            <li><strong>Historical snapshots</strong> — sometimes you <em>want</em> to store the product price at the time of purchase, not the current price. Denormalization is correct here by design.</li>
+            <li><strong>Reporting and analytics:</strong> denormalized "wide" tables skip expensive joins across many tables in read-heavy workloads.</li>
+            <li><strong>Caching derived values:</strong> storing a pre-computed <code>order_total</code> avoids summing <code>order_items</code> on every page load, at the cost of keeping it in sync.</li>
+            <li><strong>Historical snapshots:</strong> sometimes you <em>want</em> to store the product price at the time of purchase, not the current price. Denormalization is correct here by design.</li>
         </ul>
         <p>
             Normalize first. Then denormalize deliberately, with documentation that explains why.
@@ -487,28 +485,28 @@ employee_projects(emp_id, project_id)</code></pre>
             <h2 id="faq">Frequently Asked Questions</h2>
 
             <div class="faq-item">
-                <p class="faq-q">What is database normalization?</p>
-                <p class="faq-a">Database normalization is the process of structuring a relational schema to reduce data redundancy and improve data integrity. It organizes tables so each piece of data is stored in only one place, following a set of rules called normal forms — 1NF through 4NF and beyond.</p>
+                <h3 class="faq-q">What is database normalization?</h3>
+                <p class="faq-a">Database normalization is the process of structuring a relational schema to reduce data redundancy and improve data integrity. It organizes tables so each piece of data is stored in only one place, following a set of rules called normal forms: 1NF through 4NF and beyond.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">What is First Normal Form (1NF)?</p>
-                <p class="faq-a">1NF requires that every column holds a single, atomic value — no comma-separated lists or repeating groups in a single cell. Each row must be uniquely identifiable by a primary key. It's the foundation everything else builds on, and the fix for multi-valued column errors.</p>
+                <h3 class="faq-q">What is First Normal Form (1NF)?</h3>
+                <p class="faq-a">1NF requires that every column holds a single, atomic value: no comma-separated lists or repeating groups in a single cell. Each row must be uniquely identifiable by a primary key. It's the foundation everything else builds on, and the fix for multi-valued column errors.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">What is the difference between 2NF and 3NF?</p>
-                <p class="faq-a">2NF eliminates partial dependencies — non-key columns must depend on the entire composite primary key, not just part of it. 3NF goes further, eliminating transitive dependencies — no non-key column should determine another non-key column. Both require splitting tables and introducing foreign keys.</p>
+                <h3 class="faq-q">What is the difference between 2NF and 3NF?</h3>
+                <p class="faq-a">2NF eliminates partial dependencies: non-key columns must depend on the entire composite primary key, not just part of it. 3NF goes further, eliminating transitive dependencies, meaning no non-key column should determine another non-key column. Both require splitting tables and introducing foreign keys.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">When is it acceptable to denormalize a database?</p>
-                <p class="faq-a">Denormalization makes sense for read-heavy workloads where query performance outweighs redundancy costs — analytics tables, pre-computed aggregates, or historical snapshots. It should always be deliberate and documented. Never denormalize as a shortcut during initial schema design.</p>
+                <h3 class="faq-q">When is it acceptable to denormalize a database?</h3>
+                <p class="faq-a">Denormalization makes sense for read-heavy workloads where query performance outweighs redundancy costs, such as analytics tables, pre-computed aggregates, or historical snapshots. It should always be deliberate and documented. Never denormalize as a shortcut during initial schema design.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">Does normalization always require splitting into more tables?</p>
-                <p class="faq-a">Yes — moving to a higher normal form means extracting dependent data into a new table and replacing it with a foreign key reference. This reduces redundancy but increases the number of joins needed in queries, which is the trade-off that sometimes justifies deliberate denormalization.</p>
+                <h3 class="faq-q">Does normalization always require splitting into more tables?</h3>
+                <p class="faq-a">Yes. Moving to a higher normal form means extracting dependent data into a new table and replacing it with a foreign key reference. This reduces redundancy but increases the number of joins needed in queries, which is the trade-off that sometimes justifies deliberate denormalization.</p>
             </div>
         </section>
 
@@ -522,6 +520,11 @@ employee_projects(emp_id, project_id)</code></pre>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — TIMESTAMPTZ, JSONB, UUID, Arrays &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
+                <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
+                <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences &rarr;</a></li>
+                <li><a href="/blog/database-ddl-comparison">DDL Syntax Comparison: MySQL, PostgreSQL &amp; More &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 &rarr;</a></li>
             </ul>
         </nav>
     </article>

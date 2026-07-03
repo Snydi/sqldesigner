@@ -21,7 +21,6 @@
     <meta name="twitter:title" content="Database Schema Library — Real MySQL &amp; PostgreSQL Schema Examples | SQL Designer">
     <meta name="twitter:description" content="Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
-    <meta name="keywords" content="database schema examples, MySQL schema examples, PostgreSQL database schemas, ERD examples, database diagram library, SQL schema templates, entity relationship diagram examples, database design examples">
     <script type="application/ld+json">
     @verbatim
     [

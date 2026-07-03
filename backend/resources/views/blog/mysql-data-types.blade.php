@@ -44,7 +44,7 @@
                 "url": "https://sql-designer.com/blog/mysql-data-types",
                 "datePublished": "2026-03-19",
                 "dateModified": "2026-05-17",
-                "wordCount": 1500,
+                "wordCount": 2350,
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub", ".key-takeaways"] },
@@ -97,7 +97,7 @@
                 "name": "MySQL Full Course — Bro Code",
                 "description": "Full MySQL course covering data types, schema design, and queries — Bro Code on YouTube (2023).",
                 "thumbnailUrl": "https://img.youtube.com/vi/5OdVJbNCSso/hqdefault.jpg",
-                "uploadDate": "2023-01-02",
+                "uploadDate": "2023-01-02T00:00:00+00:00",
                 "embedUrl": "https://www.youtube.com/embed/5OdVJbNCSso",
                 "url": "https://www.youtube.com/watch?v=5OdVJbNCSso"
             }
@@ -143,9 +143,13 @@
         </div>
 
         <figure>
-            <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?fm=jpg&q=80&w=1400&auto=format&fit=crop"
-                 alt="SQL code on a monitor screen representing MySQL database schema design and data type selection"
-                 loading="lazy" width="1400" height="700">
+            <picture>
+                <source srcset="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?fm=avif&q=80&w=1400&auto=format&fit=crop" type="image/avif">
+                <source srcset="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?fm=webp&q=80&w=1400&auto=format&fit=crop" type="image/webp">
+                <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?fm=jpg&q=80&w=1400&auto=format&fit=crop"
+                     alt="SQL code on a monitor screen representing MySQL database schema design and data type selection"
+                     loading="lazy" width="1400" height="700">
+            </picture>
             <figcaption>Choosing the right column type at schema design time is far cheaper than migrating a live table later.</figcaption>
         </figure>
 
@@ -332,9 +336,13 @@
         <p>The TIMESTAMP versus DATETIME decision has real production consequences. TIMESTAMP stores every value in UTC and reconverts to the session timezone on retrieval, making it automatic for audit columns like <code>created_at</code>. Its hard upper limit is <strong>2038-01-19</strong> — the point where a 32-bit Unix timestamp overflows. Any application storing future dates past that boundary must use DATETIME, which supports dates through year 9999 (<a href="https://dev.mysql.com/doc/refman/8.0/en/datetime.html" target="_blank" rel="noopener">MySQL 8.0 Reference Manual</a>).</p>
 
         <figure>
-            <img src="https://images.unsplash.com/photo-1435527173128-983b87201f4d?fm=jpg&q=80&w=1400&auto=format&fit=crop"
-                 alt="Open desk calendar illustrating MySQL date and time data type selection for created_at and scheduled event columns"
-                 loading="lazy" width="1400" height="700">
+            <picture>
+                <source srcset="https://images.unsplash.com/photo-1435527173128-983b87201f4d?fm=avif&q=80&w=1400&auto=format&fit=crop" type="image/avif">
+                <source srcset="https://images.unsplash.com/photo-1435527173128-983b87201f4d?fm=webp&q=80&w=1400&auto=format&fit=crop" type="image/webp">
+                <img src="https://images.unsplash.com/photo-1435527173128-983b87201f4d?fm=jpg&q=80&w=1400&auto=format&fit=crop"
+                     alt="Open desk calendar illustrating MySQL date and time data type selection for created_at and scheduled event columns"
+                     loading="lazy" width="1400" height="700">
+            </picture>
             <figcaption>Use TIMESTAMP for audit columns; use DATETIME when you need timezone-independent storage or dates beyond 2038.</figcaption>
         </figure>
 
@@ -482,6 +490,7 @@ SELECT * FROM users WHERE preferences->>'$.notifications' = 'true';</code></pre>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — BOOLEAN, JSONB, UUID, TIMESTAMPTZ &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
             </ul>
         </nav>
     </article>

@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /diagrams
 Disallow: /logout
 
 User-agent: GPTBot

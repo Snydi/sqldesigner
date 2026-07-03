@@ -107,6 +107,18 @@
                 <a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained — Which to Use and When</a>
                 <span class="desc">Complete guide to PostgreSQL's 42+ built-in types: numeric, text, boolean, date/time, JSONB, arrays, UUID, and identity columns — with CREATE TABLE examples.</span>
             </li>
+            <li>
+                <a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, and FULL</a>
+                <span class="desc">Complete guide to SQL joins: INNER, LEFT, RIGHT, FULL, and CROSS JOIN syntax, NULL handling, join algorithms, and common mistakes.</span>
+            </li>
+            <li>
+                <a href="/blog/mysql-indexes">MySQL Indexes Explained — B-Tree, Composite, and EXPLAIN</a>
+                <span class="desc">How B-tree indexes work, composite indexes and the leftmost prefix rule, reading EXPLAIN output, and common indexing mistakes.</span>
+            </li>
+            <li>
+                <a href="/blog/postgresql-indexes">PostgreSQL Indexes Explained — B-Tree, GIN, BRIN, and GiST</a>
+                <span class="desc">PostgreSQL's six index types, composite/partial/covering indexes, when the planner picks a sequential scan, and reading EXPLAIN ANALYZE.</span>
+            </li>
         </ul>
     </div>
 @endsection
