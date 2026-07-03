@@ -28,6 +28,7 @@ Route::prefix('/blog')->group(function () {
 });
 Route::get('/about', fn () => view('about'));
 Route::get('/features', fn () => view('features'));
+Route::get('/pricing', fn () => view('pricing'));
 Route::get('/library', [LibraryController::class, 'index']);
 Route::get('/sitemap', fn () => view('sitemap'));
 Route::get('/privacy', fn () => view('privacy'));

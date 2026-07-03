@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiagramChangelogController;
 use App\Http\Controllers\DiagramController;
+use App\Http\Controllers\PlanLimitController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\SupportController;
@@ -31,6 +32,7 @@ Route::middleware(['auth:sanctum', 'track.seen'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/email/resend', [AuthController::class, 'resendVerification']);
+    Route::get('/plan-limits', [PlanLimitController::class, 'show']);
     Route::get('/review', [ReviewController::class, 'check']);
     Route::middleware('throttle:5,1')->post('/review', [ReviewController::class, 'store']);
 
@@ -57,6 +59,7 @@ Route::middleware(['auth:sanctum', 'track.seen'])->group(function () {
 
         Route::get('/json/export/{diagram}', [DiagramController::class, 'exportJson']);
         Route::get('/migration/export/{diagram}', [DiagramController::class, 'exportMigration']);
+        Route::post('/png/export/{diagram}', [DiagramController::class, 'recordPngExport']);
 
         Route::get('/{diagram}/changelog', [DiagramChangelogController::class, 'index']);
         Route::post('/{diagram}/changelog', [DiagramChangelogController::class, 'store']);
