@@ -474,6 +474,16 @@
             </div>
         </div>
     </div>
+    <div style="display: flex; justify-content: center; margin-top: 50px">
+        <a
+           href="https://www.producthunt.com/products/sql-designer-com?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-sql-designer"
+           target="_blank" rel="noopener noreferrer">
+            <img alt="SQL Designer - Free and Open Source ERD tool for all major relational DBs | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1113195&amp;theme=dark&amp;t=1783927831665">
+        </a>
+        <a href="https://www.uneed.best/tool/sql-designer" target="_blank">
+            <img src="https://www.uneed.best/POTD1A.png" style="width: 250px;" alt="Uneed POTD1 Badge" />
+        </a>
+    </div>
     <div class="hero-screenshot">
         <picture>
             <source
@@ -499,6 +509,7 @@
         }).catch(function(){});
     </script>
 </section>
+
 
 <section class="block" aria-labelledby="what-is-h2" style="background:var(--bg-page); border-bottom:1px solid var(--border-light);">
     <div class="block-inner">
