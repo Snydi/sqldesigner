@@ -13,6 +13,8 @@ use Illuminate\Support\Carbon;
 use LogicException;
 
 /**
+ * @property int $id
+ * @property int $user_id
  * @property string $plan
  * @property SubscriptionStatus $status
  * @property Carbon|null $starts_at

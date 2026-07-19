@@ -112,6 +112,8 @@ class BillingModelsTest extends TestCase
             'status' => PaymentStatus::SUCCEEDED,
             'amount_minor' => Subscription::PRO_PRICE_MINOR,
             'currency' => Subscription::PRO_CURRENCY,
+            'provider_amount_minor' => 100000,
+            'provider_currency' => 'RUB',
             'fee_minor' => 25,
             'payer_email' => $this->user->email,
             'payment_method' => 'BankCard',

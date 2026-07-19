@@ -1,0 +1,254 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature;
+
+use App\Enums\PaymentStatus;
+use App\Enums\SubscriptionStatus;
+use App\Models\Payment;
+use App\Models\Subscription;
+use App\Models\User;
+use App\Services\RobokassaService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Carbon;
+use Tests\TestCase;
+
+class RobokassaPaymentTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create(['email_verified_at' => now()]);
+
+        config([
+            'robokassa.merchant_login' => 'demo',
+            'robokassa.password1' => 'password_1',
+            'robokassa.password2' => 'password_2',
+            'robokassa.hash_algorithm' => 'md5',
+            'robokassa.payment_url' => 'https://auth.robokassa.ru/Merchant/Index.aspx',
+            'robokassa.test_mode' => true,
+            'robokassa.provider_amount' => '1000.00',
+            'robokassa.provider_currency' => 'RUB',
+            'robokassa.culture' => 'en',
+            'robokassa.payment_method' => null,
+            'robokassa.checkout_expires_minutes' => 30,
+            'robokassa.receipt.enabled' => true,
+            'robokassa.receipt.tax' => 'none',
+            'robokassa.receipt.sno' => null,
+        ]);
+    }
+
+    protected function tearDown(): void
+    {
+        Carbon::setTestNow();
+        parent::tearDown();
+    }
+
+    public function test_checkout_creates_pending_records_and_signed_robokassa_form(): void
+    {
+        $response = $this->actingAs($this->user, 'sanctum')
+            ->postJson('/api/subscription/checkout')
+            ->assertCreated()
+            ->assertJsonPath('form.action', 'https://auth.robokassa.ru/Merchant/Index.aspx')
+            ->assertJsonPath('form.method', 'POST')
+            ->assertJsonPath('form.fields.MerchantLogin', 'demo')
+            ->assertJsonPath('form.fields.OutSum', '1000.00')
+            ->assertJsonPath('form.fields.Shp_currency', 'USD')
+            ->assertJsonPath('form.fields.IsTest', '1');
+
+        $payment = Payment::findOrFail($response->json('payment_id'));
+        $subscription = $payment->subscription;
+
+        $this->assertSame((string) $payment->id, $payment->provider_invoice_id);
+        $this->assertSame(PaymentStatus::INITIATED, $payment->status);
+        $this->assertSame(1000, $payment->amount_minor);
+        $this->assertSame('USD', $payment->currency);
+        $this->assertSame(100000, $payment->provider_amount_minor);
+        $this->assertSame('RUB', $payment->provider_currency);
+        $this->assertSame(SubscriptionStatus::PENDING, $subscription->status);
+        $this->assertStringContainsString('SignatureValue=', $response->json('payment_url'));
+        $this->assertNotEmpty($response->json('form.fields.Receipt'));
+
+        $fields = $response->json('form.fields');
+        $expectedSignature = md5(implode(':', [
+            'demo',
+            '1000.00',
+            (string) $payment->id,
+            $fields['Receipt'],
+            'password_1',
+            'Shp_currency=USD',
+            'Shp_payment_id='.$payment->id,
+            'Shp_user_id='.$this->user->id,
+        ]));
+        $this->assertSame($expectedSignature, $fields['SignatureValue']);
+
+        $receipt = json_decode(urldecode($fields['Receipt']), true, flags: JSON_THROW_ON_ERROR);
+        $this->assertSame('service', $receipt['items'][0]['payment_object']);
+        $this->assertSame('full_payment', $receipt['items'][0]['payment_method']);
+        $this->assertSame('none', $receipt['items'][0]['tax']);
+    }
+
+    public function test_result_callback_activates_pro_and_records_audit_fields(): void
+    {
+        $payment = $this->createCheckoutPayment();
+        $payload = $this->resultPayload($payment, [
+            'Fee' => '0.000000',
+            'EMail' => $this->user->email,
+            'PaymentMethod' => 'BankCard',
+            'IncCurrLabel' => 'BankCardPSR',
+        ]);
+
+        $this->post('/api/webhooks/robokassa/result', $payload)
+            ->assertOk()
+            ->assertSeeText('OK'.$payment->provider_invoice_id);
+
+        $payment->refresh();
+        $subscription = $payment->subscription;
+        $this->assertSame(PaymentStatus::SUCCEEDED, $payment->status);
+        $this->assertSame(0, $payment->fee_minor);
+        $this->assertSame('BankCard', $payment->payment_method);
+        $this->assertSame('BankCardPSR', $payment->paid_currency_label);
+        $this->assertSame($payload['OutSum'], $payment->raw_payload['OutSum']);
+        $this->assertNotNull($payment->paid_at);
+        $this->assertSame(SubscriptionStatus::ACTIVE, $subscription->status);
+        $this->assertTrue($this->user->isPro());
+    }
+
+    public function test_retried_result_callback_is_idempotent(): void
+    {
+        Carbon::setTestNow(Carbon::parse('2026-07-19 12:00:00 UTC'));
+        $payment = $this->createCheckoutPayment();
+        $payload = $this->resultPayload($payment);
+
+        $this->post('/api/webhooks/robokassa/result', $payload)->assertOk();
+        $endsAt = $payment->subscription()->firstOrFail()->ends_at->copy();
+
+        Carbon::setTestNow(now()->addDay());
+        $this->post('/api/webhooks/robokassa/result', $payload)->assertOk();
+
+        $this->assertTrue($payment->subscription()->firstOrFail()->ends_at->equalTo($endsAt));
+    }
+
+    public function test_invalid_signature_does_not_activate_payment(): void
+    {
+        $payment = $this->createCheckoutPayment();
+        $payload = $this->resultPayload($payment);
+        $payload['SignatureValue'] = 'invalid';
+
+        $this->post('/api/webhooks/robokassa/result', $payload)->assertStatus(422);
+
+        $this->assertSame(PaymentStatus::INITIATED, $payment->fresh()->status);
+        $this->assertFalse($this->user->isPro());
+    }
+
+    public function test_signed_callback_with_wrong_amount_is_rejected(): void
+    {
+        $payment = $this->createCheckoutPayment();
+        $payload = $this->resultPayload($payment, ['OutSum' => '999.00']);
+
+        $this->post('/api/webhooks/robokassa/result', $payload)->assertStatus(422);
+
+        $this->assertSame(PaymentStatus::INITIATED, $payment->fresh()->status);
+    }
+
+    public function test_signed_callback_cannot_activate_another_users_payment(): void
+    {
+        $payment = $this->createCheckoutPayment();
+        $payload = $this->resultPayload($payment, ['Shp_user_id' => (string) ($this->user->id + 1)]);
+
+        $this->post('/api/webhooks/robokassa/result', $payload)->assertStatus(422);
+
+        $this->assertSame(PaymentStatus::INITIATED, $payment->fresh()->status);
+        $this->assertFalse($this->user->isPro());
+    }
+
+    public function test_success_redirect_does_not_activate_payment(): void
+    {
+        $payment = $this->createCheckoutPayment();
+
+        $this->get('/checkout/success')->assertRedirect('/pricing?payment=processing');
+
+        $this->assertSame(PaymentStatus::INITIATED, $payment->fresh()->status);
+        $this->assertFalse($this->user->isPro());
+    }
+
+    public function test_checkout_requires_authentication_and_complete_configuration(): void
+    {
+        $this->postJson('/api/subscription/checkout')->assertUnauthorized();
+
+        config(['robokassa.provider_amount' => null]);
+        $this->actingAs($this->user, 'sanctum')
+            ->postJson('/api/subscription/checkout')
+            ->assertStatus(503);
+
+        $this->assertDatabaseCount('payments', 0);
+        $this->assertDatabaseCount('subscriptions', 0);
+    }
+
+    public function test_current_pro_user_cannot_buy_an_overlapping_period(): void
+    {
+        Subscription::create([
+            'user_id' => $this->user->id,
+            'plan' => Subscription::PLAN_PRO_MONTHLY,
+            'status' => SubscriptionStatus::ACTIVE,
+            'provider' => 'robokassa',
+            'amount_minor' => Subscription::PRO_PRICE_MINOR,
+            'currency' => Subscription::PRO_CURRENCY,
+            'starts_at' => now()->subDay(),
+            'ends_at' => now()->addMonth(),
+        ]);
+
+        $this->actingAs($this->user, 'sanctum')
+            ->postJson('/api/subscription/checkout')
+            ->assertStatus(409);
+
+        $this->assertDatabaseCount('payments', 0);
+    }
+
+    public function test_result_signature_matches_robokassa_parameter_order(): void
+    {
+        $signature = app(RobokassaService::class)->resultSignature('1000.000000', '42', [
+            'Shp_user_id' => '7',
+            'Shp_payment_id' => '42',
+            'Shp_currency' => 'USD',
+        ]);
+
+        $this->assertSame('b8d0c9b46adb8d5f51cfaf9b7bab76ee', $signature);
+    }
+
+    private function createCheckoutPayment(): Payment
+    {
+        $response = $this->actingAs($this->user, 'sanctum')
+            ->postJson('/api/subscription/checkout')
+            ->assertCreated();
+
+        return Payment::findOrFail($response->json('payment_id'));
+    }
+
+    /**
+     * @param  array<string, string>  $overrides
+     * @return array<string, string>
+     */
+    private function resultPayload(Payment $payment, array $overrides = []): array
+    {
+        $payload = array_merge([
+            'OutSum' => '1000.000000',
+            'InvId' => (string) $payment->provider_invoice_id,
+            'Shp_currency' => $payment->currency,
+            'Shp_payment_id' => (string) $payment->id,
+            'Shp_user_id' => (string) $payment->user_id,
+        ], $overrides);
+        $payload['SignatureValue'] = app(RobokassaService::class)->resultSignature(
+            $payload['OutSum'],
+            $payload['InvId'],
+            array_filter($payload, fn (string $key): bool => str_starts_with($key, 'Shp_'), ARRAY_FILTER_USE_KEY),
+        );
+
+        return $payload;
+    }
+}

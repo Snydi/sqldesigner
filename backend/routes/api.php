@@ -7,7 +7,9 @@ use App\Http\Controllers\DiagramChangelogController;
 use App\Http\Controllers\DiagramController;
 use App\Http\Controllers\PlanLimitController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RobokassaWebhookController;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SupportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,7 @@ Route::middleware('throttle:10,1')->group(function () {
 Route::middleware('throttle:5,1')->post('/support', [SupportController::class, 'send']);
 
 Route::get('/diagrams/embed/{token}', [DiagramController::class, 'showEmbed']);
+Route::middleware('throttle:60,1')->post('/webhooks/robokassa/result', [RobokassaWebhookController::class, 'result']);
 
 Route::middleware(['auth:sanctum', 'track.seen'])->group(function () {
     Route::get('/diagrams/shared/{token}', [DiagramController::class, 'showByToken']);
@@ -33,6 +36,7 @@ Route::middleware(['auth:sanctum', 'track.seen'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/email/resend', [AuthController::class, 'resendVerification']);
     Route::get('/plan-limits', [PlanLimitController::class, 'show']);
+    Route::middleware('throttle:5,1')->post('/subscription/checkout', [SubscriptionController::class, 'checkout']);
     Route::get('/review', [ReviewController::class, 'check']);
     Route::middleware('throttle:5,1')->post('/review', [ReviewController::class, 'store']);
 

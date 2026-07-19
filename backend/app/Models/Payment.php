@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property int $id
+ * @property int $user_id
+ * @property int|null $subscription_id
+ * @property string|null $provider_invoice_id
+ * @property int $amount_minor
+ * @property string $currency
+ * @property int $provider_amount_minor
+ * @property string $provider_currency
  * @property PaymentStatus $status
  * @property array<string, mixed>|null $raw_payload
  */
@@ -23,6 +31,8 @@ class Payment extends Model
         'status',
         'amount_minor',
         'currency',
+        'provider_amount_minor',
+        'provider_currency',
         'fee_minor',
         'payer_email',
         'payment_method',
@@ -37,6 +47,7 @@ class Payment extends Model
         return [
             'status' => PaymentStatus::class,
             'amount_minor' => 'integer',
+            'provider_amount_minor' => 'integer',
             'fee_minor' => 'integer',
             'raw_payload' => 'array',
             'paid_at' => 'datetime',

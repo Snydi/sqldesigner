@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('status', 20)->index();
             $table->unsignedInteger('amount_minor');
             $table->char('currency', 3)->default('USD');
+            $table->unsignedInteger('provider_amount_minor');
+            $table->char('provider_currency', 3)->default('RUB');
             $table->unsignedInteger('fee_minor')->nullable();
             $table->string('payer_email')->nullable();
             $table->string('payment_method', 100)->nullable();
