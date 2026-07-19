@@ -8,6 +8,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -50,9 +51,28 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Diagram::class);
     }
 
-    //TODO add this logic as soon as Robokassa activates
+    /** @return HasMany<Subscription, $this> */
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    /** @return HasMany<Payment, $this> */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /** @return HasOne<Subscription, $this> */
+    public function activeSubscription(): HasOne
+    {
+        return $this->hasOne(Subscription::class)
+            ->providingProAccess()
+            ->ofMany('ends_at', 'max');
+    }
+
     public function isPro(): bool
     {
-        return false;
+        return $this->activeSubscription()->exists();
     }
 }
