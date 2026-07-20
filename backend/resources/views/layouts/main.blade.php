@@ -330,8 +330,10 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <span>&copy; {{ date('Y') }} SQL Designer &mdash; visual MySQL &amp; PostgreSQL schema designer</span>
+        <span>&copy; {{ date('Y') }} SQL Designer &mdash; visual SQL schema designer for 6 dialects &middot; INN 344818239248</span>
         <span>
+            <a href="{{ route('oferta') }}" style="color:inherit;">Public Offer</a>
+            &nbsp;&middot;&nbsp;
             <a href="/privacy" style="color:inherit;">Privacy Policy</a>
             &nbsp;&middot;&nbsp;
             <a href="/terms" style="color:inherit;">Terms of Service</a>
