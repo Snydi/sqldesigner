@@ -9,6 +9,7 @@ use App\Models\FeatureFlag;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class PlanLimitService
 {
@@ -35,15 +36,6 @@ class PlanLimitService
         return $user->diagrams()->count() >= self::DIAGRAM_LIMIT;
     }
 
-    public function exportLimitReached(User $user): bool
-    {
-        if (! $this->limitsEnabled() || $user->isPro()) {
-            return false;
-        }
-
-        return $this->todaysExportCount($user) >= self::EXPORT_DAILY_LIMIT;
-    }
-
     public function diagramLimit(User $user): ?int
     {
         return ($this->limitsEnabled() && ! $user->isPro()) ? self::DIAGRAM_LIMIT : null;
@@ -59,14 +51,32 @@ class PlanLimitService
         return $this->todaysExportCount($user);
     }
 
-    public function recordExport(User $user): void
+    /**
+     * Atomically consumes one MSK daily export allowance when applicable.
+     *
+     * The conditional upsert makes checking the limit and incrementing the
+     * count one PostgreSQL statement, so concurrent requests cannot exceed it.
+     */
+    public function consumeExportAllowance(User $user): bool
     {
-        $usage = ExportUsage::firstOrNew([
-            'user_id' => $user->id,
-            'usage_date' => $this->mskToday(),
-        ]);
-        $usage->count = ($usage->count ?? 0) + 1;
-        $usage->save();
+        if (! $this->limitsEnabled() || $user->isPro()) {
+            return true;
+        }
+
+        $now = now();
+        $result = DB::select(
+            <<<'SQL'
+                INSERT INTO export_usages (user_id, usage_date, count, created_at, updated_at)
+                VALUES (?, ?, 1, ?, ?)
+                ON CONFLICT (user_id, usage_date) DO UPDATE
+                SET count = export_usages.count + 1, updated_at = EXCLUDED.updated_at
+                WHERE export_usages.count < ?
+                RETURNING count
+            SQL,
+            [$user->id, $this->mskToday(), $now, $now, self::EXPORT_DAILY_LIMIT]
+        );
+
+        return $result !== [];
     }
 
     private function todaysExportCount(User $user): int

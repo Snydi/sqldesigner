@@ -327,11 +327,8 @@ const downloadJson = () => withExporting('json', async () => {
 const emit = defineEmits(['close', 'capture-png'])
 
 const capturePng = () => withExporting('png', async () => {
-    const allowed = await Diagram.recordPngExport(props.diagramId)
-    if (!allowed) return
-    await new Promise(resolve => {
-        emit('capture-png')
-        setTimeout(resolve, 4000)
+    await new Promise((resolve, reject) => {
+        emit('capture-png', { resolve, reject })
     })
 })
 

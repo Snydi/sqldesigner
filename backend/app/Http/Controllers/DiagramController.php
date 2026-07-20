@@ -165,11 +165,6 @@ class DiagramController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        if ($this->planLimitService->exportLimitReached($user)) {
-            abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
-        }
-        $this->planLimitService->recordExport($user);
-
         $this->sqlService->startExport($diagram, $user);
 
         return $this->success(['status' => 'pending'], 202);
@@ -202,15 +197,22 @@ class DiagramController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        if ($this->planLimitService->exportLimitReached($user)) {
+        $zipPath = $this->sqlService->createMigrationZip($diagram);
+        try {
+            $content = file_get_contents($zipPath);
+            if ($content === false) {
+                throw new \RuntimeException('Unable to prepare the migration export.');
+            }
+            $filename = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $diagram->name).'_migrations.zip';
+        } finally {
+            if (is_file($zipPath)) {
+                unlink($zipPath);
+            }
+        }
+
+        if (! $this->planLimitService->consumeExportAllowance($user)) {
             abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
         }
-        $this->planLimitService->recordExport($user);
-
-        $zipPath = $this->sqlService->createMigrationZip($diagram);
-        $content = file_get_contents($zipPath);
-        unlink($zipPath);
-        $filename = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $diagram->name).'_migrations.zip';
 
         return response($content, 200, [
             'Content-Type' => 'application/zip',
@@ -229,12 +231,13 @@ class DiagramController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        if ($this->planLimitService->exportLimitReached($user)) {
+        $json = $this->sqlService->createJson(json_encode($diagram->schema));
+
+        if (! $this->planLimitService->consumeExportAllowance($user)) {
             abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
         }
-        $this->planLimitService->recordExport($user);
 
-        return $this->success($this->sqlService->createJson(json_encode($diagram->schema)));
+        return $this->success($json);
     }
 
     /**
@@ -248,10 +251,9 @@ class DiagramController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        if ($this->planLimitService->exportLimitReached($user)) {
+        if (! $this->planLimitService->consumeExportAllowance($user)) {
             abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
         }
-        $this->planLimitService->recordExport($user);
 
         return $this->success(['status' => true]);
     }

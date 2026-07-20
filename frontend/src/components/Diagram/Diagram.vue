@@ -439,22 +439,28 @@ const openExportModal = async () => {
     showExportModal.value = true
 }
 
-const capturePng = async () => {
+const capturePng = async ({ resolve, reject }) => {
     showExportModal.value = false
     fitView({ duration: 0 })
     await nextTick()
     const el = canvasWrapperRef.value?.querySelector('.vue-flow')
-    if (!el) return
+    if (!el) {
+        reject(new Error('Diagram canvas is unavailable'))
+        return
+    }
     try {
         const { toPng } = await import('html-to-image')
         const dataUrl = await toPng(el, { backgroundColor: '#282828' })
+        await Diagram.recordPngExport(diagramId.value)
         const a = document.createElement('a')
         a.href = dataUrl
         a.download = `${diagramName.value}.png`
         a.click()
+        resolve()
     } catch (e) {
         $toast.error('Failed to export image')
         console.error(e)
+        reject(e)
     }
 }
 
