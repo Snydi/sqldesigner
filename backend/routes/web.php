@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\SubscriptionController;
+use App\Services\PlanLimitService;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,7 +30,9 @@ Route::prefix('/blog')->group(function () {
 });
 Route::get('/about', fn () => view('about'));
 Route::get('/features', fn () => view('features'));
-Route::get('/pricing', fn () => view('pricing'));
+Route::get('/pricing', fn () => view('pricing', [
+    'paymentsLive' => app(PlanLimitService::class)->limitsEnabled(),
+]));
 Route::get('/library', [LibraryController::class, 'index']);
 Route::get('/sitemap', fn () => view('sitemap'));
 Route::get('/privacy', fn () => view('privacy'));
@@ -48,6 +51,7 @@ Route::prefix('/admin')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
         Route::get('/library', [AdminController::class, 'showLibrary'])->name('admin.library');
+        Route::get('/billing', [AdminController::class, 'showBilling'])->name('admin.billing');
         Route::get('/reviews', [AdminController::class, 'showReviews'])->name('admin.reviews');
         Route::post('/impersonate/{user}', [AdminController::class, 'impersonate'])->name('admin.impersonate');
         Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.destroy');
@@ -66,7 +70,7 @@ Route::prefix('/auth')->where(['driver' => 'google|github|gitlab'])->group(funct
 });
 
 Route::get('/{any}', function ($any) {
-    $exactRoutes = ['register', 'login', 'logout', 'verify-email', 'demo', 'diagrams', 'auth/callback'];
+    $exactRoutes = ['register', 'login', 'logout', 'verify-email', 'demo', 'diagrams', 'billing', 'auth/callback'];
     $prefixRoutes = ['diagrams/', 'shared/', 'embed/', 'auth/'];
 
     if (in_array($any, $exactRoutes)) {

@@ -385,6 +385,7 @@
         <span>SQL Designer — Admin</span>
         <div style="display:flex;align-items:center;gap:12px;">
             <a href="{{ route('admin.library') }}" class="logout-btn" style="text-decoration:none;">Library</a>
+            <a href="{{ route('admin.billing') }}" class="logout-btn" style="text-decoration:none;">Billing</a>
             <a href="{{ route('admin.reviews') }}" class="logout-btn" style="text-decoration:none;">Reviews</a>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
@@ -453,6 +454,8 @@
                             Registered: {{ $user->created_at->setTimezone('Europe/Moscow')->format('d M Y H:i') }} MSK
                             &nbsp;&middot;&nbsp;
                             Diagrams: {{ $user->diagrams->count() }}
+                            &nbsp;&middot;&nbsp;
+                            Plan: <span class="{{ $user->activeSubscription ? 'verified' : '' }}">{{ $user->activeSubscription ? 'Pro' : 'Free' }}</span>
                         </div>
                     </div>
                     <div style="display:flex;gap:8px">

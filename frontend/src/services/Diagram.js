@@ -1,5 +1,6 @@
 import axios from '@/axios'
 import { useToast } from 'vue-toast-notification'
+import { isPlanLimitError } from '@/services/Subscription.js'
 
 const $toast = useToast()
 
@@ -7,6 +8,7 @@ async function request(fn) {
     try {
         return await fn()
     } catch (error) {
+        if (isPlanLimitError(error)) throw error
         $toast.error(error.response?.data.message ?? 'Something went wrong!')
     }
 }

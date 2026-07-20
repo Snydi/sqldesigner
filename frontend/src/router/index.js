@@ -11,6 +11,7 @@ const GoogleCallback = () => import('../components/Auth/GoogleCallback.vue');
 const DiagramList = () => import('../components/DiagramList.vue');
 const Diagram = () => import('../components/Diagram/Diagram.vue');
 const DiagramEmbed = () => import('../components/DiagramEmbed.vue');
+const Billing = () => import('../components/Billing.vue');
 
 function requireAuth(to, from, next) {
     if (!store.state.auth_token) {
@@ -43,6 +44,7 @@ const routes = [
             { path: 'verify-email', name: 'verify-email', component: VerifyEmail },
             { path: 'auth/callback', name: 'auth.callback', component: GoogleCallback },
             { path: 'diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth },
+            { path: 'billing', name: 'billing', component: Billing, beforeEnter: requireAuth },
             { path: 'diagrams/:token', name: 'diagram.show', component: Diagram },
             { path: 'demo', name: 'demo', component: Diagram, props: { isDemo: true } },
             { path: 'shared/:token', redirect: to => ({ name: 'diagram.show', params: { token: to.params.token } }) },
@@ -60,6 +62,7 @@ const pageTitles = {
     'login': 'Login — SQL Designer',
     'verify-email': 'Verify Email — SQL Designer',
     'diagrams': 'My Diagrams — SQL Designer',
+    'billing': 'Billing and Pro Access — SQL Designer',
     'diagram.show': 'Diagram Editor — SQL Designer',
     'demo': 'Try Demo — SQL Designer',
 };

@@ -8,11 +8,13 @@ return [
     'password2' => env('ROBOKASSA_PASSWORD2'),
     'hash_algorithm' => env('ROBOKASSA_HASH_ALGORITHM', 'md5'),
     'payment_url' => env('ROBOKASSA_PAYMENT_URL', 'https://auth.robokassa.ru/Merchant/Index.aspx'),
+    'recurring_payment_url' => env('ROBOKASSA_RECURRING_PAYMENT_URL', 'https://auth.robokassa.ru/Merchant/Recurring'),
     'test_mode' => env('ROBOKASSA_TEST_MODE', true),
     'provider_amount' => env('ROBOKASSA_PROVIDER_AMOUNT'),
     'provider_currency' => 'RUB',
     'culture' => env('ROBOKASSA_CULTURE', 'en'),
-    'payment_method' => env('ROBOKASSA_PAYMENT_METHOD'),
+    // Recurring charges require the initial payment to be made by bank card.
+    'payment_method' => env('ROBOKASSA_PAYMENT_METHOD', 'BankCard'),
     'checkout_expires_minutes' => (int) env('ROBOKASSA_CHECKOUT_EXPIRES_MINUTES', 30),
     'receipt' => [
         'enabled' => env('ROBOKASSA_RECEIPT_ENABLED', true),

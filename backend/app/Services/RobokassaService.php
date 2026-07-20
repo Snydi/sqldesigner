@@ -31,22 +31,64 @@ class RobokassaService
             'MerchantLogin' => (string) config('robokassa.merchant_login'),
             'OutSum' => $outSum,
             'InvId' => $payment->provider_invoice_id,
-            'Description' => 'SQL Designer Pro - one month',
+            'Description' => 'SQL Designer Pro - monthly subscription',
             'Email' => $payment->user->email,
             'Culture' => (string) config('robokassa.culture', 'en'),
             'Encoding' => 'utf-8',
             'IsTest' => config('robokassa.test_mode') ? '1' : '0',
-            'ExpirationDate' => now()
-                ->addMinutes((int) config('robokassa.checkout_expires_minutes', 30))
+            'ExpirationDate' => ($payment->expires_at
+                ?? now()->addMinutes((int) config('robokassa.checkout_expires_minutes', 30)))
                 ->toIso8601String(),
             ...$customParameters,
         ];
+
+        // The first payment authorizes future automatic card charges.
+        $parameters['Recurring'] = 'true';
 
         if ($receipt !== null) {
             $parameters['Receipt'] = $receipt;
         }
         if (filled(config('robokassa.payment_method'))) {
             $parameters['IncCurrLabel'] = (string) config('robokassa.payment_method');
+        }
+
+        $parameters['SignatureValue'] = $this->paymentSignature(
+            $outSum,
+            $payment->provider_invoice_id,
+            $receipt,
+            $customParameters,
+        );
+
+        return $parameters;
+    }
+
+    /** @return array<string, string> */
+    public function recurringPaymentParameters(Payment $payment, string $parentInvoiceId): array
+    {
+        $this->assertConfigured();
+
+        if ($payment->provider_invoice_id === null) {
+            throw new RuntimeException('The payment must have a Robokassa invoice id.');
+        }
+
+        $outSum = $this->formatMinorAmount($payment->provider_amount_minor);
+        $receipt = $this->receipt($outSum);
+        $customParameters = [
+            'Shp_currency' => $payment->currency,
+            'Shp_payment_id' => (string) $payment->id,
+            'Shp_user_id' => (string) $payment->user_id,
+        ];
+
+        $parameters = [
+            'MerchantLogin' => (string) config('robokassa.merchant_login'),
+            'OutSum' => $outSum,
+            'InvId' => $payment->provider_invoice_id,
+            'PreviousInvoiceID' => $parentInvoiceId,
+            'Description' => 'SQL Designer Pro - monthly subscription renewal',
+            ...$customParameters,
+        ];
+        if ($receipt !== null) {
+            $parameters['Receipt'] = $receipt;
         }
 
         $parameters['SignatureValue'] = $this->paymentSignature(
@@ -224,7 +266,7 @@ class RobokassaService
 
         $receipt = [
             'items' => [[
-                'name' => 'SQL Designer Pro - one month',
+                'name' => 'SQL Designer Pro - monthly subscription',
                 'quantity' => 1,
                 'sum' => (float) $outSum,
                 'payment_method' => 'full_payment',

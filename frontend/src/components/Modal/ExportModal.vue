@@ -148,6 +148,7 @@
             </div>
         </div>
     </div>
+    <UpgradePrompt v-if="upgradeMessage" :message="upgradeMessage" @close="upgradeMessage = ''" />
 </template>
 
 <script setup>
@@ -155,6 +156,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import axios from '@/axios.js'
 import { useToast } from 'vue-toast-notification'
 import { Diagram } from '@/services/Diagram.js'
+import UpgradePrompt from '@/components/UpgradePrompt.vue'
+import { isPlanLimitError } from '@/services/Subscription.js'
 
 const $toast = useToast()
 
@@ -166,6 +169,7 @@ const props = defineProps({
 const isExporting  = ref(false)
 const activeExport = ref(null)
 const sqlCache     = ref(null)
+const upgradeMessage = ref('')
 
 
 const MSK_OFFSET_MS = 3 * 60 * 60 * 1000 //UTC+3
@@ -248,7 +252,11 @@ const withExporting = async (key, fn) => {
         await fn()
         await refreshQuota()
     } catch (e) {
-        $toast.error(e?.message || 'Export failed')
+        if (isPlanLimitError(e)) {
+            upgradeMessage.value = e.response?.data?.message ?? e.message
+        } else {
+            $toast.error(e?.message || 'Export failed')
+        }
         console.error(e)
     } finally {
         isExporting.value  = false

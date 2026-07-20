@@ -110,7 +110,7 @@
                 "name": "How many exports do I get on the free plan?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "3 exports per day on the free plan, combined across SQL, JSON, and migration exports. Pro has no daily export limit."
+                    "text": "3 exports per day on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no daily export limit."
                 }
             },
             {
@@ -118,7 +118,7 @@
                 "name": "Can I cancel my Pro subscription anytime?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. Pro is a monthly subscription with no long-term commitment — cancel whenever you like."
+                    "text": "Yes. Pro renews automatically each month until you cancel. You can cancel anytime without a refund, and access continues until the current billing period ends."
                 }
             }
         ]
@@ -260,6 +260,8 @@
             text-align: left;
         }
         .launch-banner-icon { font-size: 1.2rem; line-height: 1; flex-shrink: 0; }
+        .checkout-message { display:none; margin-top:.7rem; color:#f0b6b6; font-size:.82rem; line-height:1.45; }
+        .checkout-message.show { display:block; }
 
         .compare-wrap {
             max-width: 1120px;
@@ -354,8 +356,12 @@
 {{-- Launch notice --}}
 <div class="launch-banner-wrap">
     <div class="launch-banner" role="status">
-        <span class="launch-banner-icon" aria-hidden="true">🚧</span>
-        <span>Pro subscriptions and limits are not live yet — sign up free and we'll email you when it launches.</span>
+        <span class="launch-banner-icon" aria-hidden="true">{{ $paymentsLive ? '✓' : '⏳' }}</span>
+        <span>
+            {{ $paymentsLive
+                ? '$10/month, billed automatically. Cancel anytime; Pro stays active until the end of the current billing period.'
+                : 'Payments are not live yet. Sign up free and check back soon for Pro.' }}
+        </span>
     </div>
 </div>
 
@@ -389,7 +395,12 @@
                 <li><span class="mark">✓</span> Multiplayer collaboration</li>
             </ul>
             <div class="plan-cta">
-                <a class="btn btn-solid btn-lg" href="/register">Get Pro — coming soon</a>
+                @if ($paymentsLive)
+                    <a id="pro-checkout" class="btn btn-solid btn-lg" href="/login?redirect=/billing">Get Pro — $10/month</a>
+                    <div id="checkout-message" class="checkout-message" role="alert"></div>
+                @else
+                    <a class="btn btn-solid btn-lg" href="/register">Get Pro — coming soon</a>
+                @endif
             </div>
         </div>
 
@@ -455,11 +466,11 @@
     </div>
     <div class="faq-item">
         <h3>How many exports do I get on the free plan?</h3>
-        <p>3 exports per day on the free plan, combined across SQL, JSON, and migration exports. Pro has no daily export limit.</p>
+        <p>3 exports per day on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no daily export limit.</p>
     </div>
     <div class="faq-item">
         <h3>Can I cancel my Pro subscription anytime?</h3>
-        <p>Yes. Pro is a monthly subscription with no long-term commitment — cancel whenever you like.</p>
+        <p>Yes. Pro renews automatically each month until you cancel. You can cancel anytime without a refund, and access continues until the current billing period ends.</p>
     </div>
 </div>
 
@@ -472,4 +483,72 @@
         <a class="btn btn-outline btn-lg" href="/register">Sign up to save</a>
     </div>
 </section>
+
+<script>
+    (function () {
+        const button = document.getElementById('pro-checkout');
+        const message = document.getElementById('checkout-message');
+        if (!button) return;
+
+        button.addEventListener('click', async function (event) {
+            if (button.getAttribute('aria-disabled') === 'true') {
+                event.preventDefault();
+                return;
+            }
+            const token = localStorage.getItem('auth_token');
+            if (!token) {
+                sessionStorage.setItem('post_auth_route', 'billing');
+                return;
+            }
+
+            event.preventDefault();
+            button.setAttribute('aria-disabled', 'true');
+            button.textContent = 'Opening secure checkout…';
+            message.classList.remove('show');
+
+            try {
+                const response = await fetch('/api/subscription/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: '{}',
+                });
+                const data = await response.json();
+
+                if (response.status === 401) {
+                    localStorage.removeItem('auth_token');
+                    sessionStorage.setItem('post_auth_route', 'billing');
+                    window.location.href = '/login?redirect=/billing';
+                    return;
+                }
+                if (response.status === 409) {
+                    window.location.href = '/billing';
+                    return;
+                }
+                if (!response.ok || !data.form) throw new Error(data.message || 'Checkout is unavailable right now.');
+
+                const form = document.createElement('form');
+                form.method = data.form.method;
+                form.action = data.form.action;
+                Object.entries(data.form.fields).forEach(([name, value]) => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = name;
+                    input.value = value;
+                    form.appendChild(input);
+                });
+                document.body.appendChild(form);
+                form.submit();
+            } catch (error) {
+                message.textContent = error.message || 'Checkout is unavailable right now.';
+                message.classList.add('show');
+                button.removeAttribute('aria-disabled');
+                button.textContent = 'Get Pro — $10';
+            }
+        });
+    }());
+</script>
 @endsection

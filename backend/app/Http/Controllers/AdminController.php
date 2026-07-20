@@ -10,7 +10,11 @@ use App\Http\Requests\Auth\AdminLoginRequest;
 use App\Jobs\SendAdminBulkEmailBatch;
 use App\Mail\AdminEmailMail;
 use App\Models\Diagram;
+use App\Models\ExportUsage;
+use App\Models\Payment;
+use App\Models\PaymentWebhookLog;
 use App\Models\Review;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Services\AdminService;
 use Illuminate\Contracts\View\Factory;
@@ -60,6 +64,33 @@ class AdminController extends Controller
         $libraryDiagrams = $this->adminService->getLibraryDiagrams();
 
         return view('admin.library', compact('libraryDiagrams'));
+    }
+
+    public function showBilling(): Factory|View
+    {
+        $activeProUsers = Subscription::query()->providingProAccess()->distinct('user_id')->count('user_id');
+        $successfulPayments = Payment::query()->where('status', 'succeeded')->count();
+        $pendingPayments = Payment::query()->where('status', 'initiated')->count();
+        $nominalRevenueMinor = (int) Payment::query()->where('status', 'succeeded')->sum('amount_minor');
+        $subscriptions = Subscription::with('user')->latest()->limit(50)->get();
+        $payments = Payment::with('user')->latest()->limit(50)->get();
+        $webhookLogs = PaymentWebhookLog::with('payment.user')->latest()->limit(50)->get();
+        $exportUsages = ExportUsage::with('user')
+            ->where('usage_date', now('Europe/Moscow')->toDateString())
+            ->orderByDesc('count')
+            ->limit(50)
+            ->get();
+
+        return view('admin.billing', compact(
+            'activeProUsers',
+            'successfulPayments',
+            'pendingPayments',
+            'nominalRevenueMinor',
+            'subscriptions',
+            'payments',
+            'webhookLogs',
+            'exportUsages',
+        ));
     }
 
     public function featureDiagram(Diagram $diagram, FeatureDiagramRequest $request): JsonResponse

@@ -47,6 +47,13 @@ class AdminControllerTest extends TestCase
             ->assertStatus(200);
     }
 
+    public function test_billing_returns_ok(): void
+    {
+        $this->withSession($this->adminSession)
+            ->get('/admin/billing')
+            ->assertStatus(200);
+    }
+
     public function test_user_activity_returns_ok(): void
     {
         $user = User::factory()->create();

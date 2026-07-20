@@ -227,6 +227,7 @@
     </div>
     <nav class="flex-items" aria-label="Main navigation">
         <div id="nav-authed" style="display:none; gap:0.6rem;">
+            <a class="btn btn-ghost nav-hide-mobile" href="/billing">Billing</a>
             <a class="btn btn-ghost nav-hide-mobile" href="/diagrams">My Diagrams</a>
             <a class="btn btn-ghost" href="/logout">Logout</a>
         </div>
@@ -251,6 +252,7 @@
     <a href="/about">About</a>
     <div class="divider"></div>
     <div id="mobile-nav-authed" style="display:none;">
+        <a href="/billing">Billing</a>
         <a href="/diagrams">My Diagrams</a>
     </div>
     <a href="/login" id="mobile-nav-login">Log in</a>

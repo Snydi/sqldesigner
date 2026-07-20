@@ -100,6 +100,17 @@ class Subscription extends Model
         ])->save();
     }
 
+    public function renew(): void
+    {
+        if ($this->status !== SubscriptionStatus::ACTIVE || $this->ends_at === null) {
+            throw new LogicException('Only an active subscription can be renewed.');
+        }
+
+        $this->forceFill([
+            'ends_at' => $this->ends_at->copy()->addMonthNoOverflow(),
+        ])->save();
+    }
+
     public function cancel(?Carbon $cancelledAt = null): void
     {
         if ($this->status === SubscriptionStatus::CANCELLED) {

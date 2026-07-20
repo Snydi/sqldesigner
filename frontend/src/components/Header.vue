@@ -8,6 +8,7 @@
         <div class="flex-items">
             <button v-if="!store.state.auth_token && route.name !== 'demo'" class="hbtn-cta" @click="router.push({ name: 'demo' })">Try Demo</button>
             <button v-if="!store.state.auth_token && route.name === 'demo'" class="hbtn-cta" @click="router.push({ name: 'register' })">Register for free</button>
+            <button v-if="store.state.auth_token" class="hbtn-billing" @click="router.push({ name: 'billing' })">Billing</button>
             <button v-if="store.state.auth_token" class="hbtn" @click="router.push({ name: 'diagrams' })" title="View diagrams">
                 <SvgIcon name="table-list" :size="17" />
             </button>

@@ -37,6 +37,8 @@ Route::middleware(['auth:sanctum', 'track.seen'])->group(function () {
     Route::post('/email/resend', [AuthController::class, 'resendVerification']);
     Route::get('/plan-limits', [PlanLimitController::class, 'show']);
     Route::middleware('throttle:5,1')->post('/subscription/checkout', [SubscriptionController::class, 'checkout']);
+    Route::get('/subscription/me', [SubscriptionController::class, 'me']);
+    Route::delete('/subscription/current', [SubscriptionController::class, 'cancel']);
     Route::get('/review', [ReviewController::class, 'check']);
     Route::middleware('throttle:5,1')->post('/review', [ReviewController::class, 'store']);
 

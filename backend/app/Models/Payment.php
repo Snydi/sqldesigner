@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -15,10 +17,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $provider_invoice_id
  * @property int $amount_minor
  * @property string $currency
+ * @property string $provider
  * @property int $provider_amount_minor
  * @property string $provider_currency
  * @property PaymentStatus $status
  * @property array<string, mixed>|null $raw_payload
+ * @property Carbon|null $expires_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $paid_at
  */
 class Payment extends Model
 {
@@ -38,6 +44,7 @@ class Payment extends Model
         'payment_method',
         'paid_currency_label',
         'raw_payload',
+        'expires_at',
         'paid_at',
         'failed_at',
     ];
@@ -50,6 +57,7 @@ class Payment extends Model
             'provider_amount_minor' => 'integer',
             'fee_minor' => 'integer',
             'raw_payload' => 'array',
+            'expires_at' => 'datetime',
             'paid_at' => 'datetime',
             'failed_at' => 'datetime',
         ];
@@ -65,5 +73,11 @@ class Payment extends Model
     public function subscription(): BelongsTo
     {
         return $this->belongsTo(Subscription::class);
+    }
+
+    /** @return HasMany<PaymentWebhookLog, $this> */
+    public function webhookLogs(): HasMany
+    {
+        return $this->hasMany(PaymentWebhookLog::class);
     }
 }

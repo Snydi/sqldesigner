@@ -11,8 +11,11 @@ use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 use LogicException;
+use RuntimeException;
+use Throwable;
 
 class SubscriptionPaymentService
 {
@@ -27,6 +30,16 @@ class SubscriptionPaymentService
             $lockedUser = User::query()->lockForUpdate()->findOrFail($user->id);
             if ($lockedUser->isPro()) {
                 throw new LogicException('Pro access is already active. Buy another month after it expires.');
+            }
+
+            $existingPayment = $lockedUser->payments()
+                ->where('provider', 'robokassa')
+                ->where('status', PaymentStatus::INITIATED->value)
+                ->where('expires_at', '>', now())
+                ->latest()
+                ->first();
+            if ($existingPayment !== null) {
+                return $existingPayment->load('user');
             }
 
             $subscription = Subscription::create([
@@ -47,6 +60,7 @@ class SubscriptionPaymentService
                 'currency' => Subscription::PRO_CURRENCY,
                 'provider_amount_minor' => $this->robokassa->providerAmountMinor(),
                 'provider_currency' => (string) config('robokassa.provider_currency', 'RUB'),
+                'expires_at' => now()->addMinutes((int) config('robokassa.checkout_expires_minutes', 30)),
             ]);
             $payment->forceFill(['provider_invoice_id' => (string) $payment->id])->save();
 
@@ -110,9 +124,106 @@ class SubscriptionPaymentService
                 'failed_at' => null,
             ])->save();
             $subscription->activate();
+            if ($subscription->provider_subscription_id === null) {
+                $subscription->forceFill(['provider_subscription_id' => $payment->provider_invoice_id])->save();
+            } elseif ($payment->provider_invoice_id !== $subscription->provider_subscription_id) {
+                $subscription->renew();
+            }
         });
 
         return $invoiceId;
+    }
+
+    public function renewDueSubscriptions(): int
+    {
+        $subscriptions = Subscription::query()
+            ->where('status', SubscriptionStatus::ACTIVE->value)
+            ->whereNotNull('provider_subscription_id')
+            ->where('ends_at', '<=', now()->addDay())
+            ->get();
+
+        $initiated = 0;
+        foreach ($subscriptions as $subscription) {
+            if ($this->initiateRenewal($subscription)) {
+                $initiated++;
+            }
+        }
+
+        return $initiated;
+    }
+
+    private function initiateRenewal(Subscription $subscription): bool
+    {
+        $payment = DB::transaction(function () use ($subscription): ?Payment {
+            $subscription = Subscription::query()->lockForUpdate()->findOrFail($subscription->id);
+            if ($subscription->status !== SubscriptionStatus::ACTIVE
+                || $subscription->provider_subscription_id === null
+                || $subscription->ends_at === null
+                || $subscription->ends_at->greaterThan(now()->addDay())) {
+                return null;
+            }
+
+            if ($subscription->payments()->where('status', PaymentStatus::INITIATED->value)->exists()) {
+                return null;
+            }
+
+            $payment = Payment::create([
+                'user_id' => $subscription->user_id,
+                'subscription_id' => $subscription->id,
+                'provider' => 'robokassa',
+                'status' => PaymentStatus::INITIATED,
+                'amount_minor' => Subscription::PRO_PRICE_MINOR,
+                'currency' => Subscription::PRO_CURRENCY,
+                'provider_amount_minor' => $this->robokassa->providerAmountMinor(),
+                'provider_currency' => (string) config('robokassa.provider_currency', 'RUB'),
+            ]);
+            $payment->forceFill(['provider_invoice_id' => (string) $payment->id])->save();
+
+            return $payment->load('user', 'subscription');
+        });
+
+        if ($payment === null) {
+            return false;
+        }
+
+        try {
+            $response = Http::asForm()
+                ->timeout(15)
+                ->post((string) config('robokassa.recurring_payment_url'), $this->robokassa->recurringPaymentParameters(
+                    $payment,
+                    (string) $payment->subscription->provider_subscription_id,
+                ));
+            if (! $response->successful() || ! str_starts_with(trim($response->body()), 'OK')) {
+                throw new RuntimeException('Robokassa did not accept the recurring payment.');
+            }
+        } catch (Throwable $exception) {
+            report($exception);
+            $payment->forceFill(['status' => PaymentStatus::FAILED, 'failed_at' => now()])->save();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function cancelCurrentSubscription(User $user): Subscription
+    {
+        return DB::transaction(function () use ($user): Subscription {
+            User::query()->lockForUpdate()->findOrFail($user->id);
+            $subscription = Subscription::query()
+                ->where('user_id', $user->id)
+                ->providingProAccess()
+                ->orderByDesc('ends_at')
+                ->lockForUpdate()
+                ->first();
+            if ($subscription === null) {
+                throw new LogicException('There is no active Pro subscription to cancel.');
+            }
+
+            $subscription->cancel();
+
+            return $subscription->refresh();
+        });
     }
 
     /** @param array<string, mixed> $payload */

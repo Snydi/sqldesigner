@@ -137,6 +137,7 @@
                 </div>
             </div>
         </div>
+        <UpgradePrompt v-if="upgradeMessage" :message="upgradeMessage" @close="upgradeMessage = ''" />
     </div>
 </template>
 
@@ -146,6 +147,8 @@ import router from '../router/index.js'
 import { useToast } from 'vue-toast-notification'
 import DiagramPreview from './Diagram/DiagramPreview.vue'
 import SvgIcon from './SvgIcon.vue'
+import UpgradePrompt from './UpgradePrompt.vue'
+import { isPlanLimitError } from '@/services/Subscription.js'
 import mysqlIcon from '../icons/mysql.svg'
 import postgresqlIcon from '../icons/postgresql.svg'
 import sqliteIcon from '../icons/sqlite.svg'
@@ -156,7 +159,7 @@ import msaccessIcon from '../icons/msaccess.svg'
 const $toast = useToast()
 
 export default {
-    components: { DiagramPreview, SvgIcon },
+    components: { DiagramPreview, SvgIcon, UpgradePrompt },
     data() {
         return {
             diagrams: [],
@@ -168,6 +171,7 @@ export default {
             showNewForm: false,
             renamingId: null,
             originalName: null,
+            upgradeMessage: '',
             dbIcons: { mysql: mysqlIcon, postgresql: postgresqlIcon, sqlite: sqliteIcon, oracle: oracleIcon, sqlserver: sqlserverIcon, msaccess: msaccessIcon },
             dbOptions: [
                 { type: 'mysql', label: 'MySQL' },
@@ -207,6 +211,10 @@ export default {
                 await this.fetchDiagrams()
                 $toast.success(response.data.message)
             } catch (error) {
+                if (isPlanLimitError(error)) {
+                    this.upgradeMessage = error.response?.data?.message ?? 'Upgrade to Pro to create more diagrams.'
+                    return
+                }
                 const errors = error.response?.data?.errors
                 if (errors?.name) {
                     $toast.error(`A diagram named "${this.newDiagramName}" already exists.`)
