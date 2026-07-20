@@ -597,7 +597,7 @@ CREATE TABLE events (
 
 <section class="docs-cta">
     <h2>Design your PostgreSQL schema visually</h2>
-    <p>SQL Designer lets you pick PostgreSQL data types from a dropdown as you build your tables. Visual FK lines, SQL export, free forever.</p>
+    <p>SQL Designer lets you pick PostgreSQL data types from a dropdown as you build your tables. Visual FK lines, SQL export, and a Free plan with 1 diagram and 3 daily combined exports.</p>
     <div class="actions">
         <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
         <a class="btn btn-outline btn-lg" href="/register">Create free account</a>

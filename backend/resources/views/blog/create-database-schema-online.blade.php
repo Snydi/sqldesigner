@@ -470,7 +470,7 @@
 
 <section class="docs-cta">
     <h2>Create your database schema online — free</h2>
-    <p>SQL Designer is a free online database schema designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. No install, no subscription — design tables visually and export SQL in minutes.</p>
+    <p>SQL Designer is an online database schema designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits.</p>
     <div class="actions">
         <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
         <a class="btn btn-outline btn-lg" href="/register">Create free account</a>

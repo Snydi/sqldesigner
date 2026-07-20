@@ -1,14 +1,14 @@
 @extends('layouts.main')
 
-@section('title', 'SQL Designer Features — Visual SQL Schema Builder')
+@section('title', 'SQL Designer Features — Free & Pro Database Schema Tool')
 
 @section('head')
-    <meta name="description" content="Visual SQL schema builder and online database modeler — drag-and-drop ERD canvas, SQL export for 6 dialects, foreign keys, crow's foot notation, auto-save.">
+    <meta name="description" content="Visual SQL schema builder with Free and Pro plans: 1 free diagram, 3 daily exports, or unlimited diagrams and exports with Pro.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/features">
     <meta property="og:title" content="SQL Designer Features — Visual SQL Schema Builder">
-    <meta property="og:description" content="Visual SQL schema builder and online database modeler — drag-and-drop ERD canvas, SQL export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access, foreign keys, auto-save.">
+    <meta property="og:description" content="Visual SQL schema builder with Free and Pro plans: 1 free diagram, 3 daily exports, or unlimited diagrams and exports with Pro.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
@@ -19,7 +19,7 @@
     <meta property="og:image:alt" content="SQL Designer — full feature list for the free database designer and ERD tool">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL Designer Features — Visual SQL Schema Builder">
-    <meta name="twitter:description" content="Visual SQL schema builder and online database modeler — drag-and-drop ERD canvas, SQL export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access, foreign keys, auto-save.">
+    <meta name="twitter:description" content="Visual SQL schema builder with Free and Pro plans: 1 free diagram, 3 daily exports, or unlimited diagrams and exports with Pro.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <meta name="keywords" content="visual sql schema builder, database diagram maker free, online database modeler, database modeler online, sql table designer online, ERD tool, database designer, MySQL schema designer, PostgreSQL schema designer, SQLite schema designer, Oracle schema designer, SQL Server schema designer, MS Access schema designer, entity relationship diagram, visual SQL tool, foreign key diagram, CREATE TABLE generator, SQL import, free ERD tool, crow's foot notation, database diagram online, multi-dialect SQL export">
     <script type="application/ld+json">
@@ -58,7 +58,8 @@
             "Share links with read-only, editable, or approval-based access",
             "Embeddable iframe diagrams",
             "Auto-save to account",
-            "Unlimited diagrams"
+            "Free plan: 1 diagram and 3 daily combined exports",
+            "Pro plan: unlimited diagrams and exports"
         ],
         "sameAs": [
             "https://github.com/Snydi/sqldesigner",
@@ -72,7 +73,7 @@
         "url": "https://sql-designer.com/features",
         "datePublished": "2026-04-05",
         "dateModified": "2026-04-27",
-        "description": "Every feature in SQL Designer: drag-and-drop canvas, SQL export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access, foreign keys, constraints, SQL import, auto-save, sharing.",
+        "description": "SQL Designer features: a drag-and-drop canvas, SQL export, SQL import, sharing, plus Free and Pro plan limits.",
         "isPartOf": { "@type": "WebSite", "url": "https://sql-designer.com" },
         "about": {
             "@type": "SoftwareApplication",
@@ -119,7 +120,7 @@
                 "name": "Is SQL Designer free to use?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. SQL Designer is completely free — no credit card required, no subscription, no document limits. You can create unlimited diagrams, export SQL for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access, and share diagrams with others at no cost."
+                    "text": "Yes. The Free plan includes 1 diagram and 3 daily combined SQL, JSON, migration, or PNG exports, with no credit card required. Pro provides unlimited diagrams and exports."
                 }
             },
             {
@@ -159,7 +160,7 @@
                 "name": "How many diagrams can I create?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Unlimited. There is no cap on the number of diagrams you can create with a free account."
+                    "text": "The Free plan includes 1 diagram. Pro includes unlimited diagrams."
                 }
             },
             {
@@ -698,7 +699,7 @@
             <p class="section-eyebrow">06 / Compare</p>
             <h2 class="section-h2" id="vs-h2">How SQL Designer compares</h2>
             <p style="font-size:0.95rem; color:var(--text-secondary); margin:0 0 1.5rem; max-width:65ch; text-wrap:pretty;">
-                Most database designers fall into one of two buckets: desktop software that requires installation and ties you to one engine, or SaaS tools that put SQL export behind a paywall. SQL Designer is neither.
+                Most database designers fall into one of two buckets: desktop software that requires installation and ties you to one engine, or SaaS tools that put SQL export behind a paywall. SQL Designer is browser-based and offers Free and Pro plans.
             </p>
             <div style="display:flex; flex-direction:column; gap:1px; background:var(--border-light); border:1px solid var(--border-light); border-radius:8px; overflow:hidden; margin-bottom:1.5rem;">
                 <div style="background:var(--bg-surface); padding:1.3rem 1.4rem;">
@@ -707,11 +708,11 @@
                 </div>
                 <div style="background:var(--bg-surface); padding:1.3rem 1.4rem;">
                     <h3 style="font-size:0.95rem; font-weight:600; margin:0 0 0.5rem; letter-spacing:-0.005em;">vs. dbdiagram.io</h3>
-                    <p style="font-size:0.9rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">dbdiagram.io uses a custom DSL — you write schema text and it renders a diagram. That's fast for people who prefer code-first workflows, but it means a learning curve and no drag-and-drop. Its free tier also caps the number of diagrams and restricts SQL export to paid plans. SQL Designer is visual from the start, dialect-aware, and free with no diagram cap or export paywall.</p>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">dbdiagram.io uses a custom DSL — you write schema text and it renders a diagram. That's fast for people who prefer code-first workflows, but it means a learning curve and no drag-and-drop. Its free tier also caps the number of diagrams and restricts SQL export to paid plans. SQL Designer is visual from the start, dialect-aware, and has a Free plan plus unlimited Pro access.</p>
                 </div>
                 <div style="background:var(--bg-surface); padding:1.3rem 1.4rem;">
                     <h3 style="font-size:0.95rem; font-weight:600; margin:0 0 0.5rem; letter-spacing:-0.005em;">The SQL Designer position</h3>
-                    <p style="font-size:0.9rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">Browser-based so nothing to install. Visual so there's no DSL to learn. Free forever — no feature is gated behind a subscription, and there are no diagram or export limits. Open source so you can inspect exactly what the tool does with your schema. This combination is what most free-tier ERD tools promise and don't deliver.</p>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">Browser-based so nothing to install. Visual so there's no DSL to learn. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes those limits. Open source so you can inspect exactly what the tool does with your schema.</p>
                 </div>
             </div>
             <p style="font-size:0.88rem; color:var(--text-muted);">Full comparison including DrawSQL, ERDPlus, ChartDB, and Lucidchart: <a href="/blog/best-free-erd-tools" style="color:var(--color-primary-text);">10 Best Free ERD Tools in 2026 →</a></p>

@@ -374,7 +374,7 @@
             <p class="plan-price"><span class="amount">$0</span><span class="period">/ forever</span></p>
             <ul class="plan-features">
                 <li class="limit"><span class="mark">–</span> 1 diagram</li>
-                <li class="limit"><span class="mark">–</span> 3 exports per day</li>
+                <li class="limit"><span class="mark">–</span> 3 daily exports: SQL, JSON, migration, or PNG</li>
                 <li><span class="mark">✓</span> Drag-and-drop ERD canvas</li>
                 <li><span class="mark">✓</span> SQL export for 6 dialects</li>
                 <li><span class="mark">✓</span> Multiplayer collaboration</li>
@@ -425,7 +425,7 @@
                 <td>Unlimited</td>
             </tr>
             <tr>
-                <td>Exports per day</td>
+                <td>Combined SQL, JSON, migration, and PNG exports per day</td>
                 <td>3</td>
                 <td>Unlimited</td>
             </tr>
