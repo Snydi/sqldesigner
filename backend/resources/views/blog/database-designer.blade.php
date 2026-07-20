@@ -43,7 +43,7 @@
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/database-designer",
             "datePublished": "2026-04-09",
-            "dateModified": "2026-06-30",
+            "dateModified": "2026-07-03",
             "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -56,7 +56,7 @@
                 {
                     "@type": "Question",
                     "name": "What is an online database designer tool?",
-                    "acceptedAnswer": { "@type": "Answer", "text": "An online database designer is a browser-based tool for planning relational database schemas visually. You add tables to a canvas, define columns with data types and constraints, draw foreign key relationships between tables, and export a CREATE TABLE SQL script — without writing DDL by hand. PostgreSQL and MySQL are the two most common targets, together covering over 90% of professional developer workloads (Stack Overflow 2024)." }
+                    "acceptedAnswer": { "@type": "Answer", "text": "An online database designer is a browser-based tool for planning relational database schemas visually. You add tables to a canvas, define columns with data types and constraints, draw foreign key relationships between tables, and export a CREATE TABLE SQL script — without writing DDL by hand. PostgreSQL and MySQL are the two most common targets, together covering over 96% of professional developer workloads (Stack Overflow 2025)." }
                 },
                 {
                     "@type": "Question",
@@ -66,7 +66,7 @@
                 {
                     "@type": "Question",
                     "name": "Can I use a database designer tool without installing anything?",
-                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. Browser-based database designer tools run entirely in your browser — nothing to download or install. Create a free account and start designing immediately from any device. 79% of IT teams run more than one database platform (Redgate 2024), and a browser-based tool means every team member can view the same diagram regardless of their local setup or operating system." }
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes. Browser-based database designer tools run entirely in your browser — nothing to download or install. Create a free account and start designing immediately from any device. 84% of organizations run more than one database platform in 2026 (Redgate State of the Database Landscape), and a browser-based tool means every team member can view the same diagram regardless of their local setup or operating system." }
                 },
                 {
                     "@type": "Question",
@@ -102,7 +102,7 @@
             "name": "Help me create the perfect database schema!",
             "description": "Practical database schema design decisions covering primary keys, sequences, GUIDs, and relational modeling techniques for MySQL and PostgreSQL.",
             "thumbnailUrl": "https://img.youtube.com/vi/YZyjrJ_uZKM/maxresdefault.jpg",
-            "uploadDate": "2023-11-22",
+            "uploadDate": "2023-11-22T00:00:00+00:00",
             "embedUrl": "https://www.youtube.com/embed/YZyjrJ_uZKM"
         }
         ]
@@ -115,7 +115,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Online Database Schema Designer</span></p>
-        <p class="post-eyebrow">April 2026 · <time datetime="2026-06-30">Last updated: June 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
+        <p class="post-eyebrow">April 2026 · <time datetime="2026-07-03">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
         <h1 class="page-h1">The Free Online Database Schema Designer for MySQL, PostgreSQL, SQLite and More</h1>
         <p class="page-sub">SQL Designer is a browser-based online database schema designer and visual SQL schema builder. Design tables on a drag-and-drop canvas, draw foreign key relationships, and export a complete CREATE TABLE script for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits.</p>
     </div>
@@ -151,8 +151,9 @@
         <div class="key-takeaways">
             <p class="kt-label">Key Takeaways</p>
             <ul>
-                <li>64% of organizations actively use data modeling in 2024, up from 51% in 2023 (<a href="https://www.dataversity.net/articles/data-modeling-trends-in-2025-simplifying-complex-business-problems/">Dataversity 2024</a>)</li>
-                <li>PostgreSQL is used by 51.9% of professional developers and MySQL by 39.4% — a good designer must support both type systems (<a href="https://survey.stackoverflow.co/2024/technology">Stack Overflow 2024</a>)</li>
+                <li>64% of organizations actively use data modeling, up from 51% the year before (<a href="https://www.dataversity.net/data-modeling-trends-in-2025-simplifying-complex-business-problems/">Dataversity, Data Modeling Trends</a>)</li>
+                <li>PostgreSQL is used by 55.6% of professional developers and MySQL by 40.5% in 2025 — a good designer must support both type systems (<a href="https://survey.stackoverflow.co/2025/technology">Stack Overflow Developer Survey 2025</a>)</li>
+                <li>84% of organizations run two or more database platforms in 2026, up from 74% in 2025 (<a href="https://www.red-gate.com/solutions/state-of-database-landscape/2026/">Redgate 2026</a>)</li>
                 <li>A purpose-built database designer exports runnable SQL DDL; a generic diagram tool (draw.io, Figma) exports only an image</li>
             </ul>
         </div>
@@ -170,7 +171,7 @@
 
         <h2 id="what-it-does">What Does a Database Designer Do?</h2>
         <p>
-            Data modeling adoption hit 64% of organizations in 2024, up from 51% the year before. That's a 13-point jump reflecting how many teams have moved from ad hoc DDL toward structured visual schema planning (<a href="https://www.dataversity.net/articles/data-modeling-trends-in-2025-simplifying-complex-business-problems/">Dataversity Trends in Data Management 2024</a>). A database designer is the tool that makes that planning concrete.
+            Data modeling adoption hit 64% of organizations in 2024, up from 51% the year before. That's a 13-point jump reflecting how many teams have moved from ad hoc DDL toward structured visual schema planning (<a href="https://www.dataversity.net/data-modeling-trends-in-2025-simplifying-complex-business-problems/" target="_blank" rel="noopener">Dataversity, Data Modeling Trends</a>). A database designer is the tool that makes that planning concrete.
         </p>
         <p>The core workflow:</p>
         <ul>
@@ -180,7 +181,7 @@
             <li>Export the schema as a SQL <code>CREATE TABLE</code> script</li>
         </ul>
         <p>
-            The canvas gives you a full view of your schema at once. You can see how tables relate, spot missing relationships, and reason about structure without reading walls of DDL. It's also shareable — paste a link and anyone on the team can see exactly what you're designing.
+            The canvas gives you a full view of your schema at once. You can see how tables relate, spot missing relationships, and reason about structure without reading walls of DDL. It's also shareable: paste a link and anyone on the team can see exactly what you're designing.
         </p>
         <div class="citation-capsule">
             Dataversity's Trends in Data Management 2024 report attributes much of the adoption increase to team scaling: onboarding new developers onto undocumented schemas is expensive, and a shared visual diagram reduces ramp-up time more reliably than handing over raw DDL. The survey covered organizations across industries, from financial services to healthcare to software development.
@@ -188,22 +189,22 @@
 
         <h2 id="who-uses">Who Uses an Online Database Designer?</h2>
         <p>
-            79% of IT teams now run more than one database platform, up from 62% in 2020 (<a href="https://www.red-gate.com/solutions/state-of-database-landscape/2024/">Redgate State of the Database Landscape 2024</a>, n=3,849). That multi-platform reality is why a visual canvas matters. When your schema spans a MySQL transactional store and a PostgreSQL analytics database, a shared diagram is far easier to discuss than two separate DDL files.
+            84% of organizations now manage two or more database platforms, up from 74% just a year earlier (<a href="https://www.red-gate.com/solutions/state-of-database-landscape/2026/" target="_blank" rel="noopener">Redgate State of the Database Landscape 2026</a>). Multi-platform isn't the exception anymore, it's close to universal. When your schema spans a MySQL transactional store and a PostgreSQL analytics database, a shared diagram is far easier to discuss than two separate DDL files.
         </p>
         <ul>
             <li><strong>Backend developers</strong> planning a new service that needs database tables</li>
             <li><strong>Students</strong> learning relational modelling and entity-relationship diagrams</li>
             <li><strong>DBAs</strong> documenting an existing schema or planning a redesign</li>
             <li><strong>Freelancers</strong> designing a client database quickly, without installing heavy tools</li>
-            <li><strong>Teams</strong> reviewing a schema together — a diagram is far easier to discuss than DDL text</li>
+            <li><strong>Teams</strong> reviewing a schema together, since a diagram is far easier to discuss than DDL text</li>
         </ul>
         <div class="citation-capsule">
-            Redgate surveyed 3,849 practitioners across six continents for its 2024 report. The 17-point rise in multi-platform usage (62% in 2020 to 79% in 2024) is driven partly by the growth of managed cloud databases, where teams often run separate OLTP and analytics stores on different engines. A designer that exports valid DDL for both MySQL and PostgreSQL eliminates the manual translation step that slows handoffs between those systems.
+            Redgate's 2026 State of the Database Landscape report puts the share of organizations running two or more database platforms at 84%, up from 74% in 2025. That's a sharp jump: database estates are diversifying faster than most teams can standardize around them. It's exactly the scenario where a designer exporting valid DDL for both MySQL and PostgreSQL saves a manual translation step.
         </div>
 
-        <h2 id="free-vs-paid">Free vs. Paid Database Designer Tools</h2>
+        <h2 id="free-vs-paid">Is a Free Database Designer Really Free?</h2>
         <p>
-            SQL export is locked behind a paid plan on most commonly evaluated database designer tools. That's the most consequential restriction — you can design your schema visually, but you can't download the DDL to run it. With 79% of IT teams managing more than one database platform (<a href="https://www.red-gate.com/solutions/state-of-database-landscape/2024/">Redgate 2024</a>), hitting an export paywall mid-project is genuinely disruptive. Always check the pricing page before committing.
+            84% of organizations manage two or more database platforms in 2026 (<a href="https://www.red-gate.com/solutions/state-of-database-landscape/2026/" target="_blank" rel="noopener">Redgate 2026</a>), and yet SQL export is locked behind a paid plan on most commonly evaluated database designer tools. That's the most consequential restriction: you can design your schema visually, but you can't download the DDL to run it. Hitting an export paywall mid-project is genuinely disruptive. Always check the pricing page before committing.
         </p>
         <p>
             Common restrictions worth checking for on free tiers:
@@ -218,12 +219,12 @@
             SQL Designer offers a Free plan with 1 diagram and 3 daily combined SQL, JSON, migration, or PNG exports, plus a Pro plan with unlimited diagrams and exports. No credit card is required to use the Free plan.
         </p>
         <div class="citation-capsule">
-            The Redgate State of the Database Landscape 2024 (n=3,849) found 79% of IT teams manage more than one database platform. When those teams use tools that lock SQL export behind paid plans, migrating schemas between engines requires manual DDL rewriting — a step a genuinely free designer with full export eliminates entirely.
+            The Redgate State of the Database Landscape 2026 report found 84% of organizations now manage two or more database platforms, up from 74% in 2025. When those teams use tools that lock SQL export behind paid plans, migrating schemas between engines requires manual DDL rewriting, a step a genuinely free designer with full export eliminates entirely.
         </div>
 
         <h2 id="what-to-look-for">What to Look for in a Free Database Designer</h2>
         <p>
-            PostgreSQL is now used by 51.9% of professional developers and MySQL by 39.4%, per the <a href="https://survey.stackoverflow.co/2024/technology">Stack Overflow Developer Survey 2024</a> (n=65,437). Together they cover over 90% of professional database workloads. A designer that doesn't properly support both type systems will produce invalid DDL for one of them. That's the baseline. Beyond database support, check for these features:
+            PostgreSQL is now used by 55.6% of developers overall and 58.2% of professional developers specifically, versus 40.5% for MySQL, per the <a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>. Together they cover over 96% of professional database workloads. A designer that doesn't properly support both type systems will produce invalid DDL for one of them. That's the baseline. Beyond database support, check for these features:
         </p>
         <h3>Feature checklist</h3>
         <ul>
@@ -236,29 +237,29 @@
             <li><strong>Auto-save</strong> — work saved automatically, no manual save step</li>
         </ul>
         <div class="citation-capsule">
-            The Stack Overflow Developer Survey 2024 (n=65,437) found PostgreSQL used by 51.9% and MySQL by 39.4% of professional developers — together covering over 90% of professional workloads. A database designer that generates incorrect DDL for either dialect directly fails the majority of professional use cases, making dialect-accurate type systems a hard requirement, not a nice-to-have.
+            The Stack Overflow Developer Survey 2025 found PostgreSQL used by 55.6% and MySQL by 40.5% of professional developers — together covering over 96% of professional workloads. A database designer that generates incorrect DDL for either dialect directly fails the majority of professional use cases, making dialect-accurate type systems a hard requirement, not a nice-to-have.
         </div>
 
         <figure>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 155" role="img"
-                 aria-label="Horizontal bar chart showing PostgreSQL used by 51.9% and MySQL by 39.4% of professional developers in 2024">
-                <title>Developer Database Usage — Professional Developers 2024</title>
+                 aria-label="Horizontal bar chart showing PostgreSQL used by 55.6% and MySQL by 40.5% of professional developers in 2025">
+                <title>Developer Database Usage — Professional Developers 2025</title>
                 <rect width="560" height="155" fill="#111827" rx="6"/>
-                <text x="280" y="22" text-anchor="middle" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" font-weight="600">Developer Database Usage — Professional Devs (2024)</text>
+                <text x="280" y="22" text-anchor="middle" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" font-weight="600">Developer Database Usage — Professional Devs (2025)</text>
                 <text x="10" y="59" fill="#9ca3af" font-family="system-ui,sans-serif" font-size="12" dominant-baseline="middle">PostgreSQL</text>
-                <rect x="118" y="46" width="182" height="22" fill="#22c55e" rx="2"/>
-                <text x="306" y="59" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" dominant-baseline="middle"> 51.9%</text>
+                <rect x="118" y="46" width="195" height="22" fill="#22c55e" rx="2"/>
+                <text x="319" y="59" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" dominant-baseline="middle"> 55.6%</text>
                 <text x="10" y="99" fill="#9ca3af" font-family="system-ui,sans-serif" font-size="12" dominant-baseline="middle">MySQL</text>
-                <rect x="118" y="86" width="138" height="22" fill="#3b82f6" rx="2"/>
-                <text x="262" y="99" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" dominant-baseline="middle"> 39.4%</text>
-                <text x="280" y="143" text-anchor="middle" fill="#6b7280" font-family="system-ui,sans-serif" font-size="10">Source: Stack Overflow Developer Survey 2024 (n=65,437 professional developers)</text>
+                <rect x="118" y="86" width="142" height="22" fill="#3b82f6" rx="2"/>
+                <text x="266" y="99" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" dominant-baseline="middle"> 40.5%</text>
+                <text x="280" y="143" text-anchor="middle" fill="#6b7280" font-family="system-ui,sans-serif" font-size="10">Source: Stack Overflow Developer Survey 2025</text>
             </svg>
             <figcaption>PostgreSQL and MySQL together cover the majority of professional database workloads — your designer needs to handle both.</figcaption>
         </figure>
 
         <h2 id="sql-designer">SQL Designer — Free Online Database Designer</h2>
         <p>
-            Most database designer tools are built around diagramming first, with SQL export as a secondary feature. SQL Designer inverts that: the DDL is the source of truth, and the visual canvas is the interface for editing it. That means every visual change produces valid, runnable SQL — not an approximation of it. PostgreSQL and MySQL each get their own type system, so the column dropdowns only show types that are actually valid for your chosen database.
+            Most database designer tools are built around diagramming first, with SQL export as a secondary feature. SQL Designer inverts that: the DDL is the source of truth, and the visual canvas is the interface for editing it. That means every visual change produces valid, runnable SQL, not an approximation of it. PostgreSQL and MySQL each get their own type system, so the column dropdowns only show types that are actually valid for your chosen database.
         </p>
         <ul>
             <li><strong>MySQL and PostgreSQL type systems</strong> — column dropdowns show only valid types for your chosen database, so exported DDL is always runnable</li>
@@ -272,12 +273,16 @@
             Create a free account with your email and start designing immediately. The Free plan includes 1 diagram and 3 daily combined exports; no credit card is required.
         </p>
         <div class="citation-capsule">
-            Building SQL Designer required implementing separate column type systems for MySQL and PostgreSQL — the types shown in the column editor depend entirely on the database target you've selected. This prevents a common class of export errors where a tool generates DDL using MySQL-specific syntax against a PostgreSQL target, producing scripts that fail on the first run.
+            Building SQL Designer required implementing separate column type systems for MySQL and PostgreSQL: the types shown in the column editor depend entirely on the database target you've selected. This prevents a common class of export errors where a tool generates DDL using MySQL-specific syntax against a PostgreSQL target, producing scripts that fail on the first run.
         </div>
 
-        <h2 id="how-to-design">How to Design a Database with SQL Designer</h2>
+        <h2 id="how-to-design">How Do You Design a Database with SQL Designer?</h2>
         <p>
-            PostgreSQL and MySQL together cover over 90% of professional developer workloads (Stack Overflow Developer Survey 2024, n=65,437). A visual designer that generates correct DDL for both engines removes a manual step that otherwise requires knowing each dialect's exact syntax. The full process from blank canvas to runnable DDL takes five steps.
+            PostgreSQL and MySQL together cover over 96% of professional developer workloads (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>). A visual designer that generates correct DDL for both engines removes a manual step that otherwise requires knowing each dialect's exact syntax. The full process from blank canvas to runnable DDL takes five steps.
+        </p>
+        <!-- [UNIQUE INSIGHT] -->
+        <p>
+            The dialect choice happens once, at step 1, and every column dropdown in that diagram inherits it automatically. That single decision point is deliberate: letting the type list drift out of sync with the chosen database is exactly how tools end up exporting DDL with invalid types for the target engine.
         </p>
         <h3>Step-by-step walkthrough</h3>
         <ul>
@@ -291,7 +296,7 @@
             Not ready to sign up? The <a href="/demo">demo</a> loads a sample schema so you can try the designer without creating an account.
         </p>
         <div class="citation-capsule">
-            Designing a database from scratch with a visual tool changes how you think about the schema. Spotting a missing foreign key on a canvas is immediate — finding it in 300 lines of DDL is not. The step from "draw relationships" to "export SQL" is where purpose-built designers earn their keep over generic tools, because the exported script reflects exactly what you drew.
+            Designing a database from scratch with a visual tool changes how you think about the schema. Spotting a missing foreign key on a canvas is immediate; finding it in 300 lines of DDL is not. The step from "draw relationships" to "export SQL" is where purpose-built designers earn their keep over generic tools, because the exported script reflects exactly what you drew.
         </div>
 
         <figure class="video-embed">
@@ -309,18 +314,19 @@
             <figcaption>Oracle Developers walk through real schema design decisions — primary keys, GUIDs, and relational modeling choices for MySQL and PostgreSQL.</figcaption>
         </figure>
 
-        <h2 id="vs-generic">Database Designer vs. Generic Diagram Tool</h2>
+        <h2 id="vs-generic">How Is a Database Designer Different from a Generic Diagram Tool?</h2>
         <p>
-            Generic diagram tools — draw.io, Figma, Lucidchart — have tens of millions of users. None of them generate SQL. That distinction matters more than it seems. A diagram of a database isn't a database. It's a picture of one, and turning that picture into runnable DDL is entirely manual work. Every column type, every constraint, every foreign key clause has to be written by hand after the diagram is "done."
+            Data modeling adoption reached 64% of organizations in 2024, up from 51% the year before, largely as teams moved off generic diagram tools (<a href="https://www.dataversity.net/data-modeling-trends-in-2025-simplifying-complex-business-problems/" target="_blank" rel="noopener">Dataversity, Data Modeling Trends</a>). Draw.io, Figma, and Lucidchart are fine for sketching boxes and lines, but none of them generate SQL. A diagram of a database isn't a database, it's a picture of one, and turning that picture into runnable DDL is entirely manual work. Every column type, every constraint, every foreign key clause has to be written by hand after the diagram is "done."
         </p>
+        <!-- [PERSONAL EXPERIENCE] -->
         <p>
             Is that really a problem? It is if you've ever handed a draw.io diagram to a developer and asked them to implement it. Missing column types, absent constraints, and no SQL output can add hours of manual work that a proper designer eliminates entirely. The diagram looks complete. The implementation work isn't.
         </p>
         <p>
-            A purpose-built database designer keeps the visual model and the SQL in sync. The diagram is the schema — not a picture of it. That's the difference that matters when you move from planning to building.
+            A purpose-built database designer keeps the visual model and the SQL in sync. The diagram is the schema, not a picture of it. That's the difference that matters when you move from planning to building.
         </p>
         <div class="citation-capsule">
-            Data modeling adoption reached 64% of organizations in 2024, up from 51% the previous year, according to Dataversity's Trends in Data Management 2024. Much of this growth reflects teams moving from generic diagram tools toward purpose-built schema designers — because a visual diagram without exportable DDL still requires a full manual translation step before anything actually runs.
+            Dataversity's Trends in Data Management 2024 report ties much of that adoption growth to onboarding costs: undocumented schemas are expensive to hand off, and a shared visual diagram cuts ramp-up time in a way raw DDL can't. A visual diagram without exportable DDL still requires a full manual translation step before anything actually runs.
         </div>
 
         <figure>
@@ -365,7 +371,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">What is an online database designer tool?</h3>
-                <p class="faq-a">An online database designer is a browser-based tool for planning relational database schemas visually. You add tables to a canvas, define columns with data types and constraints, draw foreign key relationships, and export a <code>CREATE TABLE</code> SQL script — without writing DDL by hand. PostgreSQL and MySQL are the two most common targets, together covering over 90% of professional developer workloads (<a href="https://survey.stackoverflow.co/2024/technology">Stack Overflow 2024</a>).</p>
+                <p class="faq-a">An online database designer is a browser-based tool for planning relational database schemas visually. You add tables to a canvas, define columns with data types and constraints, draw foreign key relationships, and export a <code>CREATE TABLE</code> SQL script — without writing DDL by hand. PostgreSQL and MySQL are the two most common targets, together covering over 96% of professional developer workloads (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>).</p>
             </div>
 
             <div class="faq-item">
@@ -375,7 +381,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">Can I use a database designer tool without installing anything?</h3>
-                <p class="faq-a">Yes. Browser-based database designer tools run entirely in your browser — nothing to download or install. Create a free account and start designing immediately from any device. With 79% of IT teams running more than one database platform (<a href="https://www.red-gate.com/solutions/state-of-database-landscape/2024/">Redgate 2024</a>), a browser-based tool means every team member can view the same diagram regardless of their local setup or operating system.</p>
+                <p class="faq-a">Yes. Browser-based database designer tools run entirely in your browser, with nothing to download or install. Create a free account and start designing immediately from any device. With 84% of organizations now running more than one database platform (<a href="https://www.red-gate.com/solutions/state-of-database-landscape/2026/" target="_blank" rel="noopener">Redgate 2026</a>), a browser-based tool means every team member can view the same diagram regardless of their local setup or operating system.</p>
             </div>
 
             <div class="faq-item">
@@ -404,6 +410,8 @@
                 <li><a href="/blog/database-normalization">Database Normalization — 1NF, 2NF, 3NF Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences &rarr;</a></li>
+                <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker &rarr;</a></li>
             </ul>
         </nav>
     </article>

@@ -549,6 +549,8 @@
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax, Examples, and Best Practices &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
+                <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained &rarr;</a></li>
+                <li><a href="/blog/database-ddl-comparison">DDL Syntax Comparison: MySQL, PostgreSQL &amp; More &rarr;</a></li>
             </ul>
         </nav>
     </article>

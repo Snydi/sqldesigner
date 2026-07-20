@@ -3,8 +3,7 @@
 @section('title', 'SQL Designer — Free Online Database Schema Designer')
 
 @section('head')
-    <meta name="description" content="Free online database schema designer with 1 diagram and 3 daily exports. Build tables visually, draw relationships, and upgrade to Pro for more.">
-    <meta name="keywords" content="online database schema designer, create database schema online, er diagram maker online, database diagram maker free, database modeler online, sql table designer online, design relational database online, mysql designer, mysql database designer online, mysql db designer, visual sql designer, visual database designer, database designer for postgresql, ERD tool, online ERD tool, MySQL schema designer, PostgreSQL schema designer, postgres schema designer, postgres db designer, postgres database designer, SQLite designer, Oracle schema designer, SQL Server database designer, MS Access designer, database diagram tool, SQL schema visualizer, ER diagram, entity relationship diagram, database design tool, free database designer, open source database designer, open source ERD tool, MySQL workbench alternative, pgAdmin alternative, free postgres designer">
+    <meta name="description" content="Free online database schema designer and ER diagram tool for MySQL, PostgreSQL, SQLite and more. Build tables visually, draw relationships, export SQL.">
     <meta name="robots" content="index, follow">
     <meta name="author" content="SQL Designer">
     <meta name="theme-color" content="#5db583">
@@ -175,6 +174,18 @@
                 ]
             },
             {
+                "@type": "VideoObject",
+                "@id": "https://sql-designer.com/#demo-video",
+                "name": "SQL Designer: Free Online Database Schema Tool (Demo)",
+                "description": "SQL Designer is a free, online visual tool for designing, editing, and exporting database schemas. This 2-minute demo shows the /demo page, signing up, creating and editing tables, exporting a diagram, and importing an existing SQL database into a visual ERD.",
+                "thumbnailUrl": "https://i.ytimg.com/vi/10gHB66qR_o/maxresdefault.jpg",
+                "uploadDate": "2026-07-03T00:00:00+00:00",
+                "duration": "PT2M",
+                "contentUrl": "https://youtu.be/10gHB66qR_o",
+                "embedUrl": "https://www.youtube.com/embed/10gHB66qR_o",
+                "publisher": {"@id": "https://sql-designer.com/#organization"}
+            },
+            {
                 "@type": "Organization",
                 "@id": "https://sql-designer.com/#organization",
                 "name": "SQL Designer",
@@ -188,7 +199,8 @@
                 "description": "Free online visual database designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access.",
                 "sameAs": [
                     "https://github.com/Snydi/sqldesigner",
-                    "https://alternativeto.net/software/sql-designer/"
+                    "https://alternativeto.net/software/sql-designer/",
+                    "https://www.youtube.com/@sql-designer"
                 ],
                 "founder": {
                     "@type": "Person",
@@ -297,6 +309,22 @@
             margin-top: 0.6rem; padding-top: 0.9rem; border-top: 1px dashed var(--border-color);
             font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-muted);
         }
+        .how-video-facade {
+            display: block; position: relative; width: 100%; max-width: 720px;
+            margin: 2rem auto 0; border-radius: 8px; overflow: hidden;
+            border: 1px solid var(--border-color); background: none; padding: 0;
+            cursor: pointer; aspect-ratio: 16 / 9;
+        }
+        .how-video-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .how-video-facade .play-glyph {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 64px; height: 64px; border-radius: 50%;
+            background: rgba(0,0,0,0.65); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; transition: background 120ms ease;
+        }
+        .how-video-facade:hover .play-glyph { background: var(--color-primary-text); }
+        iframe.how-video-facade { aspect-ratio: 16 / 9; }
 
         /* ── Features ───────────────────────────────────── */
         .features { background: var(--bg-elevated); border-bottom: 1px solid var(--border-light); }
@@ -448,6 +476,16 @@
             </div>
         </div>
     </div>
+    <div style="display: flex; justify-content: center; margin-top: 50px">
+        <a
+           href="https://www.producthunt.com/products/sql-designer-com?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-sql-designer"
+           target="_blank" rel="noopener noreferrer">
+            <img alt="SQL Designer - Free and Open Source ERD tool for all major relational DBs | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1113195&amp;theme=dark&amp;t=1783927831665">
+        </a>
+        <a href="https://www.uneed.best/tool/sql-designer" target="_blank">
+            <img src="https://www.uneed.best/POTD1A.png" style="width: 250px;" alt="Uneed POTD1 Badge" />
+        </a>
+    </div>
     <div class="hero-screenshot">
         <picture>
             <source
@@ -473,6 +511,7 @@
         }).catch(function(){});
     </script>
 </section>
+
 
 <section class="block" aria-labelledby="what-is-h2" style="background:var(--bg-page); border-bottom:1px solid var(--border-light);">
     <div class="block-inner">
@@ -503,6 +542,22 @@
                 <p>Export valid SQL, JSON or even Laravel migration file. More formats coming soon!</p>
             </div>
         </div>
+        <button type="button" class="how-video-facade" id="demo-video-facade" aria-label="Play SQL Designer demo video">
+            <img src="https://i.ytimg.com/vi/10gHB66qR_o/maxresdefault.jpg" alt="SQL Designer demo video thumbnail" loading="lazy" width="1280" height="720">
+            <span class="play-glyph" aria-hidden="true">▶</span>
+        </button>
+        <script>
+            document.getElementById('demo-video-facade').addEventListener('click', function onClick() {
+                var iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube.com/embed/10gHB66qR_o?autoplay=1';
+                iframe.title = 'SQL Designer demo: create tables, export a diagram, and import a SQL database';
+                iframe.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
+                iframe.allowFullscreen = true;
+                iframe.className = 'how-video-facade';
+                iframe.style.border = '0';
+                this.replaceWith(iframe);
+            });
+        </script>
     </div>
 </section>
 

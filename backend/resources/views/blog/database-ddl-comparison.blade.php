@@ -740,27 +740,27 @@ ALTER TABLE users DROP COLUMN phone;
             <h2 id="faq">Frequently Asked Questions</h2>
 
             <div class="faq-item">
-                <p class="faq-q">How do you create an auto-increment primary key in each database?</p>
+                <h3 class="faq-q">How do you create an auto-increment primary key in each database?</h3>
                 <p class="faq-a">MySQL uses <code>AUTO_INCREMENT</code>, PostgreSQL uses <code>SERIAL</code> or <code>GENERATED ALWAYS AS IDENTITY</code>, Oracle uses <code>GENERATED ALWAYS AS IDENTITY</code> (12c+) or a separate sequence on older versions, SQL Server uses <code>IDENTITY(1,1)</code>, and SQLite uses <code>INTEGER PRIMARY KEY</code>, which auto-increments implicitly by aliasing the internal rowid.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">Which databases enforce CHECK constraints?</p>
+                <h3 class="faq-q">Which databases enforce CHECK constraints?</h3>
                 <p class="faq-a">PostgreSQL, Oracle, and SQL Server have always enforced CHECK constraints fully. MySQL ignored them before version 8.0.16 (released April 2019), so schemas built on MySQL 5.7 or earlier may contain data that violates defined CHECK rules. SQLite has enforced CHECK constraints since version 3.25.0 (2018).</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">What is the equivalent of VARCHAR across different databases?</p>
+                <h3 class="faq-q">What is the equivalent of VARCHAR across different databases?</h3>
                 <p class="faq-a">MySQL and PostgreSQL both use <code>VARCHAR(n)</code>. Oracle requires <code>VARCHAR2(n)</code> — using plain <code>VARCHAR</code> in Oracle is not recommended. SQL Server uses <code>VARCHAR(n)</code> for ASCII and <code>NVARCHAR(n)</code> for Unicode. SQLite stores strings as <code>TEXT</code> regardless of the declared column type.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">Does Oracle have a native BOOLEAN column type?</p>
+                <h3 class="faq-q">Does Oracle have a native BOOLEAN column type?</h3>
                 <p class="faq-a">Oracle 23c introduced a native <code>BOOLEAN</code> column type, the first Oracle version to support it in SQL DDL. On earlier Oracle versions, the standard workaround is <code>NUMBER(1) CHECK (col IN (0, 1))</code>, which enforces boolean semantics at the database level without a true boolean type.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">Can you rename a column directly in SQLite?</p>
+                <h3 class="faq-q">Can you rename a column directly in SQLite?</h3>
                 <p class="faq-a">Yes, but only on SQLite 3.25.0 or later (2018). Dropping columns requires SQLite 3.35.0 or later (2021). On older SQLite builds, both operations require recreating the table: create a new table with the new structure, copy data across, drop the original, then rename the new table.</p>
             </div>
         </section>
@@ -777,6 +777,7 @@ ALTER TABLE users DROP COLUMN phone;
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — NUMERIC, TIMESTAMPTZ, JSONB, UUID &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/database-schema-examples">Database Schema Examples &rarr;</a></li>
             </ul>
         </nav>
     </article>

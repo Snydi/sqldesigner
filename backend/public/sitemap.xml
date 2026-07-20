@@ -61,7 +61,7 @@
     </url>
     <url>
         <loc>https://sql-designer.com/blog/database-designer</loc>
-        <lastmod>2026-04-16</lastmod>
+        <lastmod>2026-07-03</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/database-schema-examples</loc>
@@ -86,6 +86,21 @@
     <url>
         <loc>https://sql-designer.com/blog/postgresql-data-types</loc>
         <lastmod>2026-05-23</lastmod>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://sql-designer.com/blog/sql-joins</loc>
+        <lastmod>2026-07-03</lastmod>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://sql-designer.com/blog/mysql-indexes</loc>
+        <lastmod>2026-07-03</lastmod>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://sql-designer.com/blog/postgresql-indexes</loc>
+        <lastmod>2026-07-03</lastmod>
         <priority>0.7</priority>
     </url>
 </urlset>

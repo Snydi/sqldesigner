@@ -21,7 +21,6 @@
     <meta name="twitter:title" content="SQL Designer Features — Visual SQL Schema Builder">
     <meta name="twitter:description" content="Visual SQL schema builder with Free and Pro plans: 1 free diagram, 3 daily exports, or unlimited diagrams and exports with Pro.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
-    <meta name="keywords" content="visual sql schema builder, database diagram maker free, online database modeler, database modeler online, sql table designer online, ERD tool, database designer, MySQL schema designer, PostgreSQL schema designer, SQLite schema designer, Oracle schema designer, SQL Server schema designer, MS Access schema designer, entity relationship diagram, visual SQL tool, foreign key diagram, CREATE TABLE generator, SQL import, free ERD tool, crow's foot notation, database diagram online, multi-dialect SQL export">
     <script type="application/ld+json">
     @verbatim
     [

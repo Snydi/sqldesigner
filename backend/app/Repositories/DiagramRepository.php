@@ -29,7 +29,7 @@ class DiagramRepository implements DiagramRepositoryInterface
         return Diagram::create([
             'name' => $dto->name,
             'db_type' => $dto->dbType,
-            'schema' => null,
+            'schema' => $dto->schema,
             'user_id' => $dto->userId,
             'share_access' => $dto->shareAccess,
             'library' => $dto->library,

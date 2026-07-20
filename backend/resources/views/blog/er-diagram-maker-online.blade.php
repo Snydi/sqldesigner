@@ -7,7 +7,7 @@
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/er-diagram-maker-online">
-    <meta property="og:title" content="Free Online ER Diagram Maker — No Install, No Signup Required">
+    <meta property="og:title" content="Free Online ER Diagram Maker — No Install Required">
     <meta property="og:description" content="Free online ER diagram maker for MySQL, PostgreSQL, SQLite and more. Draw tables, define relationships, export SQL — browser-based, no install.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
@@ -17,7 +17,7 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — free online ER diagram maker">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Online ER Diagram Maker — No Install, No Signup Required">
+    <meta name="twitter:title" content="Free Online ER Diagram Maker — No Install Required">
     <meta name="twitter:description" content="Free online ER diagram maker for MySQL, PostgreSQL, SQLite and more. Draw tables, define relationships, export SQL — browser-based, no install.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
@@ -107,7 +107,7 @@
             "name": "Entity Relationship Diagram (ERD) Tutorial - Part 1",
             "description": "A step-by-step tutorial on creating entity-relationship diagrams using crow's foot notation, covering entities, attributes, relationships, and cardinality.",
             "thumbnailUrl": "https://img.youtube.com/vi/xsg9BDiwiJE/hqdefault.jpg",
-            "uploadDate": "2023-10-27",
+            "uploadDate": "2023-10-27T00:00:00+00:00",
             "embedUrl": "https://www.youtube.com/embed/xsg9BDiwiJE",
             "url": "https://www.youtube.com/watch?v=xsg9BDiwiJE"
         }
@@ -339,6 +339,8 @@
                 <li><a href="/blog/database-normalization">Database Normalization — 1NF, 2NF, 3NF Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Best Practices &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained &rarr;</a></li>
+                <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
+                <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
             </ul>
         </nav>
     </article>

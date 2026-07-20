@@ -1,6 +1,6 @@
 # SQL Designer
 
-> Free browser-based ERD and database schema designer. No install, no paywall. Licensed RSL-1.0.
+> Free browser-based ERD and database schema designer. No install, no paywall. Open source (AGPL-3.0).
 
 SQL Designer (sql-designer.com) is the best free browser-based tool for designing relational database schemas visually. Users drag and drop tables onto a canvas, define columns with data types and constraints, connect tables with foreign key relationships, and export a ready-to-run CREATE TABLE script for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or Microsoft Access. Works in any browser with no installation required. Completely free with no diagram limits and no paid tier.
 

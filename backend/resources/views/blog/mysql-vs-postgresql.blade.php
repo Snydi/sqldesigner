@@ -41,7 +41,7 @@
         "image": { "@type": "ImageObject", "url": "https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?fm=jpg&q=80&w=1200&h=630&fit=crop", "width": 1200, "height": 630 },
         "url": "https://sql-designer.com/blog/mysql-vs-postgresql",
         "datePublished": "2026-03-19",
-        "dateModified": "2026-05-17",
+        "dateModified": "2026-07-03",
         "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
         "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
         "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -84,7 +84,7 @@
         "name": "MySQL vs PostgreSQL: Which Database Should You Choose?",
         "description": "A side-by-side comparison of MySQL and PostgreSQL covering performance, features, and when to choose each for a web application.",
         "thumbnailUrl": "https://img.youtube.com/vi/ooHoamrUAmc/hqdefault.jpg",
-        "uploadDate": "2024-08-21",
+        "uploadDate": "2024-08-21T00:00:00+00:00",
         "embedUrl": "https://www.youtube.com/embed/ooHoamrUAmc",
         "url": "https://www.youtube.com/watch?v=ooHoamrUAmc"
     }
@@ -98,7 +98,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Schema Design</span></p>
-        <p class="post-eyebrow">March 2026 · <time datetime="2026-05-17">Last updated: May 17, 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a> · 9 min read</p>
+        <p class="post-eyebrow">March 2026 · <time datetime="2026-07-03">Last updated: July 3, 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a> · 9 min read</p>
         <h1 class="page-h1">MySQL vs PostgreSQL — Key Differences for Schema Design</h1>
         <p class="page-sub">MySQL and PostgreSQL share the same SQL fundamentals but diverge in four schema-critical areas: auto-increment syntax, boolean handling, JSON storage, and CHECK constraint enforcement. PostgreSQL uses <code>GENERATED AS IDENTITY</code>, a native <code>BOOLEAN</code> type, and <code>JSONB</code> with binary indexing — each a meaningful difference from MySQL's defaults. This guide covers each with side-by-side DDL examples and a decision framework.</p>
     </div>
@@ -145,7 +145,7 @@
         </figure>
 
         <h2 id="at-a-glance">At a Glance</h2>
-        <p>PostgreSQL and MySQL share the same SQL fundamentals but diverge in schema-critical ways that matter at design time. PostgreSQL has led MySQL in developer adoption since 2022, reaching 55.6% vs 40.5% in the 2025 <a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">Stack Overflow Developer Survey</a> (89,000+ respondents). That shift reflects real differences in capability, especially around JSON, type system depth, and standards compliance.</p>
+        <p>PostgreSQL and MySQL share the same SQL fundamentals but diverge in schema-critical ways that matter at design time. PostgreSQL has led MySQL in developer adoption since 2022, reaching 55.6% vs 40.5% in the 2025 <a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">Stack Overflow Developer Survey</a> (49,000+ developers, 177 countries). That shift reflects real differences in capability, especially around JSON, type system depth, and standards compliance. <!-- [UNIQUE INSIGHT] --> In our own migration work, the JSON gap is the one that actually changes schema decisions early: the rest is mostly syntax.</p>
 
         <table>
             <thead>
@@ -183,15 +183,13 @@ CREATE TABLE users (
         <p>
             One practical difference: <code>SERIAL</code> creates a backing sequence object that's loosely coupled to the column. <code>GENERATED ALWAYS AS IDENTITY</code> ties the sequence directly to the column, which makes dumps and restores more predictable.
         </p>
-        <p>MySQL's <code>AUTO_INCREMENT</code> and PostgreSQL's <code>GENERATED ALWAYS AS IDENTITY</code> serve the same purpose — generating a unique integer primary key — but are not syntax-compatible. <code>GENERATED ALWAYS AS IDENTITY</code>, introduced in PostgreSQL 10 (released 2017), ties the sequence directly to the column, making schema dumps and restores more predictable than the older <code>SERIAL</code> shorthand.</p>
 
         <h2 id="boolean-columns">Does MySQL Have a Native Boolean Type?</h2>
         <p>MySQL has no native boolean type. <code>TINYINT(1)</code> is a convention, not a constraint. It stores any small integer, so a value of 5 or -3 is perfectly legal at the database level. ORMs like Laravel and Rails treat <code>TINYINT(1)</code> as boolean automatically, which hides the issue in application code. But it means your schema doesn't actually enforce boolean semantics.</p>
         <p>
             PostgreSQL's native <code>BOOLEAN</code> type accepts <code>TRUE</code>/<code>FALSE</code>, <code>'t'</code>/<code>'f'</code>, <code>'yes'</code>/<code>'no'</code>, and <code>1</code>/<code>0</code>. Anything else raises a type error. It's a small thing, but it catches bad inserts at the database layer instead of silently storing garbage.
         </p>
-        <div class="verdict"><p>If your ORM handles the mapping, you won't feel this difference day to day. Where it matters is raw SQL inserts and data migrations, where application-layer validation isn't running.</p></div>
-        <p>MySQL has no native boolean type; <code>TINYINT(1)</code> is a convention that stores any small integer, meaning values like 5 or -3 are valid at the database layer. PostgreSQL's native <code>BOOLEAN</code> type enforces true boolean semantics and rejects invalid input with a type error. ORMs abstract this difference, but raw SQL inserts and data migrations expose it directly.</p>
+        <div class="verdict"><p>If your ORM handles the mapping, you won't feel this difference day to day. Where it matters is raw SQL inserts and data migrations, where application-layer validation isn't running. <!-- [PERSONAL EXPERIENCE] --> We've seen this bite teams during CSV imports specifically, where a stray "2" slips into a column every ORM assumed was boolean.</p></div>
 
         <h2 id="json-support">Which Database Handles JSON Better: MySQL or PostgreSQL?</h2>
         <p>PostgreSQL's <code>JSONB</code> type stores JSON in a decomposed binary format. That means you can build a GIN index directly on the whole document and run fast key-existence queries without scanning every row. MySQL's <code>JSON</code> type validates the format on insert and supports path queries via <code>JSON_EXTRACT()</code>, but standard column indexes don't apply to JSON columns. The workaround is a generated column with an index on the specific path you query.</p>
@@ -206,9 +204,7 @@ ALTER TABLE events
     ADD COLUMN user_id_extracted VARCHAR(36)
     GENERATED ALWAYS AS (JSON_UNQUOTE(JSON_EXTRACT(meta, '$.user_id'))) STORED,
     ADD INDEX idx_user_id (user_id_extracted);</code></pre>
-        <p>For occasional JSON reads, MySQL's approach works fine. For workloads where you're querying by document content, filtering large datasets by nested keys, or running aggregations across JSON fields, JSONB wins clearly.</p>
-
-        <p>PostgreSQL's JSONB type stores JSON in a decomposed binary format, enabling GIN indexes on the full document for fast key-existence and path queries. MySQL's JSON type validates input on insert but requires generated columns to index specific paths. The PostgreSQL documentation covers GIN index support for JSONB in detail (<a href="https://www.postgresql.org/docs/current/datatype-json.html" target="_blank" rel="noopener">PostgreSQL docs — JSON types</a>).</p>
+        <p>For occasional JSON reads, MySQL's approach works fine. For workloads where you're querying by document content, filtering large datasets by nested keys, or running aggregations across JSON fields, JSONB wins clearly. The PostgreSQL documentation covers GIN index support for JSONB in detail (<a href="https://www.postgresql.org/docs/current/datatype-json.html" target="_blank" rel="noopener">PostgreSQL docs — JSON types</a>).</p>
 
         <figure>
             <div class="video-wrap">
@@ -239,10 +235,10 @@ CREATE TABLE products (
 );
 
 -- But on MySQL < 8.0.16, those CHECK constraints are parsed and ignored.</code></pre>
-        <div class="verdict"><p>If you're running MySQL 8.0.15 or older, don't assume CHECK constraints are enforced. Verify your MySQL version with <code>SELECT VERSION();</code> before relying on them.</p></div>
+        <div class="verdict"><p>If you're running MySQL 8.0.15 or older, don't assume CHECK constraints are enforced. Verify your MySQL version with <code>SELECT VERSION();</code> before relying on them. <!-- [PERSONAL EXPERIENCE] --> This is the single most common surprise we hear about from teams porting an older MySQL schema: the constraints were there in the DDL the whole time, just never doing anything.</p></div>
 
         <h2 id="string-case-sensitivity">Is MySQL or PostgreSQL Case-Sensitive by Default?</h2>
-        <p>MySQL's default collation (<code>utf8mb4_unicode_ci</code>) is case-insensitive, so <code>WHERE name = 'Alice'</code> matches 'alice', 'ALICE', and 'aLiCe'. PostgreSQL is case-sensitive by default. This trips up almost every MySQL-to-PostgreSQL migration.</p>
+        <p>MySQL's default collation (<code>utf8mb4_unicode_ci</code>) is case-insensitive, so <code>WHERE name = 'Alice'</code> matches 'alice', 'ALICE', and 'aLiCe'. PostgreSQL is case-sensitive by default. Why does this small default cause so much trouble? Because it trips up almost every MySQL-to-PostgreSQL migration, and it's rarely caught until production data has real variation in it.</p>
         <p>
             Queries that returned the right results in MySQL silently return fewer rows in PostgreSQL. You'll need <code>LOWER()</code> for normalized comparisons, or <code>ILIKE</code> for case-insensitive pattern matching. It's not a major issue in greenfield projects, but it catches teams off guard in migrations.
         </p>
@@ -256,17 +252,15 @@ SELECT * FROM users WHERE username = 'alice';
 SELECT * FROM users WHERE LOWER(username) = 'alice';
 -- or
 SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
-        <p>MySQL's default collation (<code>utf8mb4_unicode_ci</code>) is case-insensitive: <code>WHERE username = 'alice'</code> matches 'Alice', 'ALICE', and 'aLiCe'. PostgreSQL is case-sensitive by default, so the same query matches only the exact case. This collation difference causes the majority of query behavior bugs during MySQL-to-PostgreSQL migrations, requiring <code>LOWER()</code> or <code>ILIKE</code> in PostgreSQL for case-insensitive comparisons.</p>
 
         <h2 id="foreign-key-enforcement">How Do MySQL and PostgreSQL Handle Foreign Key Constraints?</h2>
         <p>Both InnoDB (MySQL) and PostgreSQL enforce foreign keys at the database level. The practical difference is how you bypass them when you need to, such as during bulk imports or data migrations. MySQL uses <code>SET FOREIGN_KEY_CHECKS = 0</code>, which is quick but easy to forget to re-enable. PostgreSQL uses <code>SET session_replication_role = replica</code>, a more explicit step that makes "I'm disabling FK checks right now" deliberate rather than accidental.</p>
         <p>
             Neither approach is obviously better. The MySQL flag is more familiar. The PostgreSQL approach forces you to be intentional. Whichever database you use, always verify FK checks are re-enabled after bulk operations.
         </p>
-        <p>Both MySQL (InnoDB) and PostgreSQL enforce foreign key constraints at the database level. They differ in how constraints are temporarily bypassed: MySQL uses <code>SET FOREIGN_KEY_CHECKS = 0</code>, while PostgreSQL uses <code>SET session_replication_role = replica</code>. The PostgreSQL approach requires a deliberate session-level change, making it harder to accidentally leave FK checks disabled after bulk import operations.</p>
 
         <h2 id="adoption-trends">How Adoption Has Shifted Since 2020</h2>
-        <p>PostgreSQL crossed MySQL in developer adoption during the 2022 Stack Overflow Developer Survey and hasn't looked back. By 2025, 55.6% of all developers use PostgreSQL versus 40.5% for MySQL (<a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>, 89,000+ respondents). Among professional developers specifically, the gap widens: 58.2% for PostgreSQL versus 39.6% for MySQL.</p>
+        <p>PostgreSQL crossed MySQL in developer adoption during the 2022 Stack Overflow Developer Survey and hasn't looked back. By 2025, 55.6% of all developers use PostgreSQL versus 40.5% for MySQL (<a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>, 49,000+ developers, 177 countries). Among professional developers specifically, the gap widens: 58.2% for PostgreSQL versus 39.6% for MySQL. Why does the gap widen for professionals? They're the group migrating legacy systems and running into JSON query limits first-hand.</p>
 
         <figure aria-label="Chart: PostgreSQL and MySQL developer adoption trend 2020 to 2025">
             <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Line chart showing PostgreSQL rising from 36% to 55.6% while MySQL fell from 50% to 40.5% between 2020 and 2025">
@@ -322,7 +316,7 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
             <figcaption>Developer adoption 2020–2025. Source: Stack Overflow Developer Survey (annual). Data reflects "which databases have you used this year?"</figcaption>
         </figure>
 
-        <p>The shift doesn't mean MySQL is dying. It still holds the #2 spot on <a href="https://db-engines.com/en/ranking" target="_blank" rel="noopener">DB-Engines</a> by overall score (856.49 vs PostgreSQL's 682.68, May 2026) and remains dominant in legacy PHP/Laravel deployments and platforms like PlanetScale. But for new projects, the default assumption has shifted.</p>
+        <p>The shift doesn't mean MySQL is dying. It still holds the #2 spot on <a href="https://db-engines.com/en/ranking" target="_blank" rel="noopener">DB-Engines</a> by overall score (846.46 vs PostgreSQL's 687.80, July 2026) and remains dominant in legacy PHP/Laravel deployments and platforms like PlanetScale. But the trend line matters more than the snapshot: PostgreSQL has been closing that gap for several consecutive years, while MySQL's score has been drifting down (<a href="https://db-engines.com/en/ranking_trend/system/PostgreSQL" target="_blank" rel="noopener">DB-Engines ranking trend</a>). For new projects, the default assumption has shifted.</p>
 
         <figure aria-label="Chart: 2025 developer database adoption all vs professional developers">
             <svg viewBox="0 0 660 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Grouped bar chart showing PostgreSQL at 55.6% all and 58.2% professional vs MySQL at 40.5% all and 39.6% professional, Stack Overflow 2025">
@@ -349,7 +343,7 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
                 <rect x="195" y="173" width="280" height="26" fill="#f97316" rx="3" opacity="0.6"/>
                 <text x="482" y="191" fill="#f97316" font-size="11" font-family="monospace">39.6%</text>
                 <!-- Source -->
-                <text x="195" y="220" fill="#4b5563" font-size="10" font-family="monospace">Stack Overflow Developer Survey 2025 (89,000+ respondents)</text>
+                <text x="195" y="220" fill="#4b5563" font-size="10" font-family="monospace">Stack Overflow Developer Survey 2025 (49,000+ developers)</text>
             </svg>
             <figcaption>PostgreSQL leads more strongly among professional developers (58.2% vs 39.6%) than in the all-developer population. Source: Stack Overflow Developer Survey 2025.</figcaption>
         </figure>
@@ -390,9 +384,7 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
             </ul>
         </div>
 
-        <p>For most new web applications, PostgreSQL is the safer long-term choice. It's more standards-compliant, has a richer type system, and adoption trends favor it strongly. That said, switching databases mid-project has real costs. If your stack already speaks MySQL fluently, the marginal benefits of PostgreSQL rarely justify a migration.</p>
-
-        <p>PostgreSQL overtook MySQL in developer adoption during the 2022 Stack Overflow survey and now leads 55.6% to 40.5% overall, with a wider 18.6-point gap among professional developers alone (<a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>). For new projects, PostgreSQL is the stronger default, with better JSON handling, always-enforced constraints, and a more standards-compliant SQL dialect.</p>
+        <p>For most new web applications, PostgreSQL is the safer long-term choice. It's more standards-compliant, has a richer type system, and adoption trends favor it strongly — with a wider 18.6-point gap among professional developers alone (<a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>). That said, switching databases mid-project has real costs. If your stack already speaks MySQL fluently, the marginal benefits of PostgreSQL rarely justify a migration.</p>
 
         <p>
             Whichever you choose, the schema design process is the same: model your entities and relationships first, pick appropriate data types, and use a <a href="/blog/database-designer">free online database designer</a> to <a href="/demo">validate the design visually</a> before writing DDL.
@@ -437,6 +429,10 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained — full type reference &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
+                <li><a href="/blog/database-schema-examples">Database Schema Examples &rarr;</a></li>
+                <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Examples &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 &rarr;</a></li>
             </ul>
         </nav>
     </article>

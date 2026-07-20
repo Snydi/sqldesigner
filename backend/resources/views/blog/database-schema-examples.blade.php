@@ -4,13 +4,13 @@
 
 @section('head')
     <meta name="description"
-          content="5 ready-to-copy database schema examples — e-commerce, blog, SaaS, and more — with complete MySQL and PostgreSQL CREATE TABLE scripts. Updated May 2026.">
+          content="5 ready-to-copy database schema examples — e-commerce, blog, SaaS, and more — with complete MySQL and PostgreSQL CREATE TABLE scripts. Updated July 2026.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-schema-examples">
     <meta property="og:title" content="Database Schema Examples — MySQL & PostgreSQL Templates">
     <meta property="og:description"
-          content="5 ready-to-copy database schema examples — e-commerce, blog, SaaS, and more — with complete MySQL and PostgreSQL CREATE TABLE scripts. Updated May 2026.">
+          content="5 ready-to-copy database schema examples — e-commerce, blog, SaaS, and more — with complete MySQL and PostgreSQL CREATE TABLE scripts. Updated July 2026.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/database-schema-examples">
@@ -43,7 +43,7 @@
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/database-schema-examples",
                 "datePublished": "2026-04-02",
-                "dateModified": "2026-05-17",
+                "dateModified": "2026-07-03",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -84,6 +84,16 @@
                         "acceptedAnswer": { "@type": "Answer", "text": "TIMESTAMPTZ (timestamp with time zone) stores the value in UTC and converts it to the session's timezone on retrieval. TIMESTAMP stores the literal value with no timezone awareness. For created_at and audit columns, always use TIMESTAMPTZ — it ensures consistent ordering across timezones and avoids DST ambiguity." }
                     }
                 ]
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "VideoObject",
+                "@id": "https://sql-designer.com/blog/database-schema-examples#video-1",
+                "name": "Database Design Course - Learn how to design and plan a database for beginners",
+                "description": "A full course covering database design fundamentals: keys, relationships, normalization, and ER modeling through to schema construction.",
+                "thumbnailUrl": "https://img.youtube.com/vi/ztHopE5Wnpc/hqdefault.jpg",
+                "contentUrl": "https://www.youtube.com/watch?v=ztHopE5Wnpc",
+                "embedUrl": "https://www.youtube.com/embed/ztHopE5Wnpc"
             }
             ]
         @endverbatim
@@ -95,7 +105,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Schema Design</span></p>
-        <p class="post-eyebrow">April 2026 · <time datetime="2026-05-17">Last updated: May 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
+        <p class="post-eyebrow">April 2026 · <time datetime="2026-07-03">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
         <h1 class="page-h1">Database Schema Examples — MySQL &amp; PostgreSQL Templates</h1>
         <p class="page-sub">Five production-ready database schema examples — e-commerce, blog platform, SaaS user management, task tracker, and messaging — with complete MySQL and PostgreSQL <code>CREATE TABLE</code> scripts you can copy directly or open as an entity relationship diagram in <a href="/demo">SQL Designer</a>. Each schema covers table structure, column types, primary keys, foreign key relationships, and the reasoning behind key design decisions.</p>
     </div>
@@ -127,6 +137,24 @@
                 <li>A self-referencing <code>parent_id</code> handles threading (comments, sub-tasks) without a second table, at the cost of recursive queries for deep hierarchies.</li>
             </ul>
         </div>
+
+        <figure class="video-embed" style="margin: 2.5rem 0; text-align: center;">
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px;">
+                <iframe
+                    srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href='https://www.youtube.com/embed/ztHopE5Wnpc?autoplay=1'><img src='https://img.youtube.com/vi/ztHopE5Wnpc/hqdefault.jpg' alt='Database Design Course - Learn how to design and plan a database for beginners'><span>&#x25BA;</span></a>"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    title="Database Design Course - Learn how to design and plan a database for beginners"
+                    aria-label="YouTube video: Database Design Course - Learn how to design and plan a database for beginners">
+                </iframe>
+            </div>
+            <figcaption>A full walkthrough of database design fundamentals — keys, relationships, normalization, and ER modeling — for readers who want the concepts behind the schemas below. (freeCodeCamp.org)</figcaption>
+            <noscript>
+                <p><strong>Video:</strong> <a href="https://www.youtube.com/watch?v=ztHopE5Wnpc">Database Design Course - Learn how to design and plan a database for beginners</a> by freeCodeCamp.org. Covers database design fundamentals including keys, relationships, normalization, and ER modeling.</p>
+            </noscript>
+        </figure>
 
         <figure>
             <img src="https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1600"
@@ -361,6 +389,13 @@ CREATE TABLE subscriptions (
 );</code></pre>
         </div>
 
+        <figure>
+            <img src="https://images.pexels.com/photos/17724732/pexels-photo-17724732.jpeg?cs=srgb&dl=pexels-walls-io-440716388-17724732.jpg&fm=jpg&w=1600"
+                 alt="Two colleagues at a whiteboard sketching out a system design with color-coded sticky notes"
+                 loading="lazy" width="1600" height="1067">
+            <figcaption>Whiteboarding relationships before writing DDL catches missing foreign keys and redundant tables early, when they're cheap to fix. (Photo: Walls.io / Pexels)</figcaption>
+        </figure>
+
         <div class="schema-section">
             <h2 id="task-tracker">4. Task Tracker Schema</h2>
             <p>
@@ -503,7 +538,7 @@ CREATE TABLE messages (
             <li><strong>Use <code>TIMESTAMPTZ</code> in PostgreSQL</strong> over <code>TIMESTAMP</code>. It stores UTC and converts correctly per session timezone, which matters the moment your users span more than one timezone.</li>
             <li><strong>Index FK columns in PostgreSQL manually.</strong> MySQL creates indexes on foreign key columns automatically; PostgreSQL doesn't. Add an explicit index on any FK column you'll use in a <code>WHERE</code> or <code>JOIN</code>.</li>
             <li><strong>Think twice before adding soft deletes.</strong> A <code>deleted_at</code> column requires <code>WHERE deleted_at IS NULL</code> in every query. One forgotten filter is a data leak waiting to happen. Use it only where the audit trail is genuinely worth that cost.</li>
-            <li><strong>Design visually first</strong> — missing relationships and redundant tables are obvious in a diagram and invisible in a wall of DDL. Use the <a href="/demo">SQL Designer demo</a> to drag, connect, and adjust before you commit to code. For a step-by-step walkthrough of the process, see <a href="/blog/create-database-schema-online">how to create a database schema online</a>.</li>
+            <li><strong>Design visually first</strong> — missing relationships and redundant tables are obvious in a diagram and invisible in a wall of DDL. Use the <a href="/blog/database-designer">free online database schema designer</a> to drag, connect, and adjust before you commit to code. For a step-by-step walkthrough of the process, see <a href="/blog/create-database-schema-online">how to create a database schema online</a>.</li>
             <li><strong>Check DDL syntax when targeting a different database.</strong> The <code>CREATE TABLE</code> syntax for primary keys, boolean types, timestamp defaults, and <code>ALTER TABLE</code> differs significantly between MySQL, PostgreSQL, Oracle, SQL Server, and SQLite. For a full side-by-side reference, see the <a href="/blog/database-ddl-comparison">DDL syntax comparison guide</a>.</li>
         </ul>
 
@@ -511,32 +546,32 @@ CREATE TABLE messages (
             <h2 id="faq">Frequently Asked Questions</h2>
 
             <div class="faq-item">
-                <p class="faq-q">Should I use MySQL or PostgreSQL for a new project in 2026?</p>
+                <h3 class="faq-q">Should I use MySQL or PostgreSQL for a new project in 2026?</h3>
                 <p class="faq-a">PostgreSQL is the stronger default for greenfield work. In the 2025 Stack Overflow Developer Survey (89,000+ respondents), it reached 55.6% usage versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead — and ranked first in most-admired and most-desired database for the third year running (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>). MySQL remains dominant in legacy web stacks and shared hosting environments, but for new work PostgreSQL's feature set is now broadly preferred.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">What tables does a basic e-commerce schema need?</p>
+                <h3 class="faq-q">What tables does a basic e-commerce schema need?</h3>
                 <p class="faq-a">A minimal schema needs five tables: <code>categories</code>, <code>products</code>, <code>customers</code>, <code>orders</code>, and <code>order_items</code>. The <code>order_items</code> table is the critical one — it links each order line to a product and stores the price at time of purchase so future price changes don't alter historical totals.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">How do you model a many-to-many relationship?</p>
+                <h3 class="faq-q">How do you model a many-to-many relationship?</h3>
                 <p class="faq-a">Use a junction table. For posts and tags: create a <code>post_tags</code> table with foreign keys to both <code>posts</code> and <code>tags</code>. Set the primary key as a composite of both foreign keys — this prevents duplicate tag associations and creates a covering index automatically. Add <code>ON DELETE CASCADE</code> on both FKs so cleanup is handled at the database level.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">Should I store product price in order_items or look it up from products?</p>
+                <h3 class="faq-q">Should I store product price in order_items or look it up from products?</h3>
                 <p class="faq-a">Store it in <code>order_items</code> as <code>price_at_purchase</code>. If you look it up from <code>products</code>, any future price change retroactively alters every historical order total that includes that product. That's almost never the right behavior — and it can silently break financial reports.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">What is a soft delete and when should I use it?</p>
+                <h3 class="faq-q">What is a soft delete and when should I use it?</h3>
                 <p class="faq-a">A soft delete adds a nullable <code>deleted_at</code> timestamp. Instead of removing the row you set <code>deleted_at = NOW()</code>. It's useful for audit trails and when a hard delete would break referential integrity. The ongoing cost: every query needs <code>WHERE deleted_at IS NULL</code>. Missing that filter in even one place exposes deleted rows as if they were active.</p>
             </div>
 
             <div class="faq-item">
-                <p class="faq-q">What is the difference between TIMESTAMP and TIMESTAMPTZ in PostgreSQL?</p>
+                <h3 class="faq-q">What is the difference between TIMESTAMP and TIMESTAMPTZ in PostgreSQL?</h3>
                 <p class="faq-a"><code>TIMESTAMPTZ</code> stores the value in UTC internally and converts it to the session's configured timezone on retrieval. <code>TIMESTAMP</code> stores the literal value with no timezone information. For <code>created_at</code>, <code>updated_at</code>, and any audit column, always use <code>TIMESTAMPTZ</code> — consistent UTC storage avoids DST gaps and ordering bugs when users span multiple timezones.</p>
             </div>
         </section>
@@ -545,6 +580,7 @@ CREATE TABLE messages (
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/library">SQL Designer Schema Library — ready-made templates &rarr;</a></li>
+                <li><a href="/blog/database-designer">Free Online Database Schema Designer — Full Guide &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization — 1NF, 2NF, 3NF Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Best Practices &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
@@ -552,6 +588,8 @@ CREATE TABLE messages (
                 <li><a href="/blog/best-free-erd-tools">Best Free ERD Tools — 10 Tested in 2026 &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
+                <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained &rarr;</a></li>
             </ul>
         </nav>
 

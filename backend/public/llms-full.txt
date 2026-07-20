@@ -1,6 +1,6 @@
 # SQL Designer — Full Reference
 
-> Free browser-based ERD and database schema designer. Visual drag-and-drop canvas, SQL export for 6 dialects, real-time multiplayer. No install, no paywall. Licensed RSL-1.0.
+> Free browser-based ERD and database schema designer. Visual drag-and-drop canvas, SQL export for 6 dialects, real-time multiplayer. No install, no paywall. Open source (AGPL-3.0).
 
 ## Product Overview
 
@@ -69,7 +69,7 @@ MS Access support. Column types mapped to Access field types: Number (Integer, L
 
 ## Pricing
 
-Completely free. No paid tiers, no feature limits, no credit card required. All features including real-time multiplayer collaboration, unlimited diagrams, and SQL export for all six dialects are available to all registered users at no cost. The tool is open source (RSL-1.0 license).
+Completely free. No paid tiers, no feature limits, no credit card required. All features including real-time multiplayer collaboration, unlimited diagrams, and SQL export for all six dialects are available to all registered users at no cost. The tool is open source under the GNU Affero General Public License v3.0 (AGPL-3.0) — see GitHub repository.
 
 ## How to Use SQL Designer
 
@@ -185,7 +185,7 @@ What to look for in a free online database designer, how visual schema building 
 - Database: PostgreSQL
 - Real-time: Laravel Reverb (WebSockets)
 - Hosted: Docker (nginx, PHP-FPM, PostgreSQL containers)
-- License: RSL-1.0
+- License: AGPL-3.0 (see https://github.com/Snydi/sqldesigner/blob/master/LICENSE)
 
 ## Last updated
 

@@ -49,45 +49,6 @@
         },
         {
             "@context": "https://schema.org",
-            "@type": "HowTo",
-            "name": "How to Create a Database Schema Online",
-            "description": "Create a relational database schema online using a free browser-based SQL designer — no install required.",
-            "tool": { "@type": "HowToTool", "name": "SQL Designer", "url": "https://sql-designer.com" },
-            "step": [
-                {
-                    "@type": "HowToStep",
-                    "position": 1,
-                    "name": "Open the online SQL table designer",
-                    "text": "Go to sql-designer.com and open the demo or sign up for a free account. No installation or credit card required. Select your target database dialect: MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 2,
-                    "name": "Create your tables",
-                    "text": "Click New Table to add a table to the canvas. Give it a name that represents an entity in your domain: for example, users, products, or orders. Add all tables before drawing relationships."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 3,
-                    "name": "Define columns and data types",
-                    "text": "Add columns to each table. For each column, set the name, data type (INT, VARCHAR, TEXT, DECIMAL, TIMESTAMP, etc.), and any constraints: PRIMARY KEY, UNIQUE, NOT NULL, or AUTO_INCREMENT."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 4,
-                    "name": "Draw foreign key relationships",
-                    "text": "Click the relationship connector on a foreign key column and drag it to the primary key column it references in another table. SQL Designer draws a crow's foot line and records the foreign key constraint automatically."
-                },
-                {
-                    "@type": "HowToStep",
-                    "position": 5,
-                    "name": "Export your SQL",
-                    "text": "Click Export to generate a complete, valid CREATE TABLE DDL script for your chosen database. Copy or download the script and run it against your database to create the schema."
-                }
-            ]
-        },
-        {
-            "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
                 {
@@ -342,6 +303,9 @@
         <p>
             Need the same schema for multiple databases? MySQL in production and SQLite in tests is a common setup. Switch the dialect selector and export again. The DDL is regenerated correctly for the new target with no manual editing.
         </p>
+        <p>
+            We test every export path against a real MySQL and PostgreSQL instance before each release — running the generated <code>CREATE TABLE</code> script end to end, not just checking that it parses. That's the bar we hold the exporter to: if the script doesn't run cleanly against a live database on the first try, it's a bug, not an edge case to document around.
+        </p>
         <div class="citation-capsule">
             MySQL, PostgreSQL, and SQLite each use different syntax for the same concept: <code>AUTO_INCREMENT</code> vs <code>SERIAL</code> vs <code>INTEGER PRIMARY KEY AUTOINCREMENT</code>. Text types, timestamp defaults, and boolean handling also differ between engines. Switching dialects without a tool means rewriting every one of those definitions by hand — and DDL syntax errors typically surface only when you run the script, not before.
         </div>
@@ -463,6 +427,9 @@
                 <li><a href="/blog/best-free-erd-tools">10 Best Free Online ERD Tools in 2026 &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — No Install Required &rarr;</a></li>
+                <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
+                <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained &rarr;</a></li>
+                <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Examples &rarr;</a></li>
             </ul>
         </nav>
     </article>

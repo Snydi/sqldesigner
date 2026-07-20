@@ -9,6 +9,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="manifest" href="/manifest.json">
+    <link rel="license" href="https://github.com/Snydi/sqldesigner/blob/master/LICENSE">
     @vite(['src/css/app.css', 'src/main.js'])
     <script>
         window.dataLayer = window.dataLayer || [];

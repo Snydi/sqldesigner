@@ -81,11 +81,12 @@ class DiagramController extends Controller
             dbType: DbType::tryFrom((string) ($validated['db_type'] ?? '')) ?? DbType::MYSQL,
             shareAccess: isset($validated['share_access']) ? DiagramAccess::from($validated['share_access']) : null,
             library: (bool) ($validated['library'] ?? false),
+            schema: $validated['schema'] ?? null,
         );
 
-        $this->crudService->createDiagram($dto);
+        $diagram = $this->crudService->createDiagram($dto);
 
-        return $this->created(['status' => true, 'message' => 'Diagram created']);
+        return $this->created(['status' => true, 'message' => 'Diagram created', 'data' => new DiagramResource($diagram)]);
     }
 
     /**

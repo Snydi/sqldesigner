@@ -144,6 +144,21 @@
 </section>
 
 <div class="blog-grid">
+    <a class="post-card" href="/blog/postgresql-indexes">
+        <p class="card-meta">July 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 9 min read</p>
+        <h2>PostgreSQL Indexes Explained — B-Tree, GIN, BRIN, and GiST</h2>
+        <p>PostgreSQL's six index types, composite/partial/covering indexes, when the planner picks a sequential scan over an index, and reading EXPLAIN ANALYZE output.</p>
+    </a>
+    <a class="post-card" href="/blog/mysql-indexes">
+        <p class="card-meta">July 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 9 min read</p>
+        <h2>MySQL Indexes Explained — B-Tree, Composite, and EXPLAIN</h2>
+        <p>How B-tree indexes work, CREATE INDEX syntax, composite indexes and the leftmost prefix rule, reading EXPLAIN output, and the mistakes that leave indexes unused.</p>
+    </a>
+    <a class="post-card" href="/blog/sql-joins">
+        <p class="card-meta">July 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 9 min read</p>
+        <h2>SQL JOIN Types Explained — INNER, LEFT, RIGHT, and FULL</h2>
+        <p>A complete guide to SQL joins: INNER, LEFT, RIGHT, FULL, and CROSS JOIN syntax, NULL handling, join algorithms, and the mistakes that cause duplicate or missing rows.</p>
+    </a>
     <a class="post-card" href="/blog/database-ddl-comparison">
         <p class="card-meta">May 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 12 min read</p>
         <h2>DDL Differences: MySQL, PostgreSQL, Oracle, SQL Server, and SQLite</h2>

@@ -12,6 +12,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
+    <link rel="license" href="https://github.com/Snydi/sqldesigner/blob/master/LICENSE">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/geist-latin.woff2">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/jetbrains-mono-latin.woff2">
     <style>
@@ -97,15 +98,34 @@
         .btn-solid:hover { background: #6dc290; }
         .btn-lg { padding: 0.75rem 1.15rem; font-size: 0.95rem; border-radius: 7px; }
 
+        /* ── GitHub star button ──────────────────────────── */
+        .gh-star {
+            padding: 0.5rem 0.7rem 0.5rem 0.65rem;
+        }
+        .gh-star .gh-star-count {
+            display: inline-flex; align-items: center;
+            margin-left: 0.15rem; padding: 0.05rem 0.45rem;
+            border: 1px solid var(--border-light); border-radius: 20px;
+            font-size: 0.78rem; font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            transition: border-color 120ms ease, color 120ms ease;
+        }
+        .gh-star:hover .gh-star-count { border-color: var(--border-strong); color: var(--text-primary); }
+        .gh-star .gh-star-icon { color: #e3b341; }
+
         /* ── Mobile nav ──────────────────────────────────── */
         .hamburger {
             display: none;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
             gap: 5px;
+            width: 48px;
+            height: 48px;
             background: none;
             border: none;
             cursor: pointer;
-            padding: 0.75rem;
             margin-left: 0.25rem;
         }
         .hamburger span {
@@ -123,11 +143,12 @@
         .mobile-nav {
             display: none;
             position: fixed;
-            top: 53px;
+            top: 56px;
             left: 0; right: 0;
-            background: rgba(31,31,31,0.98);
+            background: var(--bg-surface);
             border-bottom: 1px solid var(--border-color);
             padding: 0.75rem 1rem 1rem;
+            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.5);
             z-index: 49;
             flex-direction: column;
             gap: 0.2rem;
@@ -136,15 +157,17 @@
         .mobile-nav a {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            padding: 0.6rem 0.5rem;
+            padding: 0 0.5rem;
+            min-height: 48px;
             border-radius: 5px;
-            display: block;
+            display: flex;
+            align-items: center;
         }
         .mobile-nav a:hover { color: var(--text-primary); background: var(--bg-surface); }
         .mobile-nav .divider { height: 1px; background: var(--border-light); margin: 0.4rem 0; }
 
         @media (max-width: 720px) {
-            .header { padding: 0.65rem 1rem; }
+            .header { padding: 0 1rem; height: 56px; }
             .nav-hide-mobile { display: none !important; }
             .hamburger { display: flex; }
         }
@@ -213,8 +236,11 @@
     <div class="header-left">
         <a href="/"><img class="logo" src="{{ Vite::asset('src/icons/logo.svg') }}" alt="SQL Designer logo" width="148" height="24"></a>
         <nav class="header-left__nav nav-hide-mobile" aria-label="Site navigation">
-            <a class="btn btn-ghost" href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub" style="padding:0.55rem 0.65rem;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            <a class="btn btn-ghost gh-star" href="https://github.com/Snydi/sqldesigner/stargazers" target="_blank" rel="noopener noreferrer" aria-label="Star SQL Designer on GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                <span class="gh-star-count">
+                    <svg class="gh-star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true" style="margin-right:0.2rem;"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg><span id="gh-star-count-val">—</span>
+                </span>
             </a>
             <a class="btn btn-ghost" href="/features">Features</a>
             <a class="btn btn-ghost" href="/pricing">Pricing</a>
@@ -274,6 +300,11 @@
             if (authed) authed.style.display = 'block';
             if (loginLink) loginLink.style.display = 'none';
         }
+        fetch('/api/stats').then(function (r) { return r.json(); }).then(function (d) {
+            if (!d.stars) return;
+            var el = document.getElementById('gh-star-count-val');
+            if (el) el.textContent = d.stars.toLocaleString();
+        }).catch(function () {});
     }());
 </script>
 
