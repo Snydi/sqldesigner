@@ -1,6 +1,6 @@
 /AGENTS.md
 .claudeignore
-/.claude
+/.codex
 /.phpunit.cache
 /node_modules
 .env
