@@ -11,6 +11,7 @@ return [
     'recurring_payment_url' => env('ROBOKASSA_RECURRING_PAYMENT_URL', 'https://auth.robokassa.ru/Merchant/Recurring'),
     'operation_state_url' => env('ROBOKASSA_OPERATION_STATE_URL', 'https://auth.robokassa.ru/Merchant/WebService/Service.asmx/OpStateExt'),
     'operation_state_check_after_minutes' => (int) env('ROBOKASSA_OPERATION_STATE_CHECK_AFTER_MINUTES', 15),
+    'renew_before_hours' => (int) env('ROBOKASSA_RENEW_BEFORE_HOURS', 24),
     'test_mode' => env('ROBOKASSA_TEST_MODE', true),
     'provider_amount' => env('ROBOKASSA_PROVIDER_AMOUNT'),
     'provider_currency' => 'RUB',

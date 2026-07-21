@@ -7,6 +7,7 @@ namespace Tests\Feature;
 use App\Enums\PaymentStatus;
 use App\Enums\SubscriptionStatus;
 use App\Models\Payment;
+use App\Models\Promocode;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -118,6 +119,22 @@ class SubscriptionAccountTest extends TestCase
     {
         $this->getJson('/api/subscription/me')->assertUnauthorized();
         $this->deleteJson('/api/subscription/current')->assertUnauthorized();
+    }
+
+    public function test_promocode_extends_paid_subscription_and_postpones_renewal(): void
+    {
+        $subscription = $this->activeSubscription();
+        $originalEnd = $subscription->ends_at->copy();
+        $promocode = Promocode::create(['code' => 'PAIDPLUS2', 'duration_months' => 2]);
+
+        $this->actingAs($this->user, 'sanctum')
+            ->postJson('/api/subscription/promocode', ['code' => strtolower($promocode->code)])
+            ->assertOk();
+
+        $this->assertSame(1, $this->user->subscriptions()->count());
+        $this->assertTrue($subscription->fresh()->ends_at->equalTo($originalEnd->addMonthsNoOverflow(2)));
+        $this->assertSame($this->user->id, $promocode->fresh()->redeemed_by);
+        $this->assertNotNull($promocode->fresh()->redeemed_at);
     }
 
     private function activeSubscription(): Subscription

@@ -10,6 +10,7 @@ use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
@@ -29,7 +30,7 @@ class SubscriptionPaymentService
         $payment = DB::transaction(function () use ($user): Payment {
             $lockedUser = User::query()->lockForUpdate()->findOrFail($user->id);
             if ($lockedUser->isPro()) {
-                throw new LogicException('Pro access is already active. Buy another month after it expires.');
+                throw new LogicException('Pro access is already active.');
             }
 
             $existingPayment = $lockedUser->payments()
@@ -99,20 +100,7 @@ class SubscriptionPaymentService
 
             $this->validateCallbackOwnership($payment, $payload);
 
-            if ($payment->status === PaymentStatus::SUCCEEDED) {
-                return;
-            }
-            if ($payment->status !== PaymentStatus::INITIATED) {
-                throw new LogicException('Payment is not awaiting confirmation.');
-            }
-
-            $subscription = Subscription::query()->lockForUpdate()->findOrFail($payment->subscription_id);
-            if ($subscription->user_id !== $payment->user_id) {
-                throw new InvalidArgumentException('Payment subscription ownership does not match.');
-            }
-
-            $payment->forceFill([
-                'status' => PaymentStatus::SUCCEEDED,
+            $this->completeSuccessfulPayment($payment, [
                 'fee_minor' => filled($payload['Fee'] ?? null)
                     ? $this->robokassa->parseMinorAmount($this->scalarString($payload['Fee']), true)
                     : null,
@@ -120,15 +108,7 @@ class SubscriptionPaymentService
                 'payment_method' => $this->nullableScalarString($payload['PaymentMethod'] ?? null),
                 'paid_currency_label' => $this->nullableScalarString($payload['IncCurrLabel'] ?? null),
                 'raw_payload' => $payload,
-                'paid_at' => now(),
-                'failed_at' => null,
-            ])->save();
-            $subscription->activate();
-            if ($subscription->provider_subscription_id === null) {
-                $subscription->forceFill(['provider_subscription_id' => $payment->provider_invoice_id])->save();
-            } elseif ($payment->provider_invoice_id !== $subscription->provider_subscription_id) {
-                $subscription->renew();
-            }
+            ]);
         });
 
         return $invoiceId;
@@ -136,16 +116,17 @@ class SubscriptionPaymentService
 
     public function renewDueSubscriptions(): int
     {
+        $renewBefore = now()->addHours(max(1, (int) config('robokassa.renew_before_hours', 24)));
         $subscriptions = Subscription::query()
             ->where('status', SubscriptionStatus::ACTIVE->value)
             ->where('provider', 'robokassa')
             ->whereNotNull('provider_subscription_id')
-            ->where('ends_at', '<=', now())
+            ->where('ends_at', '<=', $renewBefore)
             ->get();
 
         $initiated = 0;
         foreach ($subscriptions as $subscription) {
-            if ($this->initiateRenewal($subscription)) {
+            if ($this->initiateRenewal($subscription, $renewBefore)) {
                 $initiated++;
             }
         }
@@ -153,16 +134,16 @@ class SubscriptionPaymentService
         return $initiated;
     }
 
-    private function initiateRenewal(Subscription $subscription): bool
+    private function initiateRenewal(Subscription $subscription, Carbon $renewBefore): bool
     {
         $this->reconcilePendingRenewals($subscription);
 
-        $payment = DB::transaction(function () use ($subscription): ?Payment {
+        $payment = DB::transaction(function () use ($subscription, $renewBefore): ?Payment {
             $subscription = Subscription::query()->lockForUpdate()->findOrFail($subscription->id);
             if ($subscription->status !== SubscriptionStatus::ACTIVE
                 || $subscription->provider_subscription_id === null
                 || $subscription->ends_at === null
-                || $subscription->ends_at->greaterThan(now())) {
+                || $subscription->ends_at->greaterThan($renewBefore)) {
                 return null;
             }
 
@@ -226,6 +207,21 @@ class SubscriptionPaymentService
                 continue;
             }
 
+            if ($state === 100) {
+                DB::transaction(function () use ($payment): void {
+                    $lockedPayment = Payment::query()->lockForUpdate()->findOrFail($payment->id);
+                    $this->completeSuccessfulPayment($lockedPayment, [
+                        'raw_payload' => [
+                            'source' => 'robokassa_operation_state',
+                            'state' => 100,
+                            'reconciled_at' => now()->toIso8601String(),
+                        ],
+                    ]);
+                });
+
+                continue;
+            }
+
             // 10: cancelled/expired, 60: funds returned. Do not retry a payment
             // unless the provider has confirmed it cannot still succeed.
             if (in_array($state, [10, 60], true)) {
@@ -234,6 +230,35 @@ class SubscriptionPaymentService
                     'failed_at' => now(),
                 ])->save();
             }
+        }
+    }
+
+    /** @param array<string, mixed> $auditFields */
+    private function completeSuccessfulPayment(Payment $payment, array $auditFields): void
+    {
+        if ($payment->status === PaymentStatus::SUCCEEDED) {
+            return;
+        }
+        if ($payment->status !== PaymentStatus::INITIATED) {
+            throw new LogicException('Payment is not awaiting confirmation.');
+        }
+
+        $subscription = Subscription::query()->lockForUpdate()->findOrFail($payment->subscription_id);
+        if ($subscription->user_id !== $payment->user_id) {
+            throw new InvalidArgumentException('Payment subscription ownership does not match.');
+        }
+
+        $payment->forceFill([
+            ...$auditFields,
+            'status' => PaymentStatus::SUCCEEDED,
+            'paid_at' => now(),
+            'failed_at' => null,
+        ])->save();
+        $subscription->activate();
+        if ($subscription->provider_subscription_id === null) {
+            $subscription->forceFill(['provider_subscription_id' => $payment->provider_invoice_id])->save();
+        } elseif ($payment->provider_invoice_id !== $subscription->provider_subscription_id) {
+            $subscription->renew();
         }
     }
 

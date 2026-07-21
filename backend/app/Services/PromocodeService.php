@@ -49,17 +49,32 @@ class PromocodeService
                 ? Carbon::parse($latestAccessEnd)->addMonthsNoOverflow($promocode->duration_months)
                 : $startsAt->copy()->addMonthsNoOverflow($promocode->duration_months);
 
-            $subscription = Subscription::create([
-                'user_id' => $lockedUser->id,
-                'plan' => Subscription::PLAN_PRO_MONTHLY,
-                'status' => SubscriptionStatus::ACTIVE,
-                'provider' => 'promocode',
-                'provider_subscription_id' => $promocode->code,
-                'amount_minor' => 0,
-                'currency' => Subscription::PRO_CURRENCY,
-                'starts_at' => $startsAt,
-                'ends_at' => $endsAt,
-            ]);
+            // Extending an existing Robokassa subscription also postpones its
+            // next merchant-initiated charge. Keeping promo time in a parallel
+            // subscription would let the paid subscription renew underneath it.
+            $subscription = Subscription::query()
+                ->where('user_id', $lockedUser->id)
+                ->where('provider', 'robokassa')
+                ->providingProAccess()
+                ->orderByDesc('ends_at')
+                ->lockForUpdate()
+                ->first();
+
+            if ($subscription !== null) {
+                $subscription->forceFill(['ends_at' => $endsAt])->save();
+            } else {
+                $subscription = Subscription::create([
+                    'user_id' => $lockedUser->id,
+                    'plan' => Subscription::PLAN_PRO_MONTHLY,
+                    'status' => SubscriptionStatus::ACTIVE,
+                    'provider' => 'promocode',
+                    'provider_subscription_id' => $promocode->code,
+                    'amount_minor' => 0,
+                    'currency' => Subscription::PRO_CURRENCY,
+                    'starts_at' => $startsAt,
+                    'ends_at' => $endsAt,
+                ]);
+            }
 
             $promocode->forceFill([
                 'redeemed_by' => $lockedUser->id,

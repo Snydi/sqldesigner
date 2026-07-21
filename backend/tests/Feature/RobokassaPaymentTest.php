@@ -40,6 +40,7 @@ class RobokassaPaymentTest extends TestCase
             'robokassa.culture' => 'en',
             'robokassa.payment_method' => null,
             'robokassa.checkout_expires_minutes' => 30,
+            'robokassa.renew_before_hours' => 24,
             'robokassa.receipt.enabled' => true,
             'robokassa.receipt.tax' => 'none',
             'robokassa.receipt.sno' => null,
@@ -215,8 +216,8 @@ class RobokassaPaymentTest extends TestCase
             ->postJson('/api/subscription/checkout')
             ->assertStatus(503);
 
-        $this->assertDatabaseCount('payments', 0);
-        $this->assertDatabaseCount('subscriptions', 0);
+        $this->assertSame(0, $this->user->payments()->count());
+        $this->assertSame(0, $this->user->subscriptions()->count());
     }
 
     public function test_checkout_is_unavailable_while_payments_are_not_live(): void
@@ -229,7 +230,7 @@ class RobokassaPaymentTest extends TestCase
             ->assertForbidden()
             ->assertJsonPath('message', 'Pro payments are not live yet.');
 
-        $this->assertDatabaseCount('payments', 0);
+        $this->assertSame(0, $this->user->payments()->count());
     }
 
     public function test_current_pro_user_cannot_buy_an_overlapping_period(): void
@@ -249,7 +250,7 @@ class RobokassaPaymentTest extends TestCase
             ->postJson('/api/subscription/checkout')
             ->assertStatus(409);
 
-        $this->assertDatabaseCount('payments', 0);
+        $this->assertSame(0, $this->user->payments()->count());
     }
 
     public function test_repeated_checkout_reuses_unexpired_pending_payment(): void
@@ -264,8 +265,8 @@ class RobokassaPaymentTest extends TestCase
             ->json('payment_id');
 
         $this->assertSame($first, $second);
-        $this->assertDatabaseCount('payments', 1);
-        $this->assertDatabaseCount('subscriptions', 1);
+        $this->assertSame(1, $this->user->payments()->count());
+        $this->assertSame(1, $this->user->subscriptions()->count());
     }
 
     public function test_result_signature_matches_robokassa_parameter_order(): void
@@ -291,7 +292,7 @@ class RobokassaPaymentTest extends TestCase
             'amount_minor' => Subscription::PRO_PRICE_MINOR,
             'currency' => Subscription::PRO_CURRENCY,
             'starts_at' => now()->subMonth(),
-            'ends_at' => now(),
+            'ends_at' => now()->addHours(12),
         ]);
         $endsAt = $subscription->ends_at->copy();
         Http::fake(['https://auth.robokassa.ru/Merchant/Recurring' => Http::response('OK200', 200)]);
@@ -346,6 +347,67 @@ class RobokassaPaymentTest extends TestCase
         $this->assertSame(1, app(SubscriptionPaymentService::class)->renewDueSubscriptions());
         $this->assertSame(PaymentStatus::FAILED, $stalePayment->fresh()->status);
         $this->assertSame(2, $subscription->payments()->count());
+    }
+
+    public function test_a_successful_renewal_is_recovered_from_operation_state(): void
+    {
+        Carbon::setTestNow(Carbon::parse('2026-07-19 12:00:00 UTC'));
+        $subscription = Subscription::create([
+            'user_id' => $this->user->id,
+            'plan' => Subscription::PLAN_PRO_MONTHLY,
+            'status' => SubscriptionStatus::ACTIVE,
+            'provider' => 'robokassa',
+            'provider_subscription_id' => '200',
+            'amount_minor' => Subscription::PRO_PRICE_MINOR,
+            'currency' => Subscription::PRO_CURRENCY,
+            'starts_at' => now()->subMonth(),
+            'ends_at' => now()->addHours(12),
+        ]);
+        $originalEnd = $subscription->ends_at->copy();
+        $payment = Payment::create([
+            'user_id' => $this->user->id,
+            'subscription_id' => $subscription->id,
+            'provider' => 'robokassa',
+            'provider_invoice_id' => '201',
+            'status' => PaymentStatus::INITIATED,
+            'amount_minor' => Subscription::PRO_PRICE_MINOR,
+            'currency' => Subscription::PRO_CURRENCY,
+            'provider_amount_minor' => 100000,
+            'provider_currency' => 'RUB',
+        ]);
+        $payment->forceFill([
+            'created_at' => now()->subMinutes(16),
+            'updated_at' => now()->subMinutes(16),
+        ])->save();
+        Http::fake([
+            'https://auth.robokassa.ru/Merchant/WebService/Service.asmx/OpStateExt*' => Http::response('<OperationStateResponse><Result><Code>0</Code></Result><State><Code>100</Code></State></OperationStateResponse>', 200),
+        ]);
+
+        $this->assertSame(0, app(SubscriptionPaymentService::class)->renewDueSubscriptions());
+
+        $this->assertSame(PaymentStatus::SUCCEEDED, $payment->fresh()->status);
+        $this->assertSame('robokassa_operation_state', $payment->fresh()->raw_payload['source']);
+        $this->assertTrue($subscription->fresh()->ends_at->equalTo($originalEnd->addMonthNoOverflow()));
+        Http::assertSentCount(1);
+    }
+
+    public function test_subscription_outside_renewal_window_is_not_charged(): void
+    {
+        Subscription::create([
+            'user_id' => $this->user->id,
+            'plan' => Subscription::PLAN_PRO_MONTHLY,
+            'status' => SubscriptionStatus::ACTIVE,
+            'provider' => 'robokassa',
+            'provider_subscription_id' => '300',
+            'amount_minor' => Subscription::PRO_PRICE_MINOR,
+            'currency' => Subscription::PRO_CURRENCY,
+            'starts_at' => now()->subMonth(),
+            'ends_at' => now()->addHours(25),
+        ]);
+        Http::fake();
+
+        $this->assertSame(0, app(SubscriptionPaymentService::class)->renewDueSubscriptions());
+        Http::assertNothingSent();
     }
 
     private function createCheckoutPayment(): Payment

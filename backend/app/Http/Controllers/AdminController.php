@@ -140,6 +140,10 @@ class AdminController extends Controller
     #[Subgroup('Promocode')]
     public function deletePromocode(Promocode $promocode): RedirectResponse
     {
+        if ($promocode->redeemed_at !== null) {
+            return back()->withErrors(['promocode' => 'Used promo codes are retained as billing audit records.']);
+        }
+
         $promocode->delete();
 
         return back()->with('success', 'Promo code deleted.');

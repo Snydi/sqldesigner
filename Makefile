@@ -108,6 +108,7 @@ _deploy_apply:
 		php artisan migrate --force && \
 		php artisan optimize"
 	docker exec php sh -c "kill -USR2 1"
+	docker compose -f docker-compose.prod.yml -p snydiagram up -d --no-deps scheduler
 	docker compose -f docker-compose.prod.yml -p snydiagram restart queue
 	docker exec nginx sh -c "mkdir -p /tmp/nginx_fastcgi_cache && nginx -s reload"
 

@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\SubscriptionStatus;
+use App\Http\Requests\Subscription\CancelSubscriptionRequest;
+use App\Http\Requests\Subscription\CheckoutSubscriptionRequest;
+use App\Http\Requests\Subscription\RedeemPromocodeRequest;
 use App\Models\Payment;
 use App\Models\User;
 use App\Services\PlanLimitService;
@@ -24,7 +27,7 @@ class SubscriptionController extends Controller
         private readonly PromocodeService $promocodes,
     ) {}
 
-    public function checkout(Request $request): JsonResponse
+    public function checkout(CheckoutSubscriptionRequest $request): JsonResponse
     {
         if (! $this->planLimits->limitsEnabled()) {
             return response()->json(['message' => 'Pro payments are not live yet.'], 403);
@@ -96,7 +99,7 @@ class SubscriptionController extends Controller
         ]);
     }
 
-    public function cancel(Request $request): JsonResponse
+    public function cancel(CancelSubscriptionRequest $request): JsonResponse
     {
         /** @var User $user */
         $user = $request->user();
@@ -113,9 +116,9 @@ class SubscriptionController extends Controller
         ]);
     }
 
-    public function redeem(Request $request): JsonResponse
+    public function redeem(RedeemPromocodeRequest $request): JsonResponse
     {
-        $validated = $request->validate(['code' => ['required', 'string', 'max:32']]);
+        $validated = $request->validated();
 
         /** @var User $user */
         $user = $request->user();
