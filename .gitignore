@@ -1,6 +1,6 @@
-/CLAUDE.md
+/AGENTS.md
 .claudeignore
-/.claude
+/.codex
 /.phpunit.cache
 /node_modules
 .env
@@ -21,6 +21,7 @@ yarn-error.log
 /.zed
 /auth.json
 /public/build
+/frontend/public/build/
 /public/hot
 /public/storage
 /storage/*.key

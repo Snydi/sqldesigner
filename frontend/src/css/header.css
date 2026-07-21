@@ -38,6 +38,20 @@
     border-color: var(--border-color);
 }
 
+.hbtn-billing {
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: .75rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.hbtn-billing:hover { color: var(--color-primary-text); border-color: var(--color-primary); }
+
 .hbtn:disabled {
     opacity: 0.35;
     cursor: default;

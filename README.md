@@ -1,6 +1,6 @@
 # SQL Designer
 
-[![License](https://img.shields.io/badge/license-source--available-blue)](./LICENSE)
+[![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](./LICENSE)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fsql-designer.com)](https://sql-designer.com)
 
 **SQL Designer** is a free, web-based visual database schema designer. Design and manage your database schemas through an intuitive drag-and-drop interface — no SQL expertise required.
@@ -18,7 +18,7 @@ Most database design tools are either expensive, desktop-only, or require an acc
 - **No install** — runs entirely in the browser
 - **Visual-first** — drag, drop, and connect tables without writing SQL
 - **Bidirectional SQL** — import existing SQL to visualize it, or export clean `CREATE` statements from your diagram
-- **MySQL & PostgreSQL** — full support for both dialects
+- **Multiple SQL dialects** — support for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access
 - **Open source** — read the code, report bugs, suggest features
 
 ---
@@ -39,8 +39,8 @@ Most database design tools are either expensive, desktop-only, or require an acc
 
 | Layer    | Technology             |
 |----------|------------------------|
-| Frontend | Vue 3, Pinia, Vue Flow |
-| Backend  | Laravel 11 (PHP)       |
+| Frontend | Vue 3, Vuex, Vue Flow  |
+| Backend  | Laravel 12 (PHP 8.2+)  |
 | Database | PostgreSQL             |
 | Infra    | Docker, Nginx          |
 
@@ -59,7 +59,7 @@ Contributions are welcome. Please open an issue first to discuss what you'd like
 
 ## License
 
-This project is source-available. See [LICENSE](./LICENSE) for details.
+This project is open source under the [GNU Affero General Public License v3.0](./LICENSE).
 
 **Author:** Snyatkov Dmitriy Andreevich
 **Contact:** dmitriy@sql-designer.com

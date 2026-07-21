@@ -10,7 +10,7 @@
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
     <meta property="og:title" content="SQL Designer — Free Online Database Schema Designer">
-    <meta property="og:description" content="Free online database schema designer and ER diagram tool for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. No install, no subscription.">
+    <meta property="og:description" content="Free online database schema designer with 1 diagram and 3 daily exports. Build visually, then upgrade to Pro for unlimited use.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sql-designer.com/">
     <meta property="og:image" content="https://sql-designer.com/images/designer_screenshot.webp">
@@ -19,7 +19,7 @@
     <meta property="og:image:alt" content="SQL Designer — visual database schema editor for MySQL, PostgreSQL, SQLite, Oracle and more">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL Designer — Free Online Database Schema Designer">
-    <meta name="twitter:description" content="Free online database schema designer and ER diagram tool for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. No install, no subscription.">
+    <meta name="twitter:description" content="Free online database schema designer with 1 diagram and 3 daily exports. Build visually, then upgrade to Pro for unlimited use.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="canonical" href="https://sql-designer.com/">
     <link rel="preload" as="image" type="image/webp" fetchpriority="high"
@@ -42,7 +42,7 @@
                 "@id": "https://sql-designer.com/#app",
                 "name": "SQL Designer",
                 "url": "https://sql-designer.com",
-                "description": "Free visual database designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Drag-and-drop tables, define relationships, and export SQL scripts. No install, no subscription.",
+                "description": "Visual database designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The free plan includes 1 diagram and 3 daily exports; Pro provides unlimited use.",
                 "applicationCategory": "DeveloperApplication",
                 "operatingSystem": "Any",
                 "browserRequirements": "Requires a modern browser with JavaScript enabled",
@@ -63,11 +63,13 @@
                     "Crow's foot notation",
                     "PRIMARY and UNIQUE constraints",
                     "UNSIGNED and NOT NULL properties",
-                    "Unlimited diagrams",
+                    "Free plan: 1 diagram",
                     "Auto-save",
                     "SQL export",
                     "JSON export",
-                    "Laravel migration export"
+                    "Laravel migration export",
+                    "PNG export",
+                    "Pro: unlimited diagrams and exports"
                 ],
                 "provider": {"@id": "https://sql-designer.com/#organization"},
                 "screenshot": {
@@ -86,7 +88,7 @@
                         "name": "Is SQL Designer free?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes, completely free. No subscription or any paywall."
+                            "text": "Yes. The free plan includes 1 diagram and 3 daily exports, with no credit card required. Pro offers unlimited diagrams and exports."
                         }
                     },
                     {
@@ -134,7 +136,7 @@
                         "name": "How many diagrams can I create?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "There is no limit. Create as many diagrams as you need."
+                            "text": "The free plan includes 1 diagram. Pro includes unlimited diagrams."
                         }
                     },
                     {
@@ -455,8 +457,8 @@
             <a id="hero-btn-register" class="btn btn-outline btn-lg" href="/register">Sign up</a>
         </div>
         <div class="hero-meta">
-            <span><span class="tick">✓</span> Unlimited diagrams</span>
-            <span><span class="tick">✓</span> Free</span>
+            <span><span class="tick">✓</span> 1 free diagram</span>
+            <span><span class="tick">✓</span> 3 exports a day</span>
             <span><span class="tick">✓</span> Open source</span>
         </div>
         <div class="stats-bar-inner" style="margin-top:1.6rem;">
@@ -515,7 +517,7 @@
     <div class="block-inner">
         <h2 class="section-h2" id="what-is-h2">What is SQL Designer?</h2>
         <p style="color:var(--text-secondary); font-size:0.97rem; line-height:1.75;">
-            SQL Designer is a free entity relationship diagram (ERD) tool — a browser-based database schema designer built for developers who need to model relational databases visually. It supports six SQL dialects — MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access — with dedicated column type pickers and DDL export for each engine. The design workflow is visual: create tables, add columns using real database types such as <code style="font-family:'JetBrains Mono',monospace; font-size:0.9em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">INT</code>, <code style="font-family:'JetBrains Mono',monospace; font-size:0.9em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">VARCHAR</code>, and <code style="font-family:'JetBrains Mono',monospace; font-size:0.9em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">DECIMAL</code>, set PRIMARY KEY, UNIQUE, and NOT NULL constraints with toggles, and draw foreign key relationships by connecting columns on the canvas. The diagram uses crow's foot notation for cardinality. When the schema is ready, export a complete CREATE TABLE script in one click — or paste an existing SQL script to visualize it instantly as an editable diagram. SQL Designer runs entirely in the browser with no download or installation required. Unlimited diagrams, SQL export, real-time collaboration, shareable links, and embeddable iframes are all free, with no credit card required. The full source code is available on <a href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary-text);">GitHub</a> under an open-source license.
+            SQL Designer is a browser-based entity relationship diagram (ERD) tool built for developers who need to model relational databases visually. It supports six SQL dialects — MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access — with dedicated column type pickers and DDL export for each engine. The design workflow is visual: create tables, add columns using real database types such as <code style="font-family:'JetBrains Mono',monospace; font-size:0.9em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">INT</code>, <code style="font-family:'JetBrains Mono',monospace; font-size:0.9em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">VARCHAR</code>, and <code style="font-family:'JetBrains Mono',monospace; font-size:0.9em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">DECIMAL</code>, set PRIMARY KEY, UNIQUE, and NOT NULL constraints with toggles, and draw foreign key relationships by connecting columns on the canvas. The diagram uses crow's foot notation for cardinality. When the schema is ready, export a complete CREATE TABLE script in one click — or paste an existing SQL script to visualize it instantly as an editable diagram. SQL Designer runs entirely in the browser with no download or installation required. The free plan includes 1 diagram and 3 combined SQL, JSON, migration, or PNG exports per day; Pro includes unlimited diagrams and exports. The full source code is available on <a href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary-text);">GitHub</a> under an open-source license.
         </p>
     </div>
 </section>
@@ -571,7 +573,7 @@
                     <li>Crow's foot notation</li>
                     <li>PRIMARY and UNIQUE constraints</li>
                     <li>UNSIGNED &amp; NOT NULL properties</li>
-                    <li>Unlimited diagrams per user</li>
+                    <li>Free: 1 diagram; Pro: unlimited diagrams</li>
                     <li>Auto-save</li>
                 </ul>
             </div>
@@ -592,7 +594,7 @@
         <ul class="faq-list" aria-label="Frequently asked questions">
             <li class="faq-item"><details open>
                 <summary>Is SQL Designer free?</summary>
-                <p>Yes, completely free. No subscription or any paywall.</p>
+                <p>Yes. The Free plan includes 1 diagram and 3 daily combined SQL, JSON, migration, or PNG exports. Pro removes both limits.</p>
             </details></li>
             <li class="faq-item"><details>
                 <summary>Is there anything to install?</summary>

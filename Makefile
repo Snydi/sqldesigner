@@ -1,6 +1,6 @@
 .PHONY: install up down reinstall clean _wait_postgres _composer_install phpunit \
         install-prod up-prod down-prod build-frontend _wait_postgres_prod _composer_install_prod \
-        clean-prod reinstall-prod backup-db indexnow phpstan pint
+        clean-prod reinstall-prod backup-db indexnow phpstan pint toggle-plan-limits
 
 ifeq ($(OS),Windows_NT)
     RM = del /f /q
@@ -108,11 +108,17 @@ _deploy_apply:
 		php artisan migrate --force && \
 		php artisan optimize"
 	docker exec php sh -c "kill -USR2 1"
+	docker compose -f docker-compose.prod.yml -p snydiagram up -d --no-deps scheduler
 	docker compose -f docker-compose.prod.yml -p snydiagram restart queue
 	docker exec nginx sh -c "mkdir -p /tmp/nginx_fastcgi_cache && nginx -s reload"
 
 indexnow:
 	docker exec php sh -c "cd /var/www/html/backend && php artisan seo:indexnow"
+
+# Usage: make toggle-plan-limits [state=on|off]
+# Omit state to switch the current setting.
+toggle-plan-limits:
+	docker exec php sh -c "cd /var/www/html/backend && php artisan limits:toggle $(state)"
 
 _wait_postgres_prod:
 	docker exec postgres sh -c \

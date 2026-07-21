@@ -58,6 +58,25 @@ services:
             DB_PORT: 5432
         command: ["php", "artisan", "queue:work", "--queue=emails", "--tries=3", "--sleep=3", "--timeout=30"]
 
+    scheduler:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+        container_name: scheduler
+        restart: unless-stopped
+        working_dir: /var/www/html/backend
+        volumes:
+            - ./backend:/var/www/html/backend
+        networks:
+            - snydiagram_network
+        depends_on:
+            postgres:
+                condition: service_healthy
+        environment:
+            DB_HOST: postgres
+            DB_PORT: 5432
+        command: ["php", "artisan", "schedule:work"]
+
     reverb:
         build:
             context: .

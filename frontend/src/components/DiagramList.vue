@@ -2,6 +2,7 @@
     <div class="diagrams-page">
         <div class="diagrams-header">
             <h2 class="diagrams-title">Diagrams</h2>
+            <span class="diagrams-count-badge" title="Diagrams used / plan limit">{{ diagrams.length }} / <span v-if="diagramLimit === null" class="diagrams-count-badge__infinity">∞</span><span v-else>{{ diagramLimit }}</span></span>
         </div>
 
         <div class="diagrams-grid-container">
@@ -136,6 +137,7 @@
                 </div>
             </div>
         </div>
+        <UpgradePrompt v-if="upgradeMessage" :message="upgradeMessage" @close="upgradeMessage = ''" />
     </div>
 </template>
 
@@ -147,6 +149,8 @@ import { Diagram } from '@/services/Diagram.js'
 import { DEMO_SCHEMA_STORAGE_KEY } from '@/services/demoSchema.js'
 import DiagramPreview from './Diagram/DiagramPreview.vue'
 import SvgIcon from './SvgIcon.vue'
+import UpgradePrompt from './UpgradePrompt.vue'
+import { isPlanLimitError } from '@/services/Subscription.js'
 import mysqlIcon from '../icons/mysql.svg'
 import postgresqlIcon from '../icons/postgresql.svg'
 import sqliteIcon from '../icons/sqlite.svg'
@@ -157,10 +161,11 @@ import msaccessIcon from '../icons/msaccess.svg'
 const $toast = useToast()
 
 export default {
-    components: { DiagramPreview, SvgIcon },
+    components: { DiagramPreview, SvgIcon, UpgradePrompt },
     data() {
         return {
             diagrams: [],
+            diagramLimit: null,
             newDiagramName: '',
             newDiagramDbType: 'mysql',
             newDiagramPublic: true,
@@ -168,6 +173,7 @@ export default {
             showNewForm: false,
             renamingId: null,
             originalName: null,
+            upgradeMessage: '',
             dbIcons: { mysql: mysqlIcon, postgresql: postgresqlIcon, sqlite: sqliteIcon, oracle: oracleIcon, sqlserver: sqlserverIcon, msaccess: msaccessIcon },
             dbOptions: [
                 { type: 'mysql', label: 'MySQL' },
@@ -207,6 +213,10 @@ export default {
                 await this.fetchDiagrams()
                 $toast.success(response.data.message)
             } catch (error) {
+                if (isPlanLimitError(error)) {
+                    this.upgradeMessage = error.response?.data?.message ?? 'Upgrade to Pro to create more diagrams.'
+                    return
+                }
                 const errors = error.response?.data?.errors
                 if (errors?.name) {
                     $toast.error(`A diagram named "${this.newDiagramName}" already exists.`)
@@ -260,6 +270,14 @@ export default {
                 }
             }
         },
+        async fetchPlanLimits() {
+            try {
+                const response = await axios.get('/api/plan-limits')
+                this.diagramLimit = response.data.diagram_limit
+            } catch {
+                // silently skip — badge falls back to ∞
+            }
+        },
         async importDemoDiagram() {
             const stored = localStorage.getItem(DEMO_SCHEMA_STORAGE_KEY)
             if (!stored) return
@@ -278,9 +296,10 @@ export default {
             if (result) $toast.success('Your demo diagram was saved to your account')
         }
     },
-    async created() {
-        await this.importDemoDiagram()
-        await this.fetchDiagrams()
+    created() {
+        this.importDemoDiagram()
+        this.fetchDiagrams()
+        this.fetchPlanLimits()
     }
 }
 </script>
@@ -299,6 +318,9 @@ export default {
     padding: 1.25rem 2rem;
     background: var(--bg-surface);
     border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .diagrams-title {
@@ -306,6 +328,25 @@ export default {
     color: var(--color-primary-text);
     font-size: 1rem;
     letter-spacing: 1px;
+}
+
+.diagrams-count-badge {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 2px 10px;
+}
+
+.diagrams-count-badge__infinity {
+    font-size: 1.1rem;
+    line-height: 1;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .diagrams-grid-container {

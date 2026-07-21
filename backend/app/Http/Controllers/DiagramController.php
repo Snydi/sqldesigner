@@ -24,6 +24,7 @@ use App\Models\User;
 use App\Services\DiagramCrudService;
 use App\Services\DiagramSharingService;
 use App\Services\DiagramSqlService;
+use App\Services\PlanLimitService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -42,6 +43,7 @@ class DiagramController extends Controller
         private readonly DiagramCrudService $crudService,
         private readonly DiagramSharingService $sharingService,
         private readonly DiagramSqlService $sqlService,
+        private readonly PlanLimitService $planLimitService,
     ) {}
 
     #[Subgroup('CRUD')]
@@ -64,11 +66,18 @@ class DiagramController extends Controller
     #[Subgroup('CRUD')]
     public function store(DiagramRequest $request): JsonResponse
     {
+        /** @var User $user */
+        $user = $request->user();
+
+        if ($this->planLimitService->diagramLimitReached($user)) {
+            abort(403, 'Free plan is limited to 1 diagram. Delete a diagram or upgrade to Pro to create more.');
+        }
+
         $validated = $request->validated();
 
         $dto = new CreateDiagramDTO(
             name: $validated['name'],
-            userId: $request->user()->id,
+            userId: $user->id,
             dbType: DbType::tryFrom((string) ($validated['db_type'] ?? '')) ?? DbType::MYSQL,
             shareAccess: isset($validated['share_access']) ? DiagramAccess::from($validated['share_access']) : null,
             library: (bool) ($validated['library'] ?? false),
@@ -156,6 +165,7 @@ class DiagramController extends Controller
 
         /** @var User $user */
         $user = $request->user();
+
         $this->sqlService->startExport($diagram, $user);
 
         return $this->success(['status' => 'pending'], 202);
@@ -181,14 +191,29 @@ class DiagramController extends Controller
      * @throws AuthorizationException
      */
     #[Subgroup('SQL')]
-    public function exportMigration(Diagram $diagram): Response
+    public function exportMigration(Diagram $diagram, Request $request): Response
     {
         $this->authorize('export', $diagram);
 
+        /** @var User $user */
+        $user = $request->user();
+
         $zipPath = $this->sqlService->createMigrationZip($diagram);
-        $content = file_get_contents($zipPath);
-        unlink($zipPath);
-        $filename = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $diagram->name).'_migrations.zip';
+        try {
+            $content = file_get_contents($zipPath);
+            if ($content === false) {
+                throw new \RuntimeException('Unable to prepare the migration export.');
+            }
+            $filename = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $diagram->name).'_migrations.zip';
+        } finally {
+            if (is_file($zipPath)) {
+                unlink($zipPath);
+            }
+        }
+
+        if (! $this->planLimitService->consumeExportAllowance($user)) {
+            abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
+        }
 
         return response($content, 200, [
             'Content-Type' => 'application/zip',
@@ -200,11 +225,38 @@ class DiagramController extends Controller
      * @throws AuthorizationException
      */
     #[Subgroup('SQL')]
-    public function exportJson(Diagram $diagram): JsonResponse
+    public function exportJson(Diagram $diagram, Request $request): JsonResponse
     {
         $this->authorize('export', $diagram);
 
-        return $this->success($this->sqlService->createJson(json_encode($diagram->schema)));
+        /** @var User $user */
+        $user = $request->user();
+
+        $json = $this->sqlService->createJson(json_encode($diagram->schema));
+
+        if (! $this->planLimitService->consumeExportAllowance($user)) {
+            abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
+        }
+
+        return $this->success($json);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    #[Subgroup('SQL')]
+    public function recordPngExport(Diagram $diagram, Request $request): JsonResponse
+    {
+        $this->authorize('export', $diagram);
+
+        /** @var User $user */
+        $user = $request->user();
+
+        if (! $this->planLimitService->consumeExportAllowance($user)) {
+            abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
+        }
+
+        return $this->success(['status' => true]);
     }
 
     /**

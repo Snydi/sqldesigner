@@ -361,7 +361,7 @@
 
 <section class="docs-cta">
     <h2>Draw ER diagrams with crow&rsquo;s foot notation &mdash; free</h2>
-    <p>SQL Designer applies crow&rsquo;s foot notation automatically when you draw relationships between tables. No install, no subscription &mdash; just open the canvas and start designing.</p>
+    <p>SQL Designer applies crow&rsquo;s foot notation automatically when you draw relationships between tables. No install required — the Free plan includes 1 diagram and 3 daily combined exports.</p>
     <div class="actions">
         <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
         <a class="btn btn-outline btn-lg" href="/register">Create free account</a>

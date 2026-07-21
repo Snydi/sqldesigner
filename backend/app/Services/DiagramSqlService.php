@@ -52,7 +52,7 @@ class DiagramSqlService
         $diagram->export_error = null;
         $diagram->save();
 
-        ExportDiagramJob::dispatch($diagram);
+        ExportDiagramJob::dispatch($diagram, $user->id);
 
         DiagramChangelog::create([
             'diagram_id' => $diagram->id,

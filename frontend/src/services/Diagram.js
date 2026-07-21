@@ -1,5 +1,6 @@
 import axios from '@/axios'
 import { useToast } from 'vue-toast-notification'
+import { isPlanLimitError } from '@/services/Subscription.js'
 
 const $toast = useToast()
 
@@ -7,6 +8,7 @@ async function request(fn) {
     try {
         return await fn()
     } catch (error) {
+        if (isPlanLimitError(error)) throw error
         $toast.error(error.response?.data.message ?? 'Something went wrong!')
     }
 }
@@ -68,9 +70,28 @@ export const Diagram = {
         }),
 
     exportMigration: async (id) => {
-        const response = await axios.get(`/api/diagrams/migration/export/${id}`, { responseType: 'blob' })
-        return response.data
+        try {
+            const response = await axios.get(`/api/diagrams/migration/export/${id}`, { responseType: 'blob' })
+            return response.data
+        } catch (error) {
+            let message = 'Export failed'
+            if (error.response?.data instanceof Blob) {
+                try {
+                    const parsed = JSON.parse(await error.response.data.text())
+                    if (parsed?.message) message = parsed.message
+                } catch {
+                    // response wasn't JSON — keep the default message
+                }
+            }
+            throw new Error(message)
+        }
     },
+
+    recordPngExport: (id) =>
+        request(async () => {
+            const response = await axios.post(`/api/diagrams/png/export/${id}`)
+            return response.data
+        }),
 
     save: (id, schema) =>
         request(async () => {

@@ -8,6 +8,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -48,5 +49,36 @@ class User extends Authenticatable implements MustVerifyEmail
     public function diagrams(): HasMany
     {
         return $this->hasMany(Diagram::class);
+    }
+
+    /** @return HasMany<Subscription, $this> */
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    /** @return HasMany<Payment, $this> */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /** @return HasMany<Promocode, $this> */
+    public function redeemedPromocodes(): HasMany
+    {
+        return $this->hasMany(Promocode::class, 'redeemed_by');
+    }
+
+    /** @return HasOne<Subscription, $this> */
+    public function activeSubscription(): HasOne
+    {
+        return $this->hasOne(Subscription::class)
+            ->providingProAccess()
+            ->ofMany('ends_at', 'max');
+    }
+
+    public function isPro(): bool
+    {
+        return $this->activeSubscription()->exists();
     }
 }

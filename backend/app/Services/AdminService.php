@@ -56,7 +56,7 @@ class AdminService
             $activityByDay[$date] = $activityRows->has($date) ? (int) $activityRows[$date]->count : 0;
         }
 
-        $usersQuery = User::with('diagrams');
+        $usersQuery = User::with(['diagrams', 'activeSubscription']);
 
         if ($sort === 'last_action') {
             $usersQuery

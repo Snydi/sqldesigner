@@ -1,0 +1,4 @@
+[mcp_servers.laravel-boost]
+command = "docker"
+args = ["compose", "-p", "snydiagram", "exec", "-T", "php", "sh", "-c", "cd /var/www/html/backend && php artisan boost:mcp"]
+startup_timeout_sec = 30

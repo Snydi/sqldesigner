@@ -65,12 +65,17 @@ const $toast = useToast({ position: 'bottom-right' })
 const userData = ref({ email: '', password: '' })
 
 onMounted(() => {
+    if (route.query.redirect === '/billing') sessionStorage.setItem('post_auth_route', 'billing')
     if (route.query.oauth_error) {
         $toast.error('Sign-in was cancelled or failed')
     }
 })
 
 const login = async () => {
-    await Auth.login(userData.value)
+    const redirectTo = route.query.redirect === '/billing' || sessionStorage.getItem('post_auth_route') === 'billing'
+        ? 'billing'
+        : 'diagrams'
+    sessionStorage.removeItem('post_auth_route')
+    await Auth.login(userData.value, redirectTo)
 }
 </script>

@@ -1,13 +1,13 @@
 @extends('layouts.main')
 
-@section('title', '10 Best Free Online ERD Tools in 2026 — Tested and Compared')
+@section('title', '10 Best Free ERD Tools in 2026 — Tested and Compared')
 
 @section('head')
     <meta name="description" content="10 best free online ERD tools and ER diagram makers tested in 2026. Most cap tables or paywall SQL export. Find the best free database diagram maker here.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/best-free-erd-tools">
-    <meta property="og:title" content="10 Best Free Online ERD Tools in 2026 — Tested and Compared">
+    <meta property="og:title" content="10 Best Free ERD Tools in 2026 — Tested and Compared">
     <meta property="og:description"
           content="Honest comparison of 10 free ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, and DBeaver.">
     <meta property="og:type" content="article">
@@ -18,7 +18,7 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — free ERD tool for MySQL and PostgreSQL">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="10 Best Free Online ERD Tools in 2026 — Tested and Compared">
+    <meta name="twitter:title" content="10 Best Free ERD Tools in 2026 — Tested and Compared">
     <meta name="twitter:description" content="Honest comparison of 10 free ERD tools — SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, DBeaver.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
@@ -37,7 +37,7 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "10 Best Free Online ERD Tools in 2026 — Tested and Compared",
+            "headline": "10 Best Free ERD Tools in 2026 — Tested and Compared",
             "description": "An honest comparison of 10 free ERD tools in 2026 — with real strengths, real limits, pricing details, and clear use-case guidance for every type of user.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/best-free-erd-tools",
@@ -54,7 +54,7 @@
             "name": "10 Best Free Online ERD Tools in 2026",
             "description": "The 10 best free ERD tools compared by visual editing, SQL export, free tier limits, database support, and collaboration features.",
             "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "SQL Designer", "url": "https://sql-designer.com", "description": "Free visual ERD tool for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Unlimited diagrams, drag-and-drop design, SQL export, and real-time collaboration — all free, no credit card required." },
+                { "@type": "ListItem", "position": 1, "name": "SQL Designer", "url": "https://sql-designer.com", "description": "Visual ERD tool for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro provides unlimited use." },
                 { "@type": "ListItem", "position": 2, "name": "DrawSQL", "url": "https://drawsql.app", "description": "Visual database schema designer with a polished UI and broader database support. Free tier limited to around 15 tables per diagram." },
                 { "@type": "ListItem", "position": 3, "name": "dbdiagram.io", "url": "https://dbdiagram.io", "description": "Text-based DBML schema tool with a visual output. SQL export and private diagrams require a paid plan." },
                 { "@type": "ListItem", "position": 4, "name": "draw.io", "url": "https://diagrams.net", "description": "Free, open-source general-purpose diagramming tool. No SQL awareness, no DDL export — best for conceptual diagrams." },
@@ -75,7 +75,7 @@
                     "name": "What is the best free ERD tool in 2026?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "The best free ERD tool depends on your use case. For designing a MySQL or PostgreSQL schema from scratch with no limits, SQL Designer is the strongest option — it has no table cap, no diagram limit, and free SQL export. For broader database support (SQLite, SQL Server) with a visual editor, DrawSQL is the next best. For documenting an existing database with AI assistance, ChartDB is the top choice. For a quick sketch with no setup, draw.io or ERDPlus work for simple diagrams."
+                        "text": "The best free ERD tool depends on your use case. SQL Designer's Free plan supports visual schema design with 1 diagram and 3 daily combined exports; Pro provides unlimited access. For documenting an existing database with AI assistance, ChartDB is a strong choice. For a quick sketch with no setup, draw.io or ERDPlus work for simple diagrams."
                     }
                 },
                 {
@@ -83,7 +83,7 @@
                     "name": "Which free ERD tools have no table or diagram limits?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "SQL Designer, draw.io, ERDPlus, and ChartDB (self-hosted) have no table or diagram limits on their free tiers. SQL Designer and ERDPlus are browser-based; draw.io works online and offline; ChartDB requires self-hosting to be truly unlimited. DBeaver Community Edition is free with no limits but is desktop-only and not a design-first tool."
+                        "text": "draw.io, ERDPlus, and ChartDB (self-hosted) have no table or diagram limits on their free tiers. SQL Designer's Free plan includes 1 diagram, while Pro provides unlimited diagrams. ERDPlus is browser-based; draw.io works online and offline; ChartDB requires self-hosting to be truly unlimited."
                     }
                 },
                 {
@@ -123,7 +123,7 @@
                     "name": "Can free ERD tools export SQL scripts?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Not all free ERD tools include SQL export on their free tiers. SQL Designer exports CREATE TABLE scripts for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access for free with no restrictions. DrawSQL also exports SQL for free. dbdiagram.io paywalls SQL export. draw.io and Lucidchart have no SQL export at all — they are not SQL-aware tools. ERDPlus can export SQL for simple schemas. ChartDB exports DDL for free."
+                        "text": "Not all free ERD tools include SQL export on their free tiers. SQL Designer's 3 daily Free-plan exports are shared across SQL, JSON, migration, and PNG exports; Pro exports are unlimited. DrawSQL also exports SQL for free. dbdiagram.io paywalls SQL export. draw.io and Lucidchart have no SQL export at all — they are not SQL-aware tools."
                     }
                 },
                 {
@@ -155,7 +155,7 @@
                     "name": "What is the best free database diagram maker online?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "The best free database diagram maker online is SQL Designer — browser-based, no install, and no free-tier restrictions on tables, diagrams, or SQL export. It supports MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. For code-first teams, dbdiagram.io is an alternative, though SQL export requires a paid plan. draw.io is free with no limits but has no SQL awareness and cannot generate DDL."
+                        "text": "SQL Designer is a browser-based database diagram maker supporting MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Its Free plan includes 1 diagram and 3 daily combined exports; Pro provides unlimited use. For code-first teams, dbdiagram.io is an alternative, though SQL export requires a paid plan."
                     }
                 }
             ]
@@ -195,7 +195,7 @@
             <strong>How we tested:</strong> We created a 10-table schema in each tool — including foreign key relationships, composite primary keys, and NOT NULL constraints — then attempted to export MySQL and PostgreSQL DDL scripts and verified the output was valid SQL. Free-tier limits were confirmed against each tool's current pricing page.
         </p>
         <p>
-            <strong>Disclosure:</strong> SQL Designer is my product — we built it and I run this site. I ranked it #1 because I believe it is the strongest free option for designing a schema from scratch with no free-tier restrictions. I've tried to be specific about where each competitor has a genuine advantage: DrawSQL has a more polished UI, DBeaver is better for documenting an existing live database, ChartDB is stronger for AI-assisted schema explanation. Read the Limitations paragraph under each tool and judge for yourself. As an open-source project, the complete source code and commit history are publicly verifiable at <a href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer">github.com/Snydi/sqldesigner</a>.
+            <strong>Disclosure:</strong> SQL Designer is my product — we built it and I run this site. Its Free plan includes 1 diagram and 3 daily combined exports, while Pro provides unlimited use. I've tried to be specific about where each competitor has a genuine advantage: DrawSQL has a more polished UI, DBeaver is better for documenting an existing live database, ChartDB is stronger for AI-assisted schema explanation. Read the Limitations paragraph under each tool and judge for yourself. As an open-source project, the complete source code and commit history are publicly verifiable at <a href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer">github.com/Snydi/sqldesigner</a>.
         </p>
 
         <div class="citation-capsule">
@@ -205,7 +205,7 @@
         <div class="tldr-box">
             <strong class="tldr-label">Quick answer</strong>
             <ul>
-                <li><strong>Best overall free ERD tool:</strong> SQL Designer — no table cap, no SQL export paywall</li>
+                <li><strong>SQL Designer Free plan:</strong> 1 diagram and 3 daily combined exports; Pro removes both limits</li>
                 <li><strong>Best for code-first teams:</strong> dbdiagram.io (DBML) or QuickDBD (text-to-diagram)</li>
                 <li><strong>Best for documenting an existing database:</strong> ChartDB (browser) or DBeaver (desktop)</li>
                 <li><strong>No SQL awareness — conceptual diagrams only:</strong> draw.io or Lucidchart</li>
@@ -233,8 +233,8 @@
                     <td class="check">✓ MySQL, PG, SQLite, Oracle, SQL Server, MS Access</td>
                     <td>MySQL, PG, SQLite, Oracle, SQL Server, MS Access</td>
                     <td class="check">✓</td>
-                    <td class="check">None</td>
-                    <td>Free</td>
+                    <td class="partial">1 diagram; 3 daily combined exports</td>
+                    <td>Free / Pro $10/mo</td>
                 </tr>
                 <tr>
                     <td>DrawSQL</td>
@@ -327,14 +327,14 @@
             <h3>1. SQL Designer — sql-designer.com</h3>
             <img src="/images/designer_screenshot.webp" alt="SQL Designer canvas showing an ER diagram with tables and foreign key relationships" width="720" height="400" loading="eager">
             <p>SQL Designer is a browser-based schema design tool for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access. The workflow is visual: drag tables onto a canvas, add columns with real database types (<code>INT</code>, <code>VARCHAR</code>, <code>DECIMAL</code>, <code>TIMESTAMP</code>), set <code>PRIMARY KEY</code>, <code>UNIQUE</code>, <code>NOT NULL</code>, and <code>AUTO_INCREMENT</code> or <code>SERIAL</code> constraints with toggles, and draw foreign key relationships by connecting columns. The diagram uses crow's foot notation. When the schema is ready, export a complete <code>CREATE TABLE</code> DDL script for your target engine in one click — or paste existing SQL to visualise it instantly.</p>
-            <p>The free tier has no table cap, no diagram limit, and no paywall on SQL export. Collaboration features — shareable links, embeddable iframes, and real-time multiplayer editing — are included at no cost. No credit card required; the <a href="/demo">demo canvas</a> works without an account.</p>
+            <p>The Free plan includes 1 diagram and 3 daily combined SQL, JSON, migration, or PNG exports. Pro provides unlimited diagrams and exports. Collaboration features — shareable links, embeddable iframes, and real-time multiplayer editing — are included at no cost. No credit card is required for the Free plan; the <a href="/demo">demo canvas</a> works without an account.</p>
             <p><strong>Limitations:</strong> there is no reverse-engineering from a live database connection; you import SQL scripts, not live databases. The tool is focused on schema design, not query execution or database administration.</p>
-            <p class="verdict">Verdict: the strongest free option for visual database schema design from a blank canvas, with no meaningful free-tier restrictions and broad multi-dialect SQL export.</p>
+            <p class="verdict">Verdict: a strong browser-based option for visual database schema design, with broad multi-dialect support and a Free plan plus unlimited Pro access.</p>
         </div>
 
         <div class="cta-inline">
             <strong>Try SQL Designer free</strong>
-            <span>Unlimited diagrams, no install required.</span>
+            <span>1 free diagram; unlimited diagrams with Pro. No install required.</span>
             <a href="/register" class="btn btn-solid btn-sm">Create free account</a>
             <a href="/demo" class="btn btn-ghost btn-sm">Open demo</a>
         </div>
@@ -428,7 +428,7 @@
         <div class="use-case-grid">
             <div class="use-case-card">
                 <strong>New MySQL or PostgreSQL schema, fully free</strong>
-                <span>SQL Designer — no table cap, no SQL export paywall, real-time collaboration included.</span>
+                <span>SQL Designer — 1 free diagram and 3 daily combined exports; unlimited access with Pro.</span>
             </div>
             <div class="use-case-card">
                 <strong>Visual design with broader DB support (SQLite, SQL Server)</strong>
@@ -470,7 +470,7 @@
             <li><strong>No credit card required to start</strong></li>
         </ul>
         <p>
-            By that standard, the tools with no meaningful free restrictions are: SQL Designer, draw.io, ERDPlus, ChartDB (self-hosted), and DBeaver Community Edition. Of those, only SQL Designer and ChartDB are SQL-aware design tools that can also export DDL.
+            By that standard, draw.io, ERDPlus, ChartDB (self-hosted), and DBeaver Community Edition have no meaningful free restrictions. SQL Designer is an SQL-aware design tool with a Free plan that includes 1 diagram and 3 daily combined exports, plus unlimited Pro access.
         </p>
 
         <div class="citation-capsule">
@@ -482,12 +482,12 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">What is the best free ERD tool in 2026?</h3>
-                <p class="faq-a">The best free ERD tool depends on your use case. For designing a MySQL or PostgreSQL schema from scratch with no limits, SQL Designer is the strongest option — it has no table cap, no diagram limit, and free SQL export. For broader database support with a visual editor, DrawSQL is the next best. For documenting an existing database with AI assistance, ChartDB is the top choice. For a quick sketch with no setup, draw.io or ERDPlus work for simple diagrams.</p>
+                <p class="faq-a">The best free ERD tool depends on your use case. SQL Designer's Free plan supports visual schema design with 1 diagram and 3 daily combined exports; Pro provides unlimited access. For documenting an existing database with AI assistance, ChartDB is a strong choice. For a quick sketch with no setup, draw.io or ERDPlus work for simple diagrams.</p>
             </div>
 
             <div class="faq-item">
                 <h3 class="faq-q">Which free ERD tools have no table or diagram limits?</h3>
-                <p class="faq-a">SQL Designer, draw.io, ERDPlus, and ChartDB (self-hosted) have no table or diagram limits on their free tiers. SQL Designer and ERDPlus are browser-based with accounts; draw.io works online and offline with no account needed; ChartDB requires self-hosting to be truly unlimited. DBeaver Community Edition is free with no limits but is desktop-only and not a design-first tool.</p>
+                <p class="faq-a">draw.io, ERDPlus, and ChartDB (self-hosted) have no table or diagram limits on their free tiers. SQL Designer's Free plan includes 1 diagram, while Pro provides unlimited diagrams. ERDPlus is browser-based; draw.io works online and offline; ChartDB requires self-hosting to be truly unlimited.</p>
             </div>
 
             <div class="faq-item">
@@ -512,7 +512,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">Can free ERD tools export SQL scripts?</h3>
-                <p class="faq-a">Not all free ERD tools include SQL export on their free tiers. SQL Designer exports <code>CREATE TABLE</code> scripts for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access for free with no restrictions. DrawSQL also exports SQL for free. dbdiagram.io paywalls SQL export. draw.io and Lucidchart have no SQL export at all — they are not SQL-aware tools. ERDPlus can export basic SQL for simple schemas. ChartDB exports DDL for free.</p>
+                <p class="faq-a">Not all free ERD tools include SQL export on their free tiers. SQL Designer's 3 daily Free-plan exports are shared across SQL, JSON, migration, and PNG exports; Pro exports are unlimited. DrawSQL also exports SQL for free. dbdiagram.io paywalls SQL export. draw.io and Lucidchart have no SQL export at all — they are not SQL-aware tools.</p>
             </div>
 
             <div class="faq-item">
@@ -532,7 +532,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">What is the best free database diagram maker online?</h3>
-                <p class="faq-a">The best free database diagram maker online is SQL Designer — it is entirely browser-based, requires no installation, and has no free-tier restrictions on tables, diagrams, or SQL export. It supports MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. For teams who prefer a code-first approach, dbdiagram.io is a capable alternative, though SQL export requires a paid plan. draw.io is free with no limits but produces conceptual diagrams only — it has no SQL awareness and cannot generate DDL.</p>
+                <p class="faq-a">SQL Designer is a browser-based database diagram maker supporting MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Its Free plan includes 1 diagram and 3 daily combined exports; Pro provides unlimited use. For teams who prefer a code-first approach, dbdiagram.io is a capable alternative, though SQL export requires a paid plan.</p>
             </div>
 
         </section>
@@ -558,7 +558,7 @@
 
 <section class="docs-cta">
     <h2>Try SQL Designer — free, no install</h2>
-    <p>Visual drag-and-drop schema design for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Free SQL export, unlimited diagrams, real-time collaboration, shareable links. No credit card, no table cap.</p>
+    <p>Visual drag-and-drop schema design for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits.</p>
     <div class="actions">
         <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
         <a class="btn btn-outline btn-lg" href="/register">Create free account</a>

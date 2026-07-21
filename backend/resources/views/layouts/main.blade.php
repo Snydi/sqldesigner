@@ -243,6 +243,7 @@
                 </span>
             </a>
             <a class="btn btn-ghost" href="/features">Features</a>
+            <a class="btn btn-ghost" href="/pricing">Pricing</a>
             <a class="btn btn-ghost" href="/library">Library</a>
             <a class="btn btn-ghost" href="/blog">Blog</a>
         </nav>
@@ -252,6 +253,7 @@
     </div>
     <nav class="flex-items" aria-label="Main navigation">
         <div id="nav-authed" style="display:none; gap:0.6rem;">
+            <a class="btn btn-ghost nav-hide-mobile" href="/billing">Billing</a>
             <a class="btn btn-ghost nav-hide-mobile" href="/diagrams">My Diagrams</a>
             <a class="btn btn-ghost" href="/logout">Logout</a>
         </div>
@@ -270,11 +272,13 @@
 
 <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
     <a href="/features">Features</a>
+    <a href="/pricing">Pricing</a>
     <a href="/library">Library</a>
     <a href="/blog">Blog</a>
     <a href="/about">About</a>
     <div class="divider"></div>
     <div id="mobile-nav-authed" style="display:none;">
+        <a href="/billing">Billing</a>
         <a href="/diagrams">My Diagrams</a>
     </div>
     <a href="/login" id="mobile-nav-login">Log in</a>
@@ -314,6 +318,7 @@
             <h2>Product</h2>
             <ul>
                 <li><a href="/features">Features</a></li>
+                <li><a href="/pricing">Pricing</a></li>
                 <li><a href="/demo">Live demo</a></li>
                 <li><a href="/library">Schema library</a></li>
             </ul>
@@ -356,8 +361,10 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <span>&copy; {{ date('Y') }} SQL Designer &mdash; visual MySQL &amp; PostgreSQL schema designer</span>
+        <span>&copy; {{ date('Y') }} SQL Designer &mdash; visual SQL schema designer for 6 dialects &middot; INN 344818239248</span>
         <span>
+            <a href="{{ route('oferta') }}" style="color:inherit;">Public Offer</a>
+            &nbsp;&middot;&nbsp;
             <a href="/privacy" style="color:inherit;">Privacy Policy</a>
             &nbsp;&middot;&nbsp;
             <a href="/terms" style="color:inherit;">Terms of Service</a>

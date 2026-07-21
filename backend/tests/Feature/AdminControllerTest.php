@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\Diagram;
+use App\Models\Promocode;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Config;
@@ -45,6 +46,29 @@ class AdminControllerTest extends TestCase
         $this->withSession($this->adminSession)
             ->get('/admin/reviews')
             ->assertStatus(200);
+    }
+
+    public function test_billing_returns_ok(): void
+    {
+        $this->withSession($this->adminSession)
+            ->get('/admin/billing')
+            ->assertStatus(200);
+    }
+
+    public function test_used_promocode_cannot_be_deleted(): void
+    {
+        $user = User::factory()->create();
+        $promocode = Promocode::create([
+            'code' => 'AUDITKEEP',
+            'duration_months' => 1,
+        ]);
+        $promocode->forceFill(['redeemed_by' => $user->id, 'redeemed_at' => now()])->save();
+
+        $this->withSession($this->adminSession)
+            ->delete("/admin/promocodes/{$promocode->id}")
+            ->assertSessionHasErrors(['promocode']);
+
+        $this->assertNotNull($promocode->fresh());
     }
 
     public function test_user_activity_returns_ok(): void
