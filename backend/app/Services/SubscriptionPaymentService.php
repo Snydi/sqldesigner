@@ -138,6 +138,7 @@ class SubscriptionPaymentService
     {
         $subscriptions = Subscription::query()
             ->where('status', SubscriptionStatus::ACTIVE->value)
+            ->where('provider', 'robokassa')
             ->whereNotNull('provider_subscription_id')
             ->where('ends_at', '<=', now()->addDay())
             ->get();
@@ -212,6 +213,7 @@ class SubscriptionPaymentService
             User::query()->lockForUpdate()->findOrFail($user->id);
             $subscription = Subscription::query()
                 ->where('user_id', $user->id)
+                ->where('provider', 'robokassa')
                 ->providingProAccess()
                 ->orderByDesc('ends_at')
                 ->lockForUpdate()

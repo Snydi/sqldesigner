@@ -39,6 +39,17 @@
                 </section>
 
                 <section class="billing-card">
+                    <div class="section-title"><h2>Redeem promo code</h2></div>
+                    <form class="promocode-form" @submit.prevent="redeem">
+                        <input v-model="promocode" maxlength="32" autocomplete="off" placeholder="Enter promo code" :disabled="promocodeLoading">
+                        <button class="btn btn-secondary" type="submit" :disabled="promocodeLoading || !promocode.trim()">
+                            {{ promocodeLoading ? 'Applying…' : 'Apply code' }}
+                        </button>
+                    </form>
+                    <p class="promocode-help">Promo codes can be used once and add their Pro time to any active access.</p>
+                </section>
+
+                <section class="billing-card">
                     <div class="section-title"><h2>Payment history</h2><span>{{ billing.payments.length }} shown</span></div>
                     <div v-if="billing.payments.length" class="payment-list">
                         <div v-for="payment in billing.payments" :key="payment.id" class="payment-row">
@@ -72,10 +83,12 @@ const loading = ref(true)
 const loadError = ref('')
 const checkoutLoading = ref(false)
 const cancelLoading = ref(false)
+const promocodeLoading = ref(false)
+const promocode = ref('')
 const paymentNotice = ref(null)
 
 const formatDate = (value) => value
-    ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
+    ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short', hourCycle: 'h23' }).format(new Date(value))
     : '—'
 
 const load = async () => {
@@ -114,6 +127,20 @@ const cancel = async () => {
     }
 }
 
+const redeem = async () => {
+    promocodeLoading.value = true
+    try {
+        const result = await Subscription.redeem(promocode.value)
+        toast.success(result.message)
+        promocode.value = ''
+        await load()
+    } catch (error) {
+        toast.error(error.response?.data?.message ?? 'Could not apply this promo code.')
+    } finally {
+        promocodeLoading.value = false
+    }
+}
+
 onMounted(async () => {
     if (route.query.payment === 'processing') {
         paymentNotice.value = { type: 'success', message: 'Payment returned successfully. Pro activates when Robokassa confirms it; refresh shortly if it is still pending.' }
@@ -146,6 +173,9 @@ h1 { margin: 0; font-size: clamp(1.55rem, 4vw, 2.2rem); color: var(--text-primar
 .plan-actions { display: flex; flex-direction: column; align-items: stretch; gap: .55rem; flex-shrink: 0; }
 .section-title { display: flex; justify-content: space-between; align-items: center; padding-bottom: .9rem; border-bottom: 1px solid var(--border-light); }
 .section-title span { color: var(--text-muted); font-size: .75rem; }
+.promocode-form { display:flex; gap:.65rem; margin-top:1rem; }
+.promocode-form input { min-width:0; flex:1; padding:.7rem .8rem; border:1px solid var(--border-color); border-radius:6px; color:var(--text-primary); background:var(--bg-surface-alt); font:inherit; text-transform:uppercase; }
+.promocode-help { margin:.65rem 0 0; color:var(--text-muted); font-size:.78rem; }
 .payment-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--border-light); }
 .payment-row:last-child { border-bottom: 0; padding-bottom: 0; }
 .payment-row strong { display: block; color: var(--text-primary); }
@@ -155,5 +185,5 @@ h1 { margin: 0; font-size: clamp(1.55rem, 4vw, 2.2rem); color: var(--text-primar
 .status--failed { color: #edb0b0; background: rgba(122,53,53,.3); }
 .empty-state, .billing-footnote { color: var(--text-muted); }
 .billing-footnote { text-align: center; font-size: .78rem; }
-@media (max-width: 620px) { .current-plan { align-items: stretch; flex-direction: column; } .plan-actions { width: 100%; } }
+@media (max-width: 620px) { .current-plan { align-items: stretch; flex-direction: column; } .plan-actions { width: 100%; } .promocode-form { flex-direction:column; } }
 </style>

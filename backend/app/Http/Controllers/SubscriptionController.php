@@ -8,6 +8,7 @@ use App\Enums\SubscriptionStatus;
 use App\Models\Payment;
 use App\Models\User;
 use App\Services\PlanLimitService;
+use App\Services\PromocodeService;
 use App\Services\SubscriptionPaymentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +21,7 @@ class SubscriptionController extends Controller
     public function __construct(
         private readonly SubscriptionPaymentService $payments,
         private readonly PlanLimitService $planLimits,
+        private readonly PromocodeService $promocodes,
     ) {}
 
     public function checkout(Request $request): JsonResponse
@@ -58,11 +60,16 @@ class SubscriptionController extends Controller
         $user = $request->user();
         $current = $user->activeSubscription()->first();
         $latest = $current ?? $user->subscriptions()->latest()->first();
+        $cancellable = $user->subscriptions()
+            ->where('provider', 'robokassa')
+            ->where('status', SubscriptionStatus::ACTIVE->value)
+            ->where('ends_at', '>', now())
+            ->exists();
 
         return $this->success([
             'is_pro' => $current !== null,
             'can_purchase' => $current === null,
-            'can_cancel' => $current?->status === SubscriptionStatus::ACTIVE,
+            'can_cancel' => $cancellable,
             'subscription' => $latest === null ? null : [
                 'id' => $latest->id,
                 'plan' => $latest->plan,
@@ -102,6 +109,25 @@ class SubscriptionController extends Controller
 
         return $this->success([
             'message' => 'Pro has been cancelled. Your access remains active until the current period ends.',
+            'ends_at' => $subscription->ends_at?->toIso8601String(),
+        ]);
+    }
+
+    public function redeem(Request $request): JsonResponse
+    {
+        $validated = $request->validate(['code' => ['required', 'string', 'max:32']]);
+
+        /** @var User $user */
+        $user = $request->user();
+
+        try {
+            $subscription = $this->promocodes->redeem($user, $validated['code']);
+        } catch (LogicException $exception) {
+            return response()->json(['message' => $exception->getMessage()], 422);
+        }
+
+        return $this->success([
+            'message' => 'Promo code applied. Pro access is active until '.$subscription->ends_at?->toIso8601String().'.',
             'ends_at' => $subscription->ends_at?->toIso8601String(),
         ]);
     }

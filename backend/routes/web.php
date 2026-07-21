@@ -56,6 +56,11 @@ Route::prefix('/admin')->group(function () {
         Route::get('/', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
         Route::get('/library', [AdminController::class, 'showLibrary'])->name('admin.library');
         Route::get('/billing', [AdminController::class, 'showBilling'])->name('admin.billing');
+        Route::get('/promocodes', [AdminController::class, 'showPromocodes'])->name('admin.promocodes');
+        Route::post('/promocodes/generate', [AdminController::class, 'generatePromocode'])->name('admin.promocodes.generate');
+        Route::post('/promocodes', [AdminController::class, 'storePromocode'])->name('admin.promocodes.store');
+        Route::put('/promocodes/{promocode}', [AdminController::class, 'updatePromocode'])->name('admin.promocodes.update');
+        Route::delete('/promocodes/{promocode}', [AdminController::class, 'deletePromocode'])->name('admin.promocodes.delete');
         Route::get('/reviews', [AdminController::class, 'showReviews'])->name('admin.reviews');
         Route::post('/impersonate/{user}', [AdminController::class, 'impersonate'])->name('admin.impersonate');
         Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.destroy');

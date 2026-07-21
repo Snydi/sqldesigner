@@ -386,6 +386,7 @@
         <div style="display:flex;align-items:center;gap:12px;">
             <a href="{{ route('admin.library') }}" class="logout-btn" style="text-decoration:none;">Library</a>
             <a href="{{ route('admin.billing') }}" class="logout-btn" style="text-decoration:none;">Billing</a>
+            <a href="{{ route('admin.promocodes') }}" class="logout-btn" style="text-decoration:none;">Promocodes</a>
             <a href="{{ route('admin.reviews') }}" class="logout-btn" style="text-decoration:none;">Reviews</a>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf

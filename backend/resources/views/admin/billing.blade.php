@@ -38,6 +38,7 @@
             <a href="{{ route('admin.dashboard') }}">Users</a>
             <a href="{{ route('admin.library') }}">Library</a>
             <a href="{{ route('admin.reviews') }}">Reviews</a>
+            <a href="{{ route('admin.promocodes') }}">Promocodes</a>
             <form method="POST" action="{{ route('admin.logout') }}">@csrf<button type="submit">Sign Out</button></form>
         </nav>
     </header>

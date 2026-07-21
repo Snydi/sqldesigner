@@ -16,6 +16,11 @@ export const Subscription = {
         return data
     },
 
+    async redeem(code) {
+        const { data } = await axios.post('/api/subscription/promocode', { code })
+        return data
+    },
+
     submitCheckoutForm(checkout) {
         const form = document.createElement('form')
         form.method = checkout.form.method

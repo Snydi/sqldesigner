@@ -63,6 +63,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Payment::class);
     }
 
+    /** @return HasMany<Promocode, $this> */
+    public function redeemedPromocodes(): HasMany
+    {
+        return $this->hasMany(Promocode::class, 'redeemed_by');
+    }
+
     /** @return HasOne<Subscription, $this> */
     public function activeSubscription(): HasOne
     {
