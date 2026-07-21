@@ -140,7 +140,7 @@ class SubscriptionPaymentService
             ->where('status', SubscriptionStatus::ACTIVE->value)
             ->where('provider', 'robokassa')
             ->whereNotNull('provider_subscription_id')
-            ->where('ends_at', '<=', now()->addDay())
+            ->where('ends_at', '<=', now())
             ->get();
 
         $initiated = 0;
@@ -155,12 +155,14 @@ class SubscriptionPaymentService
 
     private function initiateRenewal(Subscription $subscription): bool
     {
+        $this->reconcilePendingRenewals($subscription);
+
         $payment = DB::transaction(function () use ($subscription): ?Payment {
             $subscription = Subscription::query()->lockForUpdate()->findOrFail($subscription->id);
             if ($subscription->status !== SubscriptionStatus::ACTIVE
                 || $subscription->provider_subscription_id === null
                 || $subscription->ends_at === null
-                || $subscription->ends_at->greaterThan(now()->addDay())) {
+                || $subscription->ends_at->greaterThan(now())) {
                 return null;
             }
 
@@ -207,6 +209,34 @@ class SubscriptionPaymentService
         return true;
     }
 
+    private function reconcilePendingRenewals(Subscription $subscription): void
+    {
+        $checkAfter = now()->subMinutes((int) config('robokassa.operation_state_check_after_minutes', 15));
+        $payments = $subscription->payments()
+            ->where('status', PaymentStatus::INITIATED->value)
+            ->where('created_at', '<=', $checkAfter)
+            ->get();
+
+        foreach ($payments as $payment) {
+            try {
+                $state = $this->robokassa->operationState($payment);
+            } catch (Throwable $exception) {
+                report($exception);
+
+                continue;
+            }
+
+            // 10: cancelled/expired, 60: funds returned. Do not retry a payment
+            // unless the provider has confirmed it cannot still succeed.
+            if (in_array($state, [10, 60], true)) {
+                $payment->forceFill([
+                    'status' => PaymentStatus::FAILED,
+                    'failed_at' => now(),
+                ])->save();
+            }
+        }
+    }
+
     public function cancelCurrentSubscription(User $user): Subscription
     {
         return DB::transaction(function () use ($user): Subscription {
@@ -223,6 +253,14 @@ class SubscriptionPaymentService
             }
 
             $subscription->cancel();
+
+            $subscription->payments()
+                ->where('status', PaymentStatus::INITIATED->value)
+                ->update([
+                    'status' => PaymentStatus::FAILED->value,
+                    'failed_at' => now(),
+                    'updated_at' => now(),
+                ]);
 
             return $subscription->refresh();
         });

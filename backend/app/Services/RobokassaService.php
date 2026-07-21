@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Payment;
+use Illuminate\Support\Facades\Http;
 use JsonException;
 use RuntimeException;
 
@@ -52,10 +53,20 @@ class RobokassaService
             $parameters['IncCurrLabel'] = (string) config('robokassa.payment_method');
         }
 
+        $returnParameters = [
+            'ResultUrl2' => (string) config('robokassa.result_url'),
+            'SuccessUrl2' => (string) config('robokassa.success_url'),
+            'SuccessUrl2Method' => 'GET',
+            'FailUrl2' => (string) config('robokassa.fail_url'),
+            'FailUrl2Method' => 'GET',
+        ];
+        $parameters = [...$parameters, ...$returnParameters];
+
         $parameters['SignatureValue'] = $this->paymentSignature(
             $outSum,
             $payment->provider_invoice_id,
             $receipt,
+            $returnParameters,
             $customParameters,
         );
 
@@ -95,6 +106,7 @@ class RobokassaService
             $outSum,
             $payment->provider_invoice_id,
             $receipt,
+            [],
             $customParameters,
         );
 
@@ -131,6 +143,42 @@ class RobokassaService
     public function paymentUrl(Payment $payment): string
     {
         return $this->paymentUrlFromParameters($this->checkoutParameters($payment));
+    }
+
+    /**
+     * Returns the provider's operation state, or null when it cannot be read.
+     *
+     * @see https://docs.robokassa.ru/ru/xml-interfaces
+     */
+    public function operationState(Payment $payment): ?int
+    {
+        if ($payment->provider_invoice_id === null) {
+            return null;
+        }
+
+        $this->assertConfigured();
+        $merchantLogin = (string) config('robokassa.merchant_login');
+        $response = Http::timeout(15)->get((string) config('robokassa.operation_state_url'), [
+            'MerchantLogin' => $merchantLogin,
+            'InvoiceID' => $payment->provider_invoice_id,
+            'Signature' => $this->hash($merchantLogin.':'.$payment->provider_invoice_id.':'.(string) config('robokassa.password2')),
+        ]);
+        if (! $response->successful()) {
+            return null;
+        }
+
+        $xml = @simplexml_load_string($response->body());
+        if ($xml === false) {
+            return null;
+        }
+
+        $resultCode = $xml->xpath('//*[local-name()="Result"]/*[local-name()="Code"]');
+        $stateCode = $xml->xpath('//*[local-name()="State"]/*[local-name()="Code"]');
+        if ($resultCode === false || $stateCode === false || ! isset($resultCode[0], $stateCode[0]) || (int) $resultCode[0] !== 0) {
+            return null;
+        }
+
+        return (int) $stateCode[0];
     }
 
     /** @param array<string, string> $parameters */
@@ -198,11 +246,13 @@ class RobokassaService
 
     /**
      * @param  array<string, string>  $customParameters
+     * @param  array<string, string>  $returnParameters
      */
     private function paymentSignature(
         string $outSum,
         string $invoiceId,
         ?string $receipt,
+        array $returnParameters,
         array $customParameters,
     ): string {
         $parts = [
@@ -212,6 +262,11 @@ class RobokassaService
         ];
         if ($receipt !== null) {
             $parts[] = $receipt;
+        }
+        foreach (['ResultUrl2', 'SuccessUrl2', 'SuccessUrl2Method', 'FailUrl2', 'FailUrl2Method'] as $key) {
+            if (isset($returnParameters[$key])) {
+                $parts[] = $returnParameters[$key];
+            }
         }
         $parts[] = (string) config('robokassa.password1');
 

@@ -43,6 +43,9 @@ class RobokassaPaymentTest extends TestCase
             'robokassa.receipt.enabled' => true,
             'robokassa.receipt.tax' => 'none',
             'robokassa.receipt.sno' => null,
+            'robokassa.result_url' => 'https://sql-designer.test/api/webhooks/robokassa/result',
+            'robokassa.success_url' => 'https://sql-designer.test/checkout/success',
+            'robokassa.fail_url' => 'https://sql-designer.test/checkout/fail',
         ]);
         FeatureFlag::updateOrCreate(['key' => 'plan_limits_enabled'], ['enabled' => true]);
         cache()->forget('feature_flag:plan_limits_enabled');
@@ -87,12 +90,20 @@ class RobokassaPaymentTest extends TestCase
             '1000.00',
             (string) $payment->id,
             $fields['Receipt'],
+            $fields['ResultUrl2'],
+            $fields['SuccessUrl2'],
+            $fields['SuccessUrl2Method'],
+            $fields['FailUrl2'],
+            $fields['FailUrl2Method'],
             'password_1',
             'Shp_currency=USD',
             'Shp_payment_id='.$payment->id,
             'Shp_user_id='.$this->user->id,
         ]));
         $this->assertSame($expectedSignature, $fields['SignatureValue']);
+        $this->assertSame('https://sql-designer.test/api/webhooks/robokassa/result', $fields['ResultUrl2']);
+        $this->assertSame('https://sql-designer.test/checkout/success', $fields['SuccessUrl2']);
+        $this->assertSame('https://sql-designer.test/checkout/fail', $fields['FailUrl2']);
 
         $receipt = json_decode(urldecode($fields['Receipt']), true, flags: JSON_THROW_ON_ERROR);
         $this->assertSame('service', $receipt['items'][0]['payment_object']);
@@ -280,7 +291,7 @@ class RobokassaPaymentTest extends TestCase
             'amount_minor' => Subscription::PRO_PRICE_MINOR,
             'currency' => Subscription::PRO_CURRENCY,
             'starts_at' => now()->subMonth(),
-            'ends_at' => now()->addHour(),
+            'ends_at' => now(),
         ]);
         $endsAt = $subscription->ends_at->copy();
         Http::fake(['https://auth.robokassa.ru/Merchant/Recurring' => Http::response('OK200', 200)]);
@@ -296,6 +307,45 @@ class RobokassaPaymentTest extends TestCase
         $this->post('/api/webhooks/robokassa/result', $this->resultPayload($payment))->assertOk();
 
         $this->assertTrue($subscription->fresh()->ends_at->equalTo($endsAt->addMonthNoOverflow()));
+    }
+
+    public function test_a_provider_confirmed_failed_renewal_is_retried(): void
+    {
+        Carbon::setTestNow(Carbon::parse('2026-07-19 12:00:00 UTC'));
+        $subscription = Subscription::create([
+            'user_id' => $this->user->id,
+            'plan' => Subscription::PLAN_PRO_MONTHLY,
+            'status' => SubscriptionStatus::ACTIVE,
+            'provider' => 'robokassa',
+            'provider_subscription_id' => '100',
+            'amount_minor' => Subscription::PRO_PRICE_MINOR,
+            'currency' => Subscription::PRO_CURRENCY,
+            'starts_at' => now()->subMonth(),
+            'ends_at' => now(),
+        ]);
+        $stalePayment = Payment::create([
+            'user_id' => $this->user->id,
+            'subscription_id' => $subscription->id,
+            'provider' => 'robokassa',
+            'provider_invoice_id' => '101',
+            'status' => PaymentStatus::INITIATED,
+            'amount_minor' => Subscription::PRO_PRICE_MINOR,
+            'currency' => Subscription::PRO_CURRENCY,
+            'provider_amount_minor' => 100000,
+            'provider_currency' => 'RUB',
+        ]);
+        $stalePayment->forceFill([
+            'created_at' => now()->subMinutes(16),
+            'updated_at' => now()->subMinutes(16),
+        ])->save();
+        Http::fake([
+            'https://auth.robokassa.ru/Merchant/WebService/Service.asmx/OpStateExt*' => Http::response('<OperationStateResponse><Result><Code>0</Code></Result><State><Code>10</Code></State></OperationStateResponse>', 200),
+            'https://auth.robokassa.ru/Merchant/Recurring' => Http::response('OK102', 200),
+        ]);
+
+        $this->assertSame(1, app(SubscriptionPaymentService::class)->renewDueSubscriptions());
+        $this->assertSame(PaymentStatus::FAILED, $stalePayment->fresh()->status);
+        $this->assertSame(2, $subscription->payments()->count());
     }
 
     private function createCheckoutPayment(): Payment

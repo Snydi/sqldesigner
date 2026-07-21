@@ -77,6 +77,29 @@ class SubscriptionAccountTest extends TestCase
             ->assertJsonPath('subscription.provides_access', true);
     }
 
+    public function test_cancellation_marks_a_queued_renewal_as_failed(): void
+    {
+        $subscription = $this->activeSubscription();
+        $payment = Payment::create([
+            'user_id' => $this->user->id,
+            'subscription_id' => $subscription->id,
+            'provider' => 'robokassa',
+            'provider_invoice_id' => 'queued-renewal',
+            'status' => PaymentStatus::INITIATED,
+            'amount_minor' => 1000,
+            'currency' => 'USD',
+            'provider_amount_minor' => 100000,
+            'provider_currency' => 'RUB',
+        ]);
+
+        $this->actingAs($this->user, 'sanctum')
+            ->deleteJson('/api/subscription/current')
+            ->assertOk();
+
+        $this->assertSame(PaymentStatus::FAILED, $payment->fresh()->status);
+        $this->assertNotNull($payment->fresh()->failed_at);
+    }
+
     public function test_free_user_cannot_cancel_and_can_purchase(): void
     {
         $this->actingAs($this->user, 'sanctum')
