@@ -6,7 +6,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\SubscriptionController;
-use App\Services\PlanLimitService;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,9 +32,7 @@ Route::prefix('/blog')->group(function () {
 });
 Route::get('/about', fn () => view('about'));
 Route::get('/features', fn () => view('features'));
-Route::get('/pricing', fn () => view('pricing', [
-    'paymentsLive' => app(PlanLimitService::class)->limitsEnabled(),
-]));
+Route::get('/pricing', fn () => view('pricing'));
 Route::get('/library', [LibraryController::class, 'index']);
 Route::get('/sitemap', fn () => view('sitemap'));
 Route::get('/privacy', fn () => view('privacy'));

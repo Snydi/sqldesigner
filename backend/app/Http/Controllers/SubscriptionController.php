@@ -10,7 +10,6 @@ use App\Http\Requests\Subscription\CheckoutSubscriptionRequest;
 use App\Http\Requests\Subscription\RedeemPromocodeRequest;
 use App\Models\Payment;
 use App\Models\User;
-use App\Services\PlanLimitService;
 use App\Services\PromocodeService;
 use App\Services\SubscriptionPaymentService;
 use Illuminate\Http\JsonResponse;
@@ -23,16 +22,11 @@ class SubscriptionController extends Controller
 {
     public function __construct(
         private readonly SubscriptionPaymentService $payments,
-        private readonly PlanLimitService $planLimits,
         private readonly PromocodeService $promocodes,
     ) {}
 
     public function checkout(CheckoutSubscriptionRequest $request): JsonResponse
     {
-        if (! $this->planLimits->limitsEnabled()) {
-            return response()->json(['message' => 'Pro payments are not live yet.'], 403);
-        }
-
         /** @var User $user */
         $user = $request->user();
 

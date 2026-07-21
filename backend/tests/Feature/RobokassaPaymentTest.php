@@ -220,17 +220,17 @@ class RobokassaPaymentTest extends TestCase
         $this->assertSame(0, $this->user->subscriptions()->count());
     }
 
-    public function test_checkout_is_unavailable_while_payments_are_not_live(): void
+    public function test_checkout_remains_available_while_plan_limits_are_disabled(): void
     {
         FeatureFlag::where('key', 'plan_limits_enabled')->update(['enabled' => false]);
         cache()->forget('feature_flag:plan_limits_enabled');
 
         $this->actingAs($this->user, 'sanctum')
             ->postJson('/api/subscription/checkout')
-            ->assertForbidden()
-            ->assertJsonPath('message', 'Pro payments are not live yet.');
+            ->assertCreated()
+            ->assertJsonPath('form.action', 'https://auth.robokassa.ru/Merchant/Index.aspx');
 
-        $this->assertSame(0, $this->user->payments()->count());
+        $this->assertSame(1, $this->user->payments()->count());
     }
 
     public function test_current_pro_user_cannot_buy_an_overlapping_period(): void

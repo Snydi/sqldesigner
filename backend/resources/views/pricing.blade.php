@@ -356,11 +356,9 @@
 {{-- Launch notice --}}
 <div class="launch-banner-wrap">
     <div class="launch-banner" role="status">
-        <span class="launch-banner-icon" aria-hidden="true">{{ $paymentsLive ? '✓' : '⏳' }}</span>
+        <span class="launch-banner-icon" aria-hidden="true">✓</span>
         <span>
-            {{ $paymentsLive
-                ? '$10/month, billed automatically. Cancel anytime; Pro stays active until the end of the current billing period.'
-                : 'Payments are not live yet. Sign up free and check back soon for Pro.' }}
+            $10/month, billed automatically. Cancel anytime; Pro stays active until the end of the current billing period.
         </span>
     </div>
 </div>
@@ -395,12 +393,8 @@
                 <li><span class="mark">✓</span> Multiplayer collaboration</li>
             </ul>
             <div class="plan-cta">
-                @if ($paymentsLive)
-                    <a id="pro-checkout" class="btn btn-solid btn-lg" href="/login?redirect=/billing">Get Pro — $10/month</a>
-                    <div id="checkout-message" class="checkout-message" role="alert"></div>
-                @else
-                    <a class="btn btn-solid btn-lg" href="/register">Get Pro — coming soon</a>
-                @endif
+                <a id="pro-checkout" class="btn btn-solid btn-lg" href="/login?redirect=/billing">Get Pro — $10/month</a>
+                <div id="checkout-message" class="checkout-message" role="alert"></div>
             </div>
         </div>
 
