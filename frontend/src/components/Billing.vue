@@ -5,7 +5,7 @@
                 <div>
                     <p class="eyebrow">Account</p>
                     <h1>Billing and Pro access</h1>
-                    <p>Pro is $10 USD per month and renews automatically until you cancel.</p>
+                    <p>Pro is $10 USD per month (₽780) and renews automatically until you cancel.</p>
                 </div>
                 <span class="plan-badge" :class="{ 'plan-badge--pro': billing?.is_pro }">{{ billing?.is_pro ? 'Pro' : 'Free' }}</span>
             </div>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="plan-actions">
                         <button v-if="billing.can_purchase" class="btn btn-primary" :disabled="checkoutLoading" @click="checkout">
-                            {{ checkoutLoading ? 'Opening checkout…' : 'Start Pro — $10/month' }}
+                            {{ checkoutLoading ? 'Opening checkout…' : 'Start Pro — $10 USD/month (₽780)' }}
                         </button>
                         <button v-if="billing.can_cancel" class="btn btn-secondary" :disabled="cancelLoading" @click="cancel">
                             {{ cancelLoading ? 'Cancelling…' : 'Cancel Pro' }}
@@ -63,7 +63,7 @@
                     <p v-else class="empty-state">No payments yet.</p>
                 </section>
 
-                <p class="billing-footnote">Payments are non-refundable. Cancelling never shortens a paid access period.</p>
+                <p class="billing-footnote">You may cancel at any time and request a refund under our <a href="/refund-policy">Refund Policy</a>.</p>
             </template>
         </div>
     </main>
@@ -113,7 +113,7 @@ const checkout = async () => {
 }
 
 const cancel = async () => {
-    if (!window.confirm('Cancel Pro renewal? There is no refund, and access will continue until the current period ends.')) return
+    if (!window.confirm('Cancel Pro renewal? Your renewal will stop, and you may request a refund under our Refund Policy.')) return
 
     cancelLoading.value = true
     try {

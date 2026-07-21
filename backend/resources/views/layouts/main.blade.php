@@ -253,7 +253,7 @@
     </div>
     <nav class="flex-items" aria-label="Main navigation">
         <div id="nav-authed" style="display:none; gap:0.6rem;">
-            <a class="btn btn-ghost nav-hide-mobile" href="/billing">Billing</a>
+            <a class="btn btn-ghost nav-hide-mobile" href="/billing">Pro</a>
             <a class="btn btn-ghost nav-hide-mobile" href="/diagrams">My Diagrams</a>
             <a class="btn btn-ghost" href="/logout">Logout</a>
         </div>
@@ -278,7 +278,7 @@
     <a href="/about">About</a>
     <div class="divider"></div>
     <div id="mobile-nav-authed" style="display:none;">
-        <a href="/billing">Billing</a>
+        <a href="/billing">Pro</a>
         <a href="/diagrams">My Diagrams</a>
     </div>
     <a href="/login" id="mobile-nav-login">Log in</a>
@@ -361,13 +361,17 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <span>&copy; {{ date('Y') }} SQL Designer &mdash; visual SQL schema designer for 6 dialects &middot; INN 344818239248</span>
+        <span>&copy; {{ date('Y') }} SQL Designer &mdash; visual SQL schema designer for 6 dialects &middot; Snyatkov Dmitriy Andreevich; INN 344818239248</span>
         <span>
             <a href="{{ route('oferta') }}" style="color:inherit;">Public Offer</a>
             &nbsp;&middot;&nbsp;
             <a href="/privacy" style="color:inherit;">Privacy Policy</a>
             &nbsp;&middot;&nbsp;
             <a href="/terms" style="color:inherit;">Terms of Service</a>
+            &nbsp;&middot;&nbsp;
+            <a href="/refund-policy" style="color:inherit;">Refund Policy</a>
+            &nbsp;&middot;&nbsp;
+            <a href="mailto:dmitriy@sql-designer.com" style="color:inherit;">dmitriy@sql-designer.com</a>
         </span>
     </div>
 </footer>

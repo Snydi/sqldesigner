@@ -234,7 +234,7 @@
                     <td>MySQL, PG, SQLite, Oracle, SQL Server, MS Access</td>
                     <td class="check">✓</td>
                     <td class="partial">1 diagram; 3 daily combined exports</td>
-                    <td>Free / Pro $10/mo</td>
+                    <td>Free / Pro $10 USD/mo (₽780)</td>
                 </tr>
                 <tr>
                     <td>DrawSQL</td>

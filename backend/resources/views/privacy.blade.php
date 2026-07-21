@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
-@section('title', 'Privacy Policy — SQL Designer')
+@section('title', 'Privacy Policy for the SQL Designer Online Platform')
 
 @section('head')
-<meta name="description" content="Privacy Policy for SQL Designer — learn how we collect, use, and protect your data.">
+<meta name="description" content="Read the SQL Designer Privacy Policy to learn what account, diagram, and usage data we collect, how we use it, and how to request deletion.">
 <link rel="canonical" href="https://sql-designer.com/privacy">
 <script type="application/ld+json">
 @verbatim
@@ -60,7 +60,10 @@
     hr.legal { border: none; border-top: 1px solid var(--border-light); margin: 2rem 0; }
 </style>
 
-<div class="legal-wrap">
+<div class="legal-wrap" data-legal-page>
+    @include('partials.legal-language-switch')
+
+    <section data-legal-language-content="en" lang="en">
     <h1>Privacy Policy</h1>
     <p class="legal-meta">Last updated: May 7, 2026</p>
 
@@ -111,5 +114,59 @@
 
     <hr class="legal">
     <p><a href="/terms">View our Terms of Service</a></p>
+    </section>
+
+    <section data-legal-language-content="ru" lang="ru" hidden>
+    <h1>Политика конфиденциальности</h1>
+    <p class="legal-meta">Последнее обновление: 7 мая 2026 г.</p>
+
+    <p>SQL Designer («мы», «нас» или «наш») управляет сайтом <strong>sql-designer.com</strong>. Настоящая Политика конфиденциальности объясняет, какую информацию мы собираем, как используем ее и какие возможности выбора у вас есть.</p>
+
+    <h2>1. Информация, которую мы собираем</h2>
+    <ul>
+        <li><strong>Данные учетной записи:</strong> при регистрации мы собираем ваш адрес электронной почты, а при входе через OAuth (Google, GitHub или GitLab) — имя и изображение профиля, полученные от соответствующего сервиса.</li>
+        <li><strong>Данные диаграмм:</strong> созданные и сохраненные вами схемы баз данных хранятся на наших серверах и связаны с вашей учетной записью.</li>
+        <li><strong>Данные об использовании:</strong> с помощью Google Analytics мы собираем обезличенную аналитику (просмотры страниц и использование функций), чтобы понимать, как используется продукт.</li>
+        <li><strong>Локальное хранилище:</strong> токен аутентификации хранится в <code>localStorage</code> вашего браузера, чтобы вы оставались авторизованы между сеансами.</li>
+    </ul>
+
+    <h2>2. Как мы используем вашу информацию</h2>
+    <ul>
+        <li>Для предоставления и улучшения Сервиса SQL Designer.</li>
+        <li>Для отправки служебных писем, включая подтверждение электронной почты и уведомления об учетной записи.</li>
+        <li>Для анализа использования продукта и исправления ошибок.</li>
+        <li>Мы <strong>не продаем</strong> ваши персональные данные третьим лицам.</li>
+    </ul>
+
+    <h2>3. Общие диаграммы</h2>
+    <p>Если вы предоставляете доступ к диаграмме по публичной ссылке, ее сможет просмотреть любой, у кого есть эта ссылка. Вы можете отозвать доступ в любое время в редакторе диаграмм.</p>
+
+    <h2>4. Срок хранения данных</h2>
+    <p>Мы храним данные вашей учетной записи и диаграмм, пока учетная запись активна. Вы можете запросить удаление учетной записи и всех связанных с ней данных по адресу <a href="mailto:dmitriy@sql-designer.com">dmitriy@sql-designer.com</a>.</p>
+
+    <h2>5. Сторонние сервисы</h2>
+    <ul>
+        <li><strong>Google Analytics:</strong> обезличенная аналитика использования. См. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Политику конфиденциальности Google</a>.</li>
+        <li><strong>Провайдеры OAuth:</strong> Google, GitHub и GitLab, если вы выбираете вход через один из этих сервисов.</li>
+    </ul>
+
+    <h2>6. Файлы cookie</h2>
+    <p>Мы самостоятельно не устанавливаем отслеживающие файлы cookie. Google Analytics может устанавливать собственные файлы cookie в соответствии с политиками Google. Для аутентификации мы используем <code>localStorage</code>, а не файлы cookie.</p>
+
+    <h2>7. Безопасность</h2>
+    <p>Мы принимаем разумные технические меры для защиты ваших данных. Однако ни один способ передачи данных через интернет не обеспечивает стопроцентную безопасность.</p>
+
+    <h2>8. Дети</h2>
+    <p>SQL Designer не предназначен для детей младше 13 лет. Мы сознательно не собираем персональные данные детей.</p>
+
+    <h2>9. Изменения Политики</h2>
+    <p>Мы можем периодически обновлять настоящую Политику. Дата в строке «Последнее обновление» будет отражать внесенные изменения. Продолжение использования Сервиса после изменений означает принятие обновленной Политики.</p>
+
+    <h2>10. Контакты</h2>
+    <p>По вопросам о настоящей Политике напишите нам: <a href="mailto:dmitriy@sql-designer.com">dmitriy@sql-designer.com</a>.</p>
+
+    <hr class="legal">
+    <p><a href="/terms">Ознакомиться с Условиями использования</a></p>
+    </section>
 </div>
 @endsection

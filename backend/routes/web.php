@@ -37,6 +37,7 @@ Route::get('/library', [LibraryController::class, 'index']);
 Route::get('/sitemap', fn () => view('sitemap'));
 Route::get('/privacy', fn () => view('privacy'));
 Route::get('/terms', fn () => view('terms'));
+Route::get('/refund-policy', fn () => view('refund-policy'));
 Route::get('/oferta', fn () => response()->download(public_path('oferta.docx'), 'oferta.docx'))->name('oferta');
 Route::get('/checkout/success', [SubscriptionController::class, 'checkoutSuccess'])->name('checkout.success');
 Route::get('/checkout/fail', [SubscriptionController::class, 'checkoutFail'])->name('checkout.fail');

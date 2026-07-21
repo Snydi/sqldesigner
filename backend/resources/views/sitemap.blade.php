@@ -55,6 +55,10 @@
                 <a href="/terms">Terms of Service</a>
                 <span class="desc">Rules and conditions for using SQL Designer.</span>
             </li>
+            <li>
+                <a href="/refund-policy">Refund Policy</a>
+                <span class="desc">Refund and cancellation terms for SQL Designer Pro subscriptions.</span>
+            </li>
         </ul>
 
         <h2>Blog</h2>
