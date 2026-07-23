@@ -97,4 +97,10 @@ class Diagram extends Model
     {
         return $this->hasMany(DiagramVisitor::class);
     }
+
+    /** @return HasMany<DiagramLike, $this> */
+    public function likes(): HasMany
+    {
+        return $this->hasMany(DiagramLike::class);
+    }
 }

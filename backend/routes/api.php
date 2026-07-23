@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiagramChangelogController;
 use App\Http\Controllers\DiagramController;
+use App\Http\Controllers\DiagramLikeController;
 use App\Http\Controllers\PlanLimitController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RobokassaWebhookController;
@@ -42,9 +43,13 @@ Route::middleware(['auth:sanctum', 'track.seen'])->group(function () {
     Route::delete('/subscription/current', [SubscriptionController::class, 'cancel']);
     Route::get('/review', [ReviewController::class, 'check']);
     Route::middleware('throttle:5,1')->post('/review', [ReviewController::class, 'store']);
+    Route::get('/library/likes', [DiagramLikeController::class, 'index']);
+    Route::put('/library/diagrams/{diagram}/like', [DiagramLikeController::class, 'store']);
+    Route::delete('/library/diagrams/{diagram}/like', [DiagramLikeController::class, 'destroy']);
 
     Route::group(['prefix' => 'diagrams', 'middleware' => ['verified']], function () {
         Route::get('/', [DiagramController::class, 'index']);
+        Route::get('/shared-with-me', [DiagramController::class, 'shared']);
         Route::get('/{diagram}', [DiagramController::class, 'show']);
         Route::post('/', [DiagramController::class, 'store']);
         Route::put('/{diagram}', [DiagramController::class, 'update']);

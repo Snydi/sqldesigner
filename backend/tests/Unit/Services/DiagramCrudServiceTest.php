@@ -6,7 +6,9 @@ namespace Tests\Unit\Services;
 
 use App\DTOs\CreateDiagramDTO;
 use App\DTOs\UpdateDiagramDTO;
+use App\Enums\VisitorStatus;
 use App\Models\Diagram;
+use App\Models\DiagramVisitor;
 use App\Models\User;
 use App\Services\DiagramCrudService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -29,6 +31,34 @@ class DiagramCrudServiceTest extends TestCase
         $user = User::factory()->create();
         $diagram = Diagram::factory()->create(['user_id' => $user->id]);
         $this->assertEquals($diagram->id, $this->service->getUserDiagrams($user)[0]->id);
+    }
+
+    public function test_get_shared_diagrams_returns_only_approved_accessible_diagrams(): void
+    {
+        $user = User::factory()->create();
+        $approved = Diagram::factory()->create(['share_access' => 'read']);
+        $pending = Diagram::factory()->create(['share_access' => 'read']);
+        $unshared = Diagram::factory()->create(['share_access' => null]);
+
+        DiagramVisitor::factory()->create([
+            'diagram_id' => $approved->id,
+            'user_id' => $user->id,
+            'status' => VisitorStatus::APPROVED,
+        ]);
+        DiagramVisitor::factory()->create([
+            'diagram_id' => $pending->id,
+            'user_id' => $user->id,
+            'status' => VisitorStatus::PENDING,
+        ]);
+        DiagramVisitor::factory()->create([
+            'diagram_id' => $unshared->id,
+            'user_id' => $user->id,
+            'status' => VisitorStatus::APPROVED,
+        ]);
+
+        $diagrams = $this->service->getSharedDiagrams($user);
+
+        $this->assertEquals([$approved->id], $diagrams->pluck('id')->all());
     }
 
     public function test_create_diagram(): void

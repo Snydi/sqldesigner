@@ -15,8 +15,12 @@ class LibraryController extends Controller
 
     public function index(Request $request): View|Factory
     {
-        ['featured' => $featured, 'diagrams' => $diagrams] = $this->libraryService->getLibraryData($request->integer('page', 1));
+        $sort = $request->query('sort') === 'newest' ? 'newest' : 'likes';
+        ['featured' => $featured, 'diagrams' => $diagrams] = $this->libraryService->getLibraryData(
+            $sort,
+            max(1, $request->integer('page', 1)),
+        );
 
-        return view('library', compact('featured', 'diagrams'));
+        return view('library', compact('featured', 'diagrams', 'sort'));
     }
 }

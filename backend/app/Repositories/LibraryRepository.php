@@ -17,8 +17,10 @@ class LibraryRepository
     public function getFeatured(): Collection
     {
         return Diagram::featured()
+            ->select(['id', 'name', 'share_token', 'featured_url', 'updated_at'])
+            ->withCount('likes')
             ->orderByDesc('updated_at')
-            ->get(['name', 'share_token', 'featured_url', 'updated_at']);
+            ->get();
     }
 
     /**
@@ -26,10 +28,20 @@ class LibraryRepository
      *
      * @return LengthAwarePaginator<int, Diagram>
      */
-    public function getSharedByUsersPaginated(int $perPage = 24): LengthAwarePaginator
+    public function getSharedByUsersPaginated(string $sort = 'likes', int $perPage = 24): LengthAwarePaginator
     {
-        return $this->baseQuery()
-            ->paginate($perPage, ['name', 'share_token', 'updated_at']);
+        $query = $this->baseQuery()
+            ->select(['id', 'name', 'share_token', 'created_at', 'updated_at'])
+            ->withCount('likes');
+
+        if ($sort === 'newest') {
+            $query->orderByDesc('created_at');
+        } else {
+            $query->orderByDesc('likes_count')
+                ->orderByDesc('created_at');
+        }
+
+        return $query->paginate($perPage);
     }
 
     /** @return Builder<Diagram> */
@@ -37,7 +49,6 @@ class LibraryRepository
     {
         return Diagram::library()
             ->where('featured', false)
-            ->shared()
-            ->orderByDesc('updated_at');
+            ->shared();
     }
 }

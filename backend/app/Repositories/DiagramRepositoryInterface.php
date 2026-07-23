@@ -15,6 +15,9 @@ interface DiagramRepositoryInterface
     /** @return Collection<int, Diagram> */
     public function all(User $user): Collection;
 
+    /** @return Collection<int, Diagram> */
+    public function sharedWith(User $user): Collection;
+
     /** @deprecated Not used anywhere */
     public function find(int $id): Diagram;
 
