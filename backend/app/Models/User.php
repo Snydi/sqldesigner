@@ -51,6 +51,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Diagram::class);
     }
 
+    /** @return HasMany<DiagramLike, $this> */
+    public function diagramLikes(): HasMany
+    {
+        return $this->hasMany(DiagramLike::class);
+    }
+
     /** @return HasMany<Subscription, $this> */
     public function subscriptions(): HasMany
     {
