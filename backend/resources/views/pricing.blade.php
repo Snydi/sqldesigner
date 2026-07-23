@@ -3,12 +3,12 @@
 @section('title', 'SQL Designer Pricing — Free and Pro Plans Compared')
 
 @section('head')
-    <meta name="description" content="SQL Designer is free with a 1-diagram limit and 3 exports daily. Pro costs $10 USD/month (₽780) for unlimited diagrams and exports.">
+    <meta name="description" content="SQL Designer Free includes {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportDailyLimit }} daily exports, and {{ $schemaDoctorDailyLimit }} Schema Doctor scans. Pro unlocks unlimited use for $10 USD/month (₽780).">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/pricing">
     <meta property="og:title" content="SQL Designer Pricing — Free and Pro Plans Compared">
-    <meta property="og:description" content="SQL Designer is free with a 1-diagram limit and 3 exports daily. Pro costs $10 USD/month (₽780) for unlimited diagrams and exports.">
+    <meta property="og:description" content="SQL Designer Free includes {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportDailyLimit }} daily exports, and {{ $schemaDoctorDailyLimit }} Schema Doctor scans. Pro unlocks unlimited use for $10 USD/month (₽780).">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
@@ -19,7 +19,7 @@
     <meta property="og:image:alt" content="SQL Designer pricing — free and Pro plans for the visual database designer">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL Designer Pricing — Free and Pro Plans Compared">
-    <meta name="twitter:description" content="SQL Designer is free with a 1-diagram limit and 3 exports daily. Pro costs $10 USD/month (₽780) for unlimited diagrams and exports.">
+    <meta name="twitter:description" content="SQL Designer Free includes {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportDailyLimit }} daily exports, and {{ $schemaDoctorDailyLimit }} Schema Doctor scans. Pro unlocks unlimited use for $10 USD/month (₽780).">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <meta name="keywords" content="sql designer pricing, database diagram tool pricing, erd tool subscription, free database designer, pro database diagram plan, sql designer pro">
     <script type="application/ld+json">
@@ -45,7 +45,7 @@
                 "name": "Free",
                 "price": "0",
                 "priceCurrency": "RUB",
-                "description": "1 diagram, 3 exports per day."
+                "description": "<?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?>, <?= (int) $exportDailyLimit ?> exports and <?= (int) $schemaDoctorDailyLimit ?> Schema Doctor scans per day."
             },
             {
                 "@type": "Offer",
@@ -58,7 +58,7 @@
                     "priceCurrency": "RUB",
                     "billingDuration": "P1M"
                 },
-                "description": "Unlimited diagrams and unlimited exports."
+                "description": "Unlimited diagrams, exports, and Schema Doctor scans."
             }
         ]
     },
@@ -68,8 +68,8 @@
         "name": "Pricing — SQL Designer",
         "url": "https://sql-designer.com/pricing",
         "datePublished": "2026-07-01",
-        "dateModified": "2026-07-21",
-        "description": "SQL Designer pricing: a free plan with a 1-diagram limit and 3 exports per day, and a $10 USD/month Pro plan (₽780) with no limits.",
+        "dateModified": "2026-07-23",
+        "description": "SQL Designer pricing: Free includes <?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?>, <?= (int) $exportDailyLimit ?> daily exports, and <?= (int) $schemaDoctorDailyLimit ?> daily Schema Doctor scans; Pro provides unlimited use.",
         "isPartOf": { "@type": "WebSite", "url": "https://sql-designer.com" }
     }
     ]
@@ -86,7 +86,7 @@
                 "name": "Is SQL Designer free to use?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. The free plan lets you create 1 diagram and export it up to 3 times a day — no credit card required."
+                    "text": "Yes. The free plan lets you create <?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?> and export up to <?= (int) $exportDailyLimit ?> times a day — no credit card required."
                 }
             },
             {
@@ -94,7 +94,7 @@
                 "name": "What happens to my diagrams if I'm over the free limit?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Nothing is deleted. If you already have more than 1 diagram, you keep all of them. You just won't be able to create a new diagram until you're back at or under the 1-diagram limit, or until you upgrade to Pro."
+                    "text": "Nothing is deleted. If you already have more than <?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?>, you keep all of them. You just won't be able to create a new diagram until you're back at or under the <?= (int) $diagramLimit ?>-diagram limit, or until you upgrade to Pro."
                 }
             },
             {
@@ -110,7 +110,15 @@
                 "name": "How many exports do I get on the free plan?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "3 exports per day on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no daily export limit."
+                    "text": "<?= (int) $exportDailyLimit ?> exports per day on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no daily export limit."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How many Schema Doctor scans do I get?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Free includes <?= (int) $schemaDoctorDailyLimit ?> Schema Doctor scans per day. Pro includes unlimited Schema Doctor scans."
                 }
             },
             {
@@ -349,7 +357,7 @@
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><span>Pricing</span></p>
         <h1 class="page-h1">Simple pricing. Start <em>free</em>, upgrade when you outgrow it.</h1>
-        <p class="page-sub">Free covers 1 diagram and 3 exports a day. Pro removes both limits for $10 USD/month (₽780).</p>
+        <p class="page-sub">Free covers {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportDailyLimit }} exports, and {{ $schemaDoctorDailyLimit }} Schema Doctor scans a day. Pro removes all limits for $10 USD/month (₽780).</p>
     </div>
 </section>
 
@@ -371,8 +379,9 @@
             <h2 class="plan-name">Free</h2>
             <p class="plan-price"><span class="amount">$0 USD</span><span class="period">(₽0) / forever</span></p>
             <ul class="plan-features">
-                <li class="limit"><span class="mark">–</span> 1 diagram</li>
-                <li class="limit"><span class="mark">–</span> 3 daily exports: SQL, JSON, migration, or PNG</li>
+                <li class="limit"><span class="mark">–</span> {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}</li>
+                <li class="limit"><span class="mark">–</span> {{ $exportDailyLimit }} daily exports: SQL, JSON, migration, or PNG</li>
+                <li class="limit"><span class="mark">–</span> {{ $schemaDoctorDailyLimit }} Schema Doctor scans per day</li>
                 <li><span class="mark">✓</span> Drag-and-drop ERD canvas</li>
                 <li><span class="mark">✓</span> SQL export for 6 dialects</li>
                 <li><span class="mark">✓</span> Multiplayer collaboration</li>
@@ -388,6 +397,7 @@
             <ul class="plan-features">
                 <li><span class="mark">✓</span> Unlimited diagrams</li>
                 <li><span class="mark">✓</span> Unlimited exports</li>
+                <li><span class="mark">✓</span> Unlimited Schema Doctor scans</li>
                 <li><span class="mark">✓</span> Drag-and-drop ERD canvas</li>
                 <li><span class="mark">✓</span> SQL export for 6 dialects</li>
                 <li><span class="mark">✓</span> Multiplayer collaboration</li>
@@ -415,12 +425,17 @@
         <tbody>
             <tr>
                 <td>Diagrams</td>
-                <td>1</td>
+                <td>{{ $diagramLimit }}</td>
                 <td>Unlimited</td>
             </tr>
             <tr>
                 <td>Combined SQL, JSON, migration, and PNG exports per day</td>
-                <td>3</td>
+                <td>{{ $exportDailyLimit }}</td>
+                <td>Unlimited</td>
+            </tr>
+            <tr>
+                <td>Schema Doctor scans per day</td>
+                <td>{{ $schemaDoctorDailyLimit }}</td>
                 <td>Unlimited</td>
             </tr>
             <tr>
@@ -448,11 +463,11 @@
 
     <div class="faq-item">
         <h3>Is SQL Designer free to use?</h3>
-        <p>Yes. The free plan lets you create 1 diagram and export it up to 3 times a day — no credit card required.</p>
+        <p>Yes. The free plan lets you create {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }} and export up to {{ $exportDailyLimit }} times a day — no credit card required.</p>
     </div>
     <div class="faq-item">
         <h3>What happens to my diagrams if I'm over the free limit?</h3>
-        <p>Nothing is deleted. If you already have more than 1 diagram, you keep all of them. You just won't be able to create a new diagram until you're back at or under the 1-diagram limit, or until you upgrade to Pro.</p>
+        <p>Nothing is deleted. If you already have more than {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, you keep all of them. You just won't be able to create a new diagram until you're back at or under the {{ $diagramLimit }}-diagram limit, or until you upgrade to Pro.</p>
     </div>
     <div class="faq-item">
         <h3>What does the Pro plan cost?</h3>
@@ -460,7 +475,11 @@
     </div>
     <div class="faq-item">
         <h3>How many exports do I get on the free plan?</h3>
-        <p>3 exports per day on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no daily export limit.</p>
+        <p>{{ $exportDailyLimit }} exports per day on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no daily export limit.</p>
+    </div>
+    <div class="faq-item">
+        <h3>How many Schema Doctor scans do I get?</h3>
+        <p>Free includes {{ $schemaDoctorDailyLimit }} Schema Doctor scans per day. Pro includes unlimited Schema Doctor scans.</p>
     </div>
     <div class="faq-item">
         <h3>Can I cancel my Pro subscription anytime?</h3>

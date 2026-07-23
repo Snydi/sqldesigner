@@ -93,10 +93,16 @@ export const Diagram = {
             return response.data
         }),
 
+    scanSchema: async (id) => {
+        const response = await axios.post(`/api/diagrams/${id}/schema-doctor/scan`)
+        return response.data
+    },
+
     save: (id, schema) =>
         request(async () => {
             const response = await axios.put(`/api/diagrams/${id}`, { id, schema })
             $toast.success(response.data.message)
+            return response.data.status !== false
         }),
 
     share: (id) =>
@@ -113,6 +119,7 @@ export const Diagram = {
     saveByToken: (token, schema) =>
         request(async () => {
             await axios.patch(`/api/diagrams/shared/${token}`, { schema })
+            return true
         }),
 
     updateShareAccess: (id, payload) =>

@@ -40,6 +40,7 @@
             @import="isDemo ? goRegister() : showImportModal = true"
             @export="isDemo ? goRegister() : openExportModal()"
             @save="saveDiagram"
+            @show-schema-doctor="openSchemaDoctor"
             @show-share="showShareModal = true"
             @show-changelog="showChangelogModal = true"
         />
@@ -220,6 +221,14 @@
             @close="showChangelogModal = false"
         />
 
+        <SchemaDoctorModal
+            v-if="showSchemaDoctorModal"
+            :diagramId="diagramId"
+            :saveStatus="schemaDoctorSaveStatus"
+            @retry-save="prepareSchemaDoctor"
+            @close="showSchemaDoctorModal = false"
+        />
+
     </template>
 </template>
 
@@ -249,6 +258,7 @@ import ExportModal from '../Modal/ExportModal.vue'
 import RemoteCursor from '../RemoteCursor.vue'
 import SupportModal from '../Modal/SupportModal.vue'
 import ChangelogModal from '../Modal/ChangelogModal.vue'
+import SchemaDoctorModal from '../Modal/SchemaDoctorModal.vue'
 import { useElementSize } from '@vueuse/core'
 import { useToast } from 'vue-toast-notification'
 import { useRoute, useRouter } from 'vue-router'
@@ -279,6 +289,8 @@ const diagramName = ref('schema')
 const diagramDbType = ref('mysql')
 const showShareModal = ref(false)
 const showChangelogModal = ref(false)
+const showSchemaDoctorModal = ref(false)
+const schemaDoctorSaveStatus = ref('idle')
 const diagramShareAccess = ref(null)
 const diagramRequireApproval = ref(false)
 const diagramInLibrary = ref(false)
@@ -439,6 +451,27 @@ const openExportModal = async () => {
     showExportModal.value = true
 }
 
+const prepareSchemaDoctor = async () => {
+    schemaDoctorSaveStatus.value = 'saving'
+    const saved = await saveDiagram(true)
+    schemaDoctorSaveStatus.value = saved ? 'ready' : 'failed'
+}
+
+const openSchemaDoctor = async () => {
+    if (props.isDemo) {
+        await goRegister()
+        return
+    }
+
+    showSchemaDoctorModal.value = true
+    if (isSaved.value) {
+        schemaDoctorSaveStatus.value = 'ready'
+        return
+    }
+
+    await prepareSchemaDoctor()
+}
+
 const capturePng = async ({ resolve, reject }) => {
     showExportModal.value = false
     fitView({ duration: 0 })
@@ -476,14 +509,16 @@ const saveDiagram = async (silent = false) => {
     if (props.isDemo) {
         saveDemoSchema()
         if (!silent) $toast.success('Diagram saved')
-        return
+        return true
     }
-    await (isOwner.value ? Diagram.save(diagramId.value, schema.value) : Diagram.saveByToken(token, schema.value))
+    const saved = await (isOwner.value ? Diagram.save(diagramId.value, schema.value) : Diagram.saveByToken(token, schema.value))
+    if (!saved) return false
     isSaved.value = true
     if (!silent) {
         whisper('diagram-saved', {})
         whisper('schema-sync', { schema: schema.value })
     }
+    return true
 }
 
 // --- Load ---
@@ -627,6 +662,12 @@ if (props.isDemo) {
         demoSaveTimer = setTimeout(saveDemoSchema, 500)
     }, { deep: true })
 }
+
+watch(isSaved, (saved) => {
+    if (showSchemaDoctorModal.value && !saved && schemaDoctorSaveStatus.value !== 'saving') {
+        schemaDoctorSaveStatus.value = 'dirty'
+    }
+})
 
 onBeforeMount(getDiagram)
 

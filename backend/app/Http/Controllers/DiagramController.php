@@ -76,7 +76,7 @@ class DiagramController extends Controller
         $user = $request->user();
 
         if ($this->planLimitService->diagramLimitReached($user)) {
-            abort(403, 'Free plan is limited to 1 diagram. Delete a diagram or upgrade to Pro to create more.');
+            abort(403, 'Free plan has a '.PlanLimitService::DIAGRAM_LIMIT.'-diagram limit. Delete a diagram or upgrade to Pro to create more.');
         }
 
         $validated = $request->validated();
@@ -218,7 +218,7 @@ class DiagramController extends Controller
         }
 
         if (! $this->planLimitService->consumeExportAllowance($user)) {
-            abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
+            abort(403, 'Free plan is limited to '.PlanLimitService::EXPORT_DAILY_LIMIT.' exports per day. Try again after midnight (MSK) or upgrade to Pro.');
         }
 
         return response($content, 200, [
@@ -241,7 +241,7 @@ class DiagramController extends Controller
         $json = $this->sqlService->createJson(json_encode($diagram->schema));
 
         if (! $this->planLimitService->consumeExportAllowance($user)) {
-            abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
+            abort(403, 'Free plan is limited to '.PlanLimitService::EXPORT_DAILY_LIMIT.' exports per day. Try again after midnight (MSK) or upgrade to Pro.');
         }
 
         return $this->success($json);
@@ -259,7 +259,7 @@ class DiagramController extends Controller
         $user = $request->user();
 
         if (! $this->planLimitService->consumeExportAllowance($user)) {
-            abort(403, 'Free plan is limited to 3 exports per day. Try again after midnight (MSK) or upgrade to Pro.');
+            abort(403, 'Free plan is limited to '.PlanLimitService::EXPORT_DAILY_LIMIT.' exports per day. Try again after midnight (MSK) or upgrade to Pro.');
         }
 
         return $this->success(['status' => true]);

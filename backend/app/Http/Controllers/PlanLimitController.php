@@ -20,11 +20,16 @@ class PlanLimitController extends Controller
         /** @var User $user */
         $user = $request->user();
 
+        $schemaDoctorAllowance = $this->planLimitService->schemaDoctorAllowance($user);
+
         return $this->success([
             'diagram_limit' => $this->planLimitService->diagramLimit($user),
             'diagram_count' => $user->diagrams()->count(),
             'export_limit' => $this->planLimitService->exportLimit($user),
             'exports_used_today' => $this->planLimitService->exportsUsedToday($user),
+            'schema_doctor_limit' => $schemaDoctorAllowance['limit'],
+            'schema_doctor_scans_used_today' => $schemaDoctorAllowance['used'],
+            'schema_doctor_resets_at' => $schemaDoctorAllowance['resets_at'],
         ]);
     }
 }

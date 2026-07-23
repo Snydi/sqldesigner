@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LibraryController;
+use App\Services\PlanLimitService;
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +33,11 @@ Route::prefix('/blog')->group(function () {
 });
 Route::get('/about', fn () => view('about'));
 Route::get('/features', fn () => view('features'));
-Route::get('/pricing', fn () => view('pricing'));
+Route::get('/pricing', fn () => view('pricing', [
+    'diagramLimit' => PlanLimitService::DIAGRAM_LIMIT,
+    'exportDailyLimit' => PlanLimitService::EXPORT_DAILY_LIMIT,
+    'schemaDoctorDailyLimit' => PlanLimitService::SCHEMA_DOCTOR_DAILY_LIMIT,
+]));
 Route::get('/library', [LibraryController::class, 'index']);
 Route::get('/sitemap', fn () => view('sitemap'));
 Route::get('/privacy', fn () => view('privacy'));
