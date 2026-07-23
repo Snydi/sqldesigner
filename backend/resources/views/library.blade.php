@@ -236,6 +236,11 @@
             border-color: var(--color-primary-text, #5db583);
             color: var(--color-primary-text, #5db583);
         }
+        .chip[aria-current="page"] {
+            background: rgba(93,181,131,0.1);
+            border-color: var(--color-primary-text, #5db583);
+            color: var(--color-primary-text, #5db583);
+        }
         .chip .count { color: var(--text-muted); font-size: 0.72rem; }
 
         /* ── Sections ── */
@@ -364,6 +369,41 @@
             font-size: 0.72rem;
             color: var(--text-muted);
         }
+        .lib-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-top: 0.2rem;
+        }
+        .like-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            flex: 0 0 auto;
+            padding: 0.25rem 0.45rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: border-color 120ms, color 120ms, background 120ms;
+        }
+        .like-button:hover {
+            border-color: var(--border-strong);
+            color: var(--text-primary);
+        }
+        .like-button[aria-pressed="true"] {
+            border-color: rgba(93,181,131,0.45);
+            background: rgba(93,181,131,0.1);
+            color: var(--color-primary-text, #5db583);
+        }
+        .like-button:disabled { opacity: 0.55; cursor: wait; }
+        .like-button svg { width: 14px; height: 14px; }
+        .like-button[aria-pressed="true"] svg { fill: currentColor; }
         .lib-card-backlink {
             display: inline-flex;
             align-items: center;
@@ -483,6 +523,15 @@
     </div>
 </section>
 
+<!-- SORTING -->
+<nav class="filterbar" aria-label="Library sorting">
+    <div class="filterbar-inner">
+        <span class="label">Sort community schemas:</span>
+        <a class="chip" href="/library" @if($sort === 'likes') aria-current="page" @endif>Most liked</a>
+        <a class="chip" href="/library?sort=newest" @if($sort === 'newest') aria-current="page" @endif>Newest</a>
+    </div>
+</nav>
+
 <!-- FEATURED -->
 <section class="lib-section">
     <div class="lib-section-inner">
@@ -513,11 +562,25 @@
                         </a>
                         <div class="lib-card-body">
                             <a class="lib-card-name" href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer">{{ $diagram->name }}</a>
-                            @if($diagram->featured_url)
-                                <a class="lib-card-backlink" href="{{ $diagram->featured_url }}" target="_blank" rel="dofollow noopener noreferrer">
-                                    ↗ {{ parse_url($diagram->featured_url, PHP_URL_HOST) }}
-                                </a>
-                            @endif
+                            <div class="lib-card-footer">
+                                @if($diagram->featured_url)
+                                    <a class="lib-card-backlink" href="{{ $diagram->featured_url }}" target="_blank" rel="dofollow noopener noreferrer">
+                                        ↗ {{ parse_url($diagram->featured_url, PHP_URL_HOST) }}
+                                    </a>
+                                @else
+                                    <span></span>
+                                @endif
+                                <button
+                                    type="button"
+                                    class="like-button"
+                                    data-diagram-id="{{ $diagram->id }}"
+                                    aria-pressed="false"
+                                    aria-label="Like {{ $diagram->name }}"
+                                >
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
+                                    <span data-like-count>{{ $diagram->likes_count }}</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -543,21 +606,33 @@
         @else
             <div class="lib-grid">
                 @foreach($diagrams as $diagram)
-                    <a class="lib-card" href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer">
-                        <div class="lib-card-preview">
+                    <div class="lib-card">
+                        <a class="lib-card-preview" href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer">
                             <iframe
                                 data-src="/embed/{{ $diagram->share_token }}"
                                 title="{{ $diagram->name }} preview"
                                 tabindex="-1"
                             ></iframe>
-                        </div>
+                        </a>
                         <div class="lib-card-body">
-                            <span class="lib-card-name">{{ $diagram->name }}</span>
-                            <div class="lib-card-meta">
-                                <span>Updated {{ $diagram->updated_at->diffForHumans() }}</span>
+                            <a class="lib-card-name" href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer">{{ $diagram->name }}</a>
+                            <div class="lib-card-footer">
+                                <div class="lib-card-meta">
+                                    <span>Added {{ $diagram->created_at->diffForHumans() }}</span>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="like-button"
+                                    data-diagram-id="{{ $diagram->id }}"
+                                    aria-pressed="false"
+                                    aria-label="Like {{ $diagram->name }}"
+                                >
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
+                                    <span data-like-count>{{ $diagram->likes_count }}</span>
+                                </button>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 @endforeach
             </div>
         {{ $diagrams->links('components.pagination', ['navClass' => 'lib-pagination']) }}
@@ -598,16 +673,60 @@
 
     document.querySelectorAll('.lib-card-preview iframe[data-src]').forEach(el => observer.observe(el));
 
-    // Filter chip toggle (visual only)
-    document.querySelectorAll('.chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-            const group = chip.parentElement;
-            group.querySelectorAll('.chip').forEach(c => {
-                if (c.dataset.filter !== undefined && chip.dataset.filter !== undefined) {
-                    c.setAttribute('aria-pressed', 'false');
-                }
+    const authToken = localStorage.getItem('auth_token');
+    const likeButtons = document.querySelectorAll('.like-button');
+
+    const setLiked = (button, liked) => {
+        button.setAttribute('aria-pressed', liked ? 'true' : 'false');
+        button.setAttribute('aria-label', `${liked ? 'Unlike' : 'Like'} this diagram`);
+    };
+
+    if (authToken && likeButtons.length) {
+        fetch('/api/library/likes', {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${authToken}`,
+            },
+        }).then(response => response.ok ? response.json() : null)
+            .then(data => {
+                const likedIds = new Set((data?.diagram_ids ?? []).map(String));
+                likeButtons.forEach(button => setLiked(button, likedIds.has(button.dataset.diagramId)));
             });
-            if (chip.dataset.filter !== undefined) chip.setAttribute('aria-pressed', 'true');
+    }
+
+    likeButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const token = localStorage.getItem('auth_token');
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const liked = button.getAttribute('aria-pressed') === 'true';
+            button.disabled = true;
+
+            try {
+                const response = await fetch(`/api/library/diagrams/${button.dataset.diagramId}/like`, {
+                    method: liked ? 'DELETE' : 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (response.status === 401) {
+                    localStorage.removeItem('auth_token');
+                    window.location.href = '/login';
+                    return;
+                }
+                if (!response.ok) return;
+
+                const data = await response.json();
+                setLiked(button, data.liked);
+                button.querySelector('[data-like-count]').textContent = data.likes_count;
+            } finally {
+                button.disabled = false;
+            }
         });
     });
 </script>

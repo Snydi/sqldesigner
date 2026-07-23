@@ -23,17 +23,20 @@ class LibraryService
      *
      * @return array{featured: Collection<int, Diagram>, diagrams: LengthAwarePaginator<int, Diagram>}
      */
-    public function getLibraryData(int $page = 1): array
+    public function getLibraryData(string $sort = 'likes', int $page = 1): array
     {
         $v = (int) Cache::get(self::VERSION_KEY, 0);
 
-        $featured = Cache::remember("library.featured.{$v}", self::CACHE_TTL, function () {
+        $featured = Cache::remember("library.featured.likes.{$v}", self::CACHE_TTL, function () {
             return $this->libraryRepository->getFeatured();
         });
 
         /** @var LengthAwarePaginator<int, Diagram> $diagrams */
-        $diagrams = Cache::remember("library.diagrams.{$v}.{$page}", self::CACHE_TTL, function () {
-            return $this->libraryRepository->getSharedByUsersPaginated()->withPath(url('/library'));
+        $diagrams = Cache::remember("library.diagrams.{$v}.{$sort}.{$page}", self::CACHE_TTL, function () use ($sort) {
+            return $this->libraryRepository
+                ->getSharedByUsersPaginated($sort)
+                ->withPath(url('/library'))
+                ->appends($sort === 'newest' ? ['sort' => 'newest'] : []);
         });
 
         return compact('featured', 'diagrams');
