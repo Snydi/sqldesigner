@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\DTOs\CreateDiagramDTO;
 use App\DTOs\UpdateDiagramDTO;
+use App\Enums\VisitorStatus;
 use App\Models\Diagram;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,6 +17,20 @@ class DiagramRepository implements DiagramRepositoryInterface
     public function all(User $user): Collection
     {
         return $user->diagrams()->get();
+    }
+
+    /** @return Collection<int, Diagram> */
+    public function sharedWith(User $user): Collection
+    {
+        return Diagram::query()
+            ->shared()
+            ->where('user_id', '!=', $user->id)
+            ->whereHas('visitors', function ($query) use ($user): void {
+                $query
+                    ->where('user_id', $user->id)
+                    ->where('status', VisitorStatus::APPROVED);
+            })
+            ->get();
     }
 
     /** @deprecated Not used anywhere */

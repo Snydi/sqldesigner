@@ -21,6 +21,12 @@ class DiagramCrudService
         return $this->diagramRepository->all($user);
     }
 
+    /** @return Collection<int, Diagram> */
+    public function getSharedDiagrams(User $user): Collection
+    {
+        return $this->diagramRepository->sharedWith($user);
+    }
+
     public function createDiagram(CreateDiagramDTO $dto): Diagram
     {
         return $this->diagramRepository->create($dto);

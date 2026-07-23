@@ -1,14 +1,41 @@
 <template>
     <div class="diagrams-page">
         <div class="diagrams-header">
-            <h2 class="diagrams-title">Diagrams</h2>
-            <span class="diagrams-count-badge" title="Diagrams used / plan limit">{{ diagrams.length }} / <span v-if="diagramLimit === null" class="diagrams-count-badge__infinity">∞</span><span v-else>{{ diagramLimit }}</span></span>
+            <h2 class="diagrams-title">{{ activeView === 'mine' ? 'My Diagrams' : 'Shared with Me' }}</h2>
+            <span v-if="activeView === 'mine'" class="diagrams-count-badge" title="Diagrams used / plan limit">{{ diagrams.length }} / <span v-if="diagramLimit === null" class="diagrams-count-badge__infinity">∞</span><span v-else>{{ diagramLimit }}</span></span>
+            <span v-else class="diagrams-count-badge">{{ diagrams.length }}</span>
         </div>
 
-        <div class="diagrams-grid-container">
-            <div class="diagrams-grid">
+        <div class="diagrams-content">
+            <nav class="diagrams-sidebar" aria-label="Diagram lists">
+                <button
+                    class="diagrams-sidebar__item"
+                    :class="{ 'diagrams-sidebar__item--active': activeView === 'mine' }"
+                    @click="switchView('mine')"
+                >
+                    <SvgIcon name="table-list" :size="17" />
+                    <span>My diagrams</span>
+                </button>
+                <button
+                    class="diagrams-sidebar__item"
+                    :class="{ 'diagrams-sidebar__item--active': activeView === 'shared' }"
+                    @click="switchView('shared')"
+                >
+                    <SvgIcon name="share" :size="17" />
+                    <span>Shared with me</span>
+                </button>
+            </nav>
+
+            <div class="diagrams-grid-container">
+                <div v-if="loading" class="diagrams-empty">Loading diagrams…</div>
+                <div v-else-if="activeView === 'shared' && diagrams.length === 0" class="diagrams-empty">
+                    <SvgIcon name="share" :size="30" />
+                    <strong>No shared diagrams yet</strong>
+                    <span>Diagrams you have been granted access to will appear here.</span>
+                </div>
+                <div v-else class="diagrams-grid">
                 <!-- New diagram card -->
-                <div class="diagram-card diagram-card--new" @click="openNewForm">
+                <div v-if="activeView === 'mine'" class="diagram-card diagram-card--new" @click="openNewForm">
                     <div class="diagram-card__preview diagram-card__preview--empty">
                         <SvgIcon name="plus" :size="40" class="new-diagram-plus" />
                     </div>
@@ -27,6 +54,7 @@
                     <div class="diagram-card__preview">
                         <DiagramPreview :schema="diagram.schema" />
                         <button
+                            v-if="activeView === 'mine'"
                             class="diagram-card__delete"
                             @click.stop="deleteDiagram(diagram.id)"
                             title="Delete"
@@ -53,11 +81,13 @@
                         <span
                             v-else
                             class="diagram-card__name"
-                            @click.stop="startRename(diagram)"
-                            title="Click to rename"
+                            :class="{ 'diagram-card__name--readonly': activeView === 'shared' }"
+                            @click.stop="activeView === 'mine' ? startRename(diagram) : viewDiagram(diagram.share_token)"
+                            :title="activeView === 'mine' ? 'Click to rename' : diagram.name"
                         >{{ diagram.name }}</span>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
 
@@ -165,6 +195,8 @@ export default {
     data() {
         return {
             diagrams: [],
+            activeView: 'mine',
+            loading: false,
             diagramLimit: null,
             newDiagramName: '',
             newDiagramDbType: 'mysql',
@@ -259,16 +291,32 @@ export default {
             this.originalName = null
         },
         async fetchDiagrams() {
+            const view = this.activeView
+            this.loading = true
             try {
-                const response = await axios.get('/api/diagrams')
-                this.diagrams = response.data.data
+                const endpoint = view === 'mine' ? '/api/diagrams' : '/api/diagrams/shared-with-me'
+                const response = await axios.get(endpoint)
+                if (this.activeView === view) {
+                    this.diagrams = response.data.data
+                }
             } catch (error) {
                 if (error.response) {
                     $toast.error(error.response.data.message)
                 } else {
                     $toast.error('Something went wrong!')
                 }
+            } finally {
+                if (this.activeView !== view) return
+                this.loading = false
             }
+        },
+        switchView(view) {
+            if (this.activeView === view) return
+            this.activeView = view
+            this.diagrams = []
+            this.renamingId = null
+            this.originalName = null
+            this.fetchDiagrams()
         },
         async fetchPlanLimits() {
             try {
@@ -351,7 +399,76 @@ export default {
 
 .diagrams-grid-container {
     flex: 1;
+    min-width: 0;
     overflow-y: auto;
+}
+
+.diagrams-content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+}
+
+.diagrams-sidebar {
+    width: 210px;
+    flex-shrink: 0;
+    padding: 1.25rem 0.75rem;
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.diagrams-sidebar__item {
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 0.65rem 0.75rem;
+    background: transparent;
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 0.82rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    transition: color 120ms, background 120ms, border-color 120ms;
+}
+
+.diagrams-sidebar__item:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-alt);
+}
+
+.diagrams-sidebar__item--active {
+    color: var(--color-primary-text);
+    background: var(--bg-surface-alt);
+    border-color: var(--border-color);
+}
+
+.diagrams-empty {
+    min-height: 280px;
+    padding: 2rem;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    text-align: center;
+}
+
+.diagrams-empty strong {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.diagrams-empty span {
+    max-width: 360px;
+    font-size: 0.82rem;
+    line-height: 1.5;
 }
 
 .diagrams-grid {
@@ -359,6 +476,26 @@ export default {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1.5rem;
     padding: 2rem;
+}
+
+@media (max-width: 700px) {
+    .diagrams-content {
+        flex-direction: column;
+    }
+
+    .diagrams-sidebar {
+        width: auto;
+        padding: 0.65rem 1rem;
+        border-right: 0;
+        border-bottom: 1px solid var(--border-light);
+        flex-direction: row;
+    }
+
+    .diagrams-sidebar__item {
+        width: auto;
+        flex: 1;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {
@@ -483,6 +620,10 @@ export default {
     flex: 0 1 50%;
     text-align: center;
     cursor: text;
+}
+
+.diagram-card__name--readonly {
+    cursor: pointer;
 }
 
 .diagram-card__db-icon {

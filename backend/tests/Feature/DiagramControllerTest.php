@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Enums\VisitorStatus;
 use App\Models\Diagram;
+use App\Models\DiagramVisitor;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
@@ -34,6 +36,22 @@ class DiagramControllerTest extends TestCase
     public function test_index_returns_diagrams(): void
     {
         $this->auth()->getJson('/api/diagrams')->assertStatus(200);
+    }
+
+    public function test_shared_returns_diagrams_the_user_can_access(): void
+    {
+        $shared = Diagram::factory()->create(['share_access' => 'read']);
+        DiagramVisitor::factory()->create([
+            'diagram_id' => $shared->id,
+            'user_id' => $this->user->id,
+            'status' => VisitorStatus::APPROVED,
+        ]);
+
+        $this->auth()
+            ->getJson('/api/diagrams/shared-with-me')
+            ->assertStatus(200)
+            ->assertJsonPath('data.0.id', $shared->id)
+            ->assertJsonPath('data.0.is_owner', false);
     }
 
     public function test_store_creates_diagram(): void
