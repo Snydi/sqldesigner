@@ -52,6 +52,12 @@ class DiagramController extends Controller
         return DiagramResource::collection($this->crudService->getUserDiagrams($request->user()));
     }
 
+    #[Subgroup('CRUD')]
+    public function shared(Request $request): AnonymousResourceCollection
+    {
+        return DiagramResource::collection($this->crudService->getSharedDiagrams($request->user()));
+    }
+
     /**
      * @throws AuthorizationException
      */
