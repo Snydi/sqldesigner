@@ -5,7 +5,7 @@
                 <div>
                     <p class="eyebrow">Account</p>
                     <h1>Billing and Pro access</h1>
-                    <p>Pro is $10 USD per month (₽780) and renews automatically until you cancel.</p>
+                    <p>Pro is $10 USD per month and renews automatically until you cancel.</p>
                 </div>
                 <span class="plan-badge" :class="{ 'plan-badge--pro': billing?.is_pro }">{{ billing?.is_pro ? 'Pro' : 'Free' }}</span>
             </div>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="plan-actions">
                         <button v-if="billing.can_purchase" class="btn btn-primary" :disabled="checkoutLoading" @click="checkout">
-                            {{ checkoutLoading ? 'Opening checkout…' : 'Start Pro — $10 USD/month (₽780)' }}
+                            {{ checkoutLoading ? 'Opening checkout…' : 'Start Pro — $10 USD/month' }}
                         </button>
                         <button v-if="billing.can_cancel" class="btn btn-secondary" :disabled="cancelLoading" @click="cancel">
                             {{ cancelLoading ? 'Cancelling…' : 'Cancel Pro' }}
@@ -73,6 +73,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toast-notification'
+import { translateForCurrentLanguage } from '@/js/site-language.js'
 import { Subscription } from '@/services/Subscription.js'
 
 const route = useRoute()
@@ -113,7 +114,7 @@ const checkout = async () => {
 }
 
 const cancel = async () => {
-    if (!window.confirm('Cancel Pro renewal? Your renewal will stop, and you may request a refund under our Refund Policy.')) return
+    if (!window.confirm(translateForCurrentLanguage('Cancel Pro renewal? Your renewal will stop, and you may request a refund under our Refund Policy.'))) return
 
     cancelLoading.value = true
     try {

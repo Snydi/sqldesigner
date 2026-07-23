@@ -32,7 +32,7 @@
         @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 600; font-display: optional; src: url('/fonts/jetbrains-mono-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
         @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 600; font-display: optional; src: url('/fonts/jetbrains-mono-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
     </style>
-    @vite(['src/css/app.css'])
+    @vite(['src/css/app.css', 'src/js/site-language.js'])
     <style>
         /* ── Token overrides for Blade pages ──────────────── */
         :root {
@@ -59,7 +59,7 @@
         html, body { margin: 0; background: var(--bg-page); color: var(--text-primary); overflow-y: auto; }
         body {
             font-family: 'Geist', 'Geist Fallback', system-ui, sans-serif;
-            font-size: 16px;
+            font-size: 0.875rem;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
@@ -79,6 +79,29 @@
         }
         .header-left { display: flex; align-items: center; gap: 0.5rem; }
         .header-left__nav { display: flex; align-items: center; gap: 0.15rem; }
+        .language-switch {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            height: 34px;
+            padding: 0 0.55rem;
+            border: 1px solid var(--border-color);
+            border-radius: 7px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 120ms ease, background 120ms ease, border-color 120ms ease;
+        }
+        .language-switch:hover {
+            color: var(--text-primary);
+            background: var(--bg-surface);
+            border-color: var(--border-strong);
+        }
 
         /* ── Buttons ──────────────────────────────────────── */
         .btn {
@@ -171,6 +194,9 @@
             .nav-hide-mobile { display: none !important; }
             .hamburger { display: flex; }
         }
+        @media (max-width: 400px) {
+            .header .logo { max-width: 96px; }
+        }
 
         /* ── Footer ───────────────────────────────────────── */
         footer.site {
@@ -252,6 +278,7 @@
         </button>
     </div>
     <nav class="flex-items" aria-label="Main navigation">
+        <button type="button" class="language-switch notranslate" data-language-switch translate="no" aria-label="Switch language to Russian">EN</button>
         <div id="nav-authed" style="display:none; gap:0.6rem;">
             <a class="btn btn-ghost nav-hide-mobile" href="/billing">Pro</a>
             <a class="btn btn-ghost nav-hide-mobile" href="/diagrams">My Diagrams</a>
@@ -263,6 +290,41 @@
         </div>
     </nav>
     <script>
+        (function () {
+            var button = document.querySelector('[data-language-switch]');
+            if (!button) return;
+
+            var savedLanguage = null;
+            try {
+                savedLanguage = localStorage.getItem('site-language') || localStorage.getItem('legal-language');
+            } catch (error) {}
+
+            var currentLanguage = savedLanguage === 'ru' || savedLanguage === 'en'
+                ? savedLanguage
+                : (navigator.language.toLowerCase().startsWith('ru') ? 'ru' : 'en');
+
+            function applyLanguage(language, notify) {
+                currentLanguage = language;
+                document.documentElement.lang = language;
+                button.textContent = language === 'en' ? 'EN' : 'RU';
+                button.setAttribute(
+                    'aria-label',
+                    language === 'en' ? 'Switch language to Russian' : 'Переключить язык на английский'
+                );
+                try { localStorage.setItem('site-language', language); } catch (error) {}
+                if (notify) {
+                    window.dispatchEvent(new CustomEvent('site-language-change', {
+                        detail: { language: language }
+                    }));
+                }
+            }
+
+            button.addEventListener('click', function () {
+                applyLanguage(currentLanguage === 'en' ? 'ru' : 'en', true);
+            });
+            applyLanguage(currentLanguage, false);
+        }());
+
         if (localStorage.getItem('auth_token')) {
             document.getElementById('nav-authed').style.display = 'flex';
             document.getElementById('nav-guest').style.display = 'none';
@@ -308,7 +370,7 @@
     }());
 </script>
 
-<main>
+<main @if(request()->is('blog/*')) data-no-translate @endif>
     @yield('content')
 </main>
 

@@ -1,4 +1,5 @@
 import 'vue-toast-notification/dist/theme-sugar.css';
+import '@/js/site-language.js';
 import { createApp } from 'vue';
 import Clarity from '@microsoft/clarity';
 import ToastPlugin from 'vue-toast-notification';

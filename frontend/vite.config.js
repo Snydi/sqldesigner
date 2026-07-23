@@ -8,6 +8,7 @@ export default defineConfig({
     laravel({
       input: [
         'src/main.js',
+        'src/js/site-language.js',
         'src/css/app.css',
       ],
       hotFile: '/var/www/html/backend/public/hot',

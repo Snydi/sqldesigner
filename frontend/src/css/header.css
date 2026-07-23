@@ -18,6 +18,31 @@
     align-items: center;
 }
 
+.language-switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 34px;
+    padding: 0 9px;
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 120ms, background 120ms, border-color 120ms;
+}
+
+.language-switch:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-alt);
+    border-color: var(--border-strong);
+}
+
 /* Icon-only header button */
 .hbtn {
     display: inline-flex;

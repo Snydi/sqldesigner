@@ -3,12 +3,12 @@
 @section('title', 'SQL Designer Pricing — Free and Pro Plans Compared')
 
 @section('head')
-    <meta name="description" content="SQL Designer is free with a 1-diagram limit and 3 exports daily. Pro costs $10 USD/month (₽780) for unlimited diagrams and exports.">
+    <meta name="description" content="SQL Designer is free with a 1-diagram limit and 3 exports daily. Pro costs $10 USD/month for unlimited diagrams and exports.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/pricing">
     <meta property="og:title" content="SQL Designer Pricing — Free and Pro Plans Compared">
-    <meta property="og:description" content="SQL Designer is free with a 1-diagram limit and 3 exports daily. Pro costs $10 USD/month (₽780) for unlimited diagrams and exports.">
+    <meta property="og:description" content="SQL Designer is free with a 1-diagram limit and 3 exports daily. Pro costs $10 USD/month for unlimited diagrams and exports.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
@@ -19,7 +19,7 @@
     <meta property="og:image:alt" content="SQL Designer pricing — free and Pro plans for the visual database designer">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL Designer Pricing — Free and Pro Plans Compared">
-    <meta name="twitter:description" content="SQL Designer is free with a 1-diagram limit and 3 exports daily. Pro costs $10 USD/month (₽780) for unlimited diagrams and exports.">
+    <meta name="twitter:description" content="SQL Designer is free with a 1-diagram limit and 3 exports daily. Pro costs $10 USD/month for unlimited diagrams and exports.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <meta name="keywords" content="sql designer pricing, database diagram tool pricing, erd tool subscription, free database designer, pro database diagram plan, sql designer pro">
     <script type="application/ld+json">
@@ -44,18 +44,18 @@
                 "@type": "Offer",
                 "name": "Free",
                 "price": "0",
-                "priceCurrency": "RUB",
+                "priceCurrency": "USD",
                 "description": "1 diagram, 3 exports per day."
             },
             {
                 "@type": "Offer",
                 "name": "Pro",
-                "price": "780.00",
-                "priceCurrency": "RUB",
+                "price": "10.00",
+                "priceCurrency": "USD",
                 "priceSpecification": {
                     "@type": "UnitPriceSpecification",
-                    "price": "780.00",
-                    "priceCurrency": "RUB",
+                    "price": "10.00",
+                    "priceCurrency": "USD",
                     "billingDuration": "P1M"
                 },
                 "description": "Unlimited diagrams and unlimited exports."
@@ -69,7 +69,7 @@
         "url": "https://sql-designer.com/pricing",
         "datePublished": "2026-07-01",
         "dateModified": "2026-07-21",
-        "description": "SQL Designer pricing: a free plan with a 1-diagram limit and 3 exports per day, and a $10 USD/month Pro plan (₽780) with no limits.",
+        "description": "SQL Designer pricing: a free plan with a 1-diagram limit and 3 exports per day, and a $10 USD/month Pro plan with no limits.",
         "isPartOf": { "@type": "WebSite", "url": "https://sql-designer.com" }
     }
     ]
@@ -102,7 +102,7 @@
                 "name": "What does the Pro plan cost?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "SQL Designer Pro costs $10 USD per month (₽780) and removes the diagram and export limits entirely."
+                    "text": "SQL Designer Pro costs $10 USD per month and removes the diagram and export limits entirely."
                 }
             },
             {
@@ -349,7 +349,7 @@
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><span>Pricing</span></p>
         <h1 class="page-h1">Simple pricing. Start <em>free</em>, upgrade when you outgrow it.</h1>
-        <p class="page-sub">Free covers 1 diagram and 3 exports a day. Pro removes both limits for $10 USD/month (₽780).</p>
+        <p class="page-sub">Free covers 1 diagram and 3 exports a day. Pro removes both limits for $10 USD/month.</p>
     </div>
 </section>
 
@@ -358,7 +358,7 @@
     <div class="launch-banner" role="status">
         <span class="launch-banner-icon" aria-hidden="true">✓</span>
         <span>
-            $10 USD/month (₽780), billed automatically. Cancel anytime; Pro stays active until the end of the current billing period.
+            $10 USD/month, billed automatically. Cancel anytime; Pro stays active until the end of the current billing period.
         </span>
     </div>
 </div>
@@ -369,7 +369,7 @@
 
         <div class="plan-card">
             <h2 class="plan-name">Free</h2>
-            <p class="plan-price"><span class="amount">$0 USD</span><span class="period">(₽0) / forever</span></p>
+            <p class="plan-price"><span class="amount">$0 USD</span><span class="period">/ forever</span></p>
             <ul class="plan-features">
                 <li class="limit"><span class="mark">–</span> 1 diagram</li>
                 <li class="limit"><span class="mark">–</span> 3 daily exports: SQL, JSON, migration, or PNG</li>
@@ -384,7 +384,7 @@
 
         <div class="plan-card pro">
             <h2 class="plan-name">Pro</h2>
-            <p class="plan-price"><span class="amount">$10 USD</span><span class="period">/ month (₽780)</span></p>
+            <p class="plan-price"><span class="amount">$10 USD</span><span class="period">/ month</span></p>
             <ul class="plan-features">
                 <li><span class="mark">✓</span> Unlimited diagrams</li>
                 <li><span class="mark">✓</span> Unlimited exports</li>
@@ -393,7 +393,7 @@
                 <li><span class="mark">✓</span> Multiplayer collaboration</li>
             </ul>
             <div class="plan-cta">
-                <a id="pro-checkout" class="btn btn-solid btn-lg" href="/login?redirect=/billing">Get Pro — $10 USD/month (₽780)</a>
+                <a id="pro-checkout" class="btn btn-solid btn-lg" href="/login?redirect=/billing">Get Pro — $10 USD/month</a>
                 <div id="checkout-message" class="checkout-message" role="alert"></div>
             </div>
         </div>
@@ -435,8 +435,8 @@
             </tr>
             <tr>
                 <td>Price</td>
-                <td>$0 USD (₽0)</td>
-                <td>$10 USD / month (₽780)</td>
+                <td>$0 USD</td>
+                <td>$10 USD / month</td>
             </tr>
         </tbody>
     </table>
@@ -456,7 +456,7 @@
     </div>
     <div class="faq-item">
         <h3>What does the Pro plan cost?</h3>
-        <p>SQL Designer Pro costs $10 USD per month (₽780) and removes the diagram and export limits entirely.</p>
+        <p>SQL Designer Pro costs $10 USD per month and removes the diagram and export limits entirely.</p>
     </div>
     <div class="faq-item">
         <h3>How many exports do I get on the free plan?</h3>
@@ -540,7 +540,7 @@
                 message.textContent = error.message || 'Checkout is unavailable right now.';
                 message.classList.add('show');
                 button.removeAttribute('aria-disabled');
-                button.textContent = 'Get Pro — $10 USD/month (₽780)';
+                button.textContent = 'Get Pro — $10 USD/month';
             }
         });
     }());

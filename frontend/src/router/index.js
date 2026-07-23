@@ -1,5 +1,6 @@
 import axios from '@/axios';
 import store from '@/store/index.js';
+import { setLocalizedDocumentTitle } from '@/js/site-language.js';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const Layout = () => import('../components/Layout.vue');
@@ -68,7 +69,9 @@ const pageTitles = {
 };
 
 router.afterEach((to) => {
-    document.title = pageTitles[to.name] || 'SQL Designer — MySQL & PostgreSQL Schema Designer';
+    setLocalizedDocumentTitle(
+        pageTitles[to.name] || 'SQL Designer — MySQL & PostgreSQL Schema Designer'
+    );
 });
 
 export default router;
