@@ -423,7 +423,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <span>&copy; {{ date('Y') }} SQL Designer &mdash; visual SQL schema designer for 6 dialects &middot; Snyatkov Dmitriy Andreevich; INN 344818239248</span>
+        <span>&copy; {{ date('Y') }} SQL Designer &mdash; visual SQL schema designer for 6 dialects &middot; <span>Snyatkov Dmitriy Andreevich</span>; INN 344818239248</span>
         <span>
             <a href="{{ route('oferta') }}" style="color:inherit;">Public Offer</a>
             &nbsp;&middot;&nbsp;
