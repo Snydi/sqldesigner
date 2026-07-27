@@ -83,7 +83,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toast-notification'
 import { translateForCurrentLanguage } from '@/js/site-language.js'
@@ -101,6 +101,11 @@ const promocodeLoading = ref(false)
 const promocode = ref('')
 const paymentNotice = ref(null)
 const recurringPaymentConsent = ref(false)
+let paymentStatusTimer = null
+let resolvePaymentStatusWait = null
+let paymentStatusPollingStopped = false
+const paymentStatusPollInterval = 2000
+const paymentStatusPollLimit = 30
 
 const formatDate = (value) => value
     ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short', hourCycle: 'h23' }).format(new Date(value))
@@ -114,10 +119,43 @@ const load = async () => {
     try {
         billing.value = await Subscription.get()
         loadError.value = ''
+        return true
     } catch (error) {
         loadError.value = error.response?.data?.message ?? 'Could not load billing details.'
+        return false
     } finally {
         loading.value = false
+    }
+}
+
+const waitForPaymentConfirmation = async () => {
+    for (let attempt = 0; attempt < paymentStatusPollLimit; attempt += 1) {
+        if (paymentStatusPollingStopped) return
+
+        const loaded = await load()
+
+        if (loaded && billing.value?.is_pro) {
+            await router.replace({ name: 'subscription.started' })
+            return
+        }
+
+        if (attempt === paymentStatusPollLimit - 1) break
+
+        await new Promise(resolve => {
+            resolvePaymentStatusWait = resolve
+            paymentStatusTimer = window.setTimeout(() => {
+                paymentStatusTimer = null
+                resolvePaymentStatusWait = null
+                resolve()
+            }, paymentStatusPollInterval)
+        })
+    }
+
+    if (paymentStatusPollingStopped) return
+
+    paymentNotice.value = {
+        type: 'success',
+        message: 'Your payment is still being confirmed by Robokassa. Pro will activate automatically; refresh this page in a moment.',
     }
 }
 
@@ -163,11 +201,20 @@ const redeem = async () => {
 onMounted(async () => {
     if (route.query.payment === 'processing') {
         paymentNotice.value = { type: 'success', message: 'Payment returned successfully. Pro activates when Robokassa confirms it; refresh shortly if it is still pending.' }
+        await router.replace({ name: 'billing' })
+        await waitForPaymentConfirmation()
+        return
     } else if (route.query.payment === 'failed') {
         paymentNotice.value = { type: 'error', message: 'The payment was not completed. You can try again whenever you are ready.' }
     }
     if (route.query.payment) await router.replace({ name: 'billing' })
     await load()
+})
+
+onBeforeUnmount(() => {
+    paymentStatusPollingStopped = true
+    if (paymentStatusTimer !== null) window.clearTimeout(paymentStatusTimer)
+    resolvePaymentStatusWait?.()
 })
 </script>
 
