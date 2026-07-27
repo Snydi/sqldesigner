@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://sql-designer.com/</loc>
-        <lastmod>2026-04-11</lastmod>
+        <lastmod>2026-07-24</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/about</loc>
-        <lastmod>2026-05-15</lastmod>
+        <lastmod>2026-07-24</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/features</loc>
@@ -23,42 +23,38 @@
     <url>
         <loc>https://sql-designer.com/sitemap</loc>
         <lastmod>2026-05-17</lastmod>
-        <priority>0.1</priority>
     </url>
     <url>
         <loc>https://sql-designer.com/privacy</loc>
         <lastmod>2026-05-07</lastmod>
-        <priority>0.1</priority>
     </url>
     <url>
         <loc>https://sql-designer.com/terms</loc>
         <lastmod>2026-05-07</lastmod>
-        <priority>0.1</priority>
     </url>
     <url>
         <loc>https://sql-designer.com/refund-policy</loc>
         <lastmod>2026-07-21</lastmod>
-        <priority>0.1</priority>
     </url>
     <url>
         <loc>https://sql-designer.com/blog</loc>
-        <lastmod>2026-05-12</lastmod>
+        <lastmod>2026-07-24</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/database-ddl-comparison</loc>
-        <lastmod>2026-05-05</lastmod>
+        <lastmod>2026-05-16</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/crowfoot-notation</loc>
-        <lastmod>2026-04-16</lastmod>
+        <lastmod>2026-05-16</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/best-free-erd-tools</loc>
-        <lastmod>2026-06-30</lastmod>
+        <lastmod>2026-07-24</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/create-database-schema-online</loc>
-        <lastmod>2026-06-30</lastmod>
+        <lastmod>2026-07-24</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/er-diagram-maker-online</loc>
@@ -66,46 +62,42 @@
     </url>
     <url>
         <loc>https://sql-designer.com/blog/database-designer</loc>
-        <lastmod>2026-07-03</lastmod>
+        <lastmod>2026-07-24</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/database-schema-examples</loc>
-        <lastmod>2026-04-16</lastmod>
+        <lastmod>2026-07-24</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/mysql-foreign-key</loc>
-        <lastmod>2026-03-19</lastmod>
+        <lastmod>2026-05-16</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/mysql-data-types</loc>
-        <lastmod>2026-03-19</lastmod>
+        <lastmod>2026-05-17</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/database-normalization</loc>
-        <lastmod>2026-03-19</lastmod>
+        <lastmod>2026-07-03</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/mysql-vs-postgresql</loc>
-        <lastmod>2026-05-16</lastmod>
+        <lastmod>2026-07-03</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/postgresql-data-types</loc>
         <lastmod>2026-05-23</lastmod>
-        <priority>0.7</priority>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/sql-joins</loc>
         <lastmod>2026-07-03</lastmod>
-        <priority>0.7</priority>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/mysql-indexes</loc>
         <lastmod>2026-07-03</lastmod>
-        <priority>0.7</priority>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/postgresql-indexes</loc>
         <lastmod>2026-07-03</lastmod>
-        <priority>0.7</priority>
     </url>
 </urlset>

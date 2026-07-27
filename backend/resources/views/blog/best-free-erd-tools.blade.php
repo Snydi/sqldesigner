@@ -42,7 +42,7 @@
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/best-free-erd-tools",
             "datePublished": "2026-05-12",
-            "dateModified": "2026-06-30",
+            "dateModified": "2026-07-24",
             "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -170,7 +170,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Best Free ERD Tools</span></p>
-        <p class="post-eyebrow">May 2026 · <time datetime="2026-06-30">Last updated: June 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
+        <p class="post-eyebrow">May 2026 · <time datetime="2026-07-24">Last updated: July 24, 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
         <h1 class="page-h1">10 Best Free Online ERD Tools and ER Diagram Makers in 2026 — Tested and Compared</h1>
         <p class="page-sub">The ten most commonly used free online ERD tools and ER diagram makers in 2026 are SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, and DBeaver — each with meaningfully different capabilities, free-tier restrictions, and levels of SQL awareness. Not all of them are genuinely free: some cap diagrams after two saves, some lock SQL export behind a paywall, and some are generic diagram editors with no SQL awareness at all. This guide tells you which free database diagram maker fits each use case.</p>
     </div>
@@ -199,7 +199,7 @@
         </p>
 
         <div class="citation-capsule">
-            PostgreSQL is now used by 55.6% of developers and MySQL by 40.5%, per the Stack Overflow Developer Survey 2025 (89,000+ respondents) — together they cover over 90% of professional database workloads. Every SQL-aware tool in this list supports at least one of these two dialects, making SQL export fidelity the most consequential evaluation criterion for most teams (<a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>).
+            In the Stack Overflow Developer Survey 2025, PostgreSQL was selected by 55.6% of respondents and MySQL by 40.5%. The survey collected 49,009 responses from 177 countries, and database choices were multi-select, so the percentages overlap and must not be added together. Both engines are common targets, making SQL export fidelity an important evaluation criterion (<a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">technology results</a>; <a href="https://survey.stackoverflow.co/2025/methodology/" target="_blank" rel="noopener">methodology</a>).
         </div>
 
         <div class="tldr-box">
@@ -323,7 +323,7 @@
         <h2 id="tools-1-5">The 10 Tools in Detail</h2>
 
         <div class="tool-card">
-            <p class="best-for">Best for: designing a relational database schema from scratch — completely free</p>
+            <p class="best-for">Best for: designing a relational database schema from scratch with a free starting plan</p>
             <h3>1. SQL Designer — sql-designer.com</h3>
             <img src="/images/designer_screenshot.webp" alt="SQL Designer canvas showing an ER diagram with tables and foreign key relationships" width="720" height="400" loading="eager">
             <p>SQL Designer is a browser-based schema design tool for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access. The workflow is visual: drag tables onto a canvas, add columns with real database types (<code>INT</code>, <code>VARCHAR</code>, <code>DECIMAL</code>, <code>TIMESTAMP</code>), set <code>PRIMARY KEY</code>, <code>UNIQUE</code>, <code>NOT NULL</code>, and <code>AUTO_INCREMENT</code> or <code>SERIAL</code> constraints with toggles, and draw foreign key relationships by connecting columns. The diagram uses crow's foot notation. When the schema is ready, export a complete <code>CREATE TABLE</code> DDL script for your target engine in one click — or paste existing SQL to visualise it instantly.</p>

@@ -618,7 +618,7 @@
             </details></li>
             <li class="faq-item"><details>
                 <summary>How many diagrams can I create?</summary>
-                <p>There is no limit. Create as many diagrams as you need.</p>
+                <p>The Free plan includes 1 diagram. Pro includes unlimited diagrams.</p>
             </details></li>
             <li class="faq-item"><details>
                 <summary>Is SQL Designer open source?</summary>

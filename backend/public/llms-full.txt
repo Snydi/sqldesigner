@@ -1,10 +1,10 @@
 # SQL Designer — Full Reference
 
-> Free browser-based ERD and database schema designer. Visual drag-and-drop canvas, SQL export for 6 dialects, real-time multiplayer. No install, no paywall. Open source (AGPL-3.0).
+> Browser-based ERD and database schema designer with a visual canvas, SQL export for 6 dialects, real-time multiplayer, a Free plan, optional Pro subscription, and AGPL-3.0 source code.
 
 ## Product Overview
 
-SQL Designer (sql-designer.com) is a free, browser-based visual database schema designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access. Users drag and drop tables onto a canvas, define columns with real database data types and constraints, connect tables with foreign key relationship lines, and export a ready-to-run CREATE TABLE script for any of the six supported SQL dialects. No installation is required. The tool runs entirely in the browser and is completely free with no diagram limits, no table caps, and no paid tier.
+SQL Designer (sql-designer.com) is a browser-based visual database schema designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access. Users drag and drop tables onto a canvas, define columns with real database data types and constraints, connect tables with foreign key relationship lines, and export a ready-to-run CREATE TABLE script for any of the six supported SQL dialects. No installation is required. The Free plan includes 1 diagram and 3 combined SQL, JSON, migration, or PNG exports per day. Pro costs $10 USD per month and provides unlimited diagrams and exports.
 
 SQL Designer is open source. The full source code (Laravel backend, Vue 3 frontend, PostgreSQL storage) is available at https://github.com/Snydi/sqldesigner.
 
@@ -31,7 +31,7 @@ Paste an existing CREATE TABLE script and SQL Designer generates the visual ER d
 Share a diagram link and multiple users can edit simultaneously with live cursors, similar to Figma. Shareable links support read-only or edit access. Diagrams can also be embedded in other pages via iframe.
 
 ### Multiple Diagrams & Auto-Save
-Registered users can create unlimited diagrams. All diagrams auto-save to the cloud and are accessible from any browser or device.
+The Free plan includes 1 saved diagram. Pro includes unlimited diagrams. Account diagrams auto-save to the cloud and are accessible from any browser or device.
 
 ### Demo Mode
 The full tool is available without creating an account at https://sql-designer.com/demo. All design and export features work in demo mode; diagrams are not persisted between sessions without an account.
@@ -69,7 +69,7 @@ MS Access support. Column types mapped to Access field types: Number (Integer, L
 
 ## Pricing
 
-Completely free. No paid tiers, no feature limits, no credit card required. All features including real-time multiplayer collaboration, unlimited diagrams, and SQL export for all six dialects are available to all registered users at no cost. The tool is open source under the GNU Affero General Public License v3.0 (AGPL-3.0) — see GitHub repository.
+The Free plan requires no credit card and includes 1 saved diagram plus 3 combined SQL, JSON, migration, or PNG exports per day. Pro costs $10 USD per month and removes the diagram and export limits. Real-time multiplayer collaboration is available without an additional collaboration fee. The tool is open source under the GNU Affero General Public License v3.0 (AGPL-3.0) — see the GitHub repository.
 
 ## How to Use SQL Designer
 
@@ -94,7 +94,7 @@ Completely free. No paid tiers, no feature limits, no credit card required. All 
 
 **vs ChartDB**: ChartDB excels at documenting existing databases and AI-assisted schema explanation. SQL Designer is better for designing schemas from scratch visually.
 
-**vs Paid tools (Vertabelo, Lucidchart Pro, ERDPlus Pro)**: SQL Designer is 100% free with no feature limits.
+**vs Paid tools (Vertabelo, Lucidchart Pro)**: SQL Designer has a no-credit-card Free plan for 1 diagram and 3 daily combined exports; Pro provides unlimited diagrams and exports.
 
 ## Frequently Asked Questions
 
@@ -111,7 +111,7 @@ Yes. SQL Designer is a free visual alternative to dbdiagram.io. It uses drag-and
 Use SQL Designer at sql-designer.com. Open it in any browser, drag tables onto the canvas, add columns, draw foreign key relationships, and export SQL — no installation needed.
 
 **Is SQL Designer free for students?**
-Yes, completely free. SQL Designer is used for database design coursework, ER diagram assignments, and learning normalization. No credit card or institutional email required.
+Yes. Students can use the no-credit-card Free plan for database design coursework, ER diagram assignments, and learning normalization. The same Free plan limits apply: 1 diagram and 3 combined exports per day.
 
 **Can I share a database diagram with my team?**
 Yes. SQL Designer supports real-time multiplayer — share a diagram link and multiple users can edit simultaneously with live cursors.
@@ -123,7 +123,7 @@ MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access. Each dialec
 Yes. Paste a CREATE TABLE script and SQL Designer generates the visual ERD automatically, including relationship lines for foreign keys.
 
 **Is there a table or diagram limit?**
-No. SQL Designer has no table cap per diagram and no limit on the number of diagrams per account. All features are free with no upgrade required.
+SQL Designer does not impose a table cap inside a diagram. The Free plan includes 1 saved diagram; Pro includes unlimited diagrams.
 
 **Does SQL Designer support crow's foot notation?**
 Yes. Foreign key relationships are displayed with crow's foot symbols showing cardinality (one-to-one, one-to-many, many-to-many) and optionality.
@@ -160,11 +160,35 @@ Side-by-side comparison of CREATE TABLE syntax across five major databases: auto
 
 ### 10 Best Free ERD Tools in 2026 — Tested and Compared
 URL: https://sql-designer.com/blog/best-free-erd-tools
-Honest comparison of 10 free ERD tools tested with a 10-table schema including foreign keys and constraints: SQL Designer (#1 — no limits, free SQL export), DrawSQL (#2 — polished UI, free tier table cap ~15), dbdiagram.io (#3 — text-based DBML, SQL export paywalled), draw.io (#4 — general diagramming, no SQL awareness), ChartDB (#5 — AI-assisted, best for existing databases), ERDPlus (#6 — academic, simple), QuickDBD (#7 — text-to-diagram, 1 diagram free), Lucidchart (#8 — general tool, not SQL-aware), DB Designer (#9 — ~50 object limit), DBeaver (#10 — desktop ERD from live databases). Includes per-tool strengths, limitations, pricing, and use-case guidance. Written by Dmitriy Snyatkov.
+Honest comparison of 10 ERD tools tested with a 10-table schema including foreign keys and constraints: SQL Designer (#1 — Free plan with 1 diagram and 3 daily combined exports; unlimited with Pro), DrawSQL (#2 — polished UI, free tier table cap ~15), dbdiagram.io (#3 — text-based DBML, SQL export paywalled), draw.io (#4 — general diagramming, no SQL awareness), ChartDB (#5 — AI-assisted, best for existing databases), ERDPlus (#6 — academic, simple), QuickDBD (#7 — text-to-diagram, 1 diagram free), Lucidchart (#8 — general tool, not SQL-aware), DB Designer (#9 — ~50 object limit), DBeaver (#10 — desktop ERD from live databases). Includes per-tool strengths, limitations, pricing, and use-case guidance. Written by Dmitriy Snyatkov.
 
 ### Free Online Database Designer — Visual Schema Builder
 URL: https://sql-designer.com/blog/database-designer
 What to look for in a free online database designer, how visual schema building compares to writing DDL by hand, how to go from a blank canvas to an exported SQL script, the difference between ERD tools and general diagramming tools, and how SQL Designer handles each step of the design workflow. Written by Dmitriy Snyatkov.
+
+### How to Create a Database Schema Online
+URL: https://sql-designer.com/blog/create-database-schema-online
+Step-by-step guide to choosing a SQL dialect, creating tables and columns, assigning keys and constraints, drawing relationships, validating the design, and exporting runnable SQL. Written by Dmitriy Snyatkov.
+
+### Free Online ER Diagram Maker
+URL: https://sql-designer.com/blog/er-diagram-maker-online
+Guide to ER diagram concepts, entity and relationship notation, crow's foot cardinality, and the practical workflow from a visual model to database DDL. Written by Dmitriy Snyatkov.
+
+### PostgreSQL Data Types
+URL: https://sql-designer.com/blog/postgresql-data-types
+Practical reference for PostgreSQL numeric, text, temporal, UUID, JSONB, array, and network data types with schema-design guidance. Written by Dmitriy Snyatkov.
+
+### SQL JOIN Types Explained
+URL: https://sql-designer.com/blog/sql-joins
+Examples and diagrams for INNER, LEFT, RIGHT, FULL, CROSS, and SELF JOIN operations, including how joins map to foreign-key relationships. Written by Dmitriy Snyatkov.
+
+### MySQL Indexes
+URL: https://sql-designer.com/blog/mysql-indexes
+Guide to MySQL primary, unique, composite, full-text, and spatial indexes, including column order, selectivity, and common indexing mistakes. Written by Dmitriy Snyatkov.
+
+### PostgreSQL Indexes
+URL: https://sql-designer.com/blog/postgresql-indexes
+Guide to PostgreSQL B-tree, Hash, GIN, GiST, BRIN, partial, expression, and covering indexes with practical selection advice. Written by Dmitriy Snyatkov.
 
 ## Key Pages
 
@@ -172,6 +196,7 @@ What to look for in a free online database designer, how visual schema building 
 - https://sql-designer.com/demo — Try the full tool without creating an account (Vue SPA, no persistent save)
 - https://sql-designer.com/register — Create a free account for persistent diagrams and multiplayer
 - https://sql-designer.com/features — Full feature list with feature explanations and SoftwareApplication schema
+- https://sql-designer.com/pricing — Current Free and Pro limits, monthly price, and billing FAQ
 - https://sql-designer.com/about — About the tool and its creator, Dmitriy Snyatkov; built 2024, launched 2026
 - https://sql-designer.com/library — Community-shared database schemas; browse and import examples
 - https://sql-designer.com/blog — Blog index with all database design articles
@@ -180,8 +205,8 @@ What to look for in a free online database designer, how visual schema building 
 
 ## Technical Details
 
-- Backend: Laravel 11 (PHP)
-- Frontend: Vue 3 + Pinia + Vue Flow
+- Backend: Laravel 12 (PHP)
+- Frontend: Vue 3 + Vuex + Vue Flow
 - Database: PostgreSQL
 - Real-time: Laravel Reverb (WebSockets)
 - Hosted: Docker (nginx, PHP-FPM, PostgreSQL containers)
@@ -189,4 +214,4 @@ What to look for in a free online database designer, how visual schema building 
 
 ## Last updated
 
-2026-05-22
+2026-07-24

@@ -43,7 +43,7 @@
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/database-designer",
             "datePublished": "2026-04-09",
-            "dateModified": "2026-07-03",
+            "dateModified": "2026-07-24",
             "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -56,7 +56,7 @@
                 {
                     "@type": "Question",
                     "name": "What is an online database designer tool?",
-                    "acceptedAnswer": { "@type": "Answer", "text": "An online database designer is a browser-based tool for planning relational database schemas visually. You add tables to a canvas, define columns with data types and constraints, draw foreign key relationships between tables, and export a CREATE TABLE SQL script — without writing DDL by hand. PostgreSQL and MySQL are the two most common targets, together covering over 96% of professional developer workloads (Stack Overflow 2025)." }
+                    "acceptedAnswer": { "@type": "Answer", "text": "An online database designer is a browser-based tool for planning relational database schemas visually. You add tables to a canvas, define columns with data types and constraints, draw foreign key relationships, and export a CREATE TABLE SQL script without writing DDL by hand. PostgreSQL and MySQL are both widely used targets in the Stack Overflow Developer Survey 2025." }
                 },
                 {
                     "@type": "Question",
@@ -115,7 +115,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Online Database Schema Designer</span></p>
-        <p class="post-eyebrow">April 2026 · <time datetime="2026-07-03">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
+        <p class="post-eyebrow">April 2026 · <time datetime="2026-07-24">Last updated: July 24, 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
         <h1 class="page-h1">The Free Online Database Schema Designer for MySQL, PostgreSQL, SQLite and More</h1>
         <p class="page-sub">SQL Designer is a browser-based online database schema designer and visual SQL schema builder. Design tables on a drag-and-drop canvas, draw foreign key relationships, and export a complete CREATE TABLE script for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits.</p>
     </div>
@@ -152,7 +152,7 @@
             <p class="kt-label">Key Takeaways</p>
             <ul>
                 <li>64% of organizations actively use data modeling, up from 51% the year before (<a href="https://www.dataversity.net/data-modeling-trends-in-2025-simplifying-complex-business-problems/">Dataversity, Data Modeling Trends</a>)</li>
-                <li>PostgreSQL is used by 55.6% of professional developers and MySQL by 40.5% in 2025 — a good designer must support both type systems (<a href="https://survey.stackoverflow.co/2025/technology">Stack Overflow Developer Survey 2025</a>)</li>
+                <li>PostgreSQL was selected by 55.6% of all respondents and MySQL by 40.5% in 2025 — a good designer must support both type systems (<a href="https://survey.stackoverflow.co/2025/technology">Stack Overflow Developer Survey 2025</a>)</li>
                 <li>84% of organizations run two or more database platforms in 2026, up from 74% in 2025 (<a href="https://www.red-gate.com/solutions/state-of-database-landscape/2026/">Redgate 2026</a>)</li>
                 <li>A purpose-built database designer exports runnable SQL DDL; a generic diagram tool (draw.io, Figma) exports only an image</li>
             </ul>
@@ -219,12 +219,12 @@
             SQL Designer offers a Free plan with 1 diagram and 3 daily combined SQL, JSON, migration, or PNG exports, plus a Pro plan with unlimited diagrams and exports. No credit card is required to use the Free plan.
         </p>
         <div class="citation-capsule">
-            The Redgate State of the Database Landscape 2026 report found 84% of organizations now manage two or more database platforms, up from 74% in 2025. When those teams use tools that lock SQL export behind paid plans, migrating schemas between engines requires manual DDL rewriting, a step a genuinely free designer with full export eliminates entirely.
+            The Redgate State of the Database Landscape 2026 report found 84% of organizations now manage two or more database platforms, up from 74% in 2025. When those teams use tools that lock SQL export behind paid plans, migrating schemas between engines requires manual DDL rewriting. A designer that includes export in its Free plan removes that step for smaller projects.
         </div>
 
         <h2 id="what-to-look-for">What to Look for in a Free Database Designer</h2>
         <p>
-            PostgreSQL is now used by 55.6% of developers overall and 58.2% of professional developers specifically, versus 40.5% for MySQL, per the <a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>. Together they cover over 96% of professional database workloads. A designer that doesn't properly support both type systems will produce invalid DDL for one of them. That's the baseline. Beyond database support, check for these features:
+            PostgreSQL was selected by 55.6% of all respondents and 58.2% of professional developers, while MySQL was selected by 40.5% of all respondents, in the <a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>. These are overlapping multi-select usage rates, not shares of database workloads. A designer should still support both type systems accurately. Beyond database support, check for these features:
         </p>
         <h3>Feature checklist</h3>
         <ul>
@@ -237,15 +237,15 @@
             <li><strong>Auto-save</strong> — work saved automatically, no manual save step</li>
         </ul>
         <div class="citation-capsule">
-            The Stack Overflow Developer Survey 2025 found PostgreSQL used by 55.6% and MySQL by 40.5% of professional developers — together covering over 96% of professional workloads. A database designer that generates incorrect DDL for either dialect directly fails the majority of professional use cases, making dialect-accurate type systems a hard requirement, not a nice-to-have.
+            The Stack Overflow Developer Survey 2025 found PostgreSQL and MySQL widely used among respondents. Because participants could select multiple databases, their usage percentages overlap and cannot be added into a workload-share figure. A database designer that targets either engine must generate dialect-accurate DDL, making separate type systems a hard requirement rather than a nice-to-have.
         </div>
 
         <figure>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 155" role="img"
-                 aria-label="Horizontal bar chart showing PostgreSQL used by 55.6% and MySQL by 40.5% of professional developers in 2025">
-                <title>Developer Database Usage — Professional Developers 2025</title>
+                 aria-label="Horizontal bar chart showing PostgreSQL selected by 55.6% and MySQL by 40.5% of all survey respondents in 2025">
+                <title>Developer Database Usage — All Respondents 2025</title>
                 <rect width="560" height="155" fill="#111827" rx="6"/>
-                <text x="280" y="22" text-anchor="middle" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" font-weight="600">Developer Database Usage — Professional Devs (2025)</text>
+                <text x="280" y="22" text-anchor="middle" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" font-weight="600">Developer Database Usage — All Respondents (2025)</text>
                 <text x="10" y="59" fill="#9ca3af" font-family="system-ui,sans-serif" font-size="12" dominant-baseline="middle">PostgreSQL</text>
                 <rect x="118" y="46" width="195" height="22" fill="#22c55e" rx="2"/>
                 <text x="319" y="59" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" dominant-baseline="middle"> 55.6%</text>
@@ -254,7 +254,7 @@
                 <text x="266" y="99" fill="#f3f4f6" font-family="system-ui,sans-serif" font-size="12" dominant-baseline="middle"> 40.5%</text>
                 <text x="280" y="143" text-anchor="middle" fill="#6b7280" font-family="system-ui,sans-serif" font-size="10">Source: Stack Overflow Developer Survey 2025</text>
             </svg>
-            <figcaption>PostgreSQL and MySQL together cover the majority of professional database workloads — your designer needs to handle both.</figcaption>
+            <figcaption>PostgreSQL and MySQL were both widely selected in this multi-select survey, so a database designer should handle both accurately.</figcaption>
         </figure>
 
         <h2 id="sql-designer">SQL Designer — Free Online Database Designer</h2>
@@ -278,7 +278,7 @@
 
         <h2 id="how-to-design">How Do You Design a Database with SQL Designer?</h2>
         <p>
-            PostgreSQL and MySQL together cover over 96% of professional developer workloads (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>). A visual designer that generates correct DDL for both engines removes a manual step that otherwise requires knowing each dialect's exact syntax. The full process from blank canvas to runnable DDL takes five steps.
+            PostgreSQL and MySQL are both widely used among professional developers, according to the <a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>. Its database question was multi-select, so the percentages should be read independently. A visual designer that generates correct DDL for both engines removes a manual step that otherwise requires knowing each dialect's exact syntax. The full process from blank canvas to runnable DDL takes five steps.
         </p>
         <!-- [UNIQUE INSIGHT] -->
         <p>
@@ -371,7 +371,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">What is an online database designer tool?</h3>
-                <p class="faq-a">An online database designer is a browser-based tool for planning relational database schemas visually. You add tables to a canvas, define columns with data types and constraints, draw foreign key relationships, and export a <code>CREATE TABLE</code> SQL script — without writing DDL by hand. PostgreSQL and MySQL are the two most common targets, together covering over 96% of professional developer workloads (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>).</p>
+                <p class="faq-a">An online database designer is a browser-based tool for planning relational database schemas visually. You add tables to a canvas, define columns with data types and constraints, draw foreign key relationships, and export a <code>CREATE TABLE</code> SQL script without writing DDL by hand. PostgreSQL and MySQL are both widely used targets in the <a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>.</p>
             </div>
 
             <div class="faq-item">

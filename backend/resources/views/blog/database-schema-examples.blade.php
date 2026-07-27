@@ -43,7 +43,7 @@
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/database-schema-examples",
                 "datePublished": "2026-04-02",
-                "dateModified": "2026-07-03",
+                "dateModified": "2026-07-24",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -56,7 +56,7 @@
                     {
                         "@type": "Question",
                         "name": "Should I use MySQL or PostgreSQL for a new project in 2026?",
-                        "acceptedAnswer": { "@type": "Answer", "text": "PostgreSQL is the stronger default for new projects. In the 2025 Stack Overflow Developer Survey (89,000+ respondents), PostgreSQL reached 55.6% usage versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead. PostgreSQL also ranks first in most-admired and most-desired database for the third consecutive year." }
+                        "acceptedAnswer": { "@type": "Answer", "text": "PostgreSQL is a strong default for new projects. In the 2025 Stack Overflow Developer Survey, 55.6% of respondents selected PostgreSQL and 40.5% selected MySQL. The survey collected 49,009 responses from 177 countries, and database choices were multi-select." }
                     },
                     {
                         "@type": "Question",
@@ -105,7 +105,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Schema Design</span></p>
-        <p class="post-eyebrow">April 2026 · <time datetime="2026-07-03">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
+        <p class="post-eyebrow">April 2026 · <time datetime="2026-07-24">Last updated: July 24, 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
         <h1 class="page-h1">Database Schema Examples — MySQL &amp; PostgreSQL Templates</h1>
         <p class="page-sub">Five production-ready database schema examples — e-commerce, blog platform, SaaS user management, task tracker, and messaging — with complete MySQL and PostgreSQL <code>CREATE TABLE</code> scripts you can copy directly or open as an entity relationship diagram in <a href="/demo">SQL Designer</a>. Each schema covers table structure, column types, primary keys, foreign key relationships, and the reasoning behind key design decisions.</p>
     </div>
@@ -188,7 +188,7 @@
                 <rect x="154" y="207" width="90" height="22" fill="#4a90d9" rx="3" opacity="0.4"/>
                 <text x="250" y="223" fill="#e0e0ee" font-size="12" font-family="system-ui,sans-serif"> 22.4%</text>
                 <!-- source -->
-                <text x="300" y="250" text-anchor="middle" fill="#555570" font-size="10" font-family="system-ui,sans-serif">Source: Stack Overflow Developer Survey 2025 (89,000+ respondents)</text>
+                <text x="300" y="250" text-anchor="middle" fill="#555570" font-size="10" font-family="system-ui,sans-serif">Source: Stack Overflow Developer Survey 2025 (49,009 responses)</text>
             </svg>
             <p class="chart-caption">PostgreSQL overtook MySQL in developer adoption in 2025 — a full reversal from its 33% share when it first appeared in the survey in 2018 (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>).</p>
         </div>
@@ -333,11 +333,11 @@ CREATE TABLE comments (
             <h2 id="saas">3. SaaS User &amp; Subscription Schema</h2>
             <!-- [PERSONAL EXPERIENCE] -->
             <p>
-                In the 2025 Stack Overflow Developer Survey (89,000+ respondents), PostgreSQL reached 55.6% adoption versus MySQL's 40.5% (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>). That shift shows up most clearly in SaaS work. <code>TIMESTAMPTZ</code>, native UUID support, and row-level security map cleanly to multi-tenant requirements. This schema models organisations, members, plans, and subscriptions with the same price-snapshot discipline as the e-commerce example.
+                In the 2025 Stack Overflow Developer Survey, 55.6% of respondents selected PostgreSQL and 40.5% selected MySQL. The survey collected 49,009 responses from 177 countries, and database choices were multi-select (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">technology results</a>; <a href="https://survey.stackoverflow.co/2025/methodology/" target="_blank" rel="noopener">methodology</a>). PostgreSQL features such as <code>TIMESTAMPTZ</code>, native UUID support, and row-level security map cleanly to multi-tenant requirements. This schema models organisations, members, plans, and subscriptions with the same price-snapshot discipline as the e-commerce example.
             </p>
 
             <p class="citation-capsule">
-                According to the Stack Overflow Developer Survey 2025 (89,000+), PostgreSQL is used by 55.6% of developers versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead. It ranks first in most-admired (65%) and most-desired (46%) database for the third year running, making it the natural default for new SaaS projects (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>).
+                According to the 49,009-response Stack Overflow Developer Survey 2025, 55.6% of respondents selected PostgreSQL and 40.5% selected MySQL. Those overlapping usage percentages show that both remain common targets; PostgreSQL's type system, JSONB, and row-level security make it a strong default for many new SaaS projects (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>).
             </p>
 
             <h3>Key design decisions</h3>
@@ -547,7 +547,7 @@ CREATE TABLE messages (
 
             <div class="faq-item">
                 <h3 class="faq-q">Should I use MySQL or PostgreSQL for a new project in 2026?</h3>
-                <p class="faq-a">PostgreSQL is the stronger default for greenfield work. In the 2025 Stack Overflow Developer Survey (89,000+ respondents), it reached 55.6% usage versus MySQL's 40.5% — the first time PostgreSQL has held a clear lead — and ranked first in most-admired and most-desired database for the third year running (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>). MySQL remains dominant in legacy web stacks and shared hosting environments, but for new work PostgreSQL's feature set is now broadly preferred.</p>
+                <p class="faq-a">PostgreSQL is a strong default for greenfield work. In the 49,009-response Stack Overflow Developer Survey 2025, 55.6% of respondents selected PostgreSQL and 40.5% selected MySQL; choices were multi-select. MySQL remains common in established web stacks and shared hosting, while PostgreSQL's richer type system and JSON support often suit new applications (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow, 2025</a>).</p>
             </div>
 
             <div class="faq-item">

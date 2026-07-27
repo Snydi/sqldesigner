@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](./LICENSE)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fsql-designer.com)](https://sql-designer.com)
 
-**SQL Designer** is a free, web-based visual database schema designer. Design and manage your database schemas through an intuitive drag-and-drop interface — no SQL expertise required.
+**SQL Designer** is a web-based visual database schema designer with a Free plan and optional Pro subscription. Design and manage database schemas through an intuitive drag-and-drop interface — no SQL expertise required.
 
 🌐 **Live app:** [sql-designer.com](https://sql-designer.com)
 
@@ -13,7 +13,7 @@
 
 ## Why SQL Designer?
 
-Most database design tools are either expensive, desktop-only, or require an account just to get started. SQL Designer runs in your browser, free, and gets you from idea to schema in seconds.
+Most database design tools are either expensive, desktop-only, or require an account just to get started. SQL Designer runs in your browser and gets you from idea to schema in seconds. The Free plan includes 1 diagram and 3 combined exports per day; Pro provides unlimited diagrams and exports.
 
 - **No install** — runs entirely in the browser
 - **Visual-first** — drag, drop, and connect tables without writing SQL

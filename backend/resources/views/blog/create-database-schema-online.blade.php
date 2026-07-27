@@ -41,7 +41,7 @@
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/create-database-schema-online",
             "datePublished": "2026-06-30",
-            "dateModified": "2026-06-30",
+            "dateModified": "2026-07-24",
             "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -56,7 +56,7 @@
                     "name": "How do I create a database schema online for free?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Open SQL Designer at sql-designer.com. It is completely free, browser-based, and requires no installation. Click the demo to try without an account, or sign up to save your work. Create tables, define columns with real data types, draw foreign key relationships, and export a complete CREATE TABLE script for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access."
+                        "text": "Open SQL Designer at sql-designer.com. It is browser-based and requires no installation. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits. Click the demo to try without an account, or sign up to save your work."
                     }
                 },
                 {
@@ -119,7 +119,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Create Database Schema Online</span></p>
-        <p class="post-eyebrow">June 2026 · <time datetime="2026-06-30">Published: June 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
+        <p class="post-eyebrow">June 2026 · <time datetime="2026-07-24">Last updated: July 24, 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
         <h1 class="page-h1">How to Create a Database Schema Online — Step-by-Step Guide</h1>
         <p class="page-sub">You can create a database schema online in a browser, with no software to install and no SQL to write by hand. This guide walks through the full process: planning your tables, defining columns and data types, drawing foreign key relationships, and exporting a working CREATE TABLE script using a free online SQL table designer.</p>
     </div>
@@ -156,13 +156,13 @@
 
         <h2 id="what-is-a-schema">What Is a Database Schema?</h2>
         <p>
-            A database schema is the formal structure of a relational database. PostgreSQL is now used by 55.6% of developers and MySQL by 40.5%, per the Stack Overflow Developer Survey 2025 (89,000+ respondents), making SQL schemas the foundation of the majority of professional application backends. The schema defines the tables, columns, data types, and constraints that govern how data is stored and how tables relate to each other. It doesn't contain data — it defines the shape that data must fit into.
+            A database schema is the formal structure of a relational database. In the Stack Overflow Developer Survey 2025, PostgreSQL was selected by 55.6% of respondents and MySQL by 40.5%. The survey collected 49,009 responses from 177 countries, confirming that both are widely used schema targets. A schema defines the tables, columns, data types, and constraints that govern how data is stored and how tables relate to each other. It doesn't contain data — it defines the shape that data must fit into.
         </p>
         <p>
             Schemas are expressed as SQL DDL (Data Definition Language): a set of <code>CREATE TABLE</code> statements. An entity-relationship diagram (ERD) is a visual representation of the same information, with tables shown as boxes, columns listed inside them, and foreign key relationships drawn as lines between tables. A purpose-built <a href="/">online database schema designer</a> keeps both in sync, so the visual diagram and the exported SQL always match.
         </p>
         <div class="citation-capsule">
-            PostgreSQL is used by 55.6% of developers and MySQL by 40.5%, per the Stack Overflow Developer Survey 2025 (89,000+ respondents). Together they cover the majority of professional relational database workloads, which is why the examples in this guide use standard SQL that runs on both. Differences in syntax are called out where they matter (<a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>).
+            PostgreSQL was selected by 55.6% of respondents and MySQL by 40.5% in the Stack Overflow Developer Survey 2025. Because respondents could select multiple databases, these percentages overlap and are not a workload-share measurement. The examples use both common targets and call out syntax differences where they matter (<a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">technology results</a>; <a href="https://survey.stackoverflow.co/2025/methodology/" target="_blank" rel="noopener">49,009-response methodology</a>).
         </div>
 
         <h2 id="step-1">Step 1 — Open the Online SQL Table Designer</h2>
@@ -382,7 +382,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">How do I create a database schema online for free?</h3>
-                <p class="faq-a">Open <a href="/demo">SQL Designer</a>. It's completely free, browser-based, and requires no installation. Click the demo to try without an account, or sign up to save your work. Create tables, define columns with real data types, draw foreign key relationships, and export a complete <code>CREATE TABLE</code> script for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access.</p>
+                <p class="faq-a">Open <a href="/demo">SQL Designer</a>. It's browser-based and requires no installation. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits. Click the demo to try without an account, or sign up to save your work.</p>
             </div>
 
             <div class="faq-item">

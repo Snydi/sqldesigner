@@ -223,7 +223,7 @@
             The frustration that led to building SQL Designer was specific: trying to sketch a normalized schema for a multi-tenant SaaS application and hitting a paywall every time I wanted to export the DDL. The free tier of every dedicated tool I tried — DrawSQL, dbdiagram.io, QuickDBD — had table limits, export limits, or both. draw.io worked but knew nothing about MySQL vs PostgreSQL type differences. I ended up writing the CREATE TABLE statements by hand, which is exactly what a visual tool is supposed to prevent.
         </p>
         <p>
-            SQL Designer sits in a different spot: it understands real database types and constraints, generates valid <code>CREATE TABLE</code> scripts for six dialects, and is genuinely free — no table limits, no diagram limits, no SQL export paywall. The source code is open on GitHub.
+            SQL Designer sits in a different spot: it understands real database types and constraints, generates valid <code>CREATE TABLE</code> scripts for six dialects, and offers a Free plan with 1 diagram and 3 daily combined exports. Pro removes the diagram and export limits. The source code is open on GitHub.
         </p>
 
         <h2>What It Does</h2>
