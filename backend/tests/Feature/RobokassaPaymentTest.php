@@ -52,6 +52,9 @@ class RobokassaPaymentTest extends TestCase
             'robokassa.checkout_expires_minutes' => 30,
             'robokassa.renew_before_hours' => 24,
             'robokassa.receipt.enabled' => true,
+            'robokassa.receipt.item_name' => 'SQL Designer Pro - monthly subscription',
+            'robokassa.receipt.payment_method' => 'full_payment',
+            'robokassa.receipt.payment_object' => 'service',
             'robokassa.receipt.tax' => 'none',
             'robokassa.receipt.sno' => null,
             'robokassa.result_url' => 'https://sql-designer.test/api/webhooks/robokassa/result',
@@ -122,6 +125,9 @@ class RobokassaPaymentTest extends TestCase
         $this->assertSame('https://sql-designer.test/checkout/fail', $fields['FailUrl2']);
 
         $receipt = json_decode(urldecode($fields['Receipt']), true, flags: JSON_THROW_ON_ERROR);
+        $this->assertSame('SQL Designer Pro - monthly subscription', $receipt['items'][0]['name']);
+        $this->assertSame(1, $receipt['items'][0]['quantity']);
+        $this->assertSame(1000, $receipt['items'][0]['sum']);
         $this->assertSame('service', $receipt['items'][0]['payment_object']);
         $this->assertSame('full_payment', $receipt['items'][0]['payment_method']);
         $this->assertSame('none', $receipt['items'][0]['tax']);
@@ -190,7 +196,9 @@ class RobokassaPaymentTest extends TestCase
     {
         $payment = $this->createCheckoutPayment();
         $jws = $this->resultUrl2Jws($payment);
-        $jws[strlen($jws) - 1] = $jws[strlen($jws) - 1] === 'a' ? 'b' : 'a';
+        $parts = explode('.', $jws);
+        $parts[2] = $this->base64UrlEncode(str_repeat("\0", 256));
+        $jws = implode('.', $parts);
 
         $this->call(
             'POST',
@@ -339,6 +347,17 @@ class RobokassaPaymentTest extends TestCase
         $this->assertSame(0, $this->user->payments()->count());
     }
 
+    public function test_checkout_rejects_invalid_fiscal_receipt_configuration(): void
+    {
+        config(['robokassa.receipt.tax' => 'invalid']);
+
+        $this->actingAs($this->user, 'sanctum')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => true])
+            ->assertStatus(503);
+
+        $this->assertSame(0, $this->user->payments()->count());
+    }
+
     public function test_repeated_checkout_reuses_unexpired_pending_payment(): void
     {
         $first = $this->actingAs($this->user, 'sanctum')
@@ -390,6 +409,8 @@ class RobokassaPaymentTest extends TestCase
         Http::assertSent(fn ($request): bool => $request->url() === 'https://auth.robokassa.ru/Merchant/Recurring'
             && $request['PreviousInvoiceID'] === '100'
             && $request['InvId'] === $payment->provider_invoice_id
+            && $request['Email'] === $this->user->email
+            && json_decode(urldecode($request['Receipt']), true, flags: JSON_THROW_ON_ERROR)['items'][0]['sum'] === 1000
             && ! isset($request['Recurring']));
 
         $this->post('/api/webhooks/robokassa/result', $this->resultPayload($payment))->assertOk();

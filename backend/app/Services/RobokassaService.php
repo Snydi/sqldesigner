@@ -12,6 +12,61 @@ use RuntimeException;
 
 class RobokassaService
 {
+    private const RECEIPT_PAYMENT_METHODS = [
+        'full_prepayment',
+        'prepayment',
+        'advance',
+        'full_payment',
+        'partial_payment',
+        'credit',
+        'credit_payment',
+    ];
+
+    private const RECEIPT_PAYMENT_OBJECTS = [
+        'commodity',
+        'excise',
+        'job',
+        'service',
+        'gambling_bet',
+        'gambling_prize',
+        'lottery',
+        'lottery_prize',
+        'intellectual_activity',
+        'payment',
+        'agent_commission',
+        'composite',
+        'resort_fee',
+        'another',
+        'property_right',
+        'non-operating_gain',
+        'insurance_premium',
+        'sales_tax',
+        'tovar_mark',
+    ];
+
+    private const RECEIPT_TAXES = [
+        'none',
+        'vat0',
+        'vat10',
+        'vat110',
+        'vat20',
+        'vat22',
+        'vat120',
+        'vat122',
+        'vat5',
+        'vat7',
+        'vat105',
+        'vat107',
+    ];
+
+    private const RECEIPT_TAX_SYSTEMS = [
+        'osn',
+        'usn_income',
+        'usn_income_outcome',
+        'esn',
+        'patent',
+    ];
+
     /** @return array<string, string> */
     public function checkoutParameters(Payment $payment): array
     {
@@ -97,6 +152,7 @@ class RobokassaService
             'InvId' => $payment->provider_invoice_id,
             'PreviousInvoiceID' => $parentInvoiceId,
             'Description' => 'SQL Designer Pro - monthly subscription renewal',
+            'Email' => $payment->user->email,
             ...$customParameters,
         ];
         if ($receipt !== null) {
@@ -296,6 +352,7 @@ class RobokassaService
         if ((string) config('robokassa.provider_currency') !== 'RUB') {
             throw new RuntimeException('Robokassa OutSum must be configured in RUB.');
         }
+        $this->assertReceiptConfigured();
     }
 
     /**
@@ -396,6 +453,47 @@ class RobokassaService
         return is_scalar($value) ? (string) $value : '';
     }
 
+    private function assertReceiptConfigured(): void
+    {
+        if (! config('robokassa.receipt.enabled')) {
+            return;
+        }
+
+        $itemName = (string) config('robokassa.receipt.item_name');
+        if ($itemName === '' || mb_strlen($itemName) > 128) {
+            throw new RuntimeException('Robokassa receipt item name must contain between 1 and 128 characters.');
+        }
+
+        $this->assertReceiptValue(
+            'payment method',
+            (string) config('robokassa.receipt.payment_method'),
+            self::RECEIPT_PAYMENT_METHODS,
+        );
+        $this->assertReceiptValue(
+            'payment object',
+            (string) config('robokassa.receipt.payment_object'),
+            self::RECEIPT_PAYMENT_OBJECTS,
+        );
+        $this->assertReceiptValue(
+            'tax',
+            (string) config('robokassa.receipt.tax'),
+            self::RECEIPT_TAXES,
+        );
+
+        $taxSystem = config('robokassa.receipt.sno');
+        if (filled($taxSystem)) {
+            $this->assertReceiptValue('tax system', (string) $taxSystem, self::RECEIPT_TAX_SYSTEMS);
+        }
+    }
+
+    /** @param list<string> $allowed */
+    private function assertReceiptValue(string $field, string $value, array $allowed): void
+    {
+        if (! in_array($value, $allowed, true)) {
+            throw new RuntimeException("Robokassa receipt {$field} is invalid.");
+        }
+    }
+
     /** @throws JsonException */
     private function receipt(string $outSum): ?string
     {
@@ -405,11 +503,11 @@ class RobokassaService
 
         $receipt = [
             'items' => [[
-                'name' => 'SQL Designer Pro - monthly subscription',
+                'name' => (string) config('robokassa.receipt.item_name'),
                 'quantity' => 1,
                 'sum' => (float) $outSum,
-                'payment_method' => 'full_payment',
-                'payment_object' => 'service',
+                'payment_method' => (string) config('robokassa.receipt.payment_method'),
+                'payment_object' => (string) config('robokassa.receipt.payment_object'),
                 'tax' => (string) config('robokassa.receipt.tax', 'none'),
             ]],
         ];
