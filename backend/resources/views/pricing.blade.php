@@ -481,7 +481,6 @@
 <script>
     (function () {
         const button = document.getElementById('pro-checkout');
-        const message = document.getElementById('checkout-message');
         if (!button) return;
 
         button.addEventListener('click', async function (event) {
@@ -496,52 +495,7 @@
             }
 
             event.preventDefault();
-            button.setAttribute('aria-disabled', 'true');
-            button.textContent = 'Opening secure checkout…';
-            message.classList.remove('show');
-
-            try {
-                const response = await fetch('/api/subscription/checkout', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: '{}',
-                });
-                const data = await response.json();
-
-                if (response.status === 401) {
-                    localStorage.removeItem('auth_token');
-                    sessionStorage.setItem('post_auth_route', 'billing');
-                    window.location.href = '/login?redirect=/billing';
-                    return;
-                }
-                if (response.status === 409) {
-                    window.location.href = '/billing';
-                    return;
-                }
-                if (!response.ok || !data.form) throw new Error(data.message || 'Checkout is unavailable right now.');
-
-                const form = document.createElement('form');
-                form.method = data.form.method;
-                form.action = data.form.action;
-                Object.entries(data.form.fields).forEach(([name, value]) => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = name;
-                    input.value = value;
-                    form.appendChild(input);
-                });
-                document.body.appendChild(form);
-                form.submit();
-            } catch (error) {
-                message.textContent = error.message || 'Checkout is unavailable right now.';
-                message.classList.add('show');
-                button.removeAttribute('aria-disabled');
-                button.textContent = 'Get Pro — $10 USD/month';
-            }
+            window.location.href = '/billing';
         });
     }());
 </script>

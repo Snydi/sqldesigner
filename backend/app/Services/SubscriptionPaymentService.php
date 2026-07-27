@@ -8,6 +8,7 @@ use App\Enums\PaymentStatus;
 use App\Enums\SubscriptionStatus;
 use App\Models\Payment;
 use App\Models\Subscription;
+use App\Models\SubscriptionConsent;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
@@ -23,11 +24,11 @@ class SubscriptionPaymentService
     public function __construct(private readonly RobokassaService $robokassa) {}
 
     /** @return array{payment: Payment, parameters: array<string, string>, payment_url: string} */
-    public function createCheckout(User $user): array
+    public function createCheckout(User $user, ?string $ipAddress = null, ?string $userAgent = null): array
     {
         $this->robokassa->assertConfigured();
 
-        $payment = DB::transaction(function () use ($user): Payment {
+        $payment = DB::transaction(function () use ($user, $ipAddress, $userAgent): Payment {
             $lockedUser = User::query()->lockForUpdate()->findOrFail($user->id);
             if ($lockedUser->isPro()) {
                 throw new LogicException('Pro access is already active.');
@@ -40,6 +41,8 @@ class SubscriptionPaymentService
                 ->latest()
                 ->first();
             if ($existingPayment !== null) {
+                $this->recordRecurringPaymentConsent($existingPayment, $ipAddress, $userAgent);
+
                 return $existingPayment->load('user');
             }
 
@@ -64,6 +67,7 @@ class SubscriptionPaymentService
                 'expires_at' => now()->addMinutes((int) config('robokassa.checkout_expires_minutes', 30)),
             ]);
             $payment->forceFill(['provider_invoice_id' => (string) $payment->id])->save();
+            $this->recordRecurringPaymentConsent($payment, $ipAddress, $userAgent);
 
             return $payment->load('user');
         });
@@ -75,6 +79,21 @@ class SubscriptionPaymentService
             'parameters' => $parameters,
             'payment_url' => $this->robokassa->paymentUrlFromParameters($parameters),
         ];
+    }
+
+    private function recordRecurringPaymentConsent(Payment $payment, ?string $ipAddress, ?string $userAgent): void
+    {
+        SubscriptionConsent::create([
+            'user_id' => $payment->user_id,
+            'payment_id' => $payment->id,
+            'consent_type' => SubscriptionConsent::TYPE_RECURRING_PAYMENT,
+            'document_version' => SubscriptionConsent::OFFER_VERSION,
+            'document_url' => SubscriptionConsent::OFFER_URL,
+            'consent_text' => SubscriptionConsent::CONSENT_TEXT,
+            'ip_address' => $ipAddress,
+            'user_agent' => $userAgent === null ? null : mb_substr($userAgent, 0, 2000),
+            'accepted_at' => now(),
+        ]);
     }
 
     /** @param array<string, mixed> $payload */
@@ -116,7 +135,8 @@ class SubscriptionPaymentService
 
     public function renewDueSubscriptions(): int
     {
-        $renewBefore = now()->addHours(max(1, (int) config('robokassa.renew_before_hours', 24)));
+        $renewBeforeHours = min(24, max(1, (int) config('robokassa.renew_before_hours', 24)));
+        $renewBefore = now()->addHours($renewBeforeHours);
         $subscriptions = Subscription::query()
             ->where('status', SubscriptionStatus::ACTIVE->value)
             ->where('provider', 'robokassa')

@@ -9,6 +9,7 @@ use App\Enums\SubscriptionStatus;
 use App\Models\FeatureFlag;
 use App\Models\Payment;
 use App\Models\Subscription;
+use App\Models\SubscriptionConsent;
 use App\Models\User;
 use App\Services\RobokassaService;
 use App\Services\SubscriptionPaymentService;
@@ -61,7 +62,7 @@ class RobokassaPaymentTest extends TestCase
     public function test_checkout_creates_pending_records_and_signed_robokassa_form(): void
     {
         $response = $this->actingAs($this->user, 'sanctum')
-            ->postJson('/api/subscription/checkout')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => true])
             ->assertCreated()
             ->assertJsonPath('form.action', 'https://auth.robokassa.ru/Merchant/Index.aspx')
             ->assertJsonPath('form.method', 'POST')
@@ -81,6 +82,10 @@ class RobokassaPaymentTest extends TestCase
         $this->assertSame(100000, $payment->provider_amount_minor);
         $this->assertSame('RUB', $payment->provider_currency);
         $this->assertSame(SubscriptionStatus::PENDING, $subscription->status);
+        $consent = SubscriptionConsent::query()->where('payment_id', $payment->id)->sole();
+        $this->assertSame(SubscriptionConsent::CONSENT_TEXT, $consent->consent_text);
+        $this->assertSame(SubscriptionConsent::OFFER_VERSION, $consent->document_version);
+        $this->assertNotNull($consent->accepted_at);
         $this->assertNotNull($payment->expires_at);
         $this->assertStringContainsString('SignatureValue=', $response->json('payment_url'));
         $this->assertNotEmpty($response->json('form.fields.Receipt'));
@@ -213,11 +218,22 @@ class RobokassaPaymentTest extends TestCase
 
         config(['robokassa.provider_amount' => null]);
         $this->actingAs($this->user, 'sanctum')
-            ->postJson('/api/subscription/checkout')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => true])
             ->assertStatus(503);
 
         $this->assertSame(0, $this->user->payments()->count());
         $this->assertSame(0, $this->user->subscriptions()->count());
+    }
+
+    public function test_checkout_requires_explicit_recurring_payment_consent(): void
+    {
+        $this->actingAs($this->user, 'sanctum')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => false])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('recurring_payment_consent');
+
+        $this->assertSame(0, $this->user->payments()->count());
+        $this->assertSame(0, SubscriptionConsent::query()->where('user_id', $this->user->id)->count());
     }
 
     public function test_checkout_remains_available_while_plan_limits_are_disabled(): void
@@ -226,7 +242,7 @@ class RobokassaPaymentTest extends TestCase
         cache()->forget('feature_flag:plan_limits_enabled');
 
         $this->actingAs($this->user, 'sanctum')
-            ->postJson('/api/subscription/checkout')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => true])
             ->assertCreated()
             ->assertJsonPath('form.action', 'https://auth.robokassa.ru/Merchant/Index.aspx');
 
@@ -247,7 +263,7 @@ class RobokassaPaymentTest extends TestCase
         ]);
 
         $this->actingAs($this->user, 'sanctum')
-            ->postJson('/api/subscription/checkout')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => true])
             ->assertStatus(409);
 
         $this->assertSame(0, $this->user->payments()->count());
@@ -256,17 +272,18 @@ class RobokassaPaymentTest extends TestCase
     public function test_repeated_checkout_reuses_unexpired_pending_payment(): void
     {
         $first = $this->actingAs($this->user, 'sanctum')
-            ->postJson('/api/subscription/checkout')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => true])
             ->assertCreated()
             ->json('payment_id');
         $second = $this->actingAs($this->user, 'sanctum')
-            ->postJson('/api/subscription/checkout')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => true])
             ->assertCreated()
             ->json('payment_id');
 
         $this->assertSame($first, $second);
         $this->assertSame(1, $this->user->payments()->count());
         $this->assertSame(1, $this->user->subscriptions()->count());
+        $this->assertSame(2, SubscriptionConsent::query()->where('payment_id', $first)->count());
     }
 
     public function test_result_signature_matches_robokassa_parameter_order(): void
@@ -413,7 +430,7 @@ class RobokassaPaymentTest extends TestCase
     private function createCheckoutPayment(): Payment
     {
         $response = $this->actingAs($this->user, 'sanctum')
-            ->postJson('/api/subscription/checkout')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => true])
             ->assertCreated();
 
         return Payment::findOrFail($response->json('payment_id'));

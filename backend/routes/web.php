@@ -36,9 +36,10 @@ Route::get('/pricing', fn () => view('pricing'));
 Route::get('/library', [LibraryController::class, 'index']);
 Route::get('/sitemap', fn () => view('sitemap'));
 Route::get('/privacy', fn () => view('privacy'));
+Route::get('/personal-data-consent', fn () => view('personal-data-consent'));
 Route::get('/terms', fn () => view('terms'));
 Route::get('/refund-policy', fn () => view('refund-policy'));
-Route::get('/oferta', fn () => response()->download(public_path('oferta.docx'), 'oferta.docx'))->name('oferta');
+Route::get('/oferta', fn () => view('oferta'))->name('oferta');
 Route::get('/checkout/success', [SubscriptionController::class, 'checkoutSuccess'])->name('checkout.success');
 Route::get('/checkout/fail', [SubscriptionController::class, 'checkoutFail'])->name('checkout.fail');
 
@@ -78,7 +79,7 @@ Route::prefix('/auth')->where(['driver' => 'google|github|gitlab'])->group(funct
 
 Route::get('/{any}', function ($any) {
     $exactRoutes = ['register', 'login', 'logout', 'verify-email', 'demo', 'diagrams', 'billing', 'auth/callback'];
-    $prefixRoutes = ['diagrams/', 'shared/', 'embed/', 'auth/'];
+    $prefixRoutes = ['diagrams/', 'billing/', 'shared/', 'embed/', 'auth/'];
 
     if (in_array($any, $exactRoutes)) {
         return view('layouts.app');

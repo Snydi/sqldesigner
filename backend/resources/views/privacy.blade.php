@@ -32,7 +32,7 @@
         color: var(--text-primary);
     }
     .legal-meta {
-        font-size: 0.82rem;
+        font-size: 16px;
         color: var(--text-muted);
         margin-bottom: 2.5rem;
     }
@@ -43,7 +43,7 @@
         margin: 2rem 0 0.5rem;
     }
     .legal-wrap p, .legal-wrap li {
-        font-size: 0.92rem;
+        font-size: 16px;
         color: var(--text-secondary);
         line-height: 1.75;
     }
@@ -65,7 +65,7 @@
 
     <section data-legal-language-content="en" lang="en">
     <h1>Privacy Policy</h1>
-    <p class="legal-meta">Last updated: May 7, 2026</p>
+    <p class="legal-meta">Last updated: July 27, 2026</p>
 
     <p>SQL Designer ("we", "us", or "our") operates <strong>sql-designer.com</strong>. This Privacy Policy explains what information we collect, how we use it, and the choices you have.</p>
 
@@ -75,6 +75,7 @@
         <li><strong>Diagram data:</strong> The database schemas you create and save are stored on our servers and associated with your account.</li>
         <li><strong>Usage data:</strong> We collect anonymised analytics (page views, feature usage) via Google Analytics to understand how the product is used.</li>
         <li><strong>Local storage:</strong> Your authentication token is stored in your browser's <code>localStorage</code> so you stay logged in across sessions.</li>
+        <li><strong>Billing and consent data:</strong> We store subscription and payment identifiers, amounts, currencies, statuses, consent text and version, acceptance time, IP address, and user-agent. Card details are processed by Robokassa and are not stored on sql-designer.com.</li>
     </ul>
 
     <h2>2. How We Use Your Information</h2>
@@ -95,6 +96,7 @@
     <ul>
         <li><strong>Google Analytics:</strong> Anonymised usage tracking. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.</li>
         <li><strong>OAuth providers:</strong> Google, GitHub, and GitLab if you choose to sign in with them.</li>
+        <li><strong>Robokassa:</strong> Payment processing, recurring charges, and refunds for SQL Designer Pro.</li>
     </ul>
 
     <h2>6. Cookies</h2>
@@ -118,7 +120,7 @@
 
     <section data-legal-language-content="ru" lang="ru" hidden>
     <h1>Политика конфиденциальности</h1>
-    <p class="legal-meta">Последнее обновление: 7 мая 2026 г.</p>
+    <p class="legal-meta">Последнее обновление: 27 июля 2026 г.</p>
 
     <p>SQL Designer («мы», «нас» или «наш») управляет сайтом <strong>sql-designer.com</strong>. Настоящая Политика конфиденциальности объясняет, какую информацию мы собираем, как используем ее и какие возможности выбора у вас есть.</p>
 
@@ -128,6 +130,7 @@
         <li><strong>Данные диаграмм:</strong> созданные и сохраненные вами схемы баз данных хранятся на наших серверах и связаны с вашей учетной записью.</li>
         <li><strong>Данные об использовании:</strong> с помощью Google Analytics мы собираем обезличенную аналитику (просмотры страниц и использование функций), чтобы понимать, как используется продукт.</li>
         <li><strong>Локальное хранилище:</strong> токен аутентификации хранится в <code>localStorage</code> вашего браузера, чтобы вы оставались авторизованы между сеансами.</li>
+        <li><strong>Данные оплаты и согласий:</strong> мы храним идентификаторы подписки и платежей, суммы, валюты, статусы, текст и версию согласия, дату и время принятия, IP-адрес и user-agent. Реквизиты карты обрабатывает Robokassa; на sql-designer.com они не сохраняются.</li>
     </ul>
 
     <h2>2. Как мы используем вашу информацию</h2>
@@ -148,6 +151,7 @@
     <ul>
         <li><strong>Google Analytics:</strong> обезличенная аналитика использования. См. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Политику конфиденциальности Google</a>.</li>
         <li><strong>Провайдеры OAuth:</strong> Google, GitHub и GitLab, если вы выбираете вход через один из этих сервисов.</li>
+        <li><strong>Robokassa:</strong> обработка платежей, автоматических списаний и возвратов по подписке SQL Designer Pro.</li>
     </ul>
 
     <h2>6. Файлы cookie</h2>
@@ -166,7 +170,7 @@
     <p>По вопросам о настоящей Политике напишите нам: <a href="mailto:dmitriy@sql-designer.com">dmitriy@sql-designer.com</a>.</p>
 
     <hr class="legal">
-    <p><a href="/terms">Ознакомиться с Условиями использования</a></p>
+    <p><a href="/personal-data-consent">Ознакомиться с Согласием на обработку персональных данных</a></p>
     </section>
 </div>
 @endsection

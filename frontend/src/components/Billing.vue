@@ -29,9 +29,17 @@
                         <p v-else>Upgrade for unlimited diagrams and exports with automatic monthly renewal.</p>
                     </div>
                     <div class="plan-actions">
-                        <button v-if="billing.can_purchase" class="btn btn-primary" :disabled="checkoutLoading" @click="checkout">
-                            {{ checkoutLoading ? 'Opening checkout…' : 'Start Pro — $10 USD/month' }}
-                        </button>
+                        <template v-if="billing.can_purchase">
+                            <label class="recurring-consent">
+                                <input v-model="recurringPaymentConsent" type="checkbox">
+                                <span>
+                                    I agree to automatic charges under the <a href="/oferta" target="_blank" rel="noopener">Public Offer.</a>
+                                </span>
+                            </label>
+                            <button class="btn btn-primary" :disabled="checkoutLoading || !recurringPaymentConsent" @click="checkout">
+                                {{ checkoutLoading ? 'Opening checkout…' : 'Start Pro — $10 USD/month' }}
+                            </button>
+                        </template>
                         <button v-if="billing.can_cancel" class="btn btn-secondary" :disabled="cancelLoading" @click="cancel">
                             {{ cancelLoading ? 'Cancelling…' : 'Cancel Pro' }}
                         </button>
@@ -54,7 +62,8 @@
                     <div v-if="billing.payments.length" class="payment-list">
                         <div v-for="payment in billing.payments" :key="payment.id" class="payment-row">
                             <div>
-                                <strong>{{ payment.amount }} {{ payment.currency }}</strong>
+                                <strong class="payment-price payment-price--default">{{ payment.amount }} {{ payment.currency }}</strong>
+                                <strong class="payment-price payment-price--ru">{{ formatRubles(payment.provider_amount) }}</strong>
                                 <span>{{ formatDate(payment.paid_at || payment.created_at) }}</span>
                             </div>
                             <span class="status" :class="`status--${payment.status}`">{{ payment.status }}</span>
@@ -63,7 +72,11 @@
                     <p v-else class="empty-state">No payments yet.</p>
                 </section>
 
-                <p class="billing-footnote">You may cancel at any time and request a refund under our <a href="/refund-policy">Refund Policy</a>.</p>
+                <p class="billing-footnote">
+                    You may cancel at any time and request a refund under our <a href="/refund-policy">Refund Policy.</a>
+                    Payment data is processed under the <a href="/personal-data-consent">Personal Data Processing Consent</a>
+                    and <a href="/privacy">Privacy Policy.</a>
+                </p>
             </template>
         </div>
     </main>
@@ -87,10 +100,15 @@ const cancelLoading = ref(false)
 const promocodeLoading = ref(false)
 const promocode = ref('')
 const paymentNotice = ref(null)
+const recurringPaymentConsent = ref(false)
 
 const formatDate = (value) => value
     ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short', hourCycle: 'h23' }).format(new Date(value))
     : '—'
+
+const formatRubles = (value) => value === null || value === undefined
+    ? '—'
+    : `${new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(Number(value))} ₽`
 
 const load = async () => {
     try {
@@ -106,7 +124,7 @@ const load = async () => {
 const checkout = async () => {
     checkoutLoading.value = true
     try {
-        Subscription.submitCheckoutForm(await Subscription.checkout())
+        Subscription.submitCheckoutForm(await Subscription.checkout(recurringPaymentConsent.value))
     } catch (error) {
         toast.error(error.response?.data?.message ?? 'Could not open checkout.')
         checkoutLoading.value = false
@@ -157,10 +175,10 @@ onMounted(async () => {
 .billing-page { flex: 1; overflow-y: auto; background: var(--bg-elevated); padding: clamp(1.25rem, 4vw, 3rem) 1rem; text-align: left; }
 .billing-shell { width: min(820px, 100%); margin: 0 auto; }
 .billing-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
-.eyebrow, .card-label { margin: 0 0 .45rem; color: var(--color-primary-text); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.eyebrow, .card-label { margin: 0 0 .45rem; color: var(--color-primary-text); font-size: 16px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 h1 { margin: 0; font-size: clamp(1.55rem, 4vw, 2.2rem); color: var(--text-primary); }
 .billing-heading p:last-child { margin: .65rem 0 0; color: var(--text-secondary); line-height: 1.55; }
-.plan-badge { flex-shrink: 0; padding: .35rem .75rem; border: 1px solid var(--border-color); border-radius: 999px; color: var(--text-secondary); font-size: .78rem; font-weight: 700; }
+.plan-badge { flex-shrink: 0; padding: .35rem .75rem; border: 1px solid var(--border-color); border-radius: 999px; color: var(--text-secondary); font-size: 16px; font-weight: 700; }
 .plan-badge--pro { color: var(--color-primary-text); border-color: var(--color-primary); background: rgba(93,181,131,.08); }
 .billing-card { margin-bottom: 1rem; padding: 1.4rem; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 10px; }
 .billing-state { color: var(--text-secondary); text-align: center; }
@@ -171,20 +189,27 @@ h1 { margin: 0; font-size: clamp(1.55rem, 4vw, 2.2rem); color: var(--text-primar
 .current-plan { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; }
 .current-plan h2, .section-title h2 { margin: 0; color: var(--text-primary); font-size: 1.05rem; }
 .current-plan p:not(.card-label) { margin: .55rem 0 0; color: var(--text-secondary); line-height: 1.55; }
-.plan-actions { display: flex; flex-direction: column; align-items: stretch; gap: .55rem; flex-shrink: 0; }
+.plan-actions { display: flex; flex-direction: column; align-items: stretch; gap: .75rem; flex: 0 1 380px; }
+.renewal-details { margin: 0; color: var(--text-secondary); font-size: 16px; line-height: 1.55; }
+.recurring-consent { display: flex; align-items: flex-start; gap: .7rem; color: var(--text-primary); font-size: 16px; line-height: 1.5; cursor: pointer; }
+.recurring-consent input { width: 20px; height: 20px; margin: .15rem 0 0; flex: 0 0 auto; accent-color: var(--color-primary); }
+.recurring-consent a, .billing-footnote a { color: var(--color-primary-text); text-decoration: underline; text-underline-offset: 3px; }
 .section-title { display: flex; justify-content: space-between; align-items: center; padding-bottom: .9rem; border-bottom: 1px solid var(--border-light); }
-.section-title span { color: var(--text-muted); font-size: .75rem; }
+.section-title span { color: var(--text-muted); font-size: 16px; }
 .promocode-form { display:flex; gap:.65rem; margin-top:1rem; }
 .promocode-form input { min-width:0; flex:1; padding:.7rem .8rem; border:1px solid var(--border-color); border-radius:6px; color:var(--text-primary); background:var(--bg-surface-alt); font:inherit; text-transform:uppercase; }
-.promocode-help { margin:.65rem 0 0; color:var(--text-muted); font-size:.78rem; }
+.promocode-help { margin:.65rem 0 0; color:var(--text-muted); font-size:16px; }
 .payment-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--border-light); }
 .payment-row:last-child { border-bottom: 0; padding-bottom: 0; }
 .payment-row strong { display: block; color: var(--text-primary); }
-.payment-row div span { display: block; margin-top: .3rem; color: var(--text-muted); font-size: .78rem; }
-.status { padding: .25rem .55rem; border-radius: 999px; color: var(--text-secondary); background: var(--bg-surface-alt); font-size: .7rem; text-transform: capitalize; }
+.payment-price--ru { display: none !important; }
+:global(html[data-language="ru"]) .payment-price--default { display: none; }
+:global(html[data-language="ru"]) .payment-price--ru { display: block !important; }
+.payment-row div span { display: block; margin-top: .3rem; color: var(--text-muted); font-size: 16px; }
+.status { padding: .25rem .55rem; border-radius: 999px; color: var(--text-secondary); background: var(--bg-surface-alt); font-size: 16px; text-transform: capitalize; }
 .status--succeeded { color: #b6e2c8; background: rgba(61,122,92,.3); }
 .status--failed { color: #edb0b0; background: rgba(122,53,53,.3); }
 .empty-state, .billing-footnote { color: var(--text-muted); }
-.billing-footnote { text-align: center; font-size: .78rem; }
+.billing-footnote { text-align: center; font-size: 16px; line-height: 1.6; }
 @media (max-width: 620px) { .current-plan { align-items: stretch; flex-direction: column; } .plan-actions { width: 100%; } .promocode-form { flex-direction:column; } }
 </style>

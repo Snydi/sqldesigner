@@ -32,7 +32,7 @@
         color: var(--text-primary);
     }
     .legal-meta {
-        font-size: 0.82rem;
+        font-size: 16px;
         color: var(--text-muted);
         margin-bottom: 2.5rem;
     }
@@ -43,7 +43,7 @@
         margin: 2rem 0 0.5rem;
     }
     .legal-wrap p, .legal-wrap li {
-        font-size: 0.92rem;
+        font-size: 16px;
         color: var(--text-secondary);
         line-height: 1.75;
     }

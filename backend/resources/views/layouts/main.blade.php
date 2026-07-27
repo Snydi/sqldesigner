@@ -427,6 +427,8 @@
         <span>
             <a href="{{ route('oferta') }}" style="color:inherit;">Public Offer</a>
             &nbsp;&middot;&nbsp;
+            <a href="/personal-data-consent" style="color:inherit;">Personal Data Consent</a>
+            &nbsp;&middot;&nbsp;
             <a href="/privacy" style="color:inherit;">Privacy Policy</a>
             &nbsp;&middot;&nbsp;
             <a href="/terms" style="color:inherit;">Terms of Service</a>

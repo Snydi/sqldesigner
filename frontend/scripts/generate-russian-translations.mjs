@@ -26,15 +26,18 @@ const manualTranslations = {
     '/ forever': '/ навсегда',
     '/ month': '/ месяц',
     'Free covers 1 diagram and 3 exports a day. Pro removes both limits for $10 USD/month.':
-        'Бесплатный план включает 1 диаграмму и 3 экспорта в день. Pro снимает оба ограничения за 780 ₽/месяц.',
+        'Бесплатный план включает 1 диаграмму и 3 экспорта в день. Pro снимает оба ограничения за 780 ₽ в месяц.',
     '$10 USD/month, billed automatically. Cancel anytime; Pro stays active until the end of the current billing period.':
-        '780 ₽/месяц, автоматическое продление. Отменить можно в любое время; Pro останется активным до конца текущего расчётного периода.',
+        '780 ₽ в месяц, автоматическое продление. Отменить можно в любое время; Pro останется активным до конца оплаченного периода.',
     'Get Pro — $10 USD/month': 'Получить Pro — 780 ₽/месяц',
     'Pro is $10 USD per month and renews automatically until you cancel.':
         'Pro стоит 780 ₽ в месяц и автоматически продлевается, пока вы не отмените подписку.',
     'SQL Designer Pro costs $10 USD per month and removes the diagram and export limits entirely.':
         'SQL Designer Pro стоит 780 ₽ в месяц и полностью снимает ограничения на диаграммы и экспорт.',
     'Start Pro — $10 USD/month': 'Подключить Pro — 780 ₽/месяц',
+    '$10 USD is charged every month. The first charge is made when you check out; later charges are made automatically at the end of each paid period.':
+        '780 ₽ списываются каждый месяц. Первое списание происходит при оформлении подписки, последующие — автоматически в конце каждого оплаченного периода.',
+    'Personal Data Consent': 'Согласие на обработку персональных данных',
 }
 
 const decodeEntities = (value) => value

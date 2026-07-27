@@ -31,7 +31,11 @@ class SubscriptionController extends Controller
         $user = $request->user();
 
         try {
-            $checkout = $this->payments->createCheckout($user);
+            $checkout = $this->payments->createCheckout(
+                $user,
+                $request->ip(),
+                $request->userAgent(),
+            );
         } catch (LogicException $exception) {
             return response()->json(['message' => $exception->getMessage()], 409);
         } catch (RuntimeException $exception) {
@@ -85,6 +89,8 @@ class SubscriptionController extends Controller
                     'status' => $payment->status->value,
                     'amount' => number_format($payment->amount_minor / 100, 2, '.', ''),
                     'currency' => $payment->currency,
+                    'provider_amount' => number_format($payment->provider_amount_minor / 100, 2, '.', ''),
+                    'provider_currency' => $payment->provider_currency,
                     'provider' => $payment->provider,
                     'created_at' => $payment->created_at?->toIso8601String(),
                     'paid_at' => $payment->paid_at?->toIso8601String(),

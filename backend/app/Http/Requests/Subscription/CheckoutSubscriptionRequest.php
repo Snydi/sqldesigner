@@ -11,6 +11,8 @@ class CheckoutSubscriptionRequest extends FormRequest
     /** @return array<string, mixed> */
     public function rules(): array
     {
-        return [];
+        return [
+            'recurring_payment_consent' => ['required', 'accepted'],
+        ];
     }
 }

@@ -6,8 +6,10 @@ export const Subscription = {
         return data
     },
 
-    async checkout() {
-        const { data } = await axios.post('/api/subscription/checkout')
+    async checkout(recurringPaymentConsent) {
+        const { data } = await axios.post('/api/subscription/checkout', {
+            recurring_payment_consent: recurringPaymentConsent,
+        })
         return data
     },
 

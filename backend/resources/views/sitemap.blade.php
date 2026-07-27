@@ -52,6 +52,14 @@
                 <span class="desc">How we collect, use, and protect your data.</span>
             </li>
             <li>
+                <a href="/personal-data-consent">Personal Data Processing Consent</a>
+                <span class="desc">Consent terms for processing account, subscription, payment, and support data.</span>
+            </li>
+            <li>
+                <a href="/oferta">Public Offer</a>
+                <span class="desc">Subscription price, recurring charge, cancellation, refund, and price-change terms.</span>
+            </li>
+            <li>
                 <a href="/terms">Terms of Service</a>
                 <span class="desc">Rules and conditions for using SQL Designer.</span>
             </li>

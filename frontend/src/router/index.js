@@ -13,6 +13,8 @@ const DiagramList = () => import('../components/DiagramList.vue');
 const Diagram = () => import('../components/Diagram/Diagram.vue');
 const DiagramEmbed = () => import('../components/DiagramEmbed.vue');
 const Billing = () => import('../components/Billing.vue');
+const SubscriptionStarted = () => import('../components/Billing/SubscriptionStarted.vue');
+const SubscriptionCancelled = () => import('../components/Billing/SubscriptionCancelled.vue');
 
 function requireAuth(to, from, next) {
     if (!store.state.auth_token) {
@@ -46,6 +48,8 @@ const routes = [
             { path: 'auth/callback', name: 'auth.callback', component: GoogleCallback },
             { path: 'diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth },
             { path: 'billing', name: 'billing', component: Billing, beforeEnter: requireAuth },
+            { path: 'billing/subscription-started', name: 'subscription.started', component: SubscriptionStarted, beforeEnter: requireAuth },
+            { path: 'billing/subscription-cancelled', name: 'subscription.cancelled', component: SubscriptionCancelled, beforeEnter: requireAuth },
             { path: 'diagrams/:token', name: 'diagram.show', component: Diagram },
             { path: 'demo', name: 'demo', component: Diagram, props: { isDemo: true } },
             { path: 'shared/:token', redirect: to => ({ name: 'diagram.show', params: { token: to.params.token } }) },
@@ -59,6 +63,8 @@ const router = createRouter({
 });
 
 const pageTitles = {
+    'subscription.started': 'Pro Subscription Started Successfully — SQL Designer',
+    'subscription.cancelled': 'Pro Subscription Cancelled Successfully — SQL Designer',
     'register': 'Register — SQL Designer',
     'login': 'Login — SQL Designer',
     'verify-email': 'Verify Email — SQL Designer',
