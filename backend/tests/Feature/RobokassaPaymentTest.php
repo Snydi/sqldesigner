@@ -358,6 +358,30 @@ class RobokassaPaymentTest extends TestCase
         $this->assertSame(0, $this->user->payments()->count());
     }
 
+    public function test_blank_fiscal_environment_values_use_safe_defaults(): void
+    {
+        config([
+            'robokassa.receipt.item_name' => '',
+            'robokassa.receipt.payment_method' => '',
+            'robokassa.receipt.payment_object' => '',
+            'robokassa.receipt.tax' => '',
+        ]);
+
+        $response = $this->actingAs($this->user, 'sanctum')
+            ->postJson('/api/subscription/checkout', ['recurring_payment_consent' => true])
+            ->assertCreated();
+
+        $receipt = json_decode(
+            urldecode($response->json('form.fields.Receipt')),
+            true,
+            flags: JSON_THROW_ON_ERROR,
+        );
+        $this->assertSame('SQL Designer Pro - monthly subscription', $receipt['items'][0]['name']);
+        $this->assertSame('full_payment', $receipt['items'][0]['payment_method']);
+        $this->assertSame('service', $receipt['items'][0]['payment_object']);
+        $this->assertSame('none', $receipt['items'][0]['tax']);
+    }
+
     public function test_repeated_checkout_reuses_unexpired_pending_payment(): void
     {
         $first = $this->actingAs($this->user, 'sanctum')

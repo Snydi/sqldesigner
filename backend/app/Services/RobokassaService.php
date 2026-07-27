@@ -459,24 +459,24 @@ class RobokassaService
             return;
         }
 
-        $itemName = (string) config('robokassa.receipt.item_name');
+        $itemName = $this->receiptValue('item_name', 'SQL Designer Pro - monthly subscription');
         if ($itemName === '' || mb_strlen($itemName) > 128) {
             throw new RuntimeException('Robokassa receipt item name must contain between 1 and 128 characters.');
         }
 
         $this->assertReceiptValue(
             'payment method',
-            (string) config('robokassa.receipt.payment_method'),
+            $this->receiptValue('payment_method', 'full_payment'),
             self::RECEIPT_PAYMENT_METHODS,
         );
         $this->assertReceiptValue(
             'payment object',
-            (string) config('robokassa.receipt.payment_object'),
+            $this->receiptValue('payment_object', 'service'),
             self::RECEIPT_PAYMENT_OBJECTS,
         );
         $this->assertReceiptValue(
             'tax',
-            (string) config('robokassa.receipt.tax'),
+            $this->receiptValue('tax', 'none'),
             self::RECEIPT_TAXES,
         );
 
@@ -494,6 +494,13 @@ class RobokassaService
         }
     }
 
+    private function receiptValue(string $key, string $default): string
+    {
+        $value = config('robokassa.receipt.'.$key);
+
+        return is_string($value) && trim($value) !== '' ? $value : $default;
+    }
+
     /** @throws JsonException */
     private function receipt(string $outSum): ?string
     {
@@ -503,12 +510,12 @@ class RobokassaService
 
         $receipt = [
             'items' => [[
-                'name' => (string) config('robokassa.receipt.item_name'),
+                'name' => $this->receiptValue('item_name', 'SQL Designer Pro - monthly subscription'),
                 'quantity' => 1,
                 'sum' => (float) $outSum,
-                'payment_method' => (string) config('robokassa.receipt.payment_method'),
-                'payment_object' => (string) config('robokassa.receipt.payment_object'),
-                'tax' => (string) config('robokassa.receipt.tax', 'none'),
+                'payment_method' => $this->receiptValue('payment_method', 'full_payment'),
+                'payment_object' => $this->receiptValue('payment_object', 'service'),
+                'tax' => $this->receiptValue('tax', 'none'),
             ]],
         ];
         if (filled(config('robokassa.receipt.sno'))) {
