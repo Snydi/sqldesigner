@@ -452,7 +452,7 @@
                                 <span class="unverified">Unverified</span>
                             @endif
                             &nbsp;&middot;&nbsp;
-                            Registered: {{ $user->created_at->setTimezone('Europe/Moscow')->format('d M Y H:i') }} MSK
+                            Registered: {{ $user->created_at->setTimezone('Europe/Moscow')->format('d M Y H:i') }} UTC+3
                             &nbsp;&middot;&nbsp;
                             Diagrams: {{ $user->diagrams->count() }}
                             &nbsp;&middot;&nbsp;

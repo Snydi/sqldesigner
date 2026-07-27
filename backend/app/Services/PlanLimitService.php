@@ -52,7 +52,7 @@ class PlanLimitService
     }
 
     /**
-     * Atomically consumes one MSK daily export allowance when applicable.
+     * Atomically consumes one UTC+3 daily export allowance when applicable.
      *
      * The conditional upsert makes checking the limit and incrementing the
      * count one PostgreSQL statement, so concurrent requests cannot exceed it.
@@ -73,7 +73,7 @@ class PlanLimitService
                 WHERE export_usages.count < ?
                 RETURNING count
             SQL,
-            [$user->id, $this->mskToday(), $now, $now, self::EXPORT_DAILY_LIMIT]
+            [$user->id, $this->utcPlus3Today(), $now, $now, self::EXPORT_DAILY_LIMIT]
         );
 
         return $result !== [];
@@ -82,11 +82,11 @@ class PlanLimitService
     private function todaysExportCount(User $user): int
     {
         return (int) (ExportUsage::where('user_id', $user->id)
-            ->where('usage_date', $this->mskToday())
+            ->where('usage_date', $this->utcPlus3Today())
             ->value('count') ?? 0);
     }
 
-    private function mskToday(): string
+    private function utcPlus3Today(): string
     {
         return Carbon::now('Europe/Moscow')->toDateString();    //UTC+3
     }

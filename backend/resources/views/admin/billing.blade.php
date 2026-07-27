@@ -78,7 +78,7 @@
         </section>
 
         <section class="panel">
-            <h2>Export usage today — MSK</h2>
+            <h2>Export usage today — UTC+3</h2>
             <div class="table-wrap"><table><thead><tr><th>User</th><th>Exports</th><th>Date</th></tr></thead><tbody>
             @forelse($exportUsages as $usage)
                 <tr><td>{{ $usage->user?->email ?? 'Deleted user' }}</td><td>{{ $usage->count }}</td><td>{{ $usage->usage_date->format('Y-m-d') }}</td></tr>
