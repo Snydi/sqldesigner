@@ -23,11 +23,20 @@ class RobokassaPaymentTest extends TestCase
     use DatabaseTransactions;
 
     private User $user;
+    private \OpenSSLAsymmetricKey $jwsPrivateKey;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create(['email_verified_at' => now()]);
+        $jwsPrivateKey = openssl_pkey_new([
+            'private_key_bits' => 2048,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+        ]);
+        $this->assertInstanceOf(\OpenSSLAsymmetricKey::class, $jwsPrivateKey);
+        $this->jwsPrivateKey = $jwsPrivateKey;
+        $jwsKeyDetails = openssl_pkey_get_details($this->jwsPrivateKey);
+        $this->assertIsArray($jwsKeyDetails);
 
         config([
             'robokassa.merchant_login' => 'demo',
@@ -46,6 +55,7 @@ class RobokassaPaymentTest extends TestCase
             'robokassa.receipt.tax' => 'none',
             'robokassa.receipt.sno' => null,
             'robokassa.result_url' => 'https://sql-designer.test/api/webhooks/robokassa/result',
+            'robokassa.jws_public_key' => $jwsKeyDetails['key'],
             'robokassa.success_url' => 'https://sql-designer.test/checkout/success',
             'robokassa.fail_url' => 'https://sql-designer.test/checkout/fail',
         ]);
@@ -146,6 +156,66 @@ class RobokassaPaymentTest extends TestCase
             'status' => 'processed',
             'http_status' => 200,
         ]);
+    }
+
+    public function test_result_url_2_jws_activates_pro_and_records_provider_operation(): void
+    {
+        $payment = $this->createCheckoutPayment();
+        $jws = $this->resultUrl2Jws($payment);
+
+        $this->call(
+            'POST',
+            '/api/webhooks/robokassa/result',
+            server: ['CONTENT_TYPE' => 'application/jose'],
+            content: $jws,
+        )
+            ->assertOk()
+            ->assertSeeText('OK'.$payment->provider_invoice_id);
+
+        $payment->refresh();
+        $this->assertSame(PaymentStatus::SUCCEEDED, $payment->status);
+        $this->assertSame('operation-'.$payment->id, $payment->provider_payment_id);
+        $this->assertSame('BankCard', $payment->payment_method);
+        $this->assertSame('robokassa_result_url_2', $payment->raw_payload['source']);
+        $this->assertSame(SubscriptionStatus::ACTIVE, $payment->subscription->status);
+        $this->assertTrue($this->user->isPro());
+        $this->assertDatabaseHas('payment_webhook_logs', [
+            'payment_id' => $payment->id,
+            'status' => 'processed',
+            'http_status' => 200,
+        ]);
+    }
+
+    public function test_result_url_2_rejects_an_invalid_jws_signature(): void
+    {
+        $payment = $this->createCheckoutPayment();
+        $jws = $this->resultUrl2Jws($payment);
+        $jws[strlen($jws) - 1] = $jws[strlen($jws) - 1] === 'a' ? 'b' : 'a';
+
+        $this->call(
+            'POST',
+            '/api/webhooks/robokassa/result',
+            server: ['CONTENT_TYPE' => 'application/jose'],
+            content: $jws,
+        )->assertStatus(422);
+
+        $this->assertSame(PaymentStatus::INITIATED, $payment->fresh()->status);
+        $this->assertFalse($this->user->isPro());
+    }
+
+    public function test_result_url_2_rejects_a_signed_notification_with_wrong_amount(): void
+    {
+        $payment = $this->createCheckoutPayment();
+        $jws = $this->resultUrl2Jws($payment, ['incSum' => '999.00']);
+
+        $this->call(
+            'POST',
+            '/api/webhooks/robokassa/result',
+            server: ['CONTENT_TYPE' => 'application/jose'],
+            content: $jws,
+        )->assertStatus(422);
+
+        $this->assertSame(PaymentStatus::INITIATED, $payment->fresh()->status);
     }
 
     public function test_retried_result_callback_is_idempotent(): void
@@ -456,5 +526,39 @@ class RobokassaPaymentTest extends TestCase
         );
 
         return $payload;
+    }
+
+    /** @param array<string, string> $overrides */
+    private function resultUrl2Jws(Payment $payment, array $overrides = []): string
+    {
+        $header = $this->base64UrlEncode(json_encode([
+            'typ' => 'JWT',
+            'alg' => 'RS256',
+        ], JSON_THROW_ON_ERROR));
+        $payload = $this->base64UrlEncode(json_encode([
+            'header' => [
+                'type' => 'PaymentStateNotification',
+                'version' => '1.0.0',
+                'timestamp' => (string) now()->timestamp,
+            ],
+            'data' => array_merge([
+                'shop' => 'demo',
+                'opKey' => 'operation-'.$payment->id,
+                'invId' => (string) $payment->provider_invoice_id,
+                'paymentMethod' => 'BankCard',
+                'incSum' => '1000.00',
+                'state' => 'OK',
+            ], $overrides),
+        ], JSON_THROW_ON_ERROR));
+        $signingInput = $header.'.'.$payload;
+        $signed = openssl_sign($signingInput, $signature, $this->jwsPrivateKey, OPENSSL_ALGO_SHA256);
+        $this->assertTrue($signed);
+
+        return $signingInput.'.'.$this->base64UrlEncode($signature);
+    }
+
+    private function base64UrlEncode(string $value): string
+    {
+        return rtrim(strtr(base64_encode($value), '+/', '-_'), '=');
     }
 }

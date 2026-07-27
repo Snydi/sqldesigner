@@ -21,6 +21,11 @@ class RobokassaWebhookController extends Controller
 
     public function result(Request $request): Response
     {
+        $jws = trim($request->getContent());
+        if ($request->all() === [] && $jws !== '') {
+            return $this->resultUrl2($request, $jws);
+        }
+
         foreach (['OutSum', 'InvId', 'SignatureValue', 'Shp_currency', 'Shp_payment_id', 'Shp_user_id'] as $field) {
             if (! $request->filled($field)) {
                 return $this->resultResponse($request, "Missing Robokassa field: {$field}", 422);
@@ -42,9 +47,41 @@ class RobokassaWebhookController extends Controller
         return $this->resultResponse($request, 'OK'.$invoiceId, 200, 'processed');
     }
 
-    private function resultResponse(Request $request, string $message, int $httpStatus, string $status = 'rejected'): Response
+    private function resultUrl2(Request $request, string $jws): Response
     {
-        $invoiceId = $request->input('InvId');
+        try {
+            $invoiceId = $this->payments->processResultUrl2Notification($jws);
+        } catch (ModelNotFoundException) {
+            return $this->resultResponse($request, 'Robokassa invoice not found.', 404);
+        } catch (InvalidArgumentException|LogicException $exception) {
+            return $this->resultResponse($request, $exception->getMessage(), 422);
+        } catch (RuntimeException $exception) {
+            report($exception);
+
+            return $this->resultResponse($request, 'Payment processing is unavailable.', 503);
+        }
+
+        return $this->resultResponse(
+            $request,
+            'OK'.$invoiceId,
+            200,
+            'processed',
+            $invoiceId,
+            ['format' => 'jws', 'sha256' => hash('sha256', $jws)],
+        );
+    }
+
+    /** @param array<string, mixed>|null $payload */
+    private function resultResponse(
+        Request $request,
+        string $message,
+        int $httpStatus,
+        string $status = 'rejected',
+        ?string $providerInvoiceId = null,
+        ?array $payload = null,
+    ): Response
+    {
+        $invoiceId = $providerInvoiceId ?? $request->input('InvId');
         $invoiceId = is_scalar($invoiceId) ? (string) $invoiceId : null;
 
         try {
@@ -62,7 +99,7 @@ class RobokassaWebhookController extends Controller
                 'status' => $status,
                 'http_status' => $httpStatus,
                 'message' => $message,
-                'payload' => $request->all(),
+                'payload' => $payload ?? $request->all(),
             ]);
         } catch (Throwable $exception) {
             report($exception);

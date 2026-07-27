@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Payment;
 use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 use JsonException;
 use RuntimeException;
 
@@ -128,6 +129,59 @@ class RobokassaService
         );
 
         return hash_equals(strtolower($expected), strtolower($provided));
+    }
+
+    /** @return array{header: array<string, mixed>, data: array<string, mixed>} */
+    public function decodeResultUrl2Notification(string $jws): array
+    {
+        $parts = explode('.', $jws);
+        if (count($parts) !== 3) {
+            throw new InvalidArgumentException('Invalid Robokassa JWS format.');
+        }
+
+        [$encodedHeader, $encodedPayload, $encodedSignature] = $parts;
+
+        try {
+            $header = json_decode($this->base64UrlDecode($encodedHeader), true, flags: JSON_THROW_ON_ERROR);
+            $payload = json_decode($this->base64UrlDecode($encodedPayload), true, flags: JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            throw new InvalidArgumentException('Invalid Robokassa JWS payload.', previous: $exception);
+        }
+
+        if (! is_array($header) || ($header['alg'] ?? null) !== 'RS256') {
+            throw new InvalidArgumentException('Unsupported Robokassa JWS algorithm.');
+        }
+
+        $publicKey = $this->jwsPublicKey();
+        $verified = openssl_verify(
+            $encodedHeader.'.'.$encodedPayload,
+            $this->base64UrlDecode($encodedSignature),
+            $publicKey,
+            OPENSSL_ALGO_SHA256,
+        );
+        if ($verified !== 1) {
+            throw new InvalidArgumentException('Invalid Robokassa JWS signature.');
+        }
+
+        $data = is_array($payload) ? ($payload['data'] ?? null) : null;
+        if (($header['typ'] ?? null) !== 'JWT'
+            || ! is_array($data)
+            || ($payload['header']['type'] ?? null) !== 'PaymentStateNotification'
+            || ($data['shop'] ?? null) !== (string) config('robokassa.merchant_login')
+            || ($data['state'] ?? null) !== 'OK') {
+            throw new InvalidArgumentException('Invalid Robokassa payment notification.');
+        }
+
+        foreach (['opKey', 'invId', 'incSum', 'paymentMethod'] as $field) {
+            if (! is_scalar($data[$field] ?? null) || (string) $data[$field] === '') {
+                throw new InvalidArgumentException("Missing Robokassa JWS field: {$field}");
+            }
+        }
+
+        return [
+            'header' => is_array($payload['header'] ?? null) ? $payload['header'] : [],
+            'data' => $data,
+        ];
     }
 
     /** @param array<string, string> $customParameters */
@@ -305,6 +359,36 @@ class RobokassaService
     private function hash(string $value): string
     {
         return hash(strtolower((string) config('robokassa.hash_algorithm', 'md5')), $value);
+    }
+
+    private function base64UrlDecode(string $value): string
+    {
+        $padding = (4 - strlen($value) % 4) % 4;
+        $decoded = base64_decode(strtr($value, '-_', '+/').str_repeat('=', $padding), true);
+        if ($decoded === false) {
+            throw new InvalidArgumentException('Invalid Robokassa JWS encoding.');
+        }
+
+        return $decoded;
+    }
+
+    /** @return \OpenSSLAsymmetricKey */
+    private function jwsPublicKey(): \OpenSSLAsymmetricKey
+    {
+        $keyMaterial = config('robokassa.jws_public_key');
+        if (! is_string($keyMaterial) || trim($keyMaterial) === '') {
+            $path = config('robokassa.jws_public_key_path');
+            if (! is_string($path) || ! is_file($path)) {
+                throw new RuntimeException('Robokassa JWS public key is not configured.');
+            }
+            $keyMaterial = file_get_contents($path);
+        }
+
+        if (! is_string($keyMaterial) || ($publicKey = openssl_pkey_get_public($keyMaterial)) === false) {
+            throw new RuntimeException('Robokassa JWS public key is invalid.');
+        }
+
+        return $publicKey;
     }
 
     private function scalarString(mixed $value): string

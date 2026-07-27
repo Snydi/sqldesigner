@@ -133,6 +133,40 @@ class SubscriptionPaymentService
         return $invoiceId;
     }
 
+    public function processResultUrl2Notification(string $jws): string
+    {
+        $notification = $this->robokassa->decodeResultUrl2Notification($jws);
+        $data = $notification['data'];
+        $invoiceId = $this->scalarString($data['invId'] ?? null);
+
+        DB::transaction(function () use ($notification, $data, $invoiceId): void {
+            $payment = Payment::query()
+                ->where('provider', 'robokassa')
+                ->where('provider_invoice_id', $invoiceId)
+                ->lockForUpdate()
+                ->first();
+            if ($payment === null) {
+                throw (new ModelNotFoundException)->setModel(Payment::class, [$invoiceId]);
+            }
+
+            if ($this->robokassa->parseMinorAmount($this->scalarString($data['incSum'] ?? null))
+                !== $payment->provider_amount_minor) {
+                throw new InvalidArgumentException('Robokassa payment amount does not match.');
+            }
+
+            $this->completeSuccessfulPayment($payment, [
+                'provider_payment_id' => $this->scalarString($data['opKey'] ?? null),
+                'payment_method' => $this->scalarString($data['paymentMethod'] ?? null),
+                'raw_payload' => [
+                    'source' => 'robokassa_result_url_2',
+                    ...$notification,
+                ],
+            ]);
+        });
+
+        return $invoiceId;
+    }
+
     public function renewDueSubscriptions(): int
     {
         $renewBeforeHours = min(24, max(1, (int) config('robokassa.renew_before_hours', 24)));

@@ -25,6 +25,8 @@ return [
         'sno' => env('ROBOKASSA_RECEIPT_SNO'),
     ],
     'result_url' => env('ROBOKASSA_RESULT_URL', rtrim((string) env('APP_URL'), '/').'/api/webhooks/robokassa/result'),
+    'jws_public_key' => env('ROBOKASSA_JWS_PUBLIC_KEY'),
+    'jws_public_key_path' => env('ROBOKASSA_JWS_PUBLIC_KEY_PATH', resource_path('certificates/robokassa-jws.pem')),
     'success_url' => env('ROBOKASSA_SUCCESS_URL', rtrim((string) env('APP_URL'), '/').'/checkout/success'),
     'fail_url' => env('ROBOKASSA_FAIL_URL', rtrim((string) env('APP_URL'), '/').'/checkout/fail'),
 ];
