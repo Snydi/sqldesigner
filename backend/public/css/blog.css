@@ -260,3 +260,17 @@ h1.page-h1 {
 .blog-post .btn-cta:hover { opacity: 0.9; }
 .blog-post .related-nav ul { list-style: none; margin: 0; padding: 0; }
 .blog-post .related-nav a { color: var(--color-primary-text); }
+
+/* Topic hubs */
+.hub-main { max-width: 1060px; margin: 0 auto; padding: clamp(2rem, 4vw, 3rem) var(--gutter, 2rem) clamp(3rem, 6vw, 5rem); }
+.hub-switcher { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.5rem; }
+.hub-switcher a { display: inline-block; min-height: 44px; padding: 0.65rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; color: var(--color-primary-text); font-size: 1rem; text-decoration: none; }
+.hub-switcher a:hover { border-color: var(--border-strong); background: var(--bg-elevated); }
+.hub-main h2 { color: var(--text-primary); font-size: clamp(1.35rem, 2.5vw, 1.75rem); margin: 0 0 1.25rem; }
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+.hub-card { padding: 1.4rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-surface); }
+.hub-card h3 { margin: 0 0 0.65rem; font-size: 1.05rem; line-height: 1.4; }
+.hub-card h3 a { color: var(--text-primary); }
+.hub-card p, .hub-next p { margin: 0; color: var(--text-secondary); font-size: 1rem; line-height: 1.65; }
+.hub-next { margin-top: 2.5rem; padding: 1.5rem; border-left: 3px solid var(--color-primary); background: var(--bg-surface); }
+.hub-next h2 { margin-bottom: 0.65rem; }

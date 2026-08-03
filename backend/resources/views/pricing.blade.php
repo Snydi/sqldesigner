@@ -36,8 +36,11 @@
     {
         "@context": "https://schema.org",
         "@type": "Product",
+        "@id": "https://sql-designer.com/#app",
         "name": "SQL Designer",
         "url": "https://sql-designer.com",
+        "sameAs": ["https://github.com/Snydi/sqldesigner", "https://gitlab.com/Snydi/sql-designer", "https://discord.gg/vFwgX7qKqA"],
+        "brand": { "@id": "https://sql-designer.com/#organization" },
         "description": "Visual SQL schema builder and online database modeler with a free plan and a Pro subscription.",
         "offers": [
             {
@@ -70,7 +73,8 @@
         "datePublished": "2026-07-01",
         "dateModified": "2026-07-21",
         "description": "SQL Designer pricing: a free plan with a 1-diagram limit and 3 exports per day, and a $10 USD/month Pro plan with no limits.",
-        "isPartOf": { "@type": "WebSite", "url": "https://sql-designer.com" }
+        "isPartOf": { "@id": "https://sql-designer.com/#website" },
+        "about": { "@id": "https://sql-designer.com/#app" }
     }
     ]
     @endverbatim

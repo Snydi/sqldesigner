@@ -80,6 +80,18 @@
                 <span class="desc">All articles on database design, SQL, and schema best practices.</span>
             </li>
             <li>
+                <a href="/blog/erd-tools-guides">ERD Tools and Database Diagram Guides</a>
+                <span class="desc">Comparisons, workflows, and practical guidance for choosing and using ERD tools.</span>
+            </li>
+            <li>
+                <a href="/blog/relational-database-design-guides">Relational Database Design Guides</a>
+                <span class="desc">Normalization, cardinality, joins, relationships, and practical schema patterns.</span>
+            </li>
+            <li>
+                <a href="/blog/mysql-postgresql-guides">MySQL and PostgreSQL Schema Guides</a>
+                <span class="desc">Data types, foreign keys, indexes, DDL differences, and engine selection.</span>
+            </li>
+            <li>
                 <a href="/blog/database-ddl-comparison">DDL Differences: MySQL, PostgreSQL, Oracle, SQL Server, and SQLite</a>
                 <span class="desc">Side-by-side comparison of CREATE TABLE syntax, primary keys, data types, constraints, and ALTER TABLE across five major databases.</span>
             </li>

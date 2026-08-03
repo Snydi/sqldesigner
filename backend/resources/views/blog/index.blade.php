@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'SQL Designer Blog — Database Design Guides')
+@section('title', 'SQL Designer Blog — Database Design and ERD Guides')
 
 @section('head')
     <meta name="description" content="Database design guides written by Dmitriy Snyatkov, the developer behind SQL Designer — ERD, normalization, SQL dialects, and more.">
@@ -36,9 +36,10 @@
         "@type": "Blog",
         "name": "SQL Designer Blog",
         "url": "https://sql-designer.com/blog",
+        "dateModified": "2026-08-03",
         "description": "Tutorials and guides on MySQL database design, ER diagrams, and schema best practices.",
-        "isPartOf": { "@type": "WebSite", "name": "SQL Designer", "url": "https://sql-designer.com" },
-        "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } }
+        "isPartOf": { "@id": "https://sql-designer.com/#website" },
+        "publisher": { "@id": "https://sql-designer.com/#organization" }
     }
     ]
     @endverbatim
@@ -130,6 +131,10 @@
             text-transform: none;
         }
         .post-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.65; margin: 0; }
+        .topic-hubs { max-width: 1060px; margin: 0 auto; padding: clamp(2rem, 4vw, 3rem) var(--gutter, 2rem) 0; }
+        .topic-hubs > h2 { margin: 0 0 1rem; color: var(--text-primary); font-size: 1.35rem; }
+        .topic-hub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+        .topic-hub-grid .post-card { padding: 1.2rem 1.4rem; }
     </style>
 @endsection
 
@@ -140,6 +145,27 @@
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><span>Blog</span></p>
         <h1 class="page-h1">Database Design Blog</h1>
         <p class="page-sub">Guides and tutorials on MySQL and PostgreSQL schema design, ER diagrams, and database modelling. Written by Dmitriy Snyatkov, creator of SQL Designer — a free, open-source database design tool.</p>
+    </div>
+</section>
+
+<section class="topic-hubs" aria-labelledby="topic-hubs-heading">
+    <h2 id="topic-hubs-heading">Explore by topic</h2>
+    <div class="topic-hub-grid">
+        <a class="post-card" href="/blog/erd-tools-guides">
+            <p class="card-meta">TOPIC HUB</p>
+            <h2>ERD Tools and Database Diagrams</h2>
+            <p>Tool comparisons, selection criteria, online schema workflows, and practical examples.</p>
+        </a>
+        <a class="post-card" href="/blog/relational-database-design-guides">
+            <p class="card-meta">TOPIC HUB</p>
+            <h2>Relational Database Fundamentals</h2>
+            <p>Normalization, cardinality, foreign-key relationships, joins, and schema structure.</p>
+        </a>
+        <a class="post-card" href="/blog/mysql-postgresql-guides">
+            <p class="card-meta">TOPIC HUB</p>
+            <h2>MySQL and PostgreSQL</h2>
+            <p>Data types, constraints, indexes, DDL differences, and database selection.</p>
+        </a>
     </div>
 </section>
 

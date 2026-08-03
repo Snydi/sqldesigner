@@ -10,7 +10,7 @@
     </url>
     <url>
         <loc>https://sql-designer.com/about</loc>
-        <lastmod>2026-07-24</lastmod>
+        <lastmod>2026-08-03</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/features</loc>
@@ -50,7 +50,19 @@
     </url>
     <url>
         <loc>https://sql-designer.com/blog</loc>
-        <lastmod>2026-07-24</lastmod>
+        <lastmod>2026-08-03</lastmod>
+    </url>
+    <url>
+        <loc>https://sql-designer.com/blog/erd-tools-guides</loc>
+        <lastmod>2026-08-03</lastmod>
+    </url>
+    <url>
+        <loc>https://sql-designer.com/blog/relational-database-design-guides</loc>
+        <lastmod>2026-08-03</lastmod>
+    </url>
+    <url>
+        <loc>https://sql-designer.com/blog/mysql-postgresql-guides</loc>
+        <lastmod>2026-08-03</lastmod>
     </url>
     <url>
         <loc>https://sql-designer.com/blog/database-ddl-comparison</loc>

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'About SQL Designer — Built by Dmitriy Snyatkov')
+@section('title', 'About SQL Designer — Built by Dmitriy Snyatkov, Founder')
 
 @section('head')
     <meta name="description"
@@ -30,34 +30,38 @@
         {
             "@context": "https://schema.org",
             "@type": "AboutPage",
+            "@id": "https://sql-designer.com/about#page",
             "name": "About SQL Designer",
             "url": "https://sql-designer.com/about",
+            "dateModified": "2026-08-03",
             "description": "SQL Designer is a free visual ERD and database schema designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Built and maintained by Dmitriy Snyatkov.",
-            "author": {
-                "@type": "Person",
-                "name": "Dmitriy Snyatkov",
-                "url": "https://sql-designer.com/about",
-                "sameAs": "https://github.com/Snydi"
-            },
-            "publisher": {
-                "@type": "Organization",
-                "name": "SQL Designer",
-                "url": "https://sql-designer.com",
-                "sameAs": "https://github.com/Snydi/sqldesigner"
-            }
+            "author": { "@id": "https://sql-designer.com/about#dmitriy-snyatkov" },
+            "publisher": { "@id": "https://sql-designer.com/#organization" },
+            "about": { "@id": "https://sql-designer.com/#app" }
         },
         {
             "@context": "https://schema.org",
             "@type": "Person",
+            "@id": "https://sql-designer.com/about#dmitriy-snyatkov",
             "name": "Dmitriy Snyatkov",
             "url": "https://sql-designer.com/about",
-            "sameAs": "https://github.com/Snydi",
+            "sameAs": ["https://github.com/Snydi"],
             "jobTitle": "Software Developer",
-            "worksFor": {
-                "@type": "Organization",
-                "name": "SQL Designer",
-                "url": "https://sql-designer.com"
-            }
+            "worksFor": { "@id": "https://sql-designer.com/#organization" }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://sql-designer.com/#organization",
+            "name": "SQL Designer",
+            "url": "https://sql-designer.com",
+            "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png", "width": 192, "height": 192 },
+            "sameAs": [
+                "https://github.com/Snydi/sqldesigner",
+                "https://alternativeto.net/software/sql-designer/",
+                "https://www.youtube.com/@sql-designer"
+            ],
+            "founder": { "@id": "https://sql-designer.com/about#dmitriy-snyatkov" }
         }
         ]
         @endverbatim

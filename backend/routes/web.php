@@ -14,6 +14,9 @@ Route::get('/', function () {
 
 Route::prefix('/blog')->group(function () {
     Route::get('/', fn () => view('blog.index'));
+    Route::get('/erd-tools-guides', fn () => view('blog.erd-tools-guides'));
+    Route::get('/relational-database-design-guides', fn () => view('blog.relational-database-design-guides'));
+    Route::get('/mysql-postgresql-guides', fn () => view('blog.mysql-postgresql-guides'));
     Route::get('/mysql-foreign-key', fn () => view('blog.mysql-foreign-key'));
     Route::get('/mysql-data-types', fn () => view('blog.mysql-data-types'));
     Route::get('/database-normalization', fn () => view('blog.database-normalization'));

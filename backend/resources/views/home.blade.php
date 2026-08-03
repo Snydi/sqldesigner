@@ -46,6 +46,11 @@
                 "applicationCategory": "DeveloperApplication",
                 "operatingSystem": "Any",
                 "browserRequirements": "Requires a modern browser with JavaScript enabled",
+                "sameAs": [
+                    "https://github.com/Snydi/sqldesigner",
+                    "https://gitlab.com/Snydi/sql-designer",
+                    "https://discord.gg/vFwgX7qKqA"
+                ],
                 "offers": {
                     "@type": "Offer",
                     "price": "0",
@@ -202,12 +207,16 @@
                     "https://alternativeto.net/software/sql-designer/",
                     "https://www.youtube.com/@sql-designer"
                 ],
-                "founder": {
-                    "@type": "Person",
-                    "name": "Dmitriy Snyatkov",
-                    "url": "https://sql-designer.com/about"
-                },
+                "founder": {"@id": "https://sql-designer.com/about#dmitriy-snyatkov"},
                 "foundingDate": "2024"
+            },
+            {
+                "@type": "Person",
+                "@id": "https://sql-designer.com/about#dmitriy-snyatkov",
+                "name": "Dmitriy Snyatkov",
+                "url": "https://sql-designer.com/about",
+                "sameAs": ["https://github.com/Snydi"],
+                "worksFor": {"@id": "https://sql-designer.com/#organization"}
             }
         ]
     }

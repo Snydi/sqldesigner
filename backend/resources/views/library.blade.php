@@ -35,15 +35,18 @@
     {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
+        "@id": "https://sql-designer.com/#app",
         "name": "SQL Designer",
         "url": "https://sql-designer.com",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "sameAs": [
+            "https://github.com/Snydi/sqldesigner",
             "https://gitlab.com/Snydi/sql-designer",
             "https://discord.gg/vFwgX7qKqA"
-        ]
+        ],
+        "provider": { "@id": "https://sql-designer.com/#organization" }
     },
     {
         "@context": "https://schema.org",
@@ -52,8 +55,8 @@
         "url": "https://sql-designer.com/library",
         "dateModified": "2026-04-27",
         "description": "Browse real MySQL and PostgreSQL database schema examples shared by the SQL Designer community. Find inspiration or share your own diagram.",
-        "isPartOf": { "@type": "WebSite", "name": "SQL Designer", "url": "https://sql-designer.com" },
-        "about": { "@type": "SoftwareApplication", "name": "SQL Designer", "url": "https://sql-designer.com" }
+        "isPartOf": { "@id": "https://sql-designer.com/#website" },
+        "about": { "@id": "https://sql-designer.com/#app" }
     }
     ]
     @endverbatim

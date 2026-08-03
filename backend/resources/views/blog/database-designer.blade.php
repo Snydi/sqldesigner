@@ -44,8 +44,8 @@
             "url": "https://sql-designer.com/blog/database-designer",
             "datePublished": "2026-04-09",
             "dateModified": "2026-08-03",
-            "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
-            "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
+            "author": { "@id": "https://sql-designer.com/about#dmitriy-snyatkov" },
+            "publisher": { "@id": "https://sql-designer.com/#organization" },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
             "mainEntityOfPage": { "@type": "WebPage", "@id": "https://sql-designer.com/blog/database-designer" }
         },
@@ -88,10 +88,13 @@
         {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
+            "@id": "https://sql-designer.com/#app",
             "name": "SQL Designer",
             "url": "https://sql-designer.com",
             "applicationCategory": "DeveloperApplication",
             "operatingSystem": "Web",
+            "sameAs": ["https://github.com/Snydi/sqldesigner", "https://gitlab.com/Snydi/sql-designer", "https://discord.gg/vFwgX7qKqA"],
+            "provider": { "@id": "https://sql-designer.com/#organization" },
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
             "description": "Free online database designer for MySQL and PostgreSQL. Plan and visualise relational database schemas with a drag-and-drop canvas, real SQL data types and constraints, visual foreign key relationship lines, and one-click CREATE TABLE SQL export. No installation or credit card required.",
             "featureList": ["MySQL and PostgreSQL support", "Visual drag-and-drop canvas", "SQL export", "SQL import", "Foreign key relationships", "Real-time collaboration", "Shareable diagram links", "Free plan: 1 diagram and 3 daily combined exports", "Pro: unlimited diagrams and exports"]

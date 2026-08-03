@@ -62,8 +62,10 @@
         ],
         "sameAs": [
             "https://github.com/Snydi/sqldesigner",
+            "https://gitlab.com/Snydi/sql-designer",
             "https://discord.gg/vFwgX7qKqA"
-        ]
+        ],
+        "provider": { "@id": "https://sql-designer.com/#organization" }
     },
     {
         "@context": "https://schema.org",
@@ -73,12 +75,8 @@
         "datePublished": "2026-04-05",
         "dateModified": "2026-04-27",
         "description": "SQL Designer features: a drag-and-drop canvas, SQL export, SQL import, sharing, plus Free and Pro plan limits.",
-        "isPartOf": { "@type": "WebSite", "url": "https://sql-designer.com" },
-        "about": {
-            "@type": "SoftwareApplication",
-            "name": "SQL Designer",
-            "url": "https://sql-designer.com"
-        },
+        "isPartOf": { "@id": "https://sql-designer.com/#website" },
+        "about": { "@id": "https://sql-designer.com/#app" },
         "mainEntity": {
             "@type": "ItemList",
             "name": "SQL Designer Features",

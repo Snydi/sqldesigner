@@ -48,6 +48,11 @@
             "applicationCategory": "DeveloperApplication",
             "operatingSystem": "Any",
             "browserRequirements": "Requires a modern browser with JavaScript enabled",
+            "sameAs": [
+                "https://github.com/Snydi/sqldesigner",
+                "https://gitlab.com/Snydi/sql-designer",
+                "https://discord.gg/vFwgX7qKqA"
+            ],
             "isAccessibleForFree": true,
             "offers": {
                 "@type": "Offer",
