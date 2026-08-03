@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'PostgreSQL Indexes Explained — B-Tree, GIN, BRIN, GiST')
+@section('title', 'PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN')
 
 @section('head')
     <meta name="description"
-          content="PostgreSQL's B-tree, GIN, GiST, and BRIN indexes each fit different data. A BRIN index can be 4,000x smaller than B-tree on 10M sorted rows.">
+          content="Compare PostgreSQL B-tree, Hash, GIN, GiST, SP-GiST, and BRIN indexes, with use cases for equality, ranges, JSONB, full text, and large tables.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/postgresql-indexes">
-    <meta property="og:title" content="PostgreSQL Indexes Explained — B-Tree, GIN, BRIN, GiST">
+    <meta property="og:title" content="PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN">
     <meta property="og:description"
-          content="PostgreSQL's B-tree, GIN, GiST, and BRIN indexes each fit different data. A BRIN index can be 4,000x smaller than B-tree on 10M sorted rows.">
+          content="Compare PostgreSQL B-tree, Hash, GIN, GiST, SP-GiST, and BRIN indexes, with use cases for equality, ranges, JSONB, full text, and large tables.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/postgresql-indexes">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PostgreSQL Indexes Explained — B-Tree, GIN, BRIN, GiST">
-    <meta name="twitter:description" content="PostgreSQL's B-tree, GIN, GiST, and BRIN indexes each fit different data. A BRIN index can be 4,000x smaller than B-tree on 10M sorted rows.">
+    <meta name="twitter:title" content="PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN">
+    <meta name="twitter:description" content="Compare PostgreSQL B-tree, Hash, GIN, GiST, SP-GiST, and BRIN indexes, with use cases for equality, ranges, JSONB, full text, and large tables.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -32,18 +32,18 @@
                 "itemListElement": [
                     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
                     { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sql-designer.com/blog" },
-                    { "@type": "ListItem", "position": 3, "name": "PostgreSQL Indexes Explained — B-Tree, GIN, BRIN, GiST", "item": "https://sql-designer.com/blog/postgresql-indexes" }
+                    { "@type": "ListItem", "position": 3, "name": "PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN", "item": "https://sql-designer.com/blog/postgresql-indexes" }
                 ]
             },
             {
                 "@context": "https://schema.org",
                 "@type": "TechArticle",
-                "headline": "PostgreSQL Indexes Explained — B-Tree, GIN, BRIN, GiST",
-                "description": "PostgreSQL's B-tree, GIN, GiST, and BRIN indexes each fit different data. A BRIN index can be 4,000x smaller than B-tree on 10M sorted rows.",
+                "headline": "PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN",
+                "description": "Compare PostgreSQL B-tree, Hash, GIN, GiST, SP-GiST, and BRIN indexes, with use cases for equality, ranges, JSONB, full text, and large tables.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/postgresql-indexes",
                 "datePublished": "2026-07-03",
-                "dateModified": "2026-07-03",
+                "dateModified": "2026-07-27",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -100,9 +100,9 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>PostgreSQL</span></p>
-        <p class="post-eyebrow">July 2026 · <time datetime="2026-07-03">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 9 min read</p>
-        <h1 class="page-h1">PostgreSQL Indexes Explained — B-Tree, GIN, BRIN, and GiST</h1>
-        <p class="page-sub">PostgreSQL ships with more index types than any other mainstream relational database: <code>B-tree</code> for the default equality and range lookups, <code>GIN</code> for JSONB, arrays, and full-text search, <code>GiST</code> for spatial and range data, and <code>BRIN</code> for huge append-only tables where a full B-tree would be wasteful. Picking the wrong one wastes disk space or leaves a query scanning rows it didn't need to touch. This guide covers each index type, composite indexes, partial and covering indexes, reading <code>EXPLAIN ANALYZE</code>, and the mistakes that leave indexes unused.</p>
+        <p class="post-eyebrow">July 2026 · <time datetime="2026-07-27">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 9 min read</p>
+        <h1 class="page-h1">PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN</h1>
+        <p class="page-sub">PostgreSQL provides six built-in index methods. <code>B-tree</code> handles equality, sorting, and ranges; <code>Hash</code> handles equality only; <code>GIN</code> indexes JSONB, arrays, and full-text terms; <code>GiST</code> supports geometric, range, and nearest-neighbor searches; <code>SP-GiST</code> handles partitioned structures such as tries and quadtrees; and <code>BRIN</code> summarizes huge physically ordered tables. Choose the method by operator and data shape, then confirm the plan with <code>EXPLAIN ANALYZE</code>.</p>
     </div>
 </section>
 
@@ -156,7 +156,7 @@
             PostgreSQL implements six index access methods — B-tree, Hash, GiST, SP-GiST, GIN, and BRIN — each suited to a different class of indexable operator (<a href="https://www.postgresql.org/docs/current/indexes-types.html" target="_blank" rel="noopener">PostgreSQL Documentation, Index Types</a>). Unlike MySQL's InnoDB, PostgreSQL never stores table data inside an index structure; every index, including on the primary key, is a separate structure pointing back to the table heap.
         </div>
 
-        <h2 id="index-types-b-tree-gin-gist-brin">Index Types: B-Tree, GIN, GiST, and BRIN</h2>
+        <h2 id="index-types-b-tree-gin-gist-brin">PostgreSQL Index Types: B-Tree, Hash, GiST, SP-GiST, GIN, and BRIN</h2>
         <p>
             <code>CREATE INDEX</code> without a <code>USING</code> clause defaults to B-tree, and that default covers most schemas. The other three types below solve specific problems B-tree can't handle efficiently.
         </p>
@@ -201,7 +201,7 @@
         </p>
 
         <figure style="margin: 1.2rem 0 1.8rem;">
-            <figcaption style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Index size on a 10-million-row, naturally-ordered table</figcaption>
+            <figcaption style="font-size: 1rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Index size on a 10-million-row, naturally-ordered table</figcaption>
             <svg viewBox="0 0 540 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart comparing index size: B-tree index approximately 214 megabytes versus BRIN index approximately 48 kilobytes on a 10 million row table">
                 <rect width="540" height="200" rx="8" fill="#181f2e"/>
                 <text x="140" y="43" text-anchor="end" fill="#94a3b8" font-size="11.5" font-family="JetBrains Mono,monospace">B-tree index</text>

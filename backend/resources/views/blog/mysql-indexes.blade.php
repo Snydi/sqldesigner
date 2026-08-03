@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'MySQL Indexes Explained — B-Tree, Composite, EXPLAIN')
+@section('title', 'MySQL Composite Indexes and the Leftmost-Prefix Rule')
 
 @section('head')
     <meta name="description"
-          content="MySQL indexes cut lookups from full table scans to 2-3 B-tree page reads. Learn CREATE INDEX syntax, composite indexes, and EXPLAIN diagnostics.">
+          content="Learn how MySQL B-tree and composite indexes work, when the leftmost-prefix rule applies, and how to diagnose unused indexes with EXPLAIN.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-indexes">
-    <meta property="og:title" content="MySQL Indexes Explained — B-Tree, Composite, EXPLAIN">
+    <meta property="og:title" content="MySQL Composite Indexes and the Leftmost-Prefix Rule">
     <meta property="og:description"
-          content="MySQL indexes cut lookups from full table scans to 2-3 B-tree page reads. Learn CREATE INDEX syntax, composite indexes, and EXPLAIN diagnostics.">
+          content="Learn how MySQL B-tree and composite indexes work, when the leftmost-prefix rule applies, and how to diagnose unused indexes with EXPLAIN.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/mysql-indexes">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MySQL Indexes Explained — B-Tree, Composite, EXPLAIN">
-    <meta name="twitter:description" content="MySQL indexes cut lookups from full table scans to 2-3 B-tree page reads. Learn CREATE INDEX syntax, composite indexes, and EXPLAIN diagnostics.">
+    <meta name="twitter:title" content="MySQL Composite Indexes and the Leftmost-Prefix Rule">
+    <meta name="twitter:description" content="Learn how MySQL B-tree and composite indexes work, when the leftmost-prefix rule applies, and how to diagnose unused indexes with EXPLAIN.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -32,18 +32,18 @@
                 "itemListElement": [
                     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
                     { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sql-designer.com/blog" },
-                    { "@type": "ListItem", "position": 3, "name": "MySQL Indexes Explained — B-Tree, Composite, EXPLAIN", "item": "https://sql-designer.com/blog/mysql-indexes" }
+                    { "@type": "ListItem", "position": 3, "name": "MySQL Composite Indexes and the Leftmost-Prefix Rule", "item": "https://sql-designer.com/blog/mysql-indexes" }
                 ]
             },
             {
                 "@context": "https://schema.org",
                 "@type": "TechArticle",
-                "headline": "MySQL Indexes Explained — B-Tree, Composite, EXPLAIN",
-                "description": "MySQL indexes cut lookups from full table scans to 2-3 B-tree page reads. Learn CREATE INDEX syntax, composite indexes, and EXPLAIN diagnostics.",
+                "headline": "MySQL Composite Indexes and the Leftmost-Prefix Rule",
+                "description": "Learn how MySQL B-tree and composite indexes work, when the leftmost-prefix rule applies, and how to diagnose unused indexes with EXPLAIN.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/mysql-indexes",
                 "datePublished": "2026-07-03",
-                "dateModified": "2026-07-03",
+                "dateModified": "2026-07-27",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -100,9 +100,9 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>MySQL</span></p>
-        <p class="post-eyebrow">July 2026 · <time datetime="2026-07-03">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 9 min read</p>
-        <h1 class="page-h1">MySQL Indexes Explained — B-Tree, Composite, and EXPLAIN</h1>
-        <p class="page-sub">A MySQL index is a separate on-disk structure, typically a <code>B-tree</code>, that lets the storage engine locate matching rows without scanning the entire table. A well-placed index can turn a lookup on a million-row table into 2-3 page reads instead of a full sequential scan. This guide covers <code>CREATE INDEX</code> syntax, composite indexes and the leftmost-prefix rule, reading <code>EXPLAIN</code> output, and the mistakes that leave indexes unused.</p>
+        <p class="post-eyebrow">July 2026 · <time datetime="2026-07-27">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 9 min read</p>
+        <h1 class="page-h1">MySQL Composite Indexes and the Leftmost-Prefix Rule</h1>
+        <p class="page-sub">A MySQL composite index stores multiple columns in one ordered B-tree. The leftmost-prefix rule means an index on <code>(a, b, c)</code> can serve filters on <code>a</code>, <code>(a, b)</code>, or <code>(a, b, c)</code>, but not <code>b</code> or <code>c</code> alone. Single-column and composite indexes both avoid full table scans when they match real query predicates. Use <code>EXPLAIN</code> to confirm which index MySQL chooses and whether its column order fits the query.</p>
     </div>
 </section>
 
@@ -165,7 +165,7 @@
         </p>
 
         <figure style="margin: 1.2rem 0 1.8rem;">
-            <figcaption style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Page reads to find one row in a 1-million-row table</figcaption>
+            <figcaption style="font-size: 1rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Page reads to find one row in a 1-million-row table</figcaption>
             <svg viewBox="0 0 540 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart comparing page reads: B-tree indexed lookup at approximately 3 pages versus full table scan at approximately 15625 pages for a 1 million row table">
                 <rect width="540" height="200" rx="8" fill="#181f2e"/>
                 <text x="140" y="43" text-anchor="end" fill="#94a3b8" font-size="11.5" font-family="JetBrains Mono,monospace">Indexed lookup</text>
@@ -289,7 +289,7 @@
         </p>
 
         <figure style="margin: 1.2rem 0 1.8rem;">
-            <figcaption style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Execution time: disk-bound query, table doesn't fit in memory</figcaption>
+            <figcaption style="font-size: 1rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Execution time: disk-bound query, table doesn't fit in memory</figcaption>
             <svg viewBox="0 0 540 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Horizontal bar chart showing full table scan completing in approximately 4 seconds versus full index scan taking approximately 30 seconds when data does not fit in memory">
                 <rect width="540" height="170" rx="8" fill="#181f2e"/>
                 <text x="150" y="43" text-anchor="end" fill="#94a3b8" font-size="11.5" font-family="JetBrains Mono,monospace">Full table scan</text>

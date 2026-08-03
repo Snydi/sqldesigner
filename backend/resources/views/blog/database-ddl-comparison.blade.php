@@ -733,7 +733,7 @@ ALTER TABLE users DROP COLUMN phone;
             <li><strong>Timestamp defaults</strong>: <code>CURRENT_TIMESTAMP</code> works in MySQL and SQLite; PostgreSQL prefers <code>NOW()</code>; Oracle uses <code>SYSTIMESTAMP</code>; SQL Server uses <code>GETDATE()</code> or <code>SYSDATETIME()</code>.</li>
         </ul>
         <p>
-            Whichever database you're targeting, modelling your schema visually before writing DDL makes it easier to catch type mismatches and missing constraints early. SQL Designer supports MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access dialects and exports ready-to-run <code>CREATE TABLE</code> scripts — see the <a href="/blog/database-designer">free online database designer</a> or <a href="/demo">try the demo</a> with your own schema.
+            Whichever database you're targeting, modelling your schema visually before writing DDL makes it easier to catch type mismatches and missing constraints early. Index syntax and capabilities also differ by engine, so use the <a href="/blog/mysql-indexes">MySQL composite-index guide</a> or <a href="/blog/postgresql-indexes">PostgreSQL index-types guide</a> after choosing a dialect. SQL Designer supports MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access dialects and exports ready-to-run <code>CREATE TABLE</code> scripts — see the <a href="/blog/database-designer">free online database designer</a> or <a href="/demo">try the demo</a> with your own schema.
         </p>
 
         <section class="faq-section" aria-label="Frequently asked questions">
@@ -771,6 +771,8 @@ ALTER TABLE users DROP COLUMN phone;
                 <li><a href="/features">SQL Designer Features — multi-dialect DDL export &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences for Schema Design &rarr;</a></li>
                 <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
+                <li><a href="/blog/mysql-indexes">MySQL Composite Indexes and the Leftmost-Prefix Rule &rarr;</a></li>
+                <li><a href="/blog/postgresql-indexes">PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Examples &rarr;</a></li>
                 <li><a href="/blog/best-free-erd-tools">Best Free ERD Tools — 10 Tested in 2026 &rarr;</a></li>

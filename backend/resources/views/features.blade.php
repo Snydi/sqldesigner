@@ -227,7 +227,7 @@
         }
         .breadcrumb {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
+            font-size: 1rem;
             color: var(--text-muted);
             letter-spacing: 0.06em;
             margin: 0 0 1rem;
@@ -276,7 +276,7 @@
 
         .sidebar-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
+            font-size: 1rem;
             letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--text-muted);
@@ -295,7 +295,7 @@
             flex-direction: column;
         }
         .sidebar-nav a.sidebar-section {
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 500;
             color: var(--text-secondary);
             padding: 0.45rem 0.8rem;
@@ -317,7 +317,7 @@
         .sidebar-sub a {
             display: block;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.76rem;
+            font-size: 1rem;
             color: var(--text-muted);
             padding: 0.3rem 0.8rem 0.3rem 1.6rem;
             border-left: 2px solid var(--border-color);
@@ -346,7 +346,7 @@
 
         .section-eyebrow {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
+            font-size: 1rem;
             letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--text-muted);
@@ -381,7 +381,7 @@
             display: grid;
             place-items: center;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--color-primary-text);
             flex-shrink: 0;
@@ -396,7 +396,7 @@
             text-transform: none;
         }
         .feat-body p {
-            font-size: 0.93rem;
+            font-size: 1rem;
             color: var(--text-secondary);
             line-height: 1.65;
             margin: 0;
@@ -405,7 +405,7 @@
         }
         .feat-body a { color: var(--color-primary-text); }
         .feat-body code {
-            font-size: 0.82rem;
+            font-size: 1rem;
             background: var(--bg-elevated);
             border-radius: 3px;
             padding: 0.1em 0.35em;
@@ -697,24 +697,24 @@
         <section class="docs-section" id="vs" aria-labelledby="vs-h2">
             <p class="section-eyebrow">06 / Compare</p>
             <h2 class="section-h2" id="vs-h2">How SQL Designer compares</h2>
-            <p style="font-size:0.95rem; color:var(--text-secondary); margin:0 0 1.5rem; max-width:65ch; text-wrap:pretty;">
+            <p style="font-size:1rem; color:var(--text-secondary); margin:0 0 1.5rem; max-width:65ch; text-wrap:pretty;">
                 Most database designers fall into one of two buckets: desktop software that requires installation and ties you to one engine, or SaaS tools that put SQL export behind a paywall. SQL Designer is browser-based and offers Free and Pro plans.
             </p>
             <div style="display:flex; flex-direction:column; gap:1px; background:var(--border-light); border:1px solid var(--border-light); border-radius:8px; overflow:hidden; margin-bottom:1.5rem;">
                 <div style="background:var(--bg-surface); padding:1.3rem 1.4rem;">
-                    <h3 style="font-size:0.95rem; font-weight:600; margin:0 0 0.5rem; letter-spacing:-0.005em;">vs. MySQL Workbench</h3>
-                    <p style="font-size:0.9rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">MySQL Workbench is powerful but desktop-only, MySQL-exclusive, and requires a ~200 MB install. It's the right choice for deep MySQL administration (query tuning, server monitoring, migrations). SQL Designer is the right choice when you want to sketch or document a schema fast, collaborate with someone who isn't on the same machine, or need output for a dialect other than MySQL — without installing anything.</p>
+                    <h3 style="font-size:1rem; font-weight:600; margin:0 0 0.5rem; letter-spacing:-0.005em;">vs. MySQL Workbench</h3>
+                    <p style="font-size:1rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">MySQL Workbench is powerful but desktop-only, MySQL-exclusive, and requires a ~200 MB install. It's the right choice for deep MySQL administration (query tuning, server monitoring, migrations). SQL Designer is the right choice when you want to sketch or document a schema fast, collaborate with someone who isn't on the same machine, or need output for a dialect other than MySQL — without installing anything.</p>
                 </div>
                 <div style="background:var(--bg-surface); padding:1.3rem 1.4rem;">
-                    <h3 style="font-size:0.95rem; font-weight:600; margin:0 0 0.5rem; letter-spacing:-0.005em;">vs. dbdiagram.io</h3>
-                    <p style="font-size:0.9rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">dbdiagram.io uses a custom DSL — you write schema text and it renders a diagram. That's fast for people who prefer code-first workflows, but it means a learning curve and no drag-and-drop. Its free tier also caps the number of diagrams and restricts SQL export to paid plans. SQL Designer is visual from the start, dialect-aware, and has a Free plan plus unlimited Pro access.</p>
+                    <h3 style="font-size:1rem; font-weight:600; margin:0 0 0.5rem; letter-spacing:-0.005em;">vs. dbdiagram.io</h3>
+                    <p style="font-size:1rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">dbdiagram.io uses a custom DSL — you write schema text and it renders a diagram. That's fast for people who prefer code-first workflows, but it means a learning curve and no drag-and-drop. Its free tier also caps the number of diagrams and restricts SQL export to paid plans. SQL Designer is visual from the start, dialect-aware, and has a Free plan plus unlimited Pro access.</p>
                 </div>
                 <div style="background:var(--bg-surface); padding:1.3rem 1.4rem;">
-                    <h3 style="font-size:0.95rem; font-weight:600; margin:0 0 0.5rem; letter-spacing:-0.005em;">The SQL Designer position</h3>
-                    <p style="font-size:0.9rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">Browser-based so nothing to install. Visual so there's no DSL to learn. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes those limits. Open source so you can inspect exactly what the tool does with your schema.</p>
+                    <h3 style="font-size:1rem; font-weight:600; margin:0 0 0.5rem; letter-spacing:-0.005em;">The SQL Designer position</h3>
+                    <p style="font-size:1rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">Browser-based so nothing to install. Visual so there's no DSL to learn. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes those limits. Open source so you can inspect exactly what the tool does with your schema.</p>
                 </div>
             </div>
-            <p style="font-size:0.88rem; color:var(--text-muted);">Full comparison including DrawSQL, ERDPlus, ChartDB, and Lucidchart: <a href="/blog/best-free-erd-tools" style="color:var(--color-primary-text);">10 Best Free ERD Tools in 2026 →</a></p>
+            <p style="font-size:1rem; color:var(--text-muted);">Full comparison including DrawSQL, ERDPlus, ChartDB, and Lucidchart: <a href="/blog/best-free-erd-tools" style="color:var(--color-primary-text);">10 Best Free ERD Tools in 2026 →</a></p>
         </section>
 
     </div>

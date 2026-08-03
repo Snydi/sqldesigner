@@ -59,7 +59,7 @@
         html, body { margin: 0; background: var(--bg-page); color: var(--text-primary); overflow-y: auto; }
         body {
             font-family: 'Geist', 'Geist Fallback', system-ui, sans-serif;
-            font-size: 0.875rem;
+            font-size: 1rem;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
@@ -84,7 +84,7 @@
             align-items: center;
             justify-content: center;
             min-width: 44px;
-            height: 34px;
+            height: 44px;
             padding: 0 0.55rem;
             border: 1px solid var(--border-color);
             border-radius: 7px;
@@ -106,8 +106,8 @@
         /* ── Buttons ──────────────────────────────────────── */
         .btn {
             display: inline-flex; align-items: center; gap: 0.4rem;
-            padding: 0.55rem 0.95rem; border-radius: 6px;
-            font-size: 0.875rem; font-weight: 500; line-height: 1;
+            min-height: 44px; padding: 0.55rem 0.95rem; border-radius: 6px;
+            font-size: 1rem; font-weight: 500; line-height: 1;
             border: 1px solid transparent; cursor: pointer;
             transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
             font-family: inherit;
@@ -119,7 +119,7 @@
         .btn-outline:hover { border-color: var(--text-primary); }
         .btn-solid { background: var(--color-primary-text); color: #0c1f15; }
         .btn-solid:hover { background: #6dc290; }
-        .btn-lg { padding: 0.75rem 1.15rem; font-size: 0.95rem; border-radius: 7px; }
+        .btn-lg { min-height: 48px; padding: 0.75rem 1.15rem; font-size: 1rem; border-radius: 7px; }
 
         /* ── GitHub star button ──────────────────────────── */
         .gh-star {
@@ -129,7 +129,7 @@
             display: inline-flex; align-items: center;
             margin-left: 0.15rem; padding: 0.05rem 0.45rem;
             border: 1px solid var(--border-light); border-radius: 20px;
-            font-size: 0.78rem; font-weight: 600;
+            font-size: 1rem; font-weight: 600;
             font-family: 'JetBrains Mono', monospace;
             color: var(--text-secondary);
             transition: border-color 120ms ease, color 120ms ease;
@@ -179,7 +179,7 @@
         .mobile-nav.open { display: flex; }
         .mobile-nav a {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 1rem;
             padding: 0 0.5rem;
             min-height: 48px;
             border-radius: 5px;
@@ -203,7 +203,7 @@
             padding: 2.5rem var(--gutter) 1.5rem;
             background: var(--bg-page);
             color: var(--text-subtle);
-            font-size: 0.85rem;
+            font-size: 1rem;
         }
         .footer-inner {
             max-width: var(--maxw); margin: 0 auto;
@@ -212,13 +212,13 @@
         }
         .footer-col { min-width: 130px; }
         .footer-col h2 {
-            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em;
+            font-size: 1rem; text-transform: uppercase; letter-spacing: 0.14em;
             color: var(--text-subtle); margin: 0 0 0.6rem; font-weight: 500;
             font-family: 'JetBrains Mono', monospace;
         }
         .footer-col ul { list-style: none; padding: 0; margin: 0; }
         .footer-col li { padding: 0.18rem 0; }
-        .footer-col a { color: var(--text-subtle); font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.2rem 0; }
+        .footer-col a { color: var(--text-subtle); font-size: 1rem; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; padding: 0.2rem 0; }
         .footer-col a:hover { color: var(--color-primary-text); }
         .footer-github:hover { color: #f0f6fc !important; }
         .footer-discord:hover { color: #9198f4 !important; }
@@ -227,7 +227,7 @@
         .footer-bottom {
             max-width: var(--maxw); margin: 1rem auto 0;
             display: flex; justify-content: space-between; flex-wrap: wrap;
-            gap: 0.5rem; font-size: 0.78rem; color: var(--text-subtle);
+            gap: 0.5rem; font-size: 1rem; color: var(--text-subtle);
         }
         .footer-bottom a:hover { color: var(--color-primary-text); }
         @media (max-width: 540px) {

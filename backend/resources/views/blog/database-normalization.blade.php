@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'Database Normalization — 1NF, 2NF, and 3NF Explained')
+@section('title', 'Database Normalization: 1NF vs 2NF vs 3NF Examples')
 
 @section('head')
     <meta name="description"
-          content="Learn database normalization — 1NF, 2NF, 3NF, BCNF, and 4NF — with clear before-and-after table examples, real SQL scripts, and a step-by-step walkthrough.">
+          content="Compare 1NF, 2NF, and 3NF with before-and-after tables, partial and transitive dependencies, SQL examples, BCNF, and a practical checklist.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/database-normalization">
-    <meta property="og:title" content="Database Normalization — 1NF, 2NF, and 3NF Explained">
+    <meta property="og:title" content="Database Normalization: 1NF vs 2NF vs 3NF Examples">
     <meta property="og:description"
-          content="Learn database normalization — 1NF, 2NF, 3NF, BCNF, and 4NF — with clear before-and-after table examples, real SQL scripts, and a step-by-step walkthrough.">
+          content="Compare 1NF, 2NF, and 3NF with before-and-after tables, partial and transitive dependencies, SQL examples, BCNF, and a practical checklist.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/database-normalization">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Database Normalization — 1NF, 2NF, and 3NF Explained">
-    <meta name="twitter:description" content="Learn database normalization — 1NF, 2NF, 3NF, BCNF, and 4NF — with clear before-and-after table examples, real SQL scripts, and a step-by-step walkthrough.">
+    <meta name="twitter:title" content="Database Normalization: 1NF vs 2NF vs 3NF Examples">
+    <meta name="twitter:description" content="Compare 1NF, 2NF, and 3NF with before-and-after tables, partial and transitive dependencies, SQL examples, BCNF, and a practical checklist.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -38,12 +38,12 @@
             {
                 "@context": "https://schema.org",
                 "@type": "TechArticle",
-                "headline": "Database Normalization Explained — 1NF, 2NF, and 3NF with Examples",
-                "description": "Learn 1NF, 2NF, 3NF, BCNF, and 4NF with clear before-and-after table examples and a full step-by-step walkthrough.",
+                "headline": "Database Normalization: 1NF vs 2NF vs 3NF Examples",
+                "description": "Compare 1NF, 2NF, and 3NF with before-and-after tables, partial and transitive dependencies, SQL examples, BCNF, and a practical checklist.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/database-normalization",
                 "datePublished": "2026-03-19",
-                "dateModified": "2026-07-03",
+                "dateModified": "2026-07-27",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -108,9 +108,9 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Schema Design</span></p>
-        <p class="post-eyebrow">March 2026 · <time datetime="2026-07-03">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
-        <h1 class="page-h1">Database Normalization Explained — 1NF, 2NF, and 3NF with Examples</h1>
-        <p class="page-sub">Bad schema design doesn't just cause bugs. It creates structural problems that compound at scale. In almost every case, the root cause is the same: the same fact stored in multiple rows, each copy free to drift out of sync. Database normalization fixes this at the design level by organizing tables so each piece of data is stored exactly once, in exactly one place.</p>
+        <p class="post-eyebrow">March 2026 · <time datetime="2026-07-27">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
+        <h1 class="page-h1">Database Normalization: 1NF vs 2NF vs 3NF Examples</h1>
+        <p class="page-sub">Database normalization organizes relational tables to reduce duplicated facts and prevent update anomalies. First Normal Form (1NF) makes every value atomic and removes repeating groups. Second Normal Form (2NF) removes partial dependencies on part of a composite key. Third Normal Form (3NF) removes transitive dependencies between non-key columns. In short: 1NF fixes cell structure, 2NF fixes dependence on the whole key, and 3NF ensures non-key facts depend on nothing but the key.</p>
     </div>
 </section>
 
@@ -255,7 +255,7 @@ product_id | product_name | product_price</code></pre>
         <p class="label-good">&#x2713; In 2NF</p>
         <p><code>product_name</code> and <code>product_price</code> are stored once. A price change now updates one row.</p>
 
-        <h2 id="3nf">What Is Third Normal Form (3NF)?</h2>
+        <h2 id="3nf">2NF vs 3NF: Partial and Transitive Dependencies</h2>
         <p>
             3NF is the practical target for almost every relational database. A table can be in 2NF and still have a hidden problem: a non-key column that determines another non-key column. That's a transitive dependency. It produces the same update anomaly we've been fixing throughout: renaming a department touches every employee row instead of just one. 3NF eliminates this by requiring every non-key column to depend directly on the primary key, not on another non-key column.
         </p>

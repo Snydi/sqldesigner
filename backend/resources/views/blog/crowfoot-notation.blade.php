@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', "Crow's Foot Notation — ER Diagram Cardinality Explained")
+@section('title', "Crow's Foot Notation Symbols and Cardinality Guide")
 
 @section('head')
     <meta name="description"
-          content="Crow's foot notation is the ER diagram standard since Gordon Everest's 1976 paper. Learn the six cardinality symbols with mandatory, optional, and SQL.">
+          content="Decode every crow's foot notation symbol for optional, one, and many cardinality, then map one-to-one and one-to-many relationships to SQL.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/crowfoot-notation">
-    <meta property="og:title" content="Crow's Foot Notation — ER Diagram Cardinality Explained">
+    <meta property="og:title" content="Crow's Foot Notation Symbols and Cardinality Guide">
     <meta property="og:description"
-          content="Learn crow's foot notation for ER diagrams — the symbols for cardinality (one, many, zero-or-one) with examples for MySQL and PostgreSQL schema design.">
+          content="Decode every crow's foot notation symbol for optional, one, and many cardinality, then map one-to-one and one-to-many relationships to SQL.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/crowfoot-notation">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — ER diagram with crow's foot notation">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Crow's Foot Notation — ER Diagram Cardinality Explained">
-    <meta name="twitter:description" content="Crow's foot notation explained — learn the cardinality symbols for ER diagrams with practical database design examples.">
+    <meta name="twitter:title" content="Crow's Foot Notation Symbols and Cardinality Guide">
+    <meta name="twitter:description" content="Decode every crow's foot notation symbol for optional, one, and many cardinality, then map one-to-one and one-to-many relationships to SQL.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -38,12 +38,12 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "Crow's Foot Notation — ER Diagram Cardinality Explained",
-            "description": "Crow's foot notation explained — the symbols for one-to-one, one-to-many, and many-to-many relationships in ER diagrams, with examples for MySQL and PostgreSQL schemas.",
+            "headline": "Crow's Foot Notation Symbols and Cardinality Guide",
+            "description": "Decode every crow's foot notation symbol for optional, one, and many cardinality, then map one-to-one and one-to-many relationships to SQL.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/crowfoot-notation",
             "datePublished": "2026-04-16",
-            "dateModified": "2026-05-16",
+            "dateModified": "2026-07-27",
             "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -109,9 +109,9 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>ER Diagrams</span></p>
-        <p class="post-eyebrow">April 2026 · <time datetime="2026-05-16">Last updated: May 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
-        <h1 class="page-h1">Crow&rsquo;s Foot Notation &mdash; ER Diagram Cardinality Explained</h1>
-        <p class="page-sub">Crow&rsquo;s foot notation is a graphical symbol system for representing cardinality in entity-relationship (ER) diagrams. Each relationship line carries two symbols at both ends: the outer shows maximum cardinality (one or many), the inner shows whether participation is mandatory or optional. Those symbols map directly to foreign key constraints and <code>NOT NULL</code> decisions in SQL. Developed by Gordon Everest in 1976, it&rsquo;s now the industry standard in tools, textbooks, and documentation worldwide.</p>
+        <p class="post-eyebrow">April 2026 · <time datetime="2026-07-27">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
+        <h1 class="page-h1">Crow&rsquo;s Foot Notation Symbols and Cardinality Guide</h1>
+        <p class="page-sub">Crow&rsquo;s foot notation uses three marks at each end of an ER-diagram relationship: a circle means zero (optional), a bar means one, and the three-pronged crow&rsquo;s foot means many. Combining the inner and outer marks produces the six cardinalities zero-or-one, exactly-one, zero-or-many, or one-or-many on either side. A bar nearest an entity means participation is mandatory; a circle means it is optional. These choices map directly to foreign keys and <code>NULL</code> rules in SQL.</p>
     </div>
 </section>
 
@@ -152,7 +152,7 @@
             You&rsquo;ll also hear it called &ldquo;chicken foot notation&rdquo; or &ldquo;IE notation&rdquo; (after the Information Engineering methodology). James Martin and Clive Finkelstein popularized it through their information engineering frameworks in the 1980s, which helped cement it as the industry default.
         </p>
 
-        <h2 id="symbols">The Crow&rsquo;s Foot Symbols</h2>
+        <h2 id="symbols">Crow&rsquo;s Foot Notation Symbols and Their Meanings</h2>
         <p>
             Three primitive symbols make up the entire crow&rsquo;s foot vocabulary. The outer symbol (furthest from the entity box) indicates maximum cardinality. The inner symbol indicates minimum cardinality, meaning whether at least one record must exist. You read both together to get the full picture of what a relationship allows.
         </p>

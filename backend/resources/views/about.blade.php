@@ -70,7 +70,7 @@
             padding: 3rem 1.5rem 5rem;
         }
         .about-page .breadcrumb {
-            font-size: 0.875rem;
+            font-size: 1rem;
             color: #767676;
             margin-bottom: 1.5rem;
         }
@@ -99,7 +99,7 @@
             margin: 2.5rem 0 0.8rem;
         }
         .about-page p {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--text-secondary);
             line-height: 1.8;
             margin: 0 0 1rem;
@@ -132,13 +132,13 @@
             margin: 0 0 0.3rem;
         }
         .author-info p {
-            font-size: 0.85rem;
+            font-size: 1rem;
             color: var(--text-secondary);
             margin: 0 0 0.6rem;
         }
         .author-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
         .author-links a {
-            font-size: 0.82rem;
+            font-size: 1rem;
             color: var(--text-subtle);
             display: inline-flex;
             align-items: center;
@@ -166,7 +166,7 @@
             padding: 1rem;
         }
         .tool-item h4 {
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--color-primary-text);
             margin: 0 0 0.4rem;
@@ -175,7 +175,7 @@
             font-family: 'JetBrains Mono', monospace;
         }
         .tool-item p {
-            font-size: 0.82rem;
+            font-size: 1rem;
             color: var(--text-subtle);
             margin: 0;
         }

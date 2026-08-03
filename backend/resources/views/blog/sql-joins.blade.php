@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL')
+@section('title', 'SQL JOIN Types: INNER, LEFT, RIGHT, and FULL Explained')
 
 @section('head')
     <meta name="description"
-          content="SQL is used by 58.6% of developers (Stack Overflow, 2025). Learn INNER, LEFT, RIGHT, FULL, and CROSS JOIN syntax with examples, NULL handling, and index tips.">
+          content="Choose the right SQL JOIN: INNER for matches, LEFT or RIGHT for unmatched rows, FULL for both sides, plus syntax, NULL behavior, and index tips.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/sql-joins">
-    <meta property="og:title" content="SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL">
+    <meta property="og:title" content="SQL JOIN Types: INNER, LEFT, RIGHT, and FULL Explained">
     <meta property="og:description"
-          content="SQL is used by 58.6% of developers (Stack Overflow, 2025). Learn INNER, LEFT, RIGHT, FULL, and CROSS JOIN syntax with examples, NULL handling, and index tips.">
+          content="Choose the right SQL JOIN: INNER for matches, LEFT or RIGHT for unmatched rows, FULL for both sides, plus syntax, NULL behavior, and index tips.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/sql-joins">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL">
-    <meta name="twitter:description" content="SQL is used by 58.6% of developers (Stack Overflow, 2025). Learn INNER, LEFT, RIGHT, FULL, and CROSS JOIN syntax with examples, NULL handling, and index tips.">
+    <meta name="twitter:title" content="SQL JOIN Types: INNER, LEFT, RIGHT, and FULL Explained">
+    <meta name="twitter:description" content="Choose the right SQL JOIN: INNER for matches, LEFT or RIGHT for unmatched rows, FULL for both sides, plus syntax, NULL behavior, and index tips.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -32,18 +32,18 @@
                 "itemListElement": [
                     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
                     { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sql-designer.com/blog" },
-                    { "@type": "ListItem", "position": 3, "name": "SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL", "item": "https://sql-designer.com/blog/sql-joins" }
+                    { "@type": "ListItem", "position": 3, "name": "SQL JOIN Types: INNER, LEFT, RIGHT, and FULL Explained", "item": "https://sql-designer.com/blog/sql-joins" }
                 ]
             },
             {
                 "@context": "https://schema.org",
                 "@type": "TechArticle",
-                "headline": "SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL",
-                "description": "SQL is used by 58.6% of developers (Stack Overflow, 2025). Learn INNER, LEFT, RIGHT, FULL, and CROSS JOIN syntax with examples, NULL handling, and index tips.",
+                "headline": "SQL JOIN Types: INNER, LEFT, RIGHT, and FULL Explained",
+                "description": "Choose the right SQL JOIN: INNER for matches, LEFT or RIGHT for unmatched rows, FULL for both sides, plus syntax, NULL behavior, and index tips.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/sql-joins",
                 "datePublished": "2026-07-03",
-                "dateModified": "2026-07-03",
+                "dateModified": "2026-07-27",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -90,9 +90,9 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>SQL Joins</span></p>
-        <p class="post-eyebrow">July 2026 · <time datetime="2026-07-03">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 9 min read</p>
-        <h1 class="page-h1">SQL JOIN Types Explained — INNER, LEFT, RIGHT, and FULL</h1>
-        <p class="page-sub">A SQL <code>JOIN</code> combines rows from two or more tables based on a related column, and it's the single most-used operation for turning a normalized schema back into usable, denormalized query results. There are five core join types — <code>INNER</code>, <code>LEFT</code>, <code>RIGHT</code>, <code>FULL</code>, and <code>CROSS</code> — plus the <code>SELF JOIN</code> pattern, each returning a different row set when a match is missing on one side. This guide covers syntax, NULL behavior, a worked example, join algorithms, and the mistakes that cause duplicate or missing rows.</p>
+        <p class="post-eyebrow">July 2026 · <time datetime="2026-07-27">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 9 min read</p>
+        <h1 class="page-h1">SQL JOIN Types: INNER, LEFT, RIGHT, and FULL Explained</h1>
+        <p class="page-sub">Choose an <code>INNER JOIN</code> when you want only rows that match in both tables. Choose a <code>LEFT JOIN</code> to keep every left-table row, or a <code>RIGHT JOIN</code> to keep every right-table row, filling missing matches with <code>NULL</code>. A <code>FULL OUTER JOIN</code> keeps unmatched rows from both sides, while a <code>CROSS JOIN</code> returns every possible pair. This guide shows the syntax, NULL behavior, index requirements, and common mistakes for each SQL JOIN type.</p>
     </div>
 </section>
 
@@ -143,7 +143,7 @@
         </p>
 
         <figure style="margin: 1.2rem 0 1.8rem;">
-            <figcaption style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Most-used programming languages among developers — Stack Overflow Developer Survey 2025</figcaption>
+            <figcaption style="font-size: 1rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Most-used programming languages among developers — Stack Overflow Developer Survey 2025</figcaption>
             <svg viewBox="0 0 540 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Horizontal bar chart showing programming language usage: JavaScript 66%, HTML/CSS 61.9%, SQL 58.6%">
                 <rect width="540" height="170" rx="8" fill="#181f2e"/>
                 <text x="102" y="43" text-anchor="end" fill="#94a3b8" font-size="11.5" font-family="JetBrains Mono,monospace">JavaScript</text>
@@ -157,14 +157,14 @@
                 <rect x="108" y="113" width="348" height="22" rx="3" fill="#3b82f6" opacity="0.85"/>
                 <text x="456" y="128" text-anchor="end" fill="#f1f5f9" font-size="11" font-family="JetBrains Mono,monospace" font-weight="600">58.6%</text>
             </svg>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; font-style: italic;">Source: <a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener" style="color: var(--text-muted);">Stack Overflow Developer Survey 2025</a></p>
+            <p style="font-size: 1rem; color: var(--text-muted); margin-top: 0.4rem; font-style: italic;">Source: <a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener" style="color: var(--text-muted);">Stack Overflow Developer Survey 2025</a></p>
         </figure>
 
         <div class="citation-capsule">
             SQL ranks third among all programming languages at 58.6% usage, behind JavaScript (66%) and HTML/CSS (61.9%) (<a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>). Joins are the operation developers reach for most often once they're inside SQL, since almost no production schema fits in a single table.
         </div>
 
-        <h2 id="inner-join">INNER JOIN</h2>
+        <h2 id="inner-join">Which JOIN Returns Only Matching Rows? INNER JOIN</h2>
         <p>
             <code>INNER JOIN</code> returns only the rows where the join condition matches on both sides. Any row in either table without a corresponding match is excluded from the result entirely. This is the default join type — plain <code>JOIN</code> without a keyword means <code>INNER JOIN</code> in every major SQL dialect.
         </p>
@@ -179,7 +179,7 @@ INNER JOIN customers ON orders.customer_id = customers.id;</code></pre>
             <code>INNER JOIN</code> is the SQL standard default: writing <code>JOIN</code> without a modifier is functionally identical to <code>INNER JOIN</code> across MySQL, PostgreSQL, SQL Server, and Oracle. It returns the intersection of two row sets on the join key — rows present in only one table are silently excluded, never padded with <code>NULL</code>.
         </div>
 
-        <h2 id="left-and-right-join">LEFT and RIGHT JOIN</h2>
+        <h2 id="left-and-right-join">Which JOIN Preserves Unmatched Rows? LEFT and RIGHT JOIN</h2>
         <p>
             <code>LEFT JOIN</code> (also written <code>LEFT OUTER JOIN</code>) returns every row from the left table, whether or not it has a match, padding unmatched right-table columns with <code>NULL</code>. This preserves "orphan" rows that an <code>INNER JOIN</code> would silently drop — customers with zero orders, products never purchased, users who never logged in.
         </p>
@@ -261,7 +261,7 @@ SELECT orders.id, customers.name
 FROM orders
 JOIN customers ON orders.customer_id = customers.id;</code></pre>
         <p>
-            The single highest-leverage fix for a slow join, in practice, is almost always a missing index on the foreign key column — not a query rewrite. Once both sides of a join column are indexed, the planner has the option to switch away from nested loop, and query time on multi-million-row tables routinely drops from seconds to milliseconds.
+            The single highest-leverage fix for a slow join, in practice, is often a missing index on the foreign key column — not a query rewrite. For engine-specific examples, compare the <a href="/blog/mysql-indexes">MySQL composite-index guide</a> with the <a href="/blog/postgresql-indexes">PostgreSQL index-types guide</a>. Once join predicates have suitable indexes, the planner gains efficient lookup and join-strategy options that are unavailable during repeated full scans.
         </p>
 
         <div class="citation-capsule">
@@ -316,6 +316,8 @@ JOIN customers ON orders.customer_id = customers.id;</code></pre>
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax, Examples, and Best Practices &rarr;</a></li>
+                <li><a href="/blog/mysql-indexes">MySQL Composite Indexes and the Leftmost-Prefix Rule &rarr;</a></li>
+                <li><a href="/blog/postgresql-indexes">PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization: 1NF, 2NF, and 3NF &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation Explained &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples &rarr;</a></li>

@@ -9,11 +9,11 @@
     <style>
         .sitemap { max-width: 760px; margin: 0 auto; padding: 4rem 1.5rem; }
         .sitemap h1 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-primary); margin: 0 0 2.5rem; }
-        .sitemap h2 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-primary); margin: 2rem 0 0.8rem; }
+        .sitemap h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-primary); margin: 2rem 0 0.8rem; }
         .sitemap ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
-        .sitemap li a { font-size: 0.9rem; color: var(--text-primary); text-decoration: none; text-transform: none; border-bottom: 1px solid transparent; }
+        .sitemap li a { font-size: 1rem; color: var(--text-primary); text-decoration: none; text-transform: none; border-bottom: 1px solid transparent; }
         .sitemap li a:hover { border-bottom-color: var(--color-primary-text); color: var(--color-primary-text); }
-        .sitemap li .desc { font-size: 0.875rem; color: var(--text-subtle); display: block; margin-top: 0.15rem; text-transform: none; }
+        .sitemap li .desc { font-size: 1rem; color: var(--text-subtle); display: block; margin-top: 0.15rem; text-transform: none; }
     </style>
 @endsection
 

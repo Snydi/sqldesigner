@@ -63,6 +63,19 @@ body {
     background-color: var(--bg-surface);
 }
 
+/*
+ * Readability floor for all visible application copy. Component styles may
+ * request a larger size; this prevents labels, helper text, table copy, and
+ * modal content from rendering below the 16px product standard.
+ */
+#app :where(
+    p, a, button, input, select, textarea, label, li, td, th, code, pre, figcaption,
+    [class*="label"], [class*="meta"], [class*="caption"], [class*="hint"],
+    [class*="subtitle"], [class*="eyebrow"], [class*="badge"]
+) {
+    font-size: max(1rem, 1em) !important;
+}
+
 a {
     color: inherit;
     background-color: transparent;
@@ -115,11 +128,12 @@ select:focus {
     display: inline-flex;
     align-items: center;
     gap: 5px;
+    min-height: 44px;
     padding: 8px 14px;
     border: 1px solid transparent;
     border-radius: 7px;
     cursor: pointer;
-    font-size: 0.82rem;
+    font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     transition: background 120ms, opacity 120ms;

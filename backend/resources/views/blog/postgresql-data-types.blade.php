@@ -417,7 +417,7 @@ CREATE INDEX ON products USING GIN (attributes);</code></pre>
             <figcaption>JSONB stores documents in a binary decomposition, enabling GIN indexes and containment operators not available with plain JSON.</figcaption>
         </figure>
 
-        <p>MySQL 5.7+ also has a <code>JSON</code> type, but it lacks PostgreSQL's <code>JSONB</code> binary format and GIN index support. If you're coming from MySQL, think of <code>JSONB</code> as a significantly more capable version: queryable with containment operators, indexable without generated columns, and faster on read-heavy workloads. See our <a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL comparison</a> for a deeper look at how the two databases handle JSON.</p>
+        <p>MySQL 5.7+ also has a <code>JSON</code> type, but it lacks PostgreSQL's <code>JSONB</code> binary format and GIN index support. If you're coming from MySQL, think of <code>JSONB</code> as a significantly more capable version: queryable with containment operators, indexable without generated columns, and faster on read-heavy workloads. See the <a href="/blog/postgresql-indexes">PostgreSQL index-types guide</a> for choosing between GIN and GiST, and our <a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL comparison</a> for a deeper look at how the two databases handle JSON.</p>
 
         <div class="citation-capsule">
             <p>PostgreSQL's JSONB type stores JSON documents in a parsed binary format, enabling GIN index support and containment operators like <code>@&gt;</code> and <code>&lt;@</code> (<a href="https://www.postgresql.org/docs/current/datatype-json.html" target="_blank" rel="noopener">PostgreSQL Documentation</a>). Unlike the plain JSON type, which stores input text verbatim, JSONB eliminates whitespace, deduplicates keys, and rewrites key order, making it faster for most read and query workloads at the cost of a slightly slower write.</p>
@@ -580,6 +580,7 @@ CREATE TABLE events (
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/blog/mysql-data-types">MySQL Data Types — equivalent types and comparisons &rarr;</a></li>
+                <li><a href="/blog/postgresql-indexes">PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — full feature comparison &rarr;</a></li>
                 <li><a href="/blog/database-ddl-comparison">DDL syntax across MySQL, PostgreSQL, Oracle, and SQLite &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database normalization — first through third normal form &rarr;</a></li>

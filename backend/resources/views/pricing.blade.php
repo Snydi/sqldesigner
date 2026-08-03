@@ -149,7 +149,7 @@
         .intro-inner { max-width: 1120px; margin: 0 auto; position: relative; text-align: center; }
         .breadcrumb {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
+            font-size: 1rem;
             color: var(--text-muted);
             letter-spacing: 0.06em;
             margin: 0 0 1rem;
@@ -203,7 +203,7 @@
         }
         .plan-badge {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
+            font-size: 1rem;
             letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--color-primary-text);
@@ -218,7 +218,7 @@
         }
         .plan-price { margin: 0 0 1.4rem; display: flex; align-items: baseline; gap: 0.3rem; }
         .plan-price .amount { font-size: 2.4rem; font-weight: 600; letter-spacing: -0.02em; }
-        .plan-price .period { font-size: 0.9rem; color: var(--text-muted); }
+        .plan-price .period { font-size: 1rem; color: var(--text-muted); }
         .plan-features {
             list-style: none;
             margin: 0 0 1.6rem;
@@ -230,7 +230,7 @@
             min-height: 11rem;
         }
         .plan-features li {
-            font-size: 0.92rem;
+            font-size: 1rem;
             color: var(--text-secondary);
             display: flex;
             gap: 0.6rem;
@@ -254,13 +254,13 @@
             background: var(--bg-elevated);
             border-radius: 10px;
             padding: 1rem 1.3rem;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 500;
             color: var(--text-primary);
             text-align: left;
         }
         .launch-banner-icon { font-size: 1.2rem; line-height: 1; flex-shrink: 0; }
-        .checkout-message { display:none; margin-top:.7rem; color:#f0b6b6; font-size:.82rem; line-height:1.45; }
+        .checkout-message { display:none; margin-top:.7rem; color:#f0b6b6; font-size:1rem; line-height:1.45; }
         .checkout-message.show { display:block; }
 
         .compare-wrap {
@@ -280,7 +280,7 @@
         table.compare {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.92rem;
+            font-size: 1rem;
         }
         table.compare th, table.compare td {
             padding: 0.85rem 1rem;
@@ -294,7 +294,7 @@
         table.compare thead th {
             color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
+            font-size: 1rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             font-weight: 500;
@@ -310,13 +310,13 @@
         .faq-item { border-bottom: 1px solid var(--border-light); padding: 1.2rem 0; }
         .faq-item:last-child { border-bottom: none; }
         .faq-item h3 {
-            font-size: 0.98rem;
+            font-size: 1rem;
             font-weight: 600;
             margin: 0 0 0.4rem;
             text-transform: none;
         }
         .faq-item p {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--text-secondary);
             margin: 0;
             line-height: 1.6;

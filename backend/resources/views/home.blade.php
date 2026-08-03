@@ -256,7 +256,7 @@
         .eyebrow {
             display: inline-flex; align-items: center; gap: 0.5rem;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+            font-size: 1rem; letter-spacing: 0.12em; text-transform: uppercase;
             color: var(--color-primary-text);
             padding: 0.3rem 0.6rem; border: 1px solid var(--border-color);
             border-radius: 999px; background: var(--bg-surface);
@@ -277,7 +277,7 @@
         .hero-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
         .hero-meta {
             display: flex; flex-wrap: wrap; gap: 1.25rem; margin-top: 1.4rem;
-            font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--text-muted);
             justify-content: center;
         }
         .hero-meta span { display: inline-flex; align-items: center; gap: 0.45rem; }
@@ -302,12 +302,12 @@
             background: var(--bg-surface); padding: 1.6rem 1.5rem 1.8rem;
             display: flex; flex-direction: column; gap: 0.5rem;
         }
-        .how-step .num { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--color-primary-text); letter-spacing: 0.14em; }
+        .how-step .num { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--color-primary-text); letter-spacing: 0.14em; }
         .how-step h3 { font-size: 1.05rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
-        .how-step p { font-size: 0.92rem; color: var(--text-secondary); margin: 0; text-wrap: pretty; }
+        .how-step p { font-size: 1rem; color: var(--text-secondary); margin: 0; text-wrap: pretty; }
         .how-step .glyph {
             margin-top: 0.6rem; padding-top: 0.9rem; border-top: 1px dashed var(--border-color);
-            font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--text-muted);
         }
         .how-video-facade {
             display: block; position: relative; width: 100%; max-width: 720px;
@@ -341,7 +341,7 @@
         .features-list li {
             display: flex; gap: 0.6rem; align-items: baseline;
             padding: 0.7rem 0; border-bottom: 1px solid var(--border-light);
-            font-size: 0.92rem; color: var(--text-secondary);
+            font-size: 1rem; color: var(--text-secondary);
         }
         .features-list li::before {
             content: '+'; color: var(--color-primary-text);
@@ -349,7 +349,7 @@
         }
         .features-side { align-self: center; }
         .features-side h3 { font-size: 1.1rem; margin: 0 0 0.6rem; letter-spacing: -0.01em; }
-        .features-side p { color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 1rem; max-width: 36ch; }
+        .features-side p { color: var(--text-secondary); font-size: 1rem; margin: 0 0 1rem; max-width: 36ch; }
 
 
         /* ── FAQ ────────────────────────────────────────── */
@@ -368,7 +368,7 @@
             cursor: pointer; list-style: none;
             padding: 1.05rem 0;
             display: flex; align-items: center; justify-content: space-between;
-            font-size: 0.98rem; font-weight: 500; letter-spacing: -0.005em;
+            font-size: 1rem; font-weight: 500; letter-spacing: -0.005em;
         }
         .faq-item summary::-webkit-details-marker { display: none; }
         .faq-item summary::after {
@@ -376,9 +376,9 @@
             font-size: 1.05rem; transition: transform 200ms ease; flex-shrink: 0; margin-left: 1rem;
         }
         .faq-item[open] summary::after { content: '−'; color: var(--color-primary-text); }
-        .faq-item p { margin: 0 0 1.1rem; color: var(--text-secondary); font-size: 0.92rem; max-width: 65ch; text-wrap: pretty; }
+        .faq-item p { margin: 0 0 1.1rem; color: var(--text-secondary); font-size: 1rem; max-width: 65ch; text-wrap: pretty; }
         .faq-item code {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.85em;
+            font-family: 'JetBrains Mono', monospace; font-size: 1em;
             background: var(--bg-surface); padding: 1px 6px; border-radius: 3px; color: var(--text-primary);
         }
 
@@ -393,10 +393,10 @@
             transition: border-color 120ms ease, transform 120ms ease;
         }
         .blog-card:hover { border-color: var(--color-primary-text); transform: translateY(-2px); }
-        .blog-card .cat { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.14em; color: var(--text-muted); text-transform: uppercase; }
+        .blog-card .cat { font-family: 'JetBrains Mono', monospace; font-size: 1rem; letter-spacing: 0.14em; color: var(--text-muted); text-transform: uppercase; }
         .blog-card h3 { margin: 0; font-size: 1rem; letter-spacing: -0.01em; font-weight: 600; }
-        .blog-card p { margin: 0; color: var(--text-secondary); font-size: 0.88rem; line-height: 1.55; }
-        .blog-card .read { margin-top: 0.4rem; color: var(--color-primary-text); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; }
+        .blog-card p { margin: 0; color: var(--text-secondary); font-size: 1rem; line-height: 1.55; }
+        .blog-card .read { margin-top: 0.4rem; color: var(--color-primary-text); font-size: 1rem; font-family: 'JetBrains Mono', monospace; }
 
         /* ── Stats ───────────────────────────────────────── */
         .stats-bar-inner {
@@ -413,7 +413,7 @@
             color: var(--color-primary-text);
         }
         .stat-label {
-            font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+            font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase;
             color: var(--text-muted);
         }
         .stat-online .stat-value::before {
@@ -422,6 +422,34 @@
             background: var(--color-primary-text);
             box-shadow: 0 0 6px var(--color-primary-text);
             margin-right: 0.4rem; vertical-align: middle;
+        }
+
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            max-width: 540px;
+            margin: 3.125rem auto 0;
+        }
+        .trust-badges a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: min(250px, 100%);
+            min-height: 54px;
+        }
+        .trust-badges img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 560px) {
+            .trust-badges {
+                flex-direction: column;
+                padding-inline: 1rem;
+            }
         }
 
         /* ── Final CTA ──────────────────────────────────── */
@@ -476,7 +504,7 @@
             </div>
         </div>
     </div>
-    <div style="display: flex; justify-content: center; margin-top: 50px">
+    <div class="trust-badges" aria-label="Independent product recognition">
         <a
            href="https://www.producthunt.com/products/sql-designer-com?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-sql-designer"
            target="_blank" rel="noopener noreferrer">
@@ -516,8 +544,8 @@
 <section class="block" aria-labelledby="what-is-h2" style="background:var(--bg-page); border-bottom:1px solid var(--border-light);">
     <div class="block-inner">
         <h2 class="section-h2" id="what-is-h2">What is SQL Designer?</h2>
-        <p style="color:var(--text-secondary); font-size:0.97rem; line-height:1.75;">
-            SQL Designer is a browser-based entity relationship diagram (ERD) tool built for developers who need to model relational databases visually. It supports six SQL dialects — MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access — with dedicated column type pickers and DDL export for each engine. The design workflow is visual: create tables, add columns using real database types such as <code style="font-family:'JetBrains Mono',monospace; font-size:0.9em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">INT</code>, <code style="font-family:'JetBrains Mono',monospace; font-size:0.9em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">VARCHAR</code>, and <code style="font-family:'JetBrains Mono',monospace; font-size:0.9em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">DECIMAL</code>, set PRIMARY KEY, UNIQUE, and NOT NULL constraints with toggles, and draw foreign key relationships by connecting columns on the canvas. The diagram uses crow's foot notation for cardinality. When the schema is ready, export a complete CREATE TABLE script in one click — or paste an existing SQL script to visualize it instantly as an editable diagram. SQL Designer runs entirely in the browser with no download or installation required. The free plan includes 1 diagram and 3 combined SQL, JSON, migration, or PNG exports per day; Pro includes unlimited diagrams and exports. The full source code is available on <a href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary-text);">GitHub</a> under an open-source license.
+        <p style="color:var(--text-secondary); font-size:1rem; line-height:1.75;">
+            SQL Designer is a browser-based entity relationship diagram (ERD) tool built for developers who need to model relational databases visually. It supports six SQL dialects — MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access — with dedicated column type pickers and DDL export for each engine. The design workflow is visual: create tables, add columns using real database types such as <code style="font-family:'JetBrains Mono',monospace; font-size:1em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">INT</code>, <code style="font-family:'JetBrains Mono',monospace; font-size:1em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">VARCHAR</code>, and <code style="font-family:'JetBrains Mono',monospace; font-size:1em; background:var(--bg-surface); padding:1px 5px; border-radius:3px;">DECIMAL</code>, set PRIMARY KEY, UNIQUE, and NOT NULL constraints with toggles, and draw foreign key relationships by connecting columns on the canvas. The diagram uses crow's foot notation for cardinality. When the schema is ready, export a complete CREATE TABLE script in one click — or paste an existing SQL script to visualize it instantly as an editable diagram. SQL Designer runs entirely in the browser with no download or installation required. The free plan includes 1 diagram and 3 combined SQL, JSON, migration, or PNG exports per day; Pro includes unlimited diagrams and exports. The full source code is available on <a href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary-text);">GitHub</a> under an open-source license.
         </p>
     </div>
 </section>
@@ -589,7 +617,7 @@
     <div class="block-inner faq-grid">
         <div>
             <h2 class="section-h2" id="faq-h2">Common questions</h2>
-            <p style="color:var(--text-secondary); font-size:0.92rem; max-width:32ch;">More on the <a href="/blog" style="color:var(--color-primary-text)">blog</a> — including comparisons with MySQL Workbench, dbdiagram.io, and Lucidchart.</p>
+            <p style="color:var(--text-secondary); font-size:1rem; max-width:32ch;">More on the <a href="/blog" style="color:var(--color-primary-text)">blog</a> — including comparisons with MySQL Workbench, dbdiagram.io, and Lucidchart.</p>
         </div>
         <ul class="faq-list" aria-label="Frequently asked questions">
             <li class="faq-item"><details open>
@@ -669,7 +697,7 @@
                 <span class="read">Read →</span>
             </a>
         </div>
-        <p style="margin-top:1.25rem; text-align:center;"><a href="/blog" style="color:var(--color-primary-text); font-size:0.88rem; font-family:'JetBrains Mono',monospace;">View all articles →</a></p>
+        <p style="margin-top:1.25rem; text-align:center;"><a href="/blog" style="color:var(--color-primary-text); font-size:1rem; font-family:'JetBrains Mono',monospace; display:inline-flex; align-items:center; min-height:44px;">View all articles →</a></p>
     </div>
 </section>
 

@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
-@section('title', 'MySQL Foreign Key — Syntax, Examples, and Best Practices')
+@section('title', 'MySQL Foreign Key Syntax, Index Rules, and Error 1215')
 
 @section('head')
     <meta name="description"
-          content="MySQL foreign keys (InnoDB only) enforce referential integrity. Learn syntax, ON DELETE CASCADE vs SET NULL, error 1215 fixes, and e-commerce schema examples.">
+          content="Learn MySQL foreign key syntax, required indexes, matching column rules, ON DELETE actions, and how to diagnose error 1215 in InnoDB.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-foreign-key">
-    <meta property="og:title" content="MySQL Foreign Key — Syntax, Examples, and Best Practices">
+    <meta property="og:title" content="MySQL Foreign Key Syntax, Index Rules, and Error 1215">
     <meta property="og:description"
-          content="MySQL foreign keys (InnoDB only) enforce referential integrity. Learn syntax, ON DELETE CASCADE vs SET NULL, error 1215 fixes, and e-commerce schema examples.">
+          content="Learn MySQL foreign key syntax, required indexes, matching column rules, ON DELETE actions, and how to diagnose error 1215 in InnoDB.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/mysql-foreign-key">
@@ -19,8 +19,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MySQL Foreign Key — Syntax, Examples, and Best Practices">
-    <meta name="twitter:description" content="MySQL foreign keys (InnoDB only) enforce referential integrity. Learn syntax, ON DELETE CASCADE vs SET NULL, error 1215 fixes, and e-commerce schema examples.">
+    <meta name="twitter:title" content="MySQL Foreign Key Syntax, Index Rules, and Error 1215">
+    <meta name="twitter:description" content="Learn MySQL foreign key syntax, required indexes, matching column rules, ON DELETE actions, and how to diagnose error 1215 in InnoDB.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -32,18 +32,18 @@
                 "itemListElement": [
                     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
                     { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sql-designer.com/blog" },
-                    { "@type": "ListItem", "position": 3, "name": "MySQL Foreign Key — Syntax, Examples, and Best Practices", "item": "https://sql-designer.com/blog/mysql-foreign-key" }
+                    { "@type": "ListItem", "position": 3, "name": "MySQL Foreign Key Syntax, Index Rules, and Error 1215", "item": "https://sql-designer.com/blog/mysql-foreign-key" }
                 ]
             },
             {
                 "@context": "https://schema.org",
                 "@type": "TechArticle",
-                "headline": "MySQL Foreign Key — Syntax, Examples, and Best Practices",
-                "description": "MySQL foreign keys (InnoDB only) enforce referential integrity. Learn syntax, ON DELETE CASCADE vs SET NULL, error 1215 fixes, and e-commerce schema examples.",
+                "headline": "MySQL Foreign Key Syntax, Index Rules, and Error 1215",
+                "description": "Learn MySQL foreign key syntax, required indexes, matching column rules, ON DELETE actions, and how to diagnose error 1215 in InnoDB.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/mysql-foreign-key",
                 "datePublished": "2026-03-19",
-                "dateModified": "2026-05-16",
+                "dateModified": "2026-07-27",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -100,9 +100,9 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>MySQL</span></p>
-        <p class="post-eyebrow">March 2026 · <time datetime="2026-05-16">Last updated: May 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
-        <h1 class="page-h1">MySQL Foreign Key — Syntax, Examples, and Best Practices</h1>
-        <p class="page-sub">A MySQL foreign key is a column constraint that references the primary key or a unique index of another table, enforcing referential integrity at the database level. The <code>FOREIGN KEY</code> syntax supports four configurable actions for <code>ON DELETE</code> and <code>ON UPDATE</code>: <code>CASCADE</code>, <code>SET NULL</code>, <code>RESTRICT</code>, and <code>NO ACTION</code>. InnoDB storage and exactly matching column types on both sides are required. This guide covers syntax, all options, error 1215, performance considerations, and production best practices.</p>
+        <p class="post-eyebrow">March 2026 · <time datetime="2026-07-27">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
+        <h1 class="page-h1">MySQL Foreign Key Syntax, Index Rules, and Error 1215</h1>
+        <p class="page-sub">A MySQL foreign key uses <code>FOREIGN KEY (child_column) REFERENCES parent_table(parent_column)</code> to enforce that every child value matches a parent row. InnoDB requires indexes on the foreign-key and referenced columns, compatible column types including signedness, and an existing parent table. Add <code>ON DELETE</code> or <code>ON UPDATE</code> actions such as <code>CASCADE</code>, <code>SET NULL</code>, or <code>RESTRICT</code>. If MySQL returns error 1215, check those requirements first.</p>
     </div>
 </section>
 
@@ -153,7 +153,7 @@
         </p>
 
         <figure style="margin: 1.2rem 0 1.8rem;">
-            <figcaption style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Database usage among developers — Stack Overflow Developer Survey 2025</figcaption>
+            <figcaption style="font-size: 1rem; color: var(--text-muted); margin-bottom: 0.55rem; font-family: 'JetBrains Mono', monospace;">Database usage among developers — Stack Overflow Developer Survey 2025</figcaption>
             <svg viewBox="0 0 540 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Horizontal bar chart showing database usage: PostgreSQL 55.6%, MySQL 40.5%, SQLite 34%, SQL Server 26%, MongoDB 24%">
                 <rect width="540" height="230" rx="8" fill="#181f2e"/>
                 <!-- Row labels -->
@@ -179,14 +179,14 @@
                 <rect x="108" y="201" width="169" height="22" rx="3" fill="#475569" opacity="0.9"/>
                 <text x="277" y="216" text-anchor="end" fill="#f1f5f9" font-size="11" font-family="JetBrains Mono,monospace" font-weight="600">24.0%</text>
             </svg>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; font-style: italic;">Source: <a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener" style="color: var(--text-muted);">Stack Overflow Developer Survey 2025</a></p>
+            <p style="font-size: 1rem; color: var(--text-muted); margin-top: 0.4rem; font-style: italic;">Source: <a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener" style="color: var(--text-muted);">Stack Overflow Developer Survey 2025</a></p>
         </figure>
 
         <div class="citation-capsule">
             MySQL supports <code>FOREIGN KEY</code> enforcement on InnoDB and NDB storage engines only. The <a href="https://dev.mysql.com/doc/refman/8.4/en/create-table-foreign-keys.html" target="_blank" rel="noopener">MySQL 8.4 Reference Manual</a> confirms that MyISAM accepts the constraint syntax without complaint but does not enforce it — child rows that violate the constraint are accepted silently. As of MySQL 8.0, InnoDB is the default storage engine, so tables created without an explicit <code>ENGINE=</code> clause will enforce foreign key constraints automatically.
         </div>
 
-        <h2 id="basic-syntax">Basic Syntax</h2>
+        <h2 id="basic-syntax">MySQL Foreign Key Syntax: CREATE TABLE and ALTER TABLE</h2>
         <p>
             MySQL foreign key syntax follows two patterns: inline during <code>CREATE TABLE</code>, or added later with <code>ALTER TABLE</code>. Both work identically at runtime. The inline approach is simpler for new schemas; <code>ALTER TABLE</code> is what you'll use when adding constraints to existing tables.
         </p>
@@ -322,7 +322,7 @@ CREATE TABLE order_items (
             <noscript><a href="https://www.youtube.com/watch?v=rFssfx37UJw">Watch: MySQL FOREIGN KEYS tutorial on YouTube</a></noscript>
         </figure>
 
-        <h2 id="error-1215">Error 1215: Cannot Add Foreign Key Constraint</h2>
+        <h2 id="error-1215">Why MySQL Error 1215 Says “Cannot Add Foreign Key Constraint”</h2>
         <p>
             Error 1215 is the most common foreign key failure. It fires whenever MySQL can't validate the constraint you're adding. The root cause is almost always one of three things.
         </p>
@@ -372,7 +372,7 @@ SET FOREIGN_KEY_CHECKS = 1;</code></pre>
             Disable checks for the load, then re-enable. One important note: re-enabling doesn't retroactively validate existing rows. If you insert bad data while checks are off, you'll end up with orphaned references. Always verify data integrity before disabling checks, and consider running a manual consistency check after re-enabling if you're not certain about the input data.
         </p>
         <p>
-            On the read side, foreign key indexes on child columns also speed up <code>JOIN</code> queries. MySQL can use those indexes to efficiently look up related rows. The index overhead from foreign keys often pays for itself in query performance, especially in heavily normalized schemas. See the <a href="/blog/database-normalization">database normalization guide</a> for when normalization actually helps vs when it adds unnecessary joins.
+            On the read side, foreign key indexes on child columns also speed up <code>JOIN</code> queries. MySQL can use those indexes to efficiently look up related rows. The index overhead from foreign keys often pays for itself in query performance, especially in heavily normalized schemas. The <a href="/blog/mysql-indexes">MySQL indexes guide</a> explains B-tree behavior, composite indexes, the leftmost-prefix rule, and <code>EXPLAIN</code>; see the <a href="/blog/database-normalization">database normalization guide</a> for when normalization actually helps vs when it adds unnecessary joins.
         </p>
 
         <div class="citation-capsule">
@@ -427,6 +427,7 @@ SET FOREIGN_KEY_CHECKS = 1;</code></pre>
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
+                <li><a href="/blog/mysql-indexes">MySQL Composite Indexes and the Leftmost-Prefix Rule &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization: 1NF, 2NF, and 3NF &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation Explained &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples &rarr;</a></li>

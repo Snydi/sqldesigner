@@ -415,7 +415,7 @@ SELECT * FROM users WHERE preferences->>'$.notifications' = 'true';</code></pre>
 
         <p><strong>1. FLOAT or DOUBLE for monetary values.</strong> This is the most damaging one. A column defined as <code>FLOAT</code> can't store <code>0.1</code> exactly — it stores the nearest IEEE 754 approximation. Sum enough rows and the total drifts from the correct value. Use <code>DECIMAL(10, 2)</code> for any price, fee, or financial amount. No exceptions. The <a href="/blog/database-normalization">database normalization guide</a> covers how this fits into a well-structured financial schema.</p>
 
-        <p><strong>2. TEXT columns in WHERE clauses without a FULLTEXT index.</strong> A query like <code>WHERE body LIKE '%keyword%'</code> against a TEXT column does a full table scan every time. On a table with 50,000 rows that's slow; on a table with 5 million rows it's a timeout. Add a <code>FULLTEXT</code> index, store a searchable excerpt in a <code>VARCHAR</code> column, or move search to a dedicated tool.</p>
+        <p><strong>2. TEXT columns in WHERE clauses without a FULLTEXT index.</strong> A query like <code>WHERE body LIKE '%keyword%'</code> against a TEXT column does a full table scan every time. On a table with 50,000 rows that's slow; on a table with 5 million rows it's a timeout. Add a <code>FULLTEXT</code> index, store a searchable excerpt in a <code>VARCHAR</code> column, or move search to a dedicated tool. The <a href="/blog/mysql-indexes">MySQL indexes guide</a> explains how B-tree, FULLTEXT, and composite index choices affect these scans.</p>
 
         <p><strong>3. ENUM instead of a lookup table.</strong> ENUM enforces allowed values at the database level, which sounds useful. The problem is ALTER TABLE. Adding a new ENUM value in MySQL 5.x rewrites the entire table — a blocking operation on a live database. In MySQL 8.0 this is instant for appended values, but the opaque storage still confuses ORMs and external tooling. A <code>VARCHAR(50)</code> with a <code>CHECK</code> constraint, or a foreign key to a <code>status_types</code> lookup table, is far more maintainable. Your future self will thank you when the business adds a new status at 11pm on a Friday.</p>
 
@@ -484,6 +484,7 @@ SELECT * FROM users WHERE preferences->>'$.notifications' = 'true';</code></pre>
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Examples &rarr;</a></li>
+                <li><a href="/blog/mysql-indexes">MySQL Composite Indexes and the Leftmost-Prefix Rule &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — data type differences &rarr;</a></li>
                 <li><a href="/blog/database-ddl-comparison">DDL syntax across MySQL, PostgreSQL, and SQLite &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database normalization — first through third normal form &rarr;</a></li>

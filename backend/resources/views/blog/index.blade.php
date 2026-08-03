@@ -67,7 +67,7 @@
         .intro-inner { max-width: 900px; margin: 0 auto; position: relative; }
         .breadcrumb {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
+            font-size: 1rem;
             color: var(--text-muted);
             letter-spacing: 0.06em;
             margin: 0 0 1rem;
@@ -115,13 +115,13 @@
         .post-card:hover { border-color: var(--border-strong); background: var(--bg-elevated); }
         .card-meta {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
+            font-size: 1rem;
             color: var(--text-muted);
             letter-spacing: 0.06em;
             margin: 0 0 0.5rem;
         }
         .post-card h2 {
-            font-size: 0.97rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--text-primary);
             margin: 0 0 0.5rem;
@@ -129,7 +129,7 @@
             letter-spacing: -0.005em;
             text-transform: none;
         }
-        .post-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.65; margin: 0; }
+        .post-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.65; margin: 0; }
     </style>
 @endsection
 

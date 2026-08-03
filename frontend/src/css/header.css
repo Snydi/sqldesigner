@@ -23,14 +23,14 @@
     align-items: center;
     justify-content: center;
     min-width: 44px;
-    height: 34px;
+    height: 44px;
     padding: 0 9px;
     border: 1px solid var(--border-color);
     border-radius: 7px;
     background: transparent;
     color: var(--text-secondary);
     font-family: inherit;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1;
     cursor: pointer;
@@ -48,8 +48,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     border-radius: 7px;
     border: 1px solid transparent;
     background: transparent;
@@ -64,13 +64,13 @@
 }
 
 .hbtn-billing {
-    height: 34px;
+    min-height: 44px;
     padding: 0 10px;
     border: 1px solid var(--border-color);
     border-radius: 7px;
     background: transparent;
     color: var(--text-secondary);
-    font-size: .75rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
 }
@@ -84,12 +84,13 @@
 
 /* Text CTA (Try Demo / Register) */
 .hbtn-cta {
+    min-height: 44px;
     padding: 6px 14px;
     border-radius: 7px;
     border: none;
     background: var(--color-primary-text);
     color: #0c1f15;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     cursor: pointer;

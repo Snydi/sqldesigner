@@ -204,7 +204,7 @@ ALTER TABLE events
     ADD COLUMN user_id_extracted VARCHAR(36)
     GENERATED ALWAYS AS (JSON_UNQUOTE(JSON_EXTRACT(meta, '$.user_id'))) STORED,
     ADD INDEX idx_user_id (user_id_extracted);</code></pre>
-        <p>For occasional JSON reads, MySQL's approach works fine. For workloads where you're querying by document content, filtering large datasets by nested keys, or running aggregations across JSON fields, JSONB wins clearly. The PostgreSQL documentation covers GIN index support for JSONB in detail (<a href="https://www.postgresql.org/docs/current/datatype-json.html" target="_blank" rel="noopener">PostgreSQL docs — JSON types</a>).</p>
+        <p>For occasional JSON reads, MySQL's approach works fine. For workloads where you're querying by document content, filtering large datasets by nested keys, or running aggregations across JSON fields, JSONB wins clearly. Compare the engine-specific advice in the <a href="/blog/mysql-indexes">MySQL composite-index guide</a> and <a href="/blog/postgresql-indexes">PostgreSQL index-types guide</a>. The PostgreSQL documentation covers GIN index support for JSONB in detail (<a href="https://www.postgresql.org/docs/current/datatype-json.html" target="_blank" rel="noopener">PostgreSQL docs — JSON types</a>).</p>
 
         <figure>
             <div class="video-wrap">
@@ -423,6 +423,8 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
+                <li><a href="/blog/mysql-indexes">MySQL Composite Indexes and the Leftmost-Prefix Rule &rarr;</a></li>
+                <li><a href="/blog/postgresql-indexes">PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN &rarr;</a></li>
                 <li><a href="/blog/database-ddl-comparison">DDL Syntax Compared: MySQL, PostgreSQL, Oracle, SQL Server &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization Explained &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
