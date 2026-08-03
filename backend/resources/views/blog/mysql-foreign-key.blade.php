@@ -4,13 +4,13 @@
 
 @section('head')
     <meta name="description"
-          content="Learn MySQL foreign key syntax, required indexes, matching column rules, ON DELETE actions, and how to diagnose error 1215 in InnoDB.">
+          content="MySQL 8.4 foreign key syntax for CREATE TABLE and ALTER TABLE, required indexes, NO ACTION vs RESTRICT, FOREIGN_KEY_CHECKS, and error 1215 fixes.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-foreign-key">
     <meta property="og:title" content="MySQL Foreign Key Syntax, Index Rules, and Error 1215">
     <meta property="og:description"
-          content="Learn MySQL foreign key syntax, required indexes, matching column rules, ON DELETE actions, and how to diagnose error 1215 in InnoDB.">
+          content="MySQL 8.4 foreign key syntax for CREATE TABLE and ALTER TABLE, required indexes, NO ACTION vs RESTRICT, FOREIGN_KEY_CHECKS, and error 1215 fixes.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/mysql-foreign-key">
@@ -20,7 +20,7 @@
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MySQL Foreign Key Syntax, Index Rules, and Error 1215">
-    <meta name="twitter:description" content="Learn MySQL foreign key syntax, required indexes, matching column rules, ON DELETE actions, and how to diagnose error 1215 in InnoDB.">
+    <meta name="twitter:description" content="MySQL 8.4 foreign key syntax for CREATE TABLE and ALTER TABLE, required indexes, NO ACTION vs RESTRICT, FOREIGN_KEY_CHECKS, and error 1215 fixes.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -39,11 +39,11 @@
                 "@context": "https://schema.org",
                 "@type": ["BlogPosting", "TechArticle"],
                 "headline": "MySQL Foreign Key Syntax, Index Rules, and Error 1215",
-                "description": "Learn MySQL foreign key syntax, required indexes, matching column rules, ON DELETE actions, and how to diagnose error 1215 in InnoDB.",
+                "description": "MySQL 8.4 foreign key syntax for CREATE TABLE and ALTER TABLE, required indexes, NO ACTION vs RESTRICT, FOREIGN_KEY_CHECKS, and error 1215 fixes.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/mysql-foreign-key",
                 "datePublished": "2026-03-19",
-                "dateModified": "2026-07-27",
+                "dateModified": "2026-08-03",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -100,7 +100,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>MySQL</span></p>
-        <p class="post-eyebrow">March 2026 · <time datetime="2026-07-27">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
+        <p class="post-eyebrow">March 2026 · <time datetime="2026-08-03">Last updated: August 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
         <h1 class="page-h1">MySQL Foreign Key Syntax, Index Rules, and Error 1215</h1>
         <p class="page-sub">A MySQL foreign key uses <code>FOREIGN KEY (child_column) REFERENCES parent_table(parent_column)</code> to enforce that every child value matches a parent row. InnoDB requires indexes on the foreign-key and referenced columns, compatible column types including signedness, and an existing parent table. Add <code>ON DELETE</code> or <code>ON UPDATE</code> actions such as <code>CASCADE</code>, <code>SET NULL</code>, or <code>RESTRICT</code>. If MySQL returns error 1215, check those requirements first.</p>
     </div>

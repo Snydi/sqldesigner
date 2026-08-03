@@ -1,6 +1,6 @@
 .PHONY: install up down reinstall clean _wait_postgres _composer_install phpunit \
         install-prod up-prod down-prod build-frontend _wait_postgres_prod _composer_install_prod \
-        clean-prod reinstall-prod backup-db indexnow phpstan pint toggle-plan-limits
+        clean-prod reinstall-prod backup-db indexnow sitemap-lastmod phpstan pint toggle-plan-limits
 
 ifeq ($(OS),Windows_NT)
     RM = del /f /q
@@ -114,6 +114,9 @@ _deploy_apply:
 
 indexnow:
 	docker exec php sh -c "cd /var/www/html/backend && php artisan seo:indexnow"
+
+sitemap-lastmod:
+	docker exec php sh -c "cd /var/www/html/backend && php artisan seo:sync-sitemap-lastmod"
 
 # Usage: make toggle-plan-limits [state=on|off]
 # Omit state to switch the current setting.

@@ -4,13 +4,13 @@
 
 @section('head')
     <meta name="description"
-          content="Decode every crow's foot notation symbol for optional, one, and many cardinality, then map one-to-one and one-to-many relationships to SQL.">
+          content="Learn crow's foot notation for ER diagrams: decode circle, bar, and many symbols; read one-to-one and one-to-many cardinality; map each pattern to SQL.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/crowfoot-notation">
     <meta property="og:title" content="Crow's Foot Notation Symbols and Cardinality Guide">
     <meta property="og:description"
-          content="Decode every crow's foot notation symbol for optional, one, and many cardinality, then map one-to-one and one-to-many relationships to SQL.">
+          content="Learn crow's foot notation for ER diagrams: decode circle, bar, and many symbols; read one-to-one and one-to-many cardinality; map each pattern to SQL.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/crowfoot-notation">
@@ -20,7 +20,7 @@
     <meta property="og:image:alt" content="SQL Designer — ER diagram with crow's foot notation">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Crow's Foot Notation Symbols and Cardinality Guide">
-    <meta name="twitter:description" content="Decode every crow's foot notation symbol for optional, one, and many cardinality, then map one-to-one and one-to-many relationships to SQL.">
+    <meta name="twitter:description" content="Learn crow's foot notation for ER diagrams: decode circle, bar, and many symbols; read one-to-one and one-to-many cardinality; map each pattern to SQL.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -39,11 +39,11 @@
             "@context": "https://schema.org",
             "@type": ["BlogPosting", "TechArticle"],
             "headline": "Crow's Foot Notation Symbols and Cardinality Guide",
-            "description": "Decode every crow's foot notation symbol for optional, one, and many cardinality, then map one-to-one and one-to-many relationships to SQL.",
+            "description": "Learn crow's foot notation for ER diagrams: decode circle, bar, and many symbols; read one-to-one and one-to-many cardinality; map each pattern to SQL.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/crowfoot-notation",
             "datePublished": "2026-04-16",
-            "dateModified": "2026-07-27",
+            "dateModified": "2026-08-03",
             "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -109,7 +109,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>ER Diagrams</span></p>
-        <p class="post-eyebrow">April 2026 · <time datetime="2026-07-27">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
+        <p class="post-eyebrow">April 2026 · <time datetime="2026-08-03">Last updated: August 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 8 min read</p>
         <h1 class="page-h1">Crow&rsquo;s Foot Notation Symbols and Cardinality Guide</h1>
         <p class="page-sub">Crow&rsquo;s foot notation uses three marks at each end of an ER-diagram relationship: a circle means zero (optional), a bar means one, and the three-pronged crow&rsquo;s foot means many. Combining the inner and outer marks produces the six cardinalities zero-or-one, exactly-one, zero-or-many, or one-or-many on either side. A bar nearest an entity means participation is mandatory; a circle means it is optional. These choices map directly to foreign keys and <code>NULL</code> rules in SQL.</p>
     </div>

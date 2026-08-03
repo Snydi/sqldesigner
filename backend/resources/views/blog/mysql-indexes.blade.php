@@ -4,13 +4,13 @@
 
 @section('head')
     <meta name="description"
-          content="Learn how MySQL B-tree and composite indexes work, when the leftmost-prefix rule applies, and how to diagnose unused indexes with EXPLAIN.">
+          content="Learn MySQL composite indexes and the leftmost-prefix rule with B-tree examples, column-order guidance, EXPLAIN output, and unused-index checks.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/mysql-indexes">
     <meta property="og:title" content="MySQL Composite Indexes and the Leftmost-Prefix Rule">
     <meta property="og:description"
-          content="Learn how MySQL B-tree and composite indexes work, when the leftmost-prefix rule applies, and how to diagnose unused indexes with EXPLAIN.">
+          content="Learn MySQL composite indexes and the leftmost-prefix rule with B-tree examples, column-order guidance, EXPLAIN output, and unused-index checks.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/mysql-indexes">
@@ -20,7 +20,7 @@
     <meta property="og:image:alt" content="SQL Designer — visual MySQL and PostgreSQL schema editor">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MySQL Composite Indexes and the Leftmost-Prefix Rule">
-    <meta name="twitter:description" content="Learn how MySQL B-tree and composite indexes work, when the leftmost-prefix rule applies, and how to diagnose unused indexes with EXPLAIN.">
+    <meta name="twitter:description" content="Learn MySQL composite indexes and the leftmost-prefix rule with B-tree examples, column-order guidance, EXPLAIN output, and unused-index checks.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -39,11 +39,11 @@
                 "@context": "https://schema.org",
                 "@type": ["BlogPosting", "TechArticle"],
                 "headline": "MySQL Composite Indexes and the Leftmost-Prefix Rule",
-                "description": "Learn how MySQL B-tree and composite indexes work, when the leftmost-prefix rule applies, and how to diagnose unused indexes with EXPLAIN.",
+                "description": "Learn MySQL composite indexes and the leftmost-prefix rule with B-tree examples, column-order guidance, EXPLAIN output, and unused-index checks.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
                 "url": "https://sql-designer.com/blog/mysql-indexes",
                 "datePublished": "2026-07-03",
-                "dateModified": "2026-07-27",
+                "dateModified": "2026-08-03",
                 "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
                 "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
                 "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -100,7 +100,7 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>MySQL</span></p>
-        <p class="post-eyebrow">July 2026 · <time datetime="2026-07-27">Last updated: July 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 9 min read</p>
+        <p class="post-eyebrow">July 2026 · <time datetime="2026-08-03">Last updated: August 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 9 min read</p>
         <h1 class="page-h1">MySQL Composite Indexes and the Leftmost-Prefix Rule</h1>
         <p class="page-sub">A MySQL composite index stores multiple columns in one ordered B-tree. The leftmost-prefix rule means an index on <code>(a, b, c)</code> can serve filters on <code>a</code>, <code>(a, b)</code>, or <code>(a, b, c)</code>, but not <code>b</code> or <code>c</code> alone. Single-column and composite indexes both avoid full table scans when they match real query predicates. Use <code>EXPLAIN</code> to confirm which index MySQL chooses and whether its column order fits the query.</p>
     </div>
