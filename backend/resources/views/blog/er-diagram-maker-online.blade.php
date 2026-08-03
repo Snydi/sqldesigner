@@ -1,14 +1,14 @@
 @extends('layouts.main')
 
-@section('title', 'Free Online ER Diagram Maker — No Install Required')
+@section('title', 'ER Diagram Tools: SQL-Aware vs Generic Diagram Editors')
 
 @section('head')
-    <meta name="description" content="Free online ER diagram maker for MySQL, PostgreSQL, SQLite and more. Draw tables, define relationships, export SQL — browser-based, no install.">
+    <meta name="description" content="Learn how SQL-aware ER diagram tools differ from generic editors, which features matter for database work, and when to use each approach.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/er-diagram-maker-online">
-    <meta property="og:title" content="Free Online ER Diagram Maker — No Install Required">
-    <meta property="og:description" content="Free online ER diagram maker for MySQL, PostgreSQL, SQLite and more. Draw tables, define relationships, export SQL — browser-based, no install.">
+    <meta property="og:title" content="ER Diagram Tools: SQL-Aware vs Generic Diagram Editors">
+    <meta property="og:description" content="Learn how SQL-aware ER diagram tools differ from generic editors and which features matter for database work.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/er-diagram-maker-online">
@@ -17,8 +17,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — free online ER diagram maker">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Online ER Diagram Maker — No Install Required">
-    <meta name="twitter:description" content="Free online ER diagram maker for MySQL, PostgreSQL, SQLite and more. Draw tables, define relationships, export SQL — browser-based, no install.">
+    <meta name="twitter:title" content="ER Diagram Tools: SQL-Aware vs Generic Diagram Editors">
+    <meta name="twitter:description" content="Learn how SQL-aware ER diagram tools differ from generic editors and which features matter for database work.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -30,18 +30,18 @@
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
                 { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sql-designer.com/blog" },
-                { "@type": "ListItem", "position": 3, "name": "Free Online ER Diagram Maker", "item": "https://sql-designer.com/blog/er-diagram-maker-online" }
+                { "@type": "ListItem", "position": 3, "name": "ER Diagram Tools Guide", "item": "https://sql-designer.com/blog/er-diagram-maker-online" }
             ]
         },
         {
             "@context": "https://schema.org",
-            "@type": "TechArticle",
-            "headline": "Free Online ER Diagram Maker — No Install, No Signup Required",
-            "description": "Free online ER diagram maker for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. Draw entity-relationship diagrams in the browser, define foreign key relationships, and export a complete CREATE TABLE SQL script.",
+            "@type": ["BlogPosting", "TechArticle"],
+            "headline": "ER Diagram Tools: SQL-Aware vs Generic Diagram Editors",
+            "description": "Learn how SQL-aware ER diagram tools differ from generic editors, which features matter for database work, and when to use each approach.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/er-diagram-maker-online",
             "datePublished": "2026-06-30",
-            "dateModified": "2026-06-30",
+            "dateModified": "2026-08-03",
             "author": { "@type": "Person", "name": "Dmitriy Snyatkov", "url": "https://sql-designer.com/about", "sameAs": "https://github.com/Snydi", "worksFor": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com" } },
             "publisher": { "@type": "Organization", "name": "SQL Designer", "url": "https://sql-designer.com", "sameAs": "https://github.com/Snydi/sqldesigner", "logo": { "@type": "ImageObject", "url": "https://sql-designer.com/favicon-192x192.png" } },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -120,10 +120,10 @@
 
 <section class="page-intro">
     <div class="intro-inner">
-        <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Online ER Diagram Maker</span></p>
-        <p class="post-eyebrow">June 2026 · <time datetime="2026-06-30">Published: June 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 7 min read</p>
-        <h1 class="page-h1">Free Online ER Diagram Maker — Draw, Export SQL, No Install</h1>
-        <p class="page-sub">SQL Designer is a free online ER diagram maker that works entirely in your browser. Draw entity-relationship diagrams on a visual canvas, define real SQL column types and constraints, connect foreign key relationships, and export a complete CREATE TABLE script for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access. No installation, no signup required to start.</p>
+        <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>ER Diagram Tools Guide</span></p>
+        <p class="post-eyebrow">June 2026 · <time datetime="2026-08-03">Last updated: August 3, 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 7 min read</p>
+        <h1 class="page-h1">ER Diagram Tools: SQL-Aware vs. Generic Editors</h1>
+        <p class="page-sub">ER diagram tools fall into two categories: SQL-aware schema editors that understand data types, keys, and constraints, and generic drawing tools that only represent tables as shapes. This guide explains the practical differences, the features to evaluate, and when each approach fits your database-design workflow.</p>
     </div>
 </section>
 
@@ -333,7 +333,7 @@
             <ul>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/best-free-erd-tools">10 Best Free Online ERD Tools in 2026 — Tested and Compared &rarr;</a></li>
-                <li><a href="/blog/database-designer">Free Online Database Schema Designer — Full Guide &rarr;</a></li>
+                <li><a href="/blog/database-designer">How to Choose Database Design Software &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization — 1NF, 2NF, 3NF Explained &rarr;</a></li>
@@ -347,8 +347,8 @@
 </div>
 
 <section class="docs-cta">
-    <h2>Free online ER diagram maker — try it now</h2>
-    <p>SQL Designer is a browser-based ER diagram maker for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits.</p>
+    <h2>Use a SQL-aware ER diagram tool</h2>
+    <p>When you need a working schema rather than a conceptual drawing, open the <a href="/demo">interactive ER diagram maker</a>. SQL Designer supports MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits.</p>
     <div class="actions">
         <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
         <a class="btn btn-outline btn-lg" href="/register">Create free account</a>

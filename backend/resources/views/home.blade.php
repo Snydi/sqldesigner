@@ -481,7 +481,7 @@
         </p>
         <div class="hero-actions">
             <a id="hero-btn-authed" class="btn btn-solid btn-lg" href="/diagrams" style="display:none">Open My Diagrams</a>
-            <a class="btn btn-solid btn-lg" href="/demo">Try demo — no signup</a>
+                <a class="btn btn-solid btn-lg" href="/demo">Open ER diagram maker</a>
             <a id="hero-btn-register" class="btn btn-outline btn-lg" href="/register">Sign up</a>
         </div>
         <div class="hero-meta">
@@ -705,7 +705,7 @@
     <h2 id="cta-h2">Sketch a schema. Export the SQL.</h2>
     <p>Try the demo — no account needed. Sign up when you want to save.</p>
     <div class="hero-actions" style="justify-content:center">
-        <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
+            <a class="btn btn-solid btn-lg" href="/demo">Open ER diagram maker</a>
         <a class="btn btn-outline btn-lg" href="/register">Sign up to save</a>
     </div>
 </section>

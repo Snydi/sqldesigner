@@ -37,7 +37,7 @@
         },
         {
             "@context": "https://schema.org",
-            "@type": "TechArticle",
+            "@type": ["BlogPosting", "TechArticle"],
             "headline": "Crow's Foot Notation Symbols and Cardinality Guide",
             "description": "Decode every crow's foot notation symbol for optional, one, and many cardinality, then map one-to-one and one-to-many relationships to SQL.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
@@ -309,7 +309,7 @@
             Deriving the symbol from the column&rsquo;s <code>NOT NULL</code> constraint, rather than asking the user to pick a cardinality manually, was a deliberate choice while building this. A diagram that lets you set optionality independently of the actual constraint can silently drift out of sync with the schema it&rsquo;s supposed to represent &mdash; the picture says one thing, the DDL says another. Tying the symbol directly to the constraint means the diagram can&rsquo;t lie about what the database will actually enforce.
         </p>
         <p>
-            The result is a complete, readable ER diagram using standard crow&rsquo;s foot notation, ready to share with your team or embed in technical documentation. SQL Designer is a free <a href="/blog/er-diagram-maker-online">online ER diagram maker</a> — open the canvas and start drawing relationships immediately, no install required.
+            The result is a complete, readable ER diagram using standard crow&rsquo;s foot notation, ready to share with your team or embed in technical documentation. Open the <a href="/demo">online ER diagram maker</a> to start drawing relationships immediately, with no installation required.
         </p>
 
         <section class="faq-section" aria-label="Frequently asked questions">
@@ -348,8 +348,8 @@
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax, Examples, and Best Practices &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization — 1NF, 2NF, 3NF Explained &rarr;</a></li>
                 <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 &rarr;</a></li>
-                <li><a href="/blog/database-designer">Free Online Database Designer — Visual Schema Editor &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/database-designer">How to Choose Database Design Software &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences &rarr;</a></li>

@@ -37,7 +37,7 @@
             },
             {
                 "@context": "https://schema.org",
-                "@type": "TechArticle",
+                "@type": ["BlogPosting", "TechArticle"],
                 "headline": "SQL JOIN Types: INNER, LEFT, RIGHT, and FULL Explained",
                 "description": "Choose the right SQL JOIN: INNER for matches, LEFT or RIGHT for unmatched rows, FULL for both sides, plus syntax, NULL behavior, and index tips.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
@@ -323,7 +323,7 @@ JOIN customers ON orders.customer_id = customers.id;</code></pre>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences &rarr;</a></li>
                 <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
             </ul>
         </nav>
     </article>

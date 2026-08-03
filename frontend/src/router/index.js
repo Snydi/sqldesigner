@@ -71,7 +71,7 @@ const pageTitles = {
     'diagrams': 'My Diagrams — SQL Designer',
     'billing': 'Billing and Pro Access — SQL Designer',
     'diagram.show': 'Diagram Editor — SQL Designer',
-    'demo': 'Try Demo — SQL Designer',
+    'demo': 'Free ER Diagram Maker Online — Design and Export SQL',
 };
 
 router.afterEach((to) => {

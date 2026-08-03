@@ -35,7 +35,7 @@
         },
         {
             "@context": "https://schema.org",
-            "@type": "TechArticle",
+            "@type": ["BlogPosting", "TechArticle"],
             "headline": "How to Create a Database Schema Online — Free Step-by-Step Guide",
             "description": "Learn how to create a database schema online in 5 steps using a free browser-based SQL table designer. Design tables, draw relationships, and export SQL for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, or MS Access.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
@@ -420,13 +420,13 @@
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates &rarr;</a></li>
-                <li><a href="/blog/database-designer">Free Online Database Schema Designer — Full Guide &rarr;</a></li>
+                <li><a href="/blog/database-designer">How to Choose Database Design Software &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization — 1NF, 2NF, 3NF Explained &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/database-ddl-comparison">DDL Syntax Comparison: MySQL, PostgreSQL &amp; More &rarr;</a></li>
                 <li><a href="/blog/best-free-erd-tools">10 Best Free Online ERD Tools in 2026 &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — No Install Required &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Examples &rarr;</a></li>

@@ -35,7 +35,7 @@
     },
     {
         "@context": "https://schema.org",
-        "@type": "TechArticle",
+        "@type": ["BlogPosting", "TechArticle"],
         "headline": "DDL Differences: MySQL, PostgreSQL, Oracle, SQL Server, and SQLite",
         "description": "How CREATE TABLE syntax, primary keys, data types, constraints, and ALTER TABLE differ across MySQL, PostgreSQL, Oracle, Microsoft SQL Server, and SQLite — with side-by-side DDL examples.",
         "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
@@ -733,7 +733,7 @@ ALTER TABLE users DROP COLUMN phone;
             <li><strong>Timestamp defaults</strong>: <code>CURRENT_TIMESTAMP</code> works in MySQL and SQLite; PostgreSQL prefers <code>NOW()</code>; Oracle uses <code>SYSTIMESTAMP</code>; SQL Server uses <code>GETDATE()</code> or <code>SYSDATETIME()</code>.</li>
         </ul>
         <p>
-            Whichever database you're targeting, modelling your schema visually before writing DDL makes it easier to catch type mismatches and missing constraints early. Index syntax and capabilities also differ by engine, so use the <a href="/blog/mysql-indexes">MySQL composite-index guide</a> or <a href="/blog/postgresql-indexes">PostgreSQL index-types guide</a> after choosing a dialect. SQL Designer supports MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access dialects and exports ready-to-run <code>CREATE TABLE</code> scripts — see the <a href="/blog/database-designer">free online database designer</a> or <a href="/demo">try the demo</a> with your own schema.
+            Whichever database you're targeting, modelling your schema visually before writing DDL makes it easier to catch type mismatches and missing constraints early. Index syntax and capabilities also differ by engine, so use the <a href="/blog/mysql-indexes">MySQL composite-index guide</a> or <a href="/blog/postgresql-indexes">PostgreSQL index-types guide</a> after choosing a dialect. SQL Designer supports MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access dialects and exports ready-to-run <code>CREATE TABLE</code> scripts — <a href="/demo">open the interactive database designer</a> with your own schema.
         </p>
 
         <section class="faq-section" aria-label="Frequently asked questions">
@@ -778,7 +778,7 @@ ALTER TABLE users DROP COLUMN phone;
                 <li><a href="/blog/best-free-erd-tools">Best Free ERD Tools — 10 Tested in 2026 &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — NUMERIC, TIMESTAMPTZ, JSONB, UUID &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples &rarr;</a></li>
             </ul>
         </nav>

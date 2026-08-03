@@ -37,7 +37,7 @@
             },
             {
                 "@context": "https://schema.org",
-                "@type": "TechArticle",
+                "@type": ["BlogPosting", "TechArticle"],
                 "headline": "Database Schema Examples — MySQL & PostgreSQL Templates",
                 "description": "5 ready-to-copy database schema examples — e-commerce, blog, SaaS, and more — with MySQL and PostgreSQL CREATE TABLE scripts.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
@@ -92,6 +92,7 @@
                 "name": "Database Design Course - Learn how to design and plan a database for beginners",
                 "description": "A full course covering database design fundamentals: keys, relationships, normalization, and ER modeling through to schema construction.",
                 "thumbnailUrl": "https://img.youtube.com/vi/ztHopE5Wnpc/hqdefault.jpg",
+                "uploadDate": "2018-08-31T08:23:49-07:00",
                 "contentUrl": "https://www.youtube.com/watch?v=ztHopE5Wnpc",
                 "embedUrl": "https://www.youtube.com/embed/ztHopE5Wnpc"
             }
@@ -538,7 +539,7 @@ CREATE TABLE messages (
             <li><strong>Use <code>TIMESTAMPTZ</code> in PostgreSQL</strong> over <code>TIMESTAMP</code>. It stores UTC and converts correctly per session timezone, which matters the moment your users span more than one timezone.</li>
             <li><strong>Index FK columns in PostgreSQL manually.</strong> MySQL creates indexes on foreign key columns automatically; PostgreSQL doesn't. Add an explicit index on any FK column you'll use in a <code>WHERE</code> or <code>JOIN</code>.</li>
             <li><strong>Think twice before adding soft deletes.</strong> A <code>deleted_at</code> column requires <code>WHERE deleted_at IS NULL</code> in every query. One forgotten filter is a data leak waiting to happen. Use it only where the audit trail is genuinely worth that cost.</li>
-            <li><strong>Design visually first</strong> — missing relationships and redundant tables are obvious in a diagram and invisible in a wall of DDL. Use the <a href="/blog/database-designer">free online database schema designer</a> to drag, connect, and adjust before you commit to code. For a step-by-step walkthrough of the process, see <a href="/blog/create-database-schema-online">how to create a database schema online</a>.</li>
+            <li><strong>Design visually first</strong> — missing relationships and redundant tables are obvious in a diagram and invisible in a wall of DDL. Use the <a href="/demo">interactive database schema designer</a> to drag, connect, and adjust before you commit to code. For a step-by-step walkthrough of the process, see <a href="/blog/create-database-schema-online">how to create a database schema online</a>.</li>
             <li><strong>Check DDL syntax when targeting a different database.</strong> The <code>CREATE TABLE</code> syntax for primary keys, boolean types, timestamp defaults, and <code>ALTER TABLE</code> differs significantly between MySQL, PostgreSQL, Oracle, SQL Server, and SQLite. For a full side-by-side reference, see the <a href="/blog/database-ddl-comparison">DDL syntax comparison guide</a>.</li>
         </ul>
 
@@ -580,14 +581,14 @@ CREATE TABLE messages (
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/library">SQL Designer Schema Library — ready-made templates &rarr;</a></li>
-                <li><a href="/blog/database-designer">Free Online Database Schema Designer — Full Guide &rarr;</a></li>
+                <li><a href="/blog/database-designer">How to Choose Database Design Software &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization — 1NF, 2NF, 3NF Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Best Practices &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Which Should You Use? &rarr;</a></li>
                 <li><a href="/blog/best-free-erd-tools">Best Free ERD Tools — 10 Tested in 2026 &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained &rarr;</a></li>
             </ul>

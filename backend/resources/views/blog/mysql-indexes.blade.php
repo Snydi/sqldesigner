@@ -37,7 +37,7 @@
             },
             {
                 "@context": "https://schema.org",
-                "@type": "TechArticle",
+                "@type": ["BlogPosting", "TechArticle"],
                 "headline": "MySQL Composite Indexes and the Leftmost-Prefix Rule",
                 "description": "Learn how MySQL B-tree and composite indexes work, when the leftmost-prefix rule applies, and how to diagnose unused indexes with EXPLAIN.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },

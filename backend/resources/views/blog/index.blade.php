@@ -170,9 +170,9 @@
         <p>Learn the crow's foot symbols for one-to-one, one-to-many, and many-to-many relationships, how optionality works, and how the notation maps to real foreign key constraints.</p>
     </a>
     <a class="post-card" href="/blog/er-diagram-maker-online">
-        <p class="card-meta">June 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 6 min read</p>
-        <h2>Free Online ER Diagram Maker — Draw, Export SQL, No Install</h2>
-        <p>SQL Designer is a free browser-based ER diagram maker for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access. Draw entities, define relationships, export a complete CREATE TABLE script — no signup needed to start.</p>
+        <p class="card-meta">Updated August 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 7 min read</p>
+        <h2>ER Diagram Tools: SQL-Aware vs. Generic Editors</h2>
+        <p>Learn how SQL-aware schema tools differ from generic drawing editors, which capabilities matter for database work, and when each approach fits.</p>
     </a>
     <a class="post-card" href="/blog/create-database-schema-online">
         <p class="card-meta">June 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 7 min read</p>
@@ -185,9 +185,9 @@
         <p>We tested 10 free ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, and DBeaver — with honest strengths, real limits, pricing, and use-case guidance.</p>
     </a>
     <a class="post-card" href="/blog/database-designer">
-        <p class="card-meta">April 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 6 min read</p>
-        <h2>Free Online Database Designer — Visual Schema Builder for MySQL &amp; PostgreSQL</h2>
-        <p>What to look for in a free online database designer, how visual schema building compares to writing DDL by hand, and how to go from blank canvas to exported SQL.</p>
+        <p class="card-meta">Updated August 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 8 min read</p>
+        <h2>How to Choose Database Design Software for SQL Teams</h2>
+        <p>Compare SQL dialect support, schema import, relationship modeling, collaboration, and export features before choosing a database design tool.</p>
     </a>
     <a class="post-card" href="/blog/database-schema-examples">
         <p class="card-meta">April 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 9 min read</p>

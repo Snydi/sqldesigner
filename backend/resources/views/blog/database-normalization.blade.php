@@ -37,7 +37,7 @@
             },
             {
                 "@context": "https://schema.org",
-                "@type": "TechArticle",
+                "@type": ["BlogPosting", "TechArticle"],
                 "headline": "Database Normalization: 1NF vs 2NF vs 3NF Examples",
                 "description": "Compare 1NF, 2NF, and 3NF with before-and-after tables, partial and transitive dependencies, SQL examples, BCNF, and a practical checklist.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
@@ -515,11 +515,11 @@ employee_projects(emp_id, project_id)</code></pre>
             <ul>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Examples &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Symbols Explained &rarr;</a></li>
-                <li><a href="/blog/database-designer">Free Online Database Designer — design your normalized schema visually &rarr;</a></li>
+                <li><a href="/blog/database-designer">How to Choose Database Design Software &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — TIMESTAMPTZ, JSONB, UUID, Arrays &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
                 <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences &rarr;</a></li>

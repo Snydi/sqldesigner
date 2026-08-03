@@ -36,7 +36,7 @@
         },
         {
             "@context": "https://schema.org",
-            "@type": "TechArticle",
+            "@type": ["BlogPosting", "TechArticle"],
             "headline": "10 Best Free ERD Tools in 2026 — Tested and Compared",
             "description": "An honest comparison of 10 free ERD tools in 2026 — with real strengths, real limits, pricing details, and clear use-case guidance for every type of user.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
@@ -541,13 +541,13 @@
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/features">SQL Designer Features — Full Feature List &rarr;</a></li>
-                <li><a href="/blog/database-designer">Free Online Database Designer — Visual Schema Editor &rarr;</a></li>
+                <li><a href="/blog/database-designer">How to Choose Database Design Software &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization Explained — 1NF, 2NF, 3NF &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences for Schema Design &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax, Examples, and Best Practices &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained &rarr;</a></li>
                 <li><a href="/blog/database-ddl-comparison">DDL Syntax Comparison: MySQL, PostgreSQL &amp; More &rarr;</a></li>

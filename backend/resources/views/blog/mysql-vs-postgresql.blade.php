@@ -35,7 +35,7 @@
     },
     {
         "@context": "https://schema.org",
-        "@type": "TechArticle",
+        "@type": ["BlogPosting", "TechArticle"],
         "headline": "MySQL vs PostgreSQL — Key Differences for Schema Design",
         "description": "PostgreSQL is used by 55.6% of developers vs MySQL at 40.5%. Compare key schema design differences: auto-increment, JSONB, CHECK constraints, and more.",
         "image": { "@type": "ImageObject", "url": "https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?fm=jpg&q=80&w=1200&h=630&fit=crop", "width": 1200, "height": 630 },
@@ -387,7 +387,7 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
         <p>For most new web applications, PostgreSQL is the safer long-term choice. It's more standards-compliant, has a richer type system, and adoption trends favor it strongly — with a wider 18.6-point gap among professional developers alone (<a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>). That said, switching databases mid-project has real costs. If your stack already speaks MySQL fluently, the marginal benefits of PostgreSQL rarely justify a migration.</p>
 
         <p>
-            Whichever you choose, the schema design process is the same: model your entities and relationships first, pick appropriate data types, and use a <a href="/blog/database-designer">free online database designer</a> to <a href="/demo">validate the design visually</a> before writing DDL.
+            Whichever you choose, the schema design process is the same: model your entities and relationships first, pick appropriate data types, and use the <a href="/demo">interactive database designer</a> to validate the design visually before writing DDL.
         </p>
 
         <section class="faq-section" aria-label="Frequently asked questions">
@@ -430,7 +430,7 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types Explained — full type reference &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Examples &rarr;</a></li>

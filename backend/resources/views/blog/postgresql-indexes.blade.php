@@ -37,7 +37,7 @@
             },
             {
                 "@context": "https://schema.org",
-                "@type": "TechArticle",
+                "@type": ["BlogPosting", "TechArticle"],
                 "headline": "PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN",
                 "description": "Compare PostgreSQL B-tree, Hash, GIN, GiST, SP-GiST, and BRIN indexes, with use cases for equality, ranges, JSONB, full text, and large tables.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },

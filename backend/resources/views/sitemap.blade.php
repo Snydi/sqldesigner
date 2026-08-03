@@ -28,6 +28,10 @@
                 <span class="desc">Free online MySQL and PostgreSQL schema designer — visual drag-and-drop interface with SQL export.</span>
             </li>
             <li>
+                <a href="/demo">ER Diagram Maker</a>
+                <span class="desc">Working browser-based ER diagram editor with relationship modeling and SQL export for six database dialects.</span>
+            </li>
+            <li>
                 <a href="/about">About</a>
                 <span class="desc">About SQL Designer and its creator, Dmitriy Snyatkov.</span>
             </li>
@@ -92,12 +96,12 @@
                 <span class="desc">Create a relational database schema online in 5 steps using a free browser-based SQL designer. Design tables, draw relationships, and export SQL — no install required.</span>
             </li>
             <li>
-                <a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — No Install, No Signup Required</a>
-                <span class="desc">Free online ER diagram maker for MySQL, PostgreSQL, SQLite, Oracle, SQL Server and MS Access. Draw tables, define relationships, export SQL — browser-based, no install.</span>
+                <a href="/blog/er-diagram-maker-online">ER Diagram Tools: SQL-Aware vs. Generic Editors</a>
+                <span class="desc">How SQL-aware schema tools differ from generic drawing editors, which capabilities matter, and when to use each approach.</span>
             </li>
             <li>
-                <a href="/blog/database-designer">Free Online Database Schema Designer — All SQL Dialects</a>
-                <span class="desc">Visual schema builder for MySQL and PostgreSQL — design databases without writing DDL.</span>
+                <a href="/blog/database-designer">How to Choose Database Design Software for SQL Teams</a>
+                <span class="desc">A practical framework for comparing dialect support, schema import, relationships, collaboration, and export features.</span>
             </li>
             <li>
                 <a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates</a>

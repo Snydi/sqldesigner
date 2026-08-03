@@ -37,7 +37,7 @@
         },
         {
             "@context": "https://schema.org",
-            "@type": "TechArticle",
+            "@type": ["BlogPosting", "TechArticle"],
             "headline": "PostgreSQL Data Types Explained — Which to Use and When",
             "description": "A practical guide to PostgreSQL data types: numeric, text, boolean, date/time, JSONB, arrays, and UUID — with advice on which to choose and how they compare to MySQL.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
@@ -585,10 +585,10 @@ CREATE TABLE events (
                 <li><a href="/blog/database-ddl-comparison">DDL syntax across MySQL, PostgreSQL, Oracle, and SQLite &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database normalization — first through third normal form &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 — Tested and Compared &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
-                <li><a href="/blog/database-designer">Free Online Database Designer &rarr;</a></li>
+                <li><a href="/blog/database-designer">How to Choose Database Design Software &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Best Practices &rarr;</a></li>
             </ul>

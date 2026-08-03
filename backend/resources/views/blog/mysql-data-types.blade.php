@@ -37,7 +37,7 @@
             },
             {
                 "@context": "https://schema.org",
-                "@type": "TechArticle",
+                "@type": ["BlogPosting", "TechArticle"],
                 "headline": "MySQL Data Types Explained — Which Type to Use and When",
                 "description": "A practical guide to MySQL data types: numeric, string, date/time, and JSON types, with advice on which to choose and common mistakes to avoid.",
                 "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
@@ -490,7 +490,7 @@ SELECT * FROM users WHERE preferences->>'$.notifications' = 'true';</code></pre>
                 <li><a href="/blog/database-normalization">Database normalization — first through third normal form &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — BOOLEAN, JSONB, UUID, TIMESTAMPTZ &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
-                <li><a href="/blog/er-diagram-maker-online">Free Online ER Diagram Maker — Draw Tables, Export SQL &rarr;</a></li>
+                <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
             </ul>
         </nav>
