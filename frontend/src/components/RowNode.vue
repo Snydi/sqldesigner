@@ -446,7 +446,7 @@ const sqlTypeForSelect = computed({
 }
 
 .constraint_badge {
-    font-size: 9px;
+    font-size:$11rem;
     font-weight: 700;
     padding: 1px 4px;
     border-radius: 3px;
@@ -476,7 +476,7 @@ const sqlTypeForSelect = computed({
     border: 1px solid var(--border-color);
     border-radius: 5px;
     color: var(--text-primary);
-    font-size: 12px;
+    font-size:$11rem;
     text-align: center;
     cursor: pointer;
     transition: border-color 0.15s;
@@ -521,7 +521,7 @@ const sqlTypeForSelect = computed({
     background: var(--bg-surface);
     border: 1px solid var(--border-strong);
     color: var(--text-primary);
-    font-size: 11px;
+    font-size:$11rem;
     white-space: nowrap;
     padding: 4px 8px;
     border-radius: 4px;

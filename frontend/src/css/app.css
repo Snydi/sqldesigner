@@ -20,7 +20,7 @@
     --text-primary:   #e0e0e0;
     --text-secondary: #bbbbbb;
     --text-subtle:    #aaaaaa;
-    --text-muted:     #888888;
+    --text-muted:     #aaaaaa;
     --border-color:   #484848;
     --border-light:   #3c3c3c;
     --border-strong:  #626262;
@@ -58,22 +58,10 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
+    font-size: 16px;
     text-align: center;
     color: var(--text-primary);
     background-color: var(--bg-surface);
-}
-
-/*
- * Readability floor for all visible application copy. Component styles may
- * request a larger size; this prevents labels, helper text, table copy, and
- * modal content from rendering below the 16px product standard.
- */
-#app :where(
-    p, a, button, input, select, textarea, label, li, td, th, code, pre, figcaption,
-    [class*="label"], [class*="meta"], [class*="caption"], [class*="hint"],
-    [class*="subtitle"], [class*="eyebrow"], [class*="badge"]
-) {
-    font-size: max(1rem, 1em) !important;
 }
 
 a {

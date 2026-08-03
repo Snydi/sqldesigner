@@ -91,7 +91,7 @@ const removeEnumValue = (idx) => {
 
 .enum_modal_title {
     margin: 0 0 2px 0;
-    font-size: 11px;
+    font-size:$11rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -117,7 +117,7 @@ const removeEnumValue = (idx) => {
     gap: 3px;
     background: var(--color-primary);
     color: #fff;
-    font-size: 11px;
+    font-size:$11rem;
     font-family: 'Consolas', 'Monaco', monospace;
     padding: 2px 5px 2px 7px;
     border-radius: 3px;
@@ -128,7 +128,7 @@ const removeEnumValue = (idx) => {
     border: none;
     background: none;
     color: rgba(255,255,255,0.7);
-    font-size: 14px;
+    font-size:$11rem;
     line-height: 1;
     padding: 0 1px;
     cursor: pointer;
@@ -143,7 +143,7 @@ const removeEnumValue = (idx) => {
     outline: none;
     background: transparent;
     color: var(--text-primary);
-    font-size: 12px;
+    font-size:$11rem;
     min-width: 100px;
     flex: 1;
     padding: 0 2px;
@@ -153,7 +153,7 @@ const removeEnumValue = (idx) => {
 
 .enum_hint {
     margin: 0;
-    font-size: 11px;
+    font-size:$11rem;
     color: var(--text-muted);
 }
 </style>

@@ -93,7 +93,7 @@
                 "@type": "VideoObject",
                 "name": "Learn Database Normalization — 1NF, 2NF, 3NF, 4NF, 5NF",
                 "description": "A complete walkthrough of database normalization from 1NF through 5NF with worked examples — Decomplexify on YouTube.",
-                "thumbnailUrl": "https://img.youtube.com/vi/GFQaEYEc8_8/hqdefault.jpg",
+                "thumbnailUrl": "https://i.ytimg.com/vi_webp/GFQaEYEc8_8/hqdefault.webp",
                 "uploadDate": "2021-11-21T00:00:00+00:00",
                 "embedUrl": "https://www.youtube.com/embed/GFQaEYEc8_8",
                 "url": "https://www.youtube.com/watch?v=GFQaEYEc8_8"

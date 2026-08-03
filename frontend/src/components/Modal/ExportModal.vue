@@ -381,7 +381,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
 }
 
 .export-modal__title {
-    font-size: 14px;
+    font-size:$11rem;
     font-weight: 600;
     color: white;
     letter-spacing: 0.8px;
@@ -390,7 +390,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
 
 .export-modal__count-badge {
     font-family: 'Consolas', 'Monaco', monospace;
-    font-size: 11px;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     color: white;
@@ -403,7 +403,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
     padding: 6px 24px;
     background: var(--bg-surface-alt);
     border-bottom: 1px solid var(--border-color);
-    font-size: 11px;
+    font-size:$11rem;
     color: var(--text-secondary);
     text-align: center;
 }
@@ -447,7 +447,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
 }
 
 .export-modal__status-text {
-    font-size: 11px;
+    font-size:$11rem;
     color: var(--text-secondary);
 }
 
@@ -511,7 +511,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
 }
 
 .export-card__label {
-    font-size: 12px;
+    font-size:$11rem;
     font-weight: 700;
     color: var(--text-primary);
     font-family: 'Consolas', 'Monaco', monospace;
@@ -522,7 +522,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
 }
 
 .export-card__desc {
-    font-size: 10px;
+    font-size:$11rem;
     color: var(--text-secondary);
     line-height: 1.3;
 }
@@ -589,7 +589,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
 }
 
 .review-section__label {
-    font-size: 12px;
+    font-size:$11rem;
     color: var(--text-secondary);
     font-weight: 500;
 }
@@ -651,7 +651,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     color: var(--text-primary);
-    font-size: 12px;
+    font-size:$11rem;
     padding: 8px 10px;
     resize: none;
     box-sizing: border-box;
@@ -678,7 +678,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 12px;
+    font-size:$11rem;
     font-weight: 600;
     cursor: pointer;
     transition: opacity 0.15s;
@@ -697,7 +697,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
     background: none;
     border: none;
     color: var(--text-secondary);
-    font-size: 11px;
+    font-size:$11rem;
     cursor: pointer;
     padding: 0;
     text-decoration: underline;
@@ -709,7 +709,7 @@ const downloadLaravelMigrations = () => withExporting('laravel', async () => {
 }
 
 .review-section__thanks {
-    font-size: 13px;
+    font-size:$11rem;
     color: var(--color-primary);
     font-weight: 500;
     text-align: center;

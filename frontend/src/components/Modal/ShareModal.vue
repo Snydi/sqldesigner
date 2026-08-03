@@ -262,7 +262,7 @@ const toggleLibrary = async (event) => {
 }
 
 .share-modal__title {
-    font-size: 0.76rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -301,7 +301,7 @@ const toggleLibrary = async (event) => {
 }
 
 .share-modal__toggle-label {
-    font-size: 0.8rem;
+    font-size:$11rem;
     color: var(--text-subtle);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -361,7 +361,7 @@ const toggleLibrary = async (event) => {
 
 .share-modal__seg-btn {
     padding: 0.28rem 0.65rem;
-    font-size: 0.72rem;
+    font-size:$11rem;
     font-family: inherit;
     letter-spacing: 0.4px;
     text-transform: uppercase;
@@ -402,7 +402,7 @@ const toggleLibrary = async (event) => {
     border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 0.4rem 0.6rem;
-    font-size: 0.75rem;
+    font-size:$11rem;
     font-family: inherit;
     color: var(--text-subtle);
     background: var(--bg-surface-alt);
@@ -412,7 +412,7 @@ const toggleLibrary = async (event) => {
 }
 
 .share-modal__copy-btn {
-    font-size: 0.75rem;
+    font-size:$11rem;
     padding: 0.4rem 0.75rem;
     flex-shrink: 0;
     font-family: inherit;
@@ -421,7 +421,7 @@ const toggleLibrary = async (event) => {
 
 .share-modal__hint {
     margin: 0;
-    font-size: 0.72rem;
+    font-size:$11rem;
     color: var(--text-muted);
     text-transform: none;
     letter-spacing: 0;
@@ -451,7 +451,7 @@ const toggleLibrary = async (event) => {
 
 .share-modal__embed-input {
     font-family: monospace;
-    font-size: 0.68rem;
+    font-size:$11rem;
     resize: none;
     line-height: 1.5;
 }
@@ -473,7 +473,7 @@ const toggleLibrary = async (event) => {
     display: flex;
     align-items: center;
     gap: 0.45rem;
-    font-size: 0.8rem;
+    font-size:$11rem;
     color: var(--text-subtle);
     cursor: pointer;
     flex: 1;
@@ -496,7 +496,7 @@ const toggleLibrary = async (event) => {
     height: 16px;
     border-radius: 50%;
     border: 1px solid var(--border-color);
-    font-size: 0.65rem;
+    font-size:$11rem;
     color: var(--text-muted);
     cursor: default;
     flex-shrink: 0;
@@ -517,7 +517,7 @@ const toggleLibrary = async (event) => {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 0.5rem 0.65rem;
-    font-size: 0.72rem;
+    font-size:$11rem;
     color: var(--text-subtle);
     line-height: 1.45;
     text-transform: none;
@@ -539,7 +539,7 @@ const toggleLibrary = async (event) => {
 }
 
 .share-modal__visitors-empty {
-    font-size: 0.75rem;
+    font-size:$11rem;
     color: var(--text-muted);
     text-transform: none;
     letter-spacing: 0;
@@ -554,7 +554,7 @@ const toggleLibrary = async (event) => {
 
 .share-modal__visitor-name {
     flex: 1;
-    font-size: 0.75rem;
+    font-size:$11rem;
     color: var(--text-subtle);
     text-transform: none;
     letter-spacing: 0;
@@ -573,7 +573,7 @@ const toggleLibrary = async (event) => {
 /* Visitor inline buttons */
 .share-modal__vbtn {
     padding: 0.18rem 0.45rem;
-    font-size: 0.68rem;
+    font-size:$11rem;
     font-family: inherit;
     letter-spacing: 0.3px;
     text-transform: uppercase;

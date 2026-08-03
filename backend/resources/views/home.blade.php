@@ -178,7 +178,7 @@
                 "@id": "https://sql-designer.com/#demo-video",
                 "name": "SQL Designer: Free Online Database Schema Tool (Demo)",
                 "description": "SQL Designer is a free, online visual tool for designing, editing, and exporting database schemas. This 2-minute demo shows the /demo page, signing up, creating and editing tables, exporting a diagram, and importing an existing SQL database into a visual ERD.",
-                "thumbnailUrl": "https://i.ytimg.com/vi/10gHB66qR_o/maxresdefault.jpg",
+                "thumbnailUrl": "https://i.ytimg.com/vi_webp/10gHB66qR_o/maxresdefault.webp",
                 "uploadDate": "2026-07-03T00:00:00+00:00",
                 "duration": "PT2M",
                 "contentUrl": "https://youtu.be/10gHB66qR_o",
@@ -508,10 +508,10 @@
         <a
            href="https://www.producthunt.com/products/sql-designer-com?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-sql-designer"
            target="_blank" rel="noopener noreferrer">
-            <img alt="SQL Designer - Free and Open Source ERD tool for all major relational DBs | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1113195&amp;theme=dark&amp;t=1783927831665">
+            <img alt="SQL Designer - Free and Open Source ERD tool for all major relational DBs | Product Hunt" width="250" height="54" loading="lazy" decoding="async" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1113195&amp;theme=dark&amp;t=1783927831665">
         </a>
-        <a href="https://www.uneed.best/tool/sql-designer" target="_blank">
-            <img src="https://www.uneed.best/POTD1A.png" style="width: 250px;" alt="Uneed POTD1 Badge" />
+        <a href="https://www.uneed.best/tool/sql-designer" target="_blank" rel="noopener noreferrer">
+            <img src="https://www.uneed.best/POTD1A.png" width="639" height="171" loading="lazy" decoding="async" alt="Uneed Product of the Day badge">
         </a>
     </div>
     <div class="hero-screenshot">
@@ -571,7 +571,7 @@
             </div>
         </div>
         <button type="button" class="how-video-facade" id="demo-video-facade" aria-label="Play SQL Designer demo video">
-            <img src="https://i.ytimg.com/vi/10gHB66qR_o/maxresdefault.jpg" alt="SQL Designer demo video thumbnail" loading="lazy" width="1280" height="720">
+            <img src="https://i.ytimg.com/vi_webp/10gHB66qR_o/maxresdefault.webp" alt="SQL Designer demo video thumbnail" loading="lazy" decoding="async" fetchpriority="low" width="1280" height="720">
             <span class="play-glyph" aria-hidden="true">▶</span>
         </button>
         <script>

@@ -92,7 +92,7 @@ defineEmits(['add-table', 'import', 'export', 'save', 'show-share', 'show-change
 }
 
 .dh-name {
-    font-size: 0.82rem;
+    font-size:$11rem;
     color: var(--text-secondary);
     margin-left: 4px;
 }

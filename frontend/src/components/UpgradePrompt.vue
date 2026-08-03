@@ -55,7 +55,7 @@ defineEmits(['close'])
     cursor: pointer;
 }
 
-.upgrade-eyebrow { color: var(--color-primary-text); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.upgrade-eyebrow { color: var(--color-primary-text); font-size:$11rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 h2 { margin: .55rem 0 .7rem; color: var(--text-primary); font-size: 1.35rem; }
 p { margin: 0; color: var(--text-secondary); line-height: 1.6; }
 .upgrade-actions { display: flex; justify-content: flex-end; gap: .65rem; margin-top: 1.5rem; }

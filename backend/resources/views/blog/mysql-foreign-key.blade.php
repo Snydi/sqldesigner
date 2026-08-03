@@ -85,7 +85,7 @@
                 "@type": "VideoObject",
                 "name": "MySQL: FOREIGN KEYS are easy (kind of)",
                 "description": "A practical tutorial on MySQL foreign key syntax, ON DELETE CASCADE, SET NULL, and common mistakes — Bro Code on YouTube (2022).",
-                "thumbnailUrl": "https://img.youtube.com/vi/rFssfx37UJw/hqdefault.jpg",
+                "thumbnailUrl": "https://i.ytimg.com/vi_webp/rFssfx37UJw/hqdefault.webp",
                 "uploadDate": "2022-10-27T00:00:00+00:00",
                 "embedUrl": "https://www.youtube.com/embed/rFssfx37UJw",
                 "url": "https://www.youtube.com/watch?v=rFssfx37UJw"

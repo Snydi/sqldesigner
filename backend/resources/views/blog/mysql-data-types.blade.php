@@ -96,7 +96,7 @@
                 "@type": "VideoObject",
                 "name": "MySQL Full Course — Bro Code",
                 "description": "Full MySQL course covering data types, schema design, and queries — Bro Code on YouTube (2023).",
-                "thumbnailUrl": "https://img.youtube.com/vi/5OdVJbNCSso/hqdefault.jpg",
+                "thumbnailUrl": "https://i.ytimg.com/vi_webp/5OdVJbNCSso/hqdefault.webp",
                 "uploadDate": "2023-01-02T00:00:00+00:00",
                 "embedUrl": "https://www.youtube.com/embed/5OdVJbNCSso",
                 "url": "https://www.youtube.com/watch?v=5OdVJbNCSso"

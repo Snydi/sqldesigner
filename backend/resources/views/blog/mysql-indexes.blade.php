@@ -85,7 +85,7 @@
                 "@type": "VideoObject",
                 "name": "MySQL: INDEXES are awesome",
                 "description": "A practical tutorial on MySQL index syntax, B-tree structure, and composite indexes — Bro Code on YouTube (2022).",
-                "thumbnailUrl": "https://img.youtube.com/vi/t0grczCICMk/hqdefault.jpg",
+                "thumbnailUrl": "https://i.ytimg.com/vi_webp/t0grczCICMk/hqdefault.webp",
                 "uploadDate": "2022-11-11T00:00:00+00:00",
                 "embedUrl": "https://www.youtube.com/embed/t0grczCICMk",
                 "url": "https://www.youtube.com/watch?v=t0grczCICMk"

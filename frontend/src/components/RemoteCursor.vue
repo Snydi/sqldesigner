@@ -34,7 +34,7 @@ defineProps({
 }
 
 .remote-cursor__label {
-    font-size: 11px;
+    font-size:$11rem;
     font-weight: 600;
     color: white;
     padding: 2px 7px;

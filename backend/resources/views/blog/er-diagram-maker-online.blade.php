@@ -106,7 +106,7 @@
             "@type": "VideoObject",
             "name": "Entity Relationship Diagram (ERD) Tutorial - Part 1",
             "description": "A step-by-step tutorial on creating entity-relationship diagrams using crow's foot notation, covering entities, attributes, relationships, and cardinality.",
-            "thumbnailUrl": "https://img.youtube.com/vi/xsg9BDiwiJE/hqdefault.jpg",
+            "thumbnailUrl": "https://i.ytimg.com/vi_webp/xsg9BDiwiJE/hqdefault.webp",
             "uploadDate": "2023-10-27T00:00:00+00:00",
             "embedUrl": "https://www.youtube.com/embed/xsg9BDiwiJE",
             "url": "https://www.youtube.com/watch?v=xsg9BDiwiJE"

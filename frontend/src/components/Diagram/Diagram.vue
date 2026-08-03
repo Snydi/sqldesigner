@@ -687,17 +687,17 @@ onUnmounted(() => {
     color: #0c0c0c;
     font-family: monospace;
     font-weight: 700;
-    font-size: 11px;
+    font-size:$11rem;
 }
 
 .diagram-status-screen__text {
-    font-size: 0.92rem;
+    font-size:$11rem;
     color: var(--text-secondary);
     font-family: monospace;
 }
 
 .diagram-status-screen__subtext {
-    font-size: 0.78rem;
+    font-size:$11rem;
     color: var(--text-muted);
     text-align: center;
     max-width: 320px;
@@ -862,7 +862,7 @@ onUnmounted(() => {
     background: none;
     border: none;
     color: var(--text-primary);
-    font-size: 13px;
+    font-size:$11rem;
     cursor: pointer;
     text-align: left;
     white-space: nowrap;
@@ -876,7 +876,7 @@ onUnmounted(() => {
 
 .table-navigator__empty {
     padding: 8px 12px;
-    font-size: 12px;
+    font-size:$11rem;
     color: var(--text-muted);
 }
 </style>

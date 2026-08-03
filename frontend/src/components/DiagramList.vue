@@ -380,7 +380,7 @@ export default {
 
 .diagrams-count-badge {
     font-family: ui-monospace, monospace;
-    font-size: 0.72rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     color: var(--text-muted);
@@ -428,7 +428,7 @@ export default {
     background: transparent;
     color: var(--text-muted);
     font: inherit;
-    font-size: 0.82rem;
+    font-size:$11rem;
     text-align: left;
     cursor: pointer;
     display: flex;
@@ -462,12 +462,12 @@ export default {
 
 .diagrams-empty strong {
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size:$11rem;
 }
 
 .diagrams-empty span {
     max-width: 360px;
-    font-size: 0.82rem;
+    font-size:$11rem;
     line-height: 1.5;
 }
 
@@ -612,7 +612,7 @@ export default {
 }
 
 .diagram-card__name {
-    font-size: 0.875rem;
+    font-size:$11rem;
     color: var(--text-secondary);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -636,7 +636,7 @@ export default {
 
 .diagram-card__name-input {
     flex: 0 1 35%;
-    font-size: 0.875rem;
+    font-size:$11rem;
     border: none;
     border-bottom: 1px solid var(--color-primary);
     background: transparent;
@@ -683,7 +683,7 @@ export default {
 
 .create-modal__title {
     font-family: ui-monospace, monospace;
-    font-size: 0.76rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -724,7 +724,7 @@ export default {
 
 .create-modal__label {
     font-family: ui-monospace, monospace;
-    font-size: 0.68rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -737,7 +737,7 @@ export default {
     background: var(--bg-surface-alt);
     border: 1px solid var(--border-color);
     border-radius: 7px;
-    font-size: 0.88rem;
+    font-size:$11rem;
     font-family: inherit;
     color: var(--text-primary);
     outline: none;
@@ -781,7 +781,7 @@ export default {
 
 .db-option span {
     font-family: ui-monospace, monospace;
-    font-size: 0.65rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -820,7 +820,7 @@ export default {
 .create-modal__vis-btn {
     padding: 6px 14px;
     font-family: ui-monospace, monospace;
-    font-size: 0.72rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -851,7 +851,7 @@ export default {
     align-items: center;
     gap: 7px;
     font-family: ui-monospace, monospace;
-    font-size: 0.68rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -878,7 +878,7 @@ export default {
     height: 16px;
     border-radius: 50%;
     border: 1px solid var(--border-color);
-    font-size: 0.65rem;
+    font-size:$11rem;
     color: var(--text-muted);
     cursor: default;
     flex-shrink: 0;
@@ -899,7 +899,7 @@ export default {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 0.5rem 0.65rem;
-    font-size: 0.72rem;
+    font-size:$11rem;
     font-family: inherit;
     color: var(--text-subtle);
     line-height: 1.45;
@@ -930,7 +930,7 @@ export default {
     padding: 8px 14px;
     border-radius: 7px;
     font-family: ui-monospace, monospace;
-    font-size: 0.78rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;

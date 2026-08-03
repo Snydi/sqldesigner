@@ -46,7 +46,7 @@
             --text-primary:        #e6e6e6;
             --text-secondary:      #b8b8b8;
             --text-subtle:         #8a8a8a;
-            --text-muted:          #6a6a6a;
+            --text-muted:          #aaaaaa;
             --border-color:        #3a3a3a;
             --border-light:        #2f2f2f;
             --border-strong:       #565656;

@@ -159,7 +159,7 @@ const fullDate = (dateStr) => new Date(dateStr).toLocaleString()
 }
 
 .changelog-modal__title {
-    font-size: 0.875rem;
+    font-size:$11rem;
     font-weight: 600;
     color: var(--text-primary);
 }
@@ -190,7 +190,7 @@ const fullDate = (dateStr) => new Date(dateStr).toLocaleString()
 .changelog-modal__status {
     padding: 24px 16px;
     text-align: center;
-    font-size: 0.8rem;
+    font-size:$11rem;
     color: var(--text-muted);
 }
 
@@ -218,7 +218,7 @@ const fullDate = (dateStr) => new Date(dateStr).toLocaleString()
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size:$11rem;
     font-weight: 700;
     color: #fff;
     flex-shrink: 0;
@@ -234,7 +234,7 @@ const fullDate = (dateStr) => new Date(dateStr).toLocaleString()
 }
 
 .changelog-entry__user {
-    font-size: 0.75rem;
+    font-size:$11rem;
     font-weight: 600;
     color: var(--text-primary);
     white-space: nowrap;
@@ -243,7 +243,7 @@ const fullDate = (dateStr) => new Date(dateStr).toLocaleString()
 }
 
 .changelog-entry__action {
-    font-size: 0.75rem;
+    font-size:$11rem;
     line-height: 1.4;
     display: flex;
     align-items: center;
@@ -258,7 +258,7 @@ const fullDate = (dateStr) => new Date(dateStr).toLocaleString()
 }
 
 .changelog-entry__time {
-    font-size: 0.7rem;
+    font-size:$11rem;
     color: var(--text-muted);
     white-space: nowrap;
     flex-shrink: 0;

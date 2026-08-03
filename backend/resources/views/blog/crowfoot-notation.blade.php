@@ -93,7 +93,7 @@
             "@type": "VideoObject",
             "name": "Crow's Foot Symbols with Cardinalities",
             "description": "An academic walkthrough of all crow's foot cardinality symbols, covering one-to-many, many-to-many, and one-to-one relationships in ER diagrams.",
-            "thumbnailUrl": "https://img.youtube.com/vi/Oxda-LTLTOc/hqdefault.jpg",
+            "thumbnailUrl": "https://i.ytimg.com/vi_webp/Oxda-LTLTOc/hqdefault.webp",
             "uploadDate": "2023-02-03T00:00:00+00:00",
             "embedUrl": "https://www.youtube.com/embed/Oxda-LTLTOc",
             "url": "https://www.youtube.com/watch?v=Oxda-LTLTOc",

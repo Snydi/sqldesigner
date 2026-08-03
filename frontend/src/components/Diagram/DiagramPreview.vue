@@ -193,7 +193,7 @@ export default {
     align-items: center;
     justify-content: center;
     color: var(--border-color);
-    font-size: 11px;
+    font-size:$11rem;
     text-transform: uppercase;
     letter-spacing: 1px;
 }

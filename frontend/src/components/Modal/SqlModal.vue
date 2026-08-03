@@ -159,7 +159,7 @@ const handleFileUpload = (event) => {
 }
 
 .modal-title {
-    font-size: 0.76rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -199,7 +199,7 @@ const handleFileUpload = (event) => {
     border-bottom: 1px solid var(--border-light);
     resize: none;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 0.82rem;
+    font-size:$11rem;
     line-height: 1.7;
     color: var(--text-primary);
     background: var(--bg-surface-alt);
@@ -292,7 +292,7 @@ const handleFileUpload = (event) => {
     border-left: 1px solid var(--border-color);
     background: var(--bg-surface-alt);
     color: var(--text-secondary);
-    font-size: 0.78rem;
+    font-size:$11rem;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;

@@ -56,7 +56,7 @@ onClickOutside(modalRef, () => emit('close'))
     border-radius: 6px;
     background: var(--bg-surface-alt);
     color: var(--text-primary);
-    font-size: 0.82rem;
+    font-size:$11rem;
     font-family: 'Consolas', 'Monaco', monospace;
     font-weight: 600;
     cursor: pointer;

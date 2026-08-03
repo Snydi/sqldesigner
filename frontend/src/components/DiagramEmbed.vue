@@ -107,7 +107,7 @@ onMounted(async () => {
     align-items: center;
     justify-content: center;
     height: 100%;
-    font-size: 0.9rem;
+    font-size:$11rem;
     color: var(--text-muted);
 }
 
@@ -115,7 +115,7 @@ onMounted(async () => {
     position: absolute;
     bottom: 10px;
     right: 12px;
-    font-size: 0.7rem;
+    font-size:$11rem;
     color: var(--text-muted);
     text-decoration: none;
     background: var(--bg-elevated);

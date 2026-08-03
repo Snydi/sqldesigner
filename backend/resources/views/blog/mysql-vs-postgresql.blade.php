@@ -83,7 +83,7 @@
         "@type": "VideoObject",
         "name": "MySQL vs PostgreSQL: Which Database Should You Choose?",
         "description": "A side-by-side comparison of MySQL and PostgreSQL covering performance, features, and when to choose each for a web application.",
-        "thumbnailUrl": "https://img.youtube.com/vi/ooHoamrUAmc/hqdefault.jpg",
+        "thumbnailUrl": "https://i.ytimg.com/vi_webp/ooHoamrUAmc/hqdefault.webp",
         "uploadDate": "2024-08-21T00:00:00+00:00",
         "embedUrl": "https://www.youtube.com/embed/ooHoamrUAmc",
         "url": "https://www.youtube.com/watch?v=ooHoamrUAmc"

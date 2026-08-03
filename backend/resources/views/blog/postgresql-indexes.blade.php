@@ -85,7 +85,7 @@
                 "@type": "VideoObject",
                 "name": "PostgreSQL indexes - B-Tree, GIN, BRIN. What's the difference? Easy explanation.",
                 "description": "A practical explanation of PostgreSQL's B-Tree, GIN, and BRIN index types and when to use each (2025).",
-                "thumbnailUrl": "https://img.youtube.com/vi/_HG2eB27j00/hqdefault.jpg",
+                "thumbnailUrl": "https://i.ytimg.com/vi_webp/_HG2eB27j00/hqdefault.webp",
                 "uploadDate": "2025-06-30T00:00:00+00:00",
                 "embedUrl": "https://www.youtube.com/embed/_HG2eB27j00",
                 "url": "https://www.youtube.com/watch?v=_HG2eB27j00"

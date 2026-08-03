@@ -55,7 +55,7 @@
             "@type": "VideoObject",
             "name": "Understanding Data Types in PostgreSQL — CHAR, VARCHAR, TEXT, and More",
             "description": "A practical guide to choosing the right PostgreSQL data types, covering CHAR, VARCHAR, TEXT, and their differences in storage and behavior.",
-            "thumbnailUrl": "https://img.youtube.com/vi/kCK6VD1rzT0/hqdefault.jpg",
+            "thumbnailUrl": "https://i.ytimg.com/vi_webp/kCK6VD1rzT0/hqdefault.webp",
             "uploadDate": "2024-12-19T00:00:00+00:00",
             "embedUrl": "https://www.youtube.com/embed/kCK6VD1rzT0",
             "url": "https://www.youtube.com/watch?v=kCK6VD1rzT0"

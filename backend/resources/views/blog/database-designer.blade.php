@@ -101,7 +101,7 @@
             "@type": "VideoObject",
             "name": "Help me create the perfect database schema!",
             "description": "Practical database schema design decisions covering primary keys, sequences, GUIDs, and relational modeling techniques for MySQL and PostgreSQL.",
-            "thumbnailUrl": "https://img.youtube.com/vi/YZyjrJ_uZKM/maxresdefault.jpg",
+            "thumbnailUrl": "https://i.ytimg.com/vi_webp/YZyjrJ_uZKM/maxresdefault.webp",
             "uploadDate": "2023-11-22T00:00:00+00:00",
             "embedUrl": "https://www.youtube.com/embed/YZyjrJ_uZKM"
         }
@@ -301,7 +301,7 @@
 
         <figure class="video-embed">
             <iframe
-                srcdoc="&lt;style&gt;*{margin:0;padding:0;box-sizing:border-box}body{background:#000;width:100%;height:100%}a{display:flex;width:100%;height:100%;align-items:center;justify-content:center;position:relative;text-decoration:none}img{width:100%;height:100%;object-fit:cover;opacity:.85}.play{position:absolute;width:68px;height:48px;background:#ff0000;border-radius:12px;display:flex;align-items:center;justify-content:center}.play svg{fill:white;width:24px;height:24px}&lt;/style&gt;&lt;a href='https://www.youtube.com/watch?v=YZyjrJ_uZKM'&gt;&lt;img src='https://img.youtube.com/vi/YZyjrJ_uZKM/maxresdefault.jpg' alt='Database schema design tutorial — primary keys, sequences and relational modeling'/&gt;&lt;div class='play'&gt;&lt;svg viewBox='0 0 24 24'&gt;&lt;path d='M8 5v14l11-7z'/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/a&gt;"
+                srcdoc="&lt;style&gt;*{margin:0;padding:0;box-sizing:border-box}body{background:#000;width:100%;height:100%}a{display:flex;width:100%;height:100%;align-items:center;justify-content:center;position:relative;text-decoration:none}img{width:100%;height:100%;object-fit:cover;opacity:.85}.play{position:absolute;width:68px;height:48px;background:#ff0000;border-radius:12px;display:flex;align-items:center;justify-content:center}.play svg{fill:white;width:24px;height:24px}&lt;/style&gt;&lt;a href='https://www.youtube.com/watch?v=YZyjrJ_uZKM'&gt;&lt;img src='https://i.ytimg.com/vi_webp/YZyjrJ_uZKM/maxresdefault.webp' alt='Database schema design tutorial — primary keys, sequences and relational modeling'/&gt;&lt;div class='play'&gt;&lt;svg viewBox='0 0 24 24'&gt;&lt;path d='M8 5v14l11-7z'/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/a&gt;"
                 title="Help me create the perfect database schema! — Oracle Developers"
                 width="560" height="315"
                 loading="lazy"

@@ -163,13 +163,13 @@ label.options_modal_row {
 
 .modal_text {
     margin: 0;
-    font-size: 14px;
+    font-size:$11rem;
     white-space: nowrap;
     flex-shrink: 0;
 }
 
 .modal_text_input {
-    font-size: 14px;
+    font-size:$11rem;
     border: 1px solid var(--border-color);
     border-radius: 3px;
     padding: 2px 6px;
@@ -187,7 +187,7 @@ label.options_modal_row {
 
 .options_modal_section_label {
     margin: 0 0 4px 0;
-    font-size: 11px;
+    font-size:$11rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -203,7 +203,7 @@ label.options_modal_row {
 }
 
 .uq_constraint_cols {
-    font-size: 12px;
+    font-size:$11rem;
     font-family: 'Consolas', 'Monaco', monospace;
     color: var(--text-primary);
     flex: 1;
@@ -218,7 +218,7 @@ label.options_modal_row {
     border: none;
     background: none;
     cursor: pointer;
-    font-size: 14px;
+    font-size:$11rem;
     line-height: 1;
     padding: 0 2px;
     color: var(--text-muted);
@@ -227,7 +227,7 @@ label.options_modal_row {
 .uq_remove_btn:hover { color: #e53935; }
 
 .uq_empty {
-    font-size: 12px;
+    font-size:$11rem;
     color: var(--text-muted);
     margin: 0 0 2px 0;
 }
@@ -245,7 +245,7 @@ label.options_modal_row {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 12px;
+    font-size:$11rem;
     cursor: pointer;
     padding: 2px 3px;
     border-radius: 3px;
@@ -266,7 +266,7 @@ label.options_modal_row {
 }
 
 .uq_add_confirm_btn {
-    font-size: 12px;
+    font-size:$11rem;
     padding: 3px 10px;
     border: none;
     background: var(--color-primary);
@@ -278,7 +278,7 @@ label.options_modal_row {
 .uq_add_confirm_btn:disabled { opacity: 0.45; cursor: default; }
 
 .uq_cancel_btn {
-    font-size: 12px;
+    font-size:$11rem;
     padding: 3px 6px;
     border: none;
     background: none;
@@ -289,7 +289,7 @@ label.options_modal_row {
 .uq_cancel_btn:hover { color: var(--text-primary); }
 
 .uq_add_toggle_btn {
-    font-size: 12px;
+    font-size:$11rem;
     color: var(--color-primary);
     background: none;
     border: none;

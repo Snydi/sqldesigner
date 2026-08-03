@@ -91,7 +91,7 @@
                 "@id": "https://sql-designer.com/blog/database-schema-examples#video-1",
                 "name": "Database Design Course - Learn how to design and plan a database for beginners",
                 "description": "A full course covering database design fundamentals: keys, relationships, normalization, and ER modeling through to schema construction.",
-                "thumbnailUrl": "https://img.youtube.com/vi/ztHopE5Wnpc/hqdefault.jpg",
+                "thumbnailUrl": "https://i.ytimg.com/vi_webp/ztHopE5Wnpc/hqdefault.webp",
                 "uploadDate": "2018-08-31T08:23:49-07:00",
                 "contentUrl": "https://www.youtube.com/watch?v=ztHopE5Wnpc",
                 "embedUrl": "https://www.youtube.com/embed/ztHopE5Wnpc"
@@ -142,7 +142,7 @@
         <figure class="video-embed" style="margin: 2.5rem 0; text-align: center;">
             <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px;">
                 <iframe
-                    srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href='https://www.youtube.com/embed/ztHopE5Wnpc?autoplay=1'><img src='https://img.youtube.com/vi/ztHopE5Wnpc/hqdefault.jpg' alt='Database Design Course - Learn how to design and plan a database for beginners'><span>&#x25BA;</span></a>"
+                    srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href='https://www.youtube.com/embed/ztHopE5Wnpc?autoplay=1'><img src='https://i.ytimg.com/vi_webp/ztHopE5Wnpc/hqdefault.webp' alt='Database Design Course - Learn how to design and plan a database for beginners'><span>&#x25BA;</span></a>"
                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
                     loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

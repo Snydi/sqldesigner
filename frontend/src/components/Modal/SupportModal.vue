@@ -133,7 +133,7 @@ const submit = async () => {
 }
 
 .modal-title {
-    font-size: 0.76rem;
+    font-size:$11rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -166,7 +166,7 @@ const submit = async () => {
 
 .support-modal__intro {
     margin: 0;
-    font-size: 13px;
+    font-size:$11rem;
     line-height: 1.6;
     color: var(--text-secondary);
 }
@@ -175,7 +175,7 @@ const submit = async () => {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 13px;
+    font-size:$11rem;
     cursor: pointer;
     user-select: none;
     color: var(--text-secondary);
@@ -187,7 +187,7 @@ const submit = async () => {
     padding: 9px 12px;
     border: 1px solid var(--border-color);
     border-radius: 7px;
-    font-size: 0.88rem;
+    font-size:$11rem;
     font-family: inherit;
     box-sizing: border-box;
     background: var(--bg-surface-alt);
@@ -207,13 +207,13 @@ const submit = async () => {
 
 .support-modal__error {
     margin: 0;
-    font-size: 13px;
+    font-size:$11rem;
     color: #e53935;
 }
 
 .support-modal__success {
     margin: 0;
-    font-size: 13px;
+    font-size:$11rem;
     color: var(--color-primary-text);
 }
 
