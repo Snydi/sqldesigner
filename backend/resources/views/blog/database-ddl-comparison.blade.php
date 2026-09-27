@@ -775,7 +775,7 @@ ALTER TABLE users DROP COLUMN phone;
                 <li><a href="/blog/postgresql-indexes">PostgreSQL Index Types: B-Tree, GIN, GiST, and BRIN &rarr;</a></li>
                 <li><a href="/blog/database-normalization">Database Normalization Explained &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Examples &rarr;</a></li>
-                <li><a href="/blog/best-free-erd-tools">Best Free ERD Tools — 10 Tested in 2026 &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">Best Free ERD Tools — 11 Tested in 2026 &rarr;</a></li>
                 <li><a href="/blog/postgresql-data-types">PostgreSQL Data Types — NUMERIC, TIMESTAMPTZ, JSONB, UUID &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>

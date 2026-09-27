@@ -683,7 +683,7 @@
         <div class="blog-grid">
             <a class="blog-card" href="/blog/best-free-erd-tools">
                 <span class="cat">Tools</span>
-                <h3>10 Best Free ERD Tools in 2026</h3>
+                <h3>11 Best Free ERD Tools in 2026</h3>
                 <p>We tested SQL Designer, DrawSQL, dbdiagram.io, ChartDB, ERDPlus and more — honest strengths, real limits.</p>
                 <span class="read">Read →</span>
             </a>

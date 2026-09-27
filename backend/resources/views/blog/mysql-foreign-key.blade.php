@@ -436,7 +436,7 @@ SET FOREIGN_KEY_CHECKS = 1;</code></pre>
                 <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
                 <li><a href="/blog/database-ddl-comparison">DDL Syntax Comparison: MySQL, PostgreSQL &amp; More &rarr;</a></li>
-                <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">11 Best Free ERD Tools in 2026 &rarr;</a></li>
             </ul>
         </nav>
     </article>

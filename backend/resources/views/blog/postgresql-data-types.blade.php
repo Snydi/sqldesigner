@@ -586,7 +586,7 @@ CREATE TABLE events (
                 <li><a href="/blog/database-normalization">Database normalization — first through third normal form &rarr;</a></li>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
-                <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 — Tested and Compared &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">11 Best Free ERD Tools in 2026 — Tested and Compared &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/database-designer">How to Choose Database Design Software &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates &rarr;</a></li>

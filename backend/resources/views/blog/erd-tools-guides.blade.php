@@ -35,7 +35,7 @@
         'heading' => 'ERD Tools and Database Diagram Guides',
         'intro' => 'Choose the right ERD workflow, compare SQL-aware and general diagramming tools, and move from a visual model to an exportable database schema.',
         'articles' => [
-            ['url' => '/blog/best-free-erd-tools', 'title' => '10 Best Free ERD Tools in 2026', 'description' => 'A tested comparison of visual, text-based, browser, and desktop ERD tools.'],
+            ['url' => '/blog/best-free-erd-tools', 'title' => '11 Best Free ERD Tools in 2026', 'description' => 'A tested comparison of visual, text-based, browser, and desktop ERD tools.'],
             ['url' => '/blog/er-diagram-maker-online', 'title' => 'ER Diagram Tools: SQL-Aware vs. Generic Editors', 'description' => 'Understand when database-aware modeling and SQL export matter.'],
             ['url' => '/blog/database-designer', 'title' => 'How to Choose Database Design Software', 'description' => 'Evaluate dialect support, import, collaboration, relationships, and export.'],
             ['url' => '/blog/create-database-schema-online', 'title' => 'How to Create a Database Schema Online', 'description' => 'A step-by-step workflow from tables and keys to generated SQL.'],

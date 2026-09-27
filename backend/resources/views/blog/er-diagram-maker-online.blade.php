@@ -291,7 +291,7 @@
             <li><strong>draw.io / Figma / Lucidchart</strong> — not ER diagram makers in the SQL sense. They draw shapes but have no SQL awareness and can't generate DDL. Use these for high-level conceptual diagrams only.</li>
         </ul>
         <p>
-            For a full side-by-side comparison including import capabilities and collaboration limits, see <a href="/blog/best-free-erd-tools">10 Best Free Online ERD Tools in 2026</a>.
+            For a full side-by-side comparison including import capabilities and collaboration limits, see <a href="/blog/best-free-erd-tools">11 Best Free Online ERD Tools in 2026</a>.
         </p>
 
         <section class="faq-section" aria-label="Frequently asked questions">
@@ -332,7 +332,7 @@
             <p class="related-label">Related Articles</p>
             <ul>
                 <li><a href="/blog/create-database-schema-online">How to Create a Database Schema Online — Step-by-Step &rarr;</a></li>
-                <li><a href="/blog/best-free-erd-tools">10 Best Free Online ERD Tools in 2026 — Tested and Compared &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">11 Best Free Online ERD Tools in 2026 — Tested and Compared &rarr;</a></li>
                 <li><a href="/blog/database-designer">How to Choose Database Design Software &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples — MySQL &amp; PostgreSQL Templates &rarr;</a></li>

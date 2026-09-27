@@ -712,7 +712,7 @@
                     <p style="font-size:1rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">Browser-based so nothing to install. Visual so there's no DSL to learn. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes those limits. Open source so you can inspect exactly what the tool does with your schema.</p>
                 </div>
             </div>
-            <p style="font-size:1rem; color:var(--text-muted);">Full comparison including DrawSQL, ERDPlus, ChartDB, and Lucidchart: <a href="/blog/best-free-erd-tools" style="color:var(--color-primary-text);">10 Best Free ERD Tools in 2026 →</a></p>
+            <p style="font-size:1rem; color:var(--text-muted);">Full comparison including DrawSQL, ERDPlus, ChartDB, Miro, and Lucidchart: <a href="/blog/best-free-erd-tools" style="color:var(--color-primary-text);">11 Best Free ERD Tools in 2026 →</a></p>
         </section>
 
     </div>

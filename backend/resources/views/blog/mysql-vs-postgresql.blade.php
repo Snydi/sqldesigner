@@ -434,7 +434,7 @@ SELECT * FROM users WHERE username ILIKE 'alice';</code></pre>
                 <li><a href="/blog/sql-joins">SQL JOIN Types Explained — INNER, LEFT, RIGHT, FULL &rarr;</a></li>
                 <li><a href="/blog/database-schema-examples">Database Schema Examples &rarr;</a></li>
                 <li><a href="/blog/mysql-foreign-key">MySQL Foreign Key — Syntax and Examples &rarr;</a></li>
-                <li><a href="/blog/best-free-erd-tools">10 Best Free ERD Tools in 2026 &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">11 Best Free ERD Tools in 2026 &rarr;</a></li>
             </ul>
         </nav>
     </article>

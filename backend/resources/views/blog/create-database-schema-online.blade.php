@@ -424,7 +424,7 @@
                 <li><a href="/blog/database-normalization">Database Normalization — 1NF, 2NF, 3NF Explained &rarr;</a></li>
                 <li><a href="/blog/crowfoot-notation">Crow's Foot Notation — ER Diagram Cardinality Explained &rarr;</a></li>
                 <li><a href="/blog/database-ddl-comparison">DDL Syntax Comparison: MySQL, PostgreSQL &amp; More &rarr;</a></li>
-                <li><a href="/blog/best-free-erd-tools">10 Best Free Online ERD Tools in 2026 &rarr;</a></li>
+                <li><a href="/blog/best-free-erd-tools">11 Best Free Online ERD Tools in 2026 &rarr;</a></li>
                 <li><a href="/blog/mysql-vs-postgresql">MySQL vs PostgreSQL — Key Differences &rarr;</a></li>
                 <li><a href="/blog/er-diagram-maker-online">SQL-Aware vs. Generic ER Diagram Tools &rarr;</a></li>
                 <li><a href="/blog/mysql-data-types">MySQL Data Types Explained &rarr;</a></li>

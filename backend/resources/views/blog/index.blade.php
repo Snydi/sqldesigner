@@ -206,9 +206,9 @@
         <p>Create a relational database schema online in 5 steps using a free browser-based tool. Design tables, define columns, draw foreign key relationships, and export a complete CREATE TABLE script — no install required.</p>
     </a>
     <a class="post-card" href="/blog/best-free-erd-tools">
-        <p class="card-meta">May 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 10 min read</p>
-        <h2>10 Best Free Online ERD Tools in 2026 — Tested and Compared</h2>
-        <p>We tested 10 free ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, and DBeaver — with honest strengths, real limits, pricing, and use-case guidance.</p>
+        <p class="card-meta">Updated September 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 11 min read</p>
+        <h2>11 Best Free Online ERD Tools in 2026 — Tested and Compared</h2>
+        <p>We tested 11 free ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, Miro, DB Designer, and DBeaver — with honest strengths, real limits, pricing, and use-case guidance.</p>
     </a>
     <a class="post-card" href="/blog/database-designer">
         <p class="card-meta">Updated August 2026 · by <span style="color:var(--color-primary-text);">Dmitriy Snyatkov</span> · 8 min read</p>

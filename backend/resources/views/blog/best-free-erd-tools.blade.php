@@ -1,15 +1,15 @@
 @extends('layouts.main')
 
-@section('title', '10 Best Free ERD Tools in 2026 — Tested and Compared')
+@section('title', '11 Best Free ERD Tools in 2026 — Tested and Compared')
 
 @section('head')
-    <meta name="description" content="10 best free online ERD tools and ER diagram makers tested in 2026. Most cap tables or paywall SQL export. Find the best free database diagram maker here.">
+    <meta name="description" content="11 best free online ERD tools and ER diagram makers tested in 2026. Compare AI, collaboration, SQL export, free limits, and database support.">
     <meta name="author" content="Dmitriy Snyatkov">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/blog/best-free-erd-tools">
-    <meta property="og:title" content="10 Best Free ERD Tools in 2026 — Tested and Compared">
+    <meta property="og:title" content="11 Best Free ERD Tools in 2026 — Tested and Compared">
     <meta property="og:description"
-          content="Honest comparison of 10 free ERD tools: SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, and DBeaver.">
+          content="Honest comparison of 11 free ERD tools, including SQL Designer, DrawSQL, dbdiagram.io, Miro, Lucidchart, DB Designer, and DBeaver.">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:url" content="https://sql-designer.com/blog/best-free-erd-tools">
@@ -18,8 +18,8 @@
     <meta property="og:image:height" content="1111">
     <meta property="og:image:alt" content="SQL Designer — free ERD tool for MySQL and PostgreSQL">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="10 Best Free ERD Tools in 2026 — Tested and Compared">
-    <meta name="twitter:description" content="Honest comparison of 10 free ERD tools — SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, DBeaver.">
+    <meta name="twitter:title" content="11 Best Free ERD Tools in 2026 — Tested and Compared">
+    <meta name="twitter:description" content="Honest comparison of 11 free ERD tools, including SQL Designer, DrawSQL, dbdiagram.io, Miro, Lucidchart, DB Designer, and DBeaver.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <link rel="stylesheet" href="/css/blog.css">
     <script type="application/ld+json">
@@ -31,18 +31,18 @@
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sql-designer.com/" },
                 { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://sql-designer.com/blog" },
-                { "@type": "ListItem", "position": 3, "name": "10 Best Free ERD Tools in 2026", "item": "https://sql-designer.com/blog/best-free-erd-tools" }
+                { "@type": "ListItem", "position": 3, "name": "11 Best Free ERD Tools in 2026", "item": "https://sql-designer.com/blog/best-free-erd-tools" }
             ]
         },
         {
             "@context": "https://schema.org",
             "@type": ["BlogPosting", "TechArticle"],
-            "headline": "10 Best Free ERD Tools in 2026 — Tested and Compared",
-            "description": "An honest comparison of 10 free ERD tools in 2026 — with real strengths, real limits, pricing details, and clear use-case guidance for every type of user.",
+            "headline": "11 Best Free ERD Tools in 2026 — Tested and Compared",
+            "description": "An honest comparison of 11 free ERD tools in 2026 — with real strengths, real limits, pricing details, and clear use-case guidance for every type of user.",
             "image": { "@type": "ImageObject", "url": "https://sql-designer.com/images/designer_screenshot.webp", "width": 2240, "height": 1111 },
             "url": "https://sql-designer.com/blog/best-free-erd-tools",
             "datePublished": "2026-05-12",
-            "dateModified": "2026-07-24",
+            "dateModified": "2026-09-27",
             "author": { "@id": "https://sql-designer.com/about#dmitriy-snyatkov" },
             "publisher": { "@id": "https://sql-designer.com/#organization" },
             "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".page-sub"] },
@@ -51,8 +51,8 @@
         {
             "@context": "https://schema.org",
             "@type": "ItemList",
-            "name": "10 Best Free Online ERD Tools in 2026",
-            "description": "The 10 best free ERD tools compared by visual editing, SQL export, free tier limits, database support, and collaboration features.",
+            "name": "11 Best Free Online ERD Tools in 2026",
+            "description": "The 11 best free ERD tools compared by visual editing, SQL export, free tier limits, database support, and collaboration features.",
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "name": "SQL Designer", "url": "https://sql-designer.com", "description": "Visual ERD tool for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro provides unlimited use." },
                 { "@type": "ListItem", "position": 2, "name": "DrawSQL", "url": "https://drawsql.app", "description": "Visual database schema designer with a polished UI and broader database support. Free tier limited to around 15 tables per diagram." },
@@ -62,8 +62,9 @@
                 { "@type": "ListItem", "position": 6, "name": "ERDPlus", "url": "https://erdplus.com", "description": "Simple, browser-based ERD tool aimed at students and academics. Good for learning; limited for production use." },
                 { "@type": "ListItem", "position": 7, "name": "QuickDBD", "url": "https://www.quickdatabasediagrams.com", "description": "Fast text-to-diagram tool for quick schema sketches. Free plan limited to one diagram." },
                 { "@type": "ListItem", "position": 8, "name": "Lucidchart", "url": "https://www.lucidchart.com", "description": "General diagramming platform with ERD shapes and collaboration. Limited free tier; not SQL-aware." },
-                { "@type": "ListItem", "position": 9, "name": "DB Designer", "url": "https://www.dbdesigner.net", "description": "Visual schema designer supporting multiple databases. Free tier limited to around 50 objects per diagram." },
-                { "@type": "ListItem", "position": 10, "name": "DBeaver", "url": "https://dbeaver.io", "description": "Full-featured desktop database client with automatic ERD generation from live databases. Desktop-only, not a design-first tool." }
+                { "@type": "ListItem", "position": 9, "name": "Miro", "url": "https://miro.com", "description": "Collaborative visual workspace for AI-generated ERDs, technical diagrams, and code-first Mermaid workflows through Miro MCP." },
+                { "@type": "ListItem", "position": 10, "name": "DB Designer", "url": "https://www.dbdesigner.net", "description": "Visual schema designer supporting multiple databases. Free tier limited to around 50 objects per diagram." },
+                { "@type": "ListItem", "position": 11, "name": "DBeaver", "url": "https://dbeaver.io", "description": "Full-featured desktop database client with automatic ERD generation from live databases. Desktop-only, not a design-first tool." }
             ]
         },
         {
@@ -91,7 +92,7 @@
                     "name": "What is the difference between an ERD tool and a general diagramming tool?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "An ERD tool (SQL Designer, DrawSQL, DB Designer) understands SQL: column types are real database types (INT, VARCHAR, DECIMAL), constraints are structural features (PRIMARY KEY, FOREIGN KEY, NOT NULL), and you can export a runnable CREATE TABLE script. A general diagramming tool (draw.io, Lucidchart) draws shapes that look like tables but has no SQL awareness — column types are plain text labels, there are no real constraints, and you cannot generate DDL. For actual database schema design, you need an ERD tool, not a generic diagram editor."
+                        "text": "An ERD tool (SQL Designer, DrawSQL, DB Designer) understands SQL: column types are real database types (INT, VARCHAR, DECIMAL), constraints are structural features (PRIMARY KEY, FOREIGN KEY, NOT NULL), and you can export a runnable CREATE TABLE script. A general diagramming workspace (draw.io, Lucidchart, Miro) draws shapes that look like tables but has no SQL awareness — column types are plain text labels, there are no real constraints, and you cannot generate DDL. For actual database schema design, you need an ERD tool, not a generic diagram editor."
                     }
                 },
                 {
@@ -123,7 +124,7 @@
                     "name": "Can free ERD tools export SQL scripts?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Not all free ERD tools include SQL export on their free tiers. SQL Designer's 3 daily Free-plan exports are shared across SQL, JSON, migration, and PNG exports; Pro exports are unlimited. DrawSQL also exports SQL for free. dbdiagram.io paywalls SQL export. draw.io and Lucidchart have no SQL export at all — they are not SQL-aware tools."
+                        "text": "Not all free ERD tools include SQL export on their free tiers. SQL Designer's 3 daily Free-plan exports are shared across SQL, JSON, migration, and PNG exports; Pro exports are unlimited. DrawSQL also exports SQL for free. dbdiagram.io paywalls SQL export. draw.io, Lucidchart, and Miro have no SQL export at all — they are not SQL-aware tools."
                     }
                 },
                 {
@@ -131,7 +132,7 @@
                     "name": "What is the best free ERD tool for team collaboration?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "SQL Designer includes real-time multiplayer editing, shareable diagram links, and embeddable iframes on the free tier — no collaboration paywall. DrawSQL supports sharing and commenting. Lucidchart has strong collaboration features but the free tier limits the number of objects per diagram. dbdiagram.io's collaboration features require a paid plan. For free collaboration on database diagrams specifically, SQL Designer is the most capable option."
+                        "text": "SQL Designer includes real-time multiplayer editing, shareable diagram links, and embeddable iframes on the free tier. Miro combines real-time collaboration with AI-generated ERDs and Mermaid workflows through its MCP server, but its Free plan keeps only three boards editable and limits AI use. DrawSQL supports sharing and commenting, while Lucidchart's free tier limits the number of objects per diagram."
                     }
                 },
                 {
@@ -170,9 +171,9 @@
 <section class="page-intro">
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/blog">Blog</a><span class="sep">/</span><span>Best Free ERD Tools</span></p>
-        <p class="post-eyebrow">May 2026 · <time datetime="2026-07-24">Last updated: July 24, 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 10 min read</p>
-        <h1 class="page-h1">10 Best Free Online ERD Tools and ER Diagram Makers in 2026 — Tested and Compared</h1>
-        <p class="page-sub">The ten most commonly used free online ERD tools and ER diagram makers in 2026 are SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, DB Designer, and DBeaver — each with meaningfully different capabilities, free-tier restrictions, and levels of SQL awareness. Not all of them are genuinely free: some cap diagrams after two saves, some lock SQL export behind a paywall, and some are generic diagram editors with no SQL awareness at all. This guide tells you which free database diagram maker fits each use case.</p>
+        <p class="post-eyebrow">May 2026 · <time datetime="2026-09-27">Last updated: September 27, 2026</time> · by <a href="/about" style="color:var(--color-primary-text);">Dmitriy Snyatkov</a>, database tool developer · 11 min read</p>
+        <h1 class="page-h1">11 Best Free Online ERD Tools and ER Diagram Makers in 2026 — Tested and Compared</h1>
+        <p class="page-sub">The eleven free online ERD tools and ER diagram makers compared here are SQL Designer, DrawSQL, dbdiagram.io, draw.io, ChartDB, ERDPlus, QuickDBD, Lucidchart, Miro, DB Designer, and DBeaver — each with meaningfully different capabilities, free-tier restrictions, and levels of SQL awareness. Not all of them are genuinely free: some cap diagrams after two saves, some lock SQL export behind a paywall, and some are generic diagram editors with no SQL awareness at all. This guide tells you which free database diagram maker fits each use case.</p>
     </div>
 </section>
 
@@ -182,7 +183,7 @@
         <ul class="sidebar-nav">
             <li><a href="#at-a-glance">At a Glance</a></li>
             <li><a href="#tools-1-5">Top 5 Tools</a></li>
-            <li><a href="#tools-6-10">Tools 6–10</a></li>
+            <li><a href="#tools-6-11">Tools 6–11</a></li>
             <li><a href="#use-cases">Use Cases</a></li>
             <li><a href="#genuinely-free">Genuinely Free?</a></li>
             <li><a href="#faq">FAQ</a></li>
@@ -192,10 +193,10 @@
     <article class="article-body">
 
         <p>
-            <strong>How we tested:</strong> We created a 10-table schema in each tool — including foreign key relationships, composite primary keys, and NOT NULL constraints — then attempted to export MySQL and PostgreSQL DDL scripts and verified the output was valid SQL. Free-tier limits were confirmed against each tool's current pricing page.
+            <strong>How we tested:</strong> For each SQL-aware tool, we created a 10-table schema — including foreign key relationships, composite primary keys, and NOT NULL constraints — then attempted to export MySQL and PostgreSQL DDL scripts and verified the output was valid SQL. General-purpose workspaces were evaluated for ERD creation, collaboration, and documented AI or code-first workflows. Free-tier limits were confirmed against each tool's current pricing page.
         </p>
         <p>
-            <strong>Disclosure:</strong> SQL Designer is my product — we built it and I run this site. Its Free plan includes 1 diagram and 3 daily combined exports, while Pro provides unlimited use. I've tried to be specific about where each competitor has a genuine advantage: DrawSQL has a more polished UI, DBeaver is better for documenting an existing live database, ChartDB is stronger for AI-assisted schema explanation. Read the Limitations paragraph under each tool and judge for yourself. As an open-source project, the complete source code and commit history are publicly verifiable at <a href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer">github.com/Snydi/sqldesigner</a>.
+            <strong>Disclosure:</strong> SQL Designer is my product — we built it and I run this site. Its Free plan includes 1 diagram and 3 daily combined exports, while Pro provides unlimited use. I've tried to be specific about where each competitor has a genuine advantage: DrawSQL has a more polished UI, Miro is stronger for collaborative AI-assisted system diagrams, DBeaver is better for documenting an existing live database, and ChartDB is stronger for AI-assisted schema explanation. Read the Limitations paragraph under each tool and judge for yourself. As an open-source project, the complete source code and commit history are publicly verifiable at <a href="https://github.com/Snydi/sqldesigner" target="_blank" rel="noopener noreferrer">github.com/Snydi/sqldesigner</a>.
         </p>
 
         <div class="citation-capsule">
@@ -208,12 +209,13 @@
                 <li><strong>SQL Designer Free plan:</strong> 1 diagram and 3 daily combined exports; Pro removes both limits</li>
                 <li><strong>Best for code-first teams:</strong> dbdiagram.io (DBML) or QuickDBD (text-to-diagram)</li>
                 <li><strong>Best for documenting an existing database:</strong> ChartDB (browser) or DBeaver (desktop)</li>
-                <li><strong>No SQL awareness — conceptual diagrams only:</strong> draw.io or Lucidchart</li>
+                <li><strong>Best collaborative AI-assisted workspace:</strong> Miro for prompt-generated ERDs and Mermaid/MCP workflows</li>
+                <li><strong>No SQL awareness — conceptual diagrams only:</strong> draw.io, Lucidchart, or Miro</li>
                 <li><strong>Best for students:</strong> ERDPlus — free, no limits, designed for teaching ER notation</li>
             </ul>
         </div>
 
-        <h2 id="at-a-glance">The 10 Tools at a Glance</h2>
+        <h2 id="at-a-glance">The 11 Tools at a Glance</h2>
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -300,6 +302,15 @@
                     <td>$8/mo</td>
                 </tr>
                 <tr>
+                    <td>Miro</td>
+                    <td class="check">✓</td>
+                    <td class="cross">✗ (no SQL)</td>
+                    <td>N/A — not SQL-aware</td>
+                    <td class="check">✓</td>
+                    <td class="partial">3 editable boards; limited AI credits</td>
+                    <td>Free / Starter $8/member/mo</td>
+                </tr>
+                <tr>
                     <td>DB Designer</td>
                     <td class="check">✓</td>
                     <td class="partial">~ (limited)</td>
@@ -320,7 +331,7 @@
             </tbody>
         </table>
 
-        <h2 id="tools-1-5">The 10 Tools in Detail</h2>
+        <h2 id="tools-1-5">The 11 Tools in Detail</h2>
 
         <div class="tool-card">
             <p class="best-for">Best for: designing a relational database schema from scratch with a free starting plan</p>
@@ -375,8 +386,8 @@
             <p class="verdict">Verdict: the strongest option for teams who need to understand, document, or reverse-engineer an existing schema with AI assistance. Less suited to design-first workflows.</p>
         </div>
 
-        <h2 id="tools-6-10">Tools 6–10: Specialized, Academic, and Desktop Options</h2>
-        <p>These tools serve narrower use cases: academic ER diagram learning, rapid text-to-diagram sketching, presentation-quality conceptual diagrams, and auto-generating ERDs from a live database. Each is excellent in its context, but none is the right fit for greenfield relational database design from a blank canvas.</p>
+        <h2 id="tools-6-11">Tools 6–11: Specialized, Academic, and Desktop Options</h2>
+        <p>These tools serve narrower use cases: academic ER diagram learning, rapid text-to-diagram sketching, collaborative system design, presentation-quality conceptual diagrams, and auto-generating ERDs from a live database. Each is useful in its context, but general-purpose diagramming tools do not replace a SQL-aware schema designer.</p>
 
         <div class="tool-card">
             <p class="best-for">Best for: students, academics, and anyone learning ERD notation</p>
@@ -406,8 +417,18 @@
         </div>
 
         <div class="tool-card">
+            <p class="best-for">Best for: teams wanting collaborative ERDs and system diagrams with AI-assisted, code-first workflows</p>
+            <h3>9. <a href="https://miro.com" target="_blank" rel="noopener noreferrer" style="color:inherit;">Miro</a> — miro.com</h3>
+            <img src="/images/miro_screenshot.png" alt="Miro showing a collaborative entity-relationship diagram with editable shapes on a shared board" width="720" height="400" loading="lazy">
+            <p>Miro is a visual workspace for entity–relationship diagrams and other technical diagrams, including UML and sequence diagrams. Its <a href="https://help.miro.com/hc/en-us/articles/20970362792210-Miro-AI-reference" target="_blank" rel="noopener noreferrer">AI diagram generator</a> can turn a short prompt into an ERD made from editable shapes on a shared board, helping a team move from an idea to a collaborative schema without starting from a blank canvas.</p>
+            <p>Miro also supports code-first workflows with Mermaid. An AI agent connected through the Miro MCP server can visualize a database's current state as a Mermaid ER diagram on a board, while the Mermaid source remains portable across compatible tools.</p>
+            <p><strong>Limitations:</strong> Miro is a general visual workspace rather than a SQL-aware database designer, so it does not validate database types or constraints and does not export runnable DDL. The <a href="https://miro.com/pricing/" target="_blank" rel="noopener noreferrer">Free plan keeps only three boards editable and includes limited AI credits</a>; Starter begins at $8 per member per month when billed annually. Keep in mind, that erd feature is only one of many tools of visual data representation Miro provides.</p>
+            <p class="verdict">Verdict: a strong choice for teams that want AI-assisted ERDs alongside broader system diagrams and real-time collaboration; choose a SQL-aware tool when schema validation or DDL export is required.</p>
+        </div>
+
+        <div class="tool-card">
             <p class="best-for">Best for: teams who need multi-database visual design with a wider engine list</p>
-            <h3>9. <a href="https://www.dbdesigner.net" target="_blank" rel="noopener noreferrer" style="color:inherit;">DB Designer</a> — dbdesigner.net</h3>
+            <h3>10. <a href="https://www.dbdesigner.net" target="_blank" rel="noopener noreferrer" style="color:inherit;">DB Designer</a> — dbdesigner.net</h3>
             <img src="/images/dbdesigner_screenshot.png" alt="DB Designer showing a visual schema editor with drag-and-drop table columns" width="720" height="400" loading="lazy">
             <p>DB Designer is a visual database schema designer that supports MySQL, PostgreSQL, SQLite, and SQL Server with a drag-and-drop canvas, data type dropdowns, constraint toggles, and foreign key relationship lines. It is a closer direct competitor to SQL Designer than most other tools in this list, but with broader database engine support.</p>
             <p><strong>Limitations:</strong> the <a href="https://www.dbdesigner.net/pricing" target="_blank" rel="noopener noreferrer">free tier limits the number of objects per diagram (approximately 50), with paid plans from $9/month</a>. Collaboration and sharing are more restricted on the free plan. The interface feels dated compared to newer tools like DrawSQL. The object cap is reached quickly on real-world schemas.</p>
@@ -416,7 +437,7 @@
 
         <div class="tool-card">
             <p class="best-for">Best for: generating ERDs automatically from a live database you already run</p>
-            <h3>10. <a href="https://dbeaver.io" target="_blank" rel="noopener noreferrer" style="color:inherit;">DBeaver</a> — dbeaver.io</h3>
+            <h3>11. <a href="https://dbeaver.io" target="_blank" rel="noopener noreferrer" style="color:inherit;">DBeaver</a> — dbeaver.io</h3>
             <img src="/images/dbeaver_screenshot.png" alt="DBeaver showing an auto-generated ER diagram from a live PostgreSQL database connection" width="720" height="400" loading="lazy">
             <p>DBeaver is a full-featured desktop database client that connects to a live database, runs queries, manages data, and administrates the server. One of its features is automatic ERD generation: connect to PostgreSQL, MySQL, SQLite, Oracle, or virtually any other database, and DBeaver generates a visual entity-relationship diagram from the live schema. The Community Edition is completely free and open-source.</p>
             <p><strong>Limitations:</strong> requires download and installation — not browser-based. It is not a design-first tool; the ERD is generated from an existing database, not built visually. It is a large application — overkill if you just need to draw a diagram. Enterprise features cost $29/user/month.</p>
@@ -448,7 +469,7 @@
             </div>
             <div class="use-case-card">
                 <strong>Conceptual diagram for a slide deck or document</strong>
-                <span>draw.io or Lucidchart — free, unlimited, no SQL needed.</span>
+                <span>draw.io for unrestricted free drawing, or Lucidchart and Miro for polished collaborative presentation diagrams.</span>
             </div>
             <div class="use-case-card">
                 <strong>Full database administration plus ERD</strong>
@@ -456,7 +477,7 @@
             </div>
             <div class="use-case-card">
                 <strong>Team collaboration with presentation-quality output</strong>
-                <span>Lucidchart (general) or DrawSQL (database-specific) — both have strong sharing and commenting.</span>
+                <span>Miro for AI-assisted ERDs and broader system diagrams, Lucidchart for general diagramming, or DrawSQL for database-specific work.</span>
             </div>
         </div>
 
@@ -492,7 +513,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">What is the difference between an ERD tool and a general diagramming tool?</h3>
-                <p class="faq-a">An ERD tool (SQL Designer, DrawSQL, DB Designer) understands SQL: column types are real database types (<code>INT</code>, <code>VARCHAR</code>, <code>DECIMAL</code>), constraints are structural features (<code>PRIMARY KEY</code>, <code>FOREIGN KEY</code>, <code>NOT NULL</code>), and you can export a runnable <code>CREATE TABLE</code> script. A general diagramming tool (draw.io, Lucidchart) draws shapes that look like tables but has no SQL awareness — column types are plain text labels, there are no real constraints, and you cannot generate DDL. For actual database schema design, you need an ERD tool, not a generic diagram editor.</p>
+                <p class="faq-a">An ERD tool (SQL Designer, DrawSQL, DB Designer) understands SQL: column types are real database types (<code>INT</code>, <code>VARCHAR</code>, <code>DECIMAL</code>), constraints are structural features (<code>PRIMARY KEY</code>, <code>FOREIGN KEY</code>, <code>NOT NULL</code>), and you can export a runnable <code>CREATE TABLE</code> script. A general diagramming workspace (draw.io, Lucidchart, Miro) draws shapes that look like tables but has no SQL awareness — column types are plain text labels, there are no real constraints, and you cannot generate DDL. For actual database schema design, you need an ERD tool, not a generic diagram editor.</p>
             </div>
 
             <div class="faq-item">
@@ -512,12 +533,12 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">Can free ERD tools export SQL scripts?</h3>
-                <p class="faq-a">Not all free ERD tools include SQL export on their free tiers. SQL Designer's 3 daily Free-plan exports are shared across SQL, JSON, migration, and PNG exports; Pro exports are unlimited. DrawSQL also exports SQL for free. dbdiagram.io paywalls SQL export. draw.io and Lucidchart have no SQL export at all — they are not SQL-aware tools.</p>
+                <p class="faq-a">Not all free ERD tools include SQL export on their free tiers. SQL Designer's 3 daily Free-plan exports are shared across SQL, JSON, migration, and PNG exports; Pro exports are unlimited. DrawSQL also exports SQL for free. dbdiagram.io paywalls SQL export. draw.io, Lucidchart, and Miro have no SQL export at all — they are not SQL-aware tools.</p>
             </div>
 
             <div class="faq-item">
                 <h3 class="faq-q">What is the best free ERD tool for team collaboration?</h3>
-                <p class="faq-a">SQL Designer includes real-time multiplayer editing, shareable diagram links, and embeddable iframes on the free tier — no collaboration paywall. DrawSQL supports sharing and commenting. Lucidchart has strong collaboration features but the free tier limits the number of objects per diagram. dbdiagram.io's collaboration features require a paid plan. For free collaboration on database diagrams specifically, SQL Designer is the most capable option with no upgrade required.</p>
+                <p class="faq-a">SQL Designer includes real-time multiplayer editing, shareable diagram links, and embeddable iframes on the free tier. Miro combines real-time collaboration with AI-generated ERDs and Mermaid workflows through its MCP server, but its Free plan keeps only three boards editable and limits AI use. DrawSQL supports sharing and commenting, while Lucidchart's free tier limits the number of objects per diagram.</p>
             </div>
 
             <div class="faq-item">
