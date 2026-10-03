@@ -62,7 +62,7 @@ class PlanLimitService
     public function schemaDoctorScansUsedToday(User $user): int
     {
         return (int) (SchemaDoctorUsage::where('user_id', $user->id)
-            ->where('usage_date', $this->mskToday())
+            ->where('usage_date', $this->utcPlus3Today())
             ->value('count') ?? 0);
     }
 
@@ -137,7 +137,7 @@ class PlanLimitService
                 WHERE schema_doctor_usages.count < ?
                 RETURNING count
             SQL,
-            [$user->id, $this->mskToday(), $now, $now, self::SCHEMA_DOCTOR_DAILY_LIMIT]
+            [$user->id, $this->utcPlus3Today(), $now, $now, self::SCHEMA_DOCTOR_DAILY_LIMIT]
         );
 
         return $result !== [];
