@@ -4,14 +4,14 @@
             <div class="export-modal__header">
                 <div class="export-modal__header-left">
                     <span class="export-modal__title">Export</span>
-                    <span class="export-modal__count-badge" title="Exports used today / plan limit">{{ exportCount }} / <span v-if="exportLimit === null">∞</span><span v-else>{{ exportLimit }}</span></span>
+                    <span class="export-modal__count-badge" title="Exports used this week / plan limit">{{ exportCount }} / <span v-if="exportLimit === null">∞</span><span v-else>{{ exportLimit }}</span></span>
                 </div>
                 <button class="export-modal__close" @click="$emit('close')">
                     <img src="../../icons/close.svg" alt="Close">
                 </button>
             </div>
             <div v-if="exportLimit !== null" class="export-modal__quota-row">
-                Resets in {{ resetCountdown }} <span class="export-modal__quota-tz">(00:00 UTC+3)</span>
+                Resets in {{ resetCountdown }} <span class="export-modal__quota-tz">(Monday 00:00 UTC+3)</span>
             </div>
             <div v-if="isExporting" class="export-modal__status">
                 <span class="export-modal__status-spinner"></span>
@@ -172,36 +172,31 @@ const sqlCache     = ref(null)
 const upgradeMessage = ref('')
 
 
-const UTC_PLUS_3_OFFSET_MS = 3 * 60 * 60 * 1000
-
-const msUntilUtcPlus3Reset = () => {
-    const utcPlus3Now = Date.now() + UTC_PLUS_3_OFFSET_MS
-    const utcPlus3Date = new Date(utcPlus3Now)
-    const y = utcPlus3Date.getUTCFullYear()
-    const m = utcPlus3Date.getUTCMonth()
-    const d = utcPlus3Date.getUTCDate()
-    const nextUtcPlus3Midnight = Date.UTC(y, m, d + 1)
-    return nextUtcPlus3Midnight - utcPlus3Now
-}
-
 const exportLimit    = ref(null)
 const exportCount    = ref(0)
+const resetAt        = ref(null)
 const resetCountdown = ref('')
 let quotaTimer = null
 
 const updateCountdown = () => {
-    const msUntilReset = msUntilUtcPlus3Reset()
+    if (!resetAt.value) return
+    const msUntilReset = Math.max(0, new Date(resetAt.value).getTime() - Date.now())
+    const days    = Math.floor(msUntilReset / 86400000)
     const hours   = Math.floor(msUntilReset / 3600000)
     const minutes = Math.floor((msUntilReset % 3600000) / 60000)
-    resetCountdown.value = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`
+    const remainingHours = hours % 24
+    resetCountdown.value = days > 0
+        ? `${days}d ${remainingHours}h`
+        : (hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`)
 }
 
 const refreshQuota = async () => {
-    updateCountdown()
     try {
         const { data } = await axios.get('/api/plan-limits')
         exportLimit.value = data.export_limit
-        exportCount.value = data.exports_used_today
+        exportCount.value = data.exports_used_this_week
+        resetAt.value = data.export_resets_at
+        updateCountdown()
     } catch {
         // silently skip — badge falls back to its previous state
     }
@@ -223,7 +218,10 @@ onMounted(async () => {
     }
 
     await refreshQuota()
-    quotaTimer = setInterval(refreshQuota, 30000)
+    quotaTimer = setInterval(() => {
+        updateCountdown()
+        refreshQuota()
+    }, 30000)
 })
 
 onUnmounted(() => {

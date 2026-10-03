@@ -60,7 +60,7 @@ class SchemaDoctorController extends Controller
     private function limitReached(User $user): JsonResponse
     {
         return $this->success([
-            'message' => 'Free plan is limited to '.PlanLimitService::SCHEMA_DOCTOR_DAILY_LIMIT.' Schema Doctor scans per day. Try again after midnight (MSK) or upgrade to Pro.',
+            'message' => 'Free plan is limited to '.PlanLimitService::SCHEMA_DOCTOR_WEEKLY_LIMIT.' Schema Doctor scans per week. Try again next Monday (UTC+3) or upgrade to Pro.',
             'allowance' => $this->planLimits->schemaDoctorAllowance($user),
         ], 403);
     }

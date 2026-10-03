@@ -27,6 +27,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Knuckles\Scribe\Attributes\Group;
@@ -82,7 +83,7 @@ class AdminController extends Controller
         $payments = Payment::with('user')->latest()->limit(50)->get();
         $webhookLogs = PaymentWebhookLog::with('payment.user')->latest()->limit(50)->get();
         $exportUsages = ExportUsage::with('user')
-            ->where('usage_date', now('Europe/Moscow')->toDateString())
+            ->where('usage_date', now('Europe/Moscow')->startOfWeek(Carbon::MONDAY)->toDateString())
             ->orderByDesc('count')
             ->limit(50)
             ->get();

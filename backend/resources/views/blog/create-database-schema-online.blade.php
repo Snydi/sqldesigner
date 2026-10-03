@@ -56,7 +56,7 @@
                     "name": "How do I create a database schema online for free?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Open SQL Designer at sql-designer.com. It is browser-based and requires no installation. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits. Click the demo to try without an account, or sign up to save your work."
+                        "text": "Open SQL Designer at sql-designer.com. It is browser-based and requires no installation. The Free plan includes <?= (int) $diagramLimit ?> diagram and <?= (int) $exportWeeklyLimit ?> weekly combined exports; Pro removes both limits. Click the demo to try without an account, or sign up to save your work."
                     }
                 },
                 {
@@ -382,7 +382,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">How do I create a database schema online for free?</h3>
-                <p class="faq-a">Open <a href="/demo">SQL Designer</a>. It's browser-based and requires no installation. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits. Click the demo to try without an account, or sign up to save your work.</p>
+                <p class="faq-a">Open <a href="/demo">SQL Designer</a>. It's browser-based and requires no installation. The Free plan includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports; Pro removes both limits. Click the demo to try without an account, or sign up to save your work.</p>
             </div>
 
             <div class="faq-item">
@@ -437,7 +437,7 @@
 
 <section class="docs-cta">
     <h2>Create your database schema online — free</h2>
-    <p>SQL Designer is an online database schema designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits.</p>
+    <p>SQL Designer is an online database schema designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports; Pro removes both limits.</p>
     <div class="actions">
         <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
         <a class="btn btn-outline btn-lg" href="/register">Create free account</a>

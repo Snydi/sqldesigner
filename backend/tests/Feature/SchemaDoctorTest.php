@@ -60,14 +60,14 @@ class SchemaDoctorTest extends TestCase
             ->assertJsonPath('summary.errors', 0)
             ->assertJsonPath('summary.warnings', 1)
             ->assertJsonPath('diagnostics.0.rule_id', 'table.missing-primary-key')
-            ->assertJsonPath('allowance.limit', PlanLimitService::SCHEMA_DOCTOR_DAILY_LIMIT)
+            ->assertJsonPath('allowance.limit', PlanLimitService::SCHEMA_DOCTOR_WEEKLY_LIMIT)
             ->assertJsonPath('allowance.used', 1)
             ->assertJsonPath('allowance.remaining', 2);
     }
 
-    public function test_free_user_gets_three_successful_scans_per_day(): void
+    public function test_free_user_gets_three_successful_scans_per_week(): void
     {
-        for ($scan = 0; $scan < PlanLimitService::SCHEMA_DOCTOR_DAILY_LIMIT; $scan++) {
+        for ($scan = 0; $scan < PlanLimitService::SCHEMA_DOCTOR_WEEKLY_LIMIT; $scan++) {
             $this->auth()
                 ->postJson("/api/diagrams/{$this->diagram->id}/schema-doctor/scan")
                 ->assertOk();
@@ -80,7 +80,7 @@ class SchemaDoctorTest extends TestCase
 
         $this->assertDatabaseHas('schema_doctor_usages', [
             'user_id' => $this->user->id,
-            'count' => PlanLimitService::SCHEMA_DOCTOR_DAILY_LIMIT,
+            'count' => PlanLimitService::SCHEMA_DOCTOR_WEEKLY_LIMIT,
         ]);
     }
 
@@ -172,18 +172,18 @@ class SchemaDoctorTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_scan_allowance_resets_at_moscow_midnight(): void
+    public function test_scan_allowance_resets_at_start_of_moscow_week(): void
     {
         $limits = app(PlanLimitService::class);
 
-        Carbon::setTestNow(Carbon::parse('2026-07-20 20:59:59', 'UTC'));
+        Carbon::setTestNow(Carbon::parse('2026-07-19 20:59:59', 'UTC'));
         $this->assertTrue($limits->consumeSchemaDoctorAllowance($this->user));
 
-        Carbon::setTestNow(Carbon::parse('2026-07-20 21:00:00', 'UTC'));
+        Carbon::setTestNow(Carbon::parse('2026-07-19 21:00:00', 'UTC'));
         $this->assertTrue($limits->consumeSchemaDoctorAllowance($this->user));
 
         $this->assertSame(2, SchemaDoctorUsage::where('user_id', $this->user->id)->count());
-        $this->assertSame(1, $limits->schemaDoctorScansUsedToday($this->user));
+        $this->assertSame(1, $limits->schemaDoctorScansUsedThisWeek($this->user));
     }
 
     private function auth(): static

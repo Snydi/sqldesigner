@@ -25,8 +25,8 @@ const manualTranslations = {
     '$10 USD/month': '780 ₽/месяц',
     '/ forever': '/ навсегда',
     '/ month': '/ месяц',
-    'Free covers 1 diagram and 3 exports a day. Pro removes both limits for $10 USD/month.':
-        'Бесплатный план включает 1 диаграмму и 3 экспорта в день. Pro снимает оба ограничения за 780 ₽ в месяц.',
+    'Free covers 1 diagram and 3 exports a week. Pro removes both limits for $10 USD/month.':
+        'Бесплатный план включает 1 диаграмму и 3 экспорта в неделю. Pro снимает оба ограничения за 780 ₽ в месяц.',
     '$10 USD/month, billed automatically. Cancel anytime; Pro stays active until the end of the current billing period.':
         '780 ₽ в месяц, автоматическое продление. Отменить можно в любое время; Pro останется активным до конца оплаченного периода.',
     'Get Pro — $10 USD/month': 'Получить Pro — 780 ₽/месяц',

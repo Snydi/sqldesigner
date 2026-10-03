@@ -76,7 +76,7 @@
                 {
                     "@type": "Question",
                     "name": "Do free database designer tools have limits on diagrams or tables?",
-                    "acceptedAnswer": { "@type": "Answer", "text": "Some tools limit free accounts to a small number of diagrams or tables per diagram, typically 5 to 10. SQL Designer's Free plan includes 1 diagram and 3 daily combined exports, while Pro provides unlimited diagrams and exports. Always check the pricing page before committing — 'free' means different things on different platforms." }
+                    "acceptedAnswer": { "@type": "Answer", "text": "Some tools limit free accounts to a small number of diagrams or tables per diagram, typically 5 to 10. SQL Designer's Free plan includes <?= (int) $diagramLimit ?> diagram and <?= (int) $exportWeeklyLimit ?> weekly combined exports, while Pro provides unlimited diagrams and exports. Always check the pricing page before committing — 'free' means different things on different platforms." }
                 },
                 {
                     "@type": "Question",
@@ -97,7 +97,7 @@
             "provider": { "@id": "https://sql-designer.com/#organization" },
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
             "description": "Free online database designer for MySQL and PostgreSQL. Plan and visualise relational database schemas with a drag-and-drop canvas, real SQL data types and constraints, visual foreign key relationship lines, and one-click CREATE TABLE SQL export. No installation or credit card required.",
-            "featureList": ["MySQL and PostgreSQL support", "Visual drag-and-drop canvas", "SQL export", "SQL import", "Foreign key relationships", "Real-time collaboration", "Shareable diagram links", "Free plan: 1 diagram and 3 daily combined exports", "Pro: unlimited diagrams and exports"]
+            "featureList": ["MySQL and PostgreSQL support", "Visual drag-and-drop canvas", "SQL export", "SQL import", "Foreign key relationships", "Real-time collaboration", "Shareable diagram links", "Free plan: <?= (int) $diagramLimit ?> diagram and <?= (int) $exportWeeklyLimit ?> weekly combined exports", "Pro: unlimited diagrams and exports"]
         },
         {
             "@context": "https://schema.org",
@@ -146,7 +146,7 @@
             <ul>
                 <li><strong>Must-have features:</strong> real SQL data types, constraint support (PK/UQ/NN), visual FK lines, SQL export, browser-based, auto-save</li>
                 <li><strong>Watch for hidden limits:</strong> table caps (5–15 on free tiers), paywalled SQL export, forced-public diagrams</li>
-                <li><strong>SQL Designer plans:</strong> Free includes 1 diagram and 3 daily combined exports; Pro removes both limits</li>
+                <li><strong>SQL Designer plans:</strong> Free includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports; Pro removes both limits</li>
                 <li><strong>Generic tools (draw.io, Figma) are not substitutes</strong> — they produce images, not runnable DDL</li>
             </ul>
         </div>
@@ -219,7 +219,7 @@
             <li>Diagram count limits</li>
         </ul>
         <p>
-            SQL Designer offers a Free plan with 1 diagram and 3 daily combined SQL, JSON, migration, or PNG exports, plus a Pro plan with unlimited diagrams and exports. No credit card is required to use the Free plan.
+            SQL Designer offers a Free plan with {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined SQL, JSON, migration, or PNG exports, plus a Pro plan with unlimited diagrams and exports. No credit card is required to use the Free plan.
         </p>
         <div class="citation-capsule">
             The Redgate State of the Database Landscape 2026 report found 84% of organizations now manage two or more database platforms, up from 74% in 2025. When those teams use tools that lock SQL export behind paid plans, migrating schemas between engines requires manual DDL rewriting. A designer that includes export in its Free plan removes that step for smaller projects.
@@ -273,7 +273,7 @@
             <li><strong>Auto-save, browser-based</strong> — no install, no manual save; diagrams persist to your account and open from any device</li>
         </ul>
         <p>
-            Create a free account with your email and start designing immediately. The Free plan includes 1 diagram and 3 daily combined exports; no credit card is required.
+            Create a free account with your email and start designing immediately. The Free plan includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports; no credit card is required.
         </p>
         <div class="citation-capsule">
             Building SQL Designer required implementing separate column type systems for MySQL and PostgreSQL: the types shown in the column editor depend entirely on the database target you've selected. This prevents a common class of export errors where a tool generates DDL using MySQL-specific syntax against a PostgreSQL target, producing scripts that fail on the first run.
@@ -394,7 +394,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">Do free database designer tools have limits on diagrams or tables?</h3>
-                <p class="faq-a">Some tools limit free accounts to a small number of diagrams or tables — typically 5 to 10. SQL Designer's Free plan includes 1 diagram and 3 daily combined exports, while Pro provides unlimited diagrams and exports. Always check the pricing page before committing. "Free" means different things on different platforms.</p>
+                <p class="faq-a">Some tools limit free accounts to a small number of diagrams or tables — typically 5 to 10. SQL Designer's Free plan includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports, while Pro provides unlimited diagrams and exports. Always check the pricing page before committing. "Free" means different things on different platforms.</p>
             </div>
 
             <div class="faq-item">
@@ -422,7 +422,7 @@
 
 <section class="docs-cta">
     <h2>Start designing your database for free</h2>
-    <p>SQL Designer is an online database designer for MySQL and PostgreSQL. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits.</p>
+    <p>SQL Designer is an online database designer for MySQL and PostgreSQL. The Free plan includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports; Pro removes both limits.</p>
     <div class="actions">
         <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
         <a class="btn btn-outline btn-lg" href="/register">Create free account</a>

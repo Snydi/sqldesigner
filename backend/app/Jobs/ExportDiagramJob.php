@@ -57,7 +57,7 @@ class ExportDiagramJob implements ShouldQueue
         $user = User::find($this->userId);
         if (! $user || ! $planLimitService->consumeExportAllowance($user)) {
             $this->diagram->export_status = ExportStatus::FAILED;
-            $this->diagram->export_error = 'Free plan is limited to '.PlanLimitService::EXPORT_DAILY_LIMIT.' exports per day. Try again after midnight (UTC+3) or upgrade to Pro.';
+            $this->diagram->export_error = 'Free plan is limited to '.PlanLimitService::EXPORT_WEEKLY_LIMIT.' exports per week. Try again next Monday (UTC+3) or upgrade to Pro.';
             $this->diagram->save();
 
             return;

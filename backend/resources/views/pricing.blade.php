@@ -3,12 +3,12 @@
 @section('title', 'SQL Designer Pricing — Free and Pro Plans Compared')
 
 @section('head')
-    <meta name="description" content="SQL Designer Free includes {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportDailyLimit }} daily exports, and {{ $schemaDoctorDailyLimit }} Schema Doctor scans. Pro unlocks unlimited use for $10 USD/month (₽780).">
+    <meta name="description" content="SQL Designer Free includes {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportWeeklyLimit }} weekly exports, and {{ $schemaDoctorWeeklyLimit }} weekly Schema Doctor scans. Pro unlocks unlimited use for $10 USD/month (₽780).">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/pricing">
     <meta property="og:title" content="SQL Designer Pricing — Free and Pro Plans Compared">
-    <meta property="og:description" content="SQL Designer Free includes {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportDailyLimit }} daily exports, and {{ $schemaDoctorDailyLimit }} Schema Doctor scans. Pro unlocks unlimited use for $10 USD/month (₽780).">
+    <meta property="og:description" content="SQL Designer Free includes {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportWeeklyLimit }} weekly exports, and {{ $schemaDoctorWeeklyLimit }} weekly Schema Doctor scans. Pro unlocks unlimited use for $10 USD/month (₽780).">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
@@ -19,7 +19,7 @@
     <meta property="og:image:alt" content="SQL Designer pricing — free and Pro plans for the visual database designer">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL Designer Pricing — Free and Pro Plans Compared">
-    <meta name="twitter:description" content="SQL Designer Free includes {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportDailyLimit }} daily exports, and {{ $schemaDoctorDailyLimit }} Schema Doctor scans. Pro unlocks unlimited use for $10 USD/month (₽780).">
+    <meta name="twitter:description" content="SQL Designer Free includes {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportWeeklyLimit }} weekly exports, and {{ $schemaDoctorWeeklyLimit }} weekly Schema Doctor scans. Pro unlocks unlimited use for $10 USD/month (₽780).">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <meta name="keywords" content="sql designer pricing, database diagram tool pricing, erd tool subscription, free database designer, pro database diagram plan, sql designer pro">
     <script type="application/ld+json">
@@ -48,7 +48,7 @@
                 "name": "Free",
                 "price": "0",
                 "priceCurrency": "USD",
-                "description": "<?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?>, <?= (int) $exportDailyLimit ?> exports and <?= (int) $schemaDoctorDailyLimit ?> Schema Doctor scans per day."
+                "description": "<?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?>, <?= (int) $exportWeeklyLimit ?> exports and <?= (int) $schemaDoctorWeeklyLimit ?> Schema Doctor scans per week."
             },
             {
                 "@type": "Offer",
@@ -72,7 +72,7 @@
         "url": "https://sql-designer.com/pricing",
         "datePublished": "2026-07-01",
         "dateModified": "2026-07-23",
-        "description": "SQL Designer pricing: Free includes <?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?>, <?= (int) $exportDailyLimit ?> daily exports, and <?= (int) $schemaDoctorDailyLimit ?> daily Schema Doctor scans; Pro provides unlimited use.",
+        "description": "SQL Designer pricing: Free includes <?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?>, <?= (int) $exportWeeklyLimit ?> weekly exports, and <?= (int) $schemaDoctorWeeklyLimit ?> weekly Schema Doctor scans; Pro provides unlimited use.",
         "isPartOf": { "@type": "WebSite", "url": "https://sql-designer.com" }
     }
     ]
@@ -89,7 +89,7 @@
                 "name": "Is SQL Designer free to use?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. The free plan lets you create <?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?> and export up to <?= (int) $exportDailyLimit ?> times a day — no credit card required."
+                    "text": "Yes. The free plan lets you create <?= (int) $diagramLimit ?> <?= $diagramLimit === 1 ? 'diagram' : 'diagrams' ?> and export up to <?= (int) $exportWeeklyLimit ?> times a week — no credit card required."
                 }
             },
             {
@@ -113,7 +113,7 @@
                 "name": "How many exports do I get on the free plan?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "<?= (int) $exportDailyLimit ?> exports per day on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no daily export limit."
+                    "text": "<?= (int) $exportWeeklyLimit ?> exports per week on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no export limit."
                 }
             },
             {
@@ -121,7 +121,7 @@
                 "name": "How many Schema Doctor scans do I get?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Free includes <?= (int) $schemaDoctorDailyLimit ?> Schema Doctor scans per day. Pro includes unlimited Schema Doctor scans."
+                    "text": "Free includes <?= (int) $schemaDoctorWeeklyLimit ?> Schema Doctor scans per week. Pro includes unlimited Schema Doctor scans."
                 }
             },
             {
@@ -360,7 +360,7 @@
     <div class="intro-inner">
         <p class="breadcrumb"><a href="/">Home</a><span class="sep">/</span><span>Pricing</span></p>
         <h1 class="page-h1">Simple pricing. Start <em>free</em>, upgrade when you outgrow it.</h1>
-        <p class="page-sub">Free covers {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportDailyLimit }} exports, and {{ $schemaDoctorDailyLimit }} Schema Doctor scans a day. Pro removes all limits for $10 USD/month.</p>
+        <p class="page-sub">Free covers {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}, {{ $exportWeeklyLimit }} exports, and {{ $schemaDoctorWeeklyLimit }} Schema Doctor scans a week. Pro removes all limits for $10 USD/month.</p>
     </div>
 </section>
 
@@ -383,8 +383,8 @@
             <p class="plan-price"><span class="amount">$0 USD</span><span class="period">/ forever</span></p>
             <ul class="plan-features">
                 <li class="limit"><span class="mark">–</span> {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }}</li>
-                <li class="limit"><span class="mark">–</span> {{ $exportDailyLimit }} daily exports: SQL, JSON, migration, or PNG</li>
-                <li class="limit"><span class="mark">–</span> {{ $schemaDoctorDailyLimit }} Schema Doctor scans per day</li>
+                <li class="limit"><span class="mark">–</span> {{ $exportWeeklyLimit }} weekly exports: SQL, JSON, migration, or PNG</li>
+                <li class="limit"><span class="mark">–</span> {{ $schemaDoctorWeeklyLimit }} Schema Doctor scans per week</li>
                 <li><span class="mark">✓</span> Drag-and-drop ERD canvas</li>
                 <li><span class="mark">✓</span> SQL export for 6 dialects</li>
                 <li><span class="mark">✓</span> Multiplayer collaboration</li>
@@ -432,13 +432,13 @@
                 <td>Unlimited</td>
             </tr>
             <tr>
-                <td>Combined SQL, JSON, migration, and PNG exports per day</td>
-                <td>{{ $exportDailyLimit }}</td>
+                <td>Combined SQL, JSON, migration, and PNG exports per week</td>
+                <td>{{ $exportWeeklyLimit }}</td>
                 <td>Unlimited</td>
             </tr>
             <tr>
-                <td>Schema Doctor scans per day</td>
-                <td>{{ $schemaDoctorDailyLimit }}</td>
+                <td>Schema Doctor scans per week</td>
+                <td>{{ $schemaDoctorWeeklyLimit }}</td>
                 <td>Unlimited</td>
             </tr>
             <tr>
@@ -466,7 +466,7 @@
 
     <div class="faq-item">
         <h3>Is SQL Designer free to use?</h3>
-        <p>Yes. The free plan lets you create {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }} and export up to {{ $exportDailyLimit }} times a day — no credit card required.</p>
+        <p>Yes. The free plan lets you create {{ $diagramLimit }} {{ \Illuminate\Support\Str::plural('diagram', $diagramLimit) }} and export up to {{ $exportWeeklyLimit }} times a week — no credit card required.</p>
     </div>
     <div class="faq-item">
         <h3>What happens to my diagrams if I'm over the free limit?</h3>
@@ -478,11 +478,11 @@
     </div>
     <div class="faq-item">
         <h3>How many exports do I get on the free plan?</h3>
-        <p>{{ $exportDailyLimit }} exports per day on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no daily export limit.</p>
+        <p>{{ $exportWeeklyLimit }} exports per week on the free plan, combined across SQL, JSON, migration, and PNG exports. Pro has no export limit.</p>
     </div>
     <div class="faq-item">
         <h3>How many Schema Doctor scans do I get?</h3>
-        <p>Free includes {{ $schemaDoctorDailyLimit }} Schema Doctor scans per day. Pro includes unlimited Schema Doctor scans.</p>
+        <p>Free includes {{ $schemaDoctorWeeklyLimit }} Schema Doctor scans per week. Pro includes unlimited Schema Doctor scans.</p>
     </div>
     <div class="faq-item">
         <h3>Can I cancel my Pro subscription anytime?</h3>

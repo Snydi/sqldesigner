@@ -13,7 +13,7 @@
 
             <div class="schema-doctor-modal__quota">
                 <span v-if="allowance?.limited">
-                    {{ allowance.used }} / {{ allowance.limit }} scans used today
+                    {{ allowance.used }} / {{ allowance.limit }} scans used this week
                     <span v-if="allowance.resets_at">· resets {{ formattedReset }}</span>
                 </span>
                 <span v-else>Unlimited scans</span>
@@ -130,6 +130,9 @@ const formattedReset = computed(() => {
     if (!allowance.value?.resets_at) return ''
     return new Intl.DateTimeFormat('en-GB', {
         timeZone: 'Europe/Moscow',
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short',
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
@@ -143,14 +146,14 @@ const loadAllowance = async () => {
         allowance.value = {
             limited: data.schema_doctor_limit !== null,
             limit: data.schema_doctor_limit,
-            used: data.schema_doctor_scans_used_today,
+            used: data.schema_doctor_scans_used_this_week,
             remaining: data.schema_doctor_limit === null
                 ? null
-                : Math.max(0, data.schema_doctor_limit - data.schema_doctor_scans_used_today),
+                : Math.max(0, data.schema_doctor_limit - data.schema_doctor_scans_used_this_week),
             resets_at: data.schema_doctor_resets_at,
         }
         if (allowance.value.remaining === 0) {
-            limitMessage.value = `Your ${allowance.value.limit} free Schema Doctor scans have been used today. Upgrade to Pro for unlimited scans.`
+            limitMessage.value = `Your ${allowance.value.limit} free Schema Doctor scans have been used this week. Upgrade to Pro for unlimited scans.`
         }
     } catch {
         // The scan endpoint remains authoritative; quota display can stay unavailable.

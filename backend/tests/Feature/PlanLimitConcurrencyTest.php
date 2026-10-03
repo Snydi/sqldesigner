@@ -98,9 +98,9 @@ class PlanLimitConcurrencyTest extends TestCase
                 $successful += pcntl_wexitstatus($status) === 0 ? 1 : 0;
             }
 
-            $this->assertSame(PlanLimitService::SCHEMA_DOCTOR_DAILY_LIMIT, $successful);
+            $this->assertSame(PlanLimitService::SCHEMA_DOCTOR_WEEKLY_LIMIT, $successful);
             $this->assertSame(
-                PlanLimitService::SCHEMA_DOCTOR_DAILY_LIMIT,
+                PlanLimitService::SCHEMA_DOCTOR_WEEKLY_LIMIT,
                 SchemaDoctorUsage::where('user_id', $user->id)->value('count')
             );
         } finally {

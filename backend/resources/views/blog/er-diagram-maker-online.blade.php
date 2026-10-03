@@ -80,7 +80,7 @@
                     "name": "Does an online ER diagram maker export SQL?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "It depends on the tool. SQL-aware ER diagram makers like SQL Designer, DrawSQL, and ChartDB export CREATE TABLE scripts. Generic diagram tools like draw.io, Figma, and Lucidchart draw visual shapes but have no SQL awareness and cannot generate DDL. SQL Designer's Free plan includes 3 daily combined exports, while Pro exports are unlimited."
+                        "text": "It depends on the tool. SQL-aware ER diagram makers like SQL Designer, DrawSQL, and ChartDB export CREATE TABLE scripts. Generic diagram tools like draw.io, Figma, and Lucidchart draw visual shapes but have no SQL awareness and cannot generate DDL. SQL Designer's Free plan includes <?= (int) $exportWeeklyLimit ?> weekly combined exports, while Pro exports are unlimited."
                     }
                 },
                 {
@@ -256,7 +256,7 @@
 
         <h2 id="features">What SQL Designer's ER Diagram Maker Includes</h2>
         <p>
-            The features that matter in a SQL-aware ER diagram maker are different from a generic diagramming tool. Does it export real DDL? Does it know which types belong to each database? Can you import existing SQL to generate a diagram? Can you share a read-only link without requiring the recipient to sign up? SQL Designer's answer to all four is yes. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes those limits.
+            The features that matter in a SQL-aware ER diagram maker are different from a generic diagramming tool. Does it export real DDL? Does it know which types belong to each database? Can you import existing SQL to generate a diagram? Can you share a read-only link without requiring the recipient to sign up? SQL Designer's answer to all four is yes. The Free plan includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports; Pro removes those limits.
         </p>
         <ul>
             <li><strong>Drag-and-drop canvas</strong> — pan, zoom, and rearrange tables freely; no forced auto-layout</li>
@@ -267,7 +267,7 @@
             <li><strong>One-click export</strong> — download a complete <code>CREATE TABLE</code> DDL script for your target database</li>
             <li><strong>Shareable links</strong> — read-only, editable, or approval-gated; works without the recipient having an account</li>
             <li><strong>Embeddable iframes</strong> — embed a live diagram in any documentation or blog post</li>
-            <li><strong>Free and Pro plans</strong> — Free includes 1 diagram and 3 daily combined exports; Pro removes both limits</li>
+            <li><strong>Free and Pro plans</strong> — Free includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports; Pro removes both limits</li>
             <li><strong>Auto-save</strong> — every change saved automatically; no manual save step</li>
         </ul>
         <p>See the full <a href="/features">feature list</a> for every detail.</p>
@@ -314,7 +314,7 @@
 
             <div class="faq-item">
                 <h3 class="faq-q">Does an online ER diagram maker export SQL?</h3>
-                <p class="faq-a">It depends on the tool. SQL-aware ER diagram makers like SQL Designer, DrawSQL, and ChartDB export <code>CREATE TABLE</code> scripts. Generic diagram tools like draw.io, Figma, and Lucidchart draw visual shapes but have no SQL awareness and cannot generate DDL. SQL Designer's Free plan includes 3 daily combined SQL, JSON, migration, or PNG exports; Pro exports are unlimited.</p>
+                <p class="faq-a">It depends on the tool. SQL-aware ER diagram makers like SQL Designer, DrawSQL, and ChartDB export <code>CREATE TABLE</code> scripts. Generic diagram tools like draw.io, Figma, and Lucidchart draw visual shapes but have no SQL awareness and cannot generate DDL. SQL Designer's Free plan includes {{ $exportWeeklyLimit }} weekly combined SQL, JSON, migration, or PNG exports; Pro exports are unlimited.</p>
             </div>
 
             <div class="faq-item">
@@ -348,7 +348,7 @@
 
 <section class="docs-cta">
     <h2>Use a SQL-aware ER diagram tool</h2>
-    <p>When you need a working schema rather than a conceptual drawing, open the <a href="/demo">interactive ER diagram maker</a>. SQL Designer supports MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes both limits.</p>
+    <p>When you need a working schema rather than a conceptual drawing, open the <a href="/demo">interactive ER diagram maker</a>. SQL Designer supports MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and MS Access. The Free plan includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports; Pro removes both limits.</p>
     <div class="actions">
         <a class="btn btn-solid btn-lg" href="/demo">Open the demo</a>
         <a class="btn btn-outline btn-lg" href="/register">Create free account</a>

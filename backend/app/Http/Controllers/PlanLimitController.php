@@ -26,9 +26,12 @@ class PlanLimitController extends Controller
             'diagram_limit' => $this->planLimitService->diagramLimit($user),
             'diagram_count' => $user->diagrams()->count(),
             'export_limit' => $this->planLimitService->exportLimit($user),
-            'exports_used_today' => $this->planLimitService->exportsUsedToday($user),
+            'exports_used_this_week' => $this->planLimitService->exportsUsedThisWeek($user),
+            'export_resets_at' => $this->planLimitService->exportLimit($user) === null
+                ? null
+                : $this->planLimitService->weeklyResetAt(),
             'schema_doctor_limit' => $schemaDoctorAllowance['limit'],
-            'schema_doctor_scans_used_today' => $schemaDoctorAllowance['used'],
+            'schema_doctor_scans_used_this_week' => $schemaDoctorAllowance['used'],
             'schema_doctor_resets_at' => $schemaDoctorAllowance['resets_at'],
         ]);
     }

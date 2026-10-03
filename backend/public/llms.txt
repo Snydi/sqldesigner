@@ -2,7 +2,7 @@
 
 > Browser-based visual database schema designer with SQL import and export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access.
 
-SQL Designer lets users create tables, columns, constraints, and foreign-key relationships on a visual ERD canvas. The Free plan includes one saved diagram and three combined SQL, JSON, migration, or PNG exports per day. Pro costs $10 USD per month and removes diagram and export limits.
+SQL Designer lets users create tables, columns, constraints, and foreign-key relationships on a visual ERD canvas. The Free plan includes one saved diagram and three combined SQL, JSON, migration, or PNG exports per week. Pro costs $10 USD per month and removes diagram and export limits.
 
 ## Primary sources
 

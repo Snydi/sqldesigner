@@ -16,11 +16,11 @@ class PlanLimitService
 {
     public const FLAG_KEY = 'plan_limits_enabled';
 
-    public const SCHEMA_DOCTOR_DAILY_LIMIT = 3;
+    public const SCHEMA_DOCTOR_WEEKLY_LIMIT = 3;
 
     public const DIAGRAM_LIMIT = 1;
 
-    public const EXPORT_DAILY_LIMIT = 3;
+    public const EXPORT_WEEKLY_LIMIT = 3;
 
     public function limitsEnabled(): bool
     {
@@ -46,23 +46,23 @@ class PlanLimitService
 
     public function exportLimit(User $user): ?int
     {
-        return ($this->limitsEnabled() && ! $user->isPro()) ? self::EXPORT_DAILY_LIMIT : null;
+        return ($this->limitsEnabled() && ! $user->isPro()) ? self::EXPORT_WEEKLY_LIMIT : null;
     }
 
-    public function exportsUsedToday(User $user): int
+    public function exportsUsedThisWeek(User $user): int
     {
-        return $this->todaysExportCount($user);
+        return $this->thisWeeksExportCount($user);
     }
 
     public function schemaDoctorLimit(User $user): ?int
     {
-        return ($this->limitsEnabled() && ! $user->isPro()) ? self::SCHEMA_DOCTOR_DAILY_LIMIT : null;
+        return ($this->limitsEnabled() && ! $user->isPro()) ? self::SCHEMA_DOCTOR_WEEKLY_LIMIT : null;
     }
 
-    public function schemaDoctorScansUsedToday(User $user): int
+    public function schemaDoctorScansUsedThisWeek(User $user): int
     {
         return (int) (SchemaDoctorUsage::where('user_id', $user->id)
-            ->where('usage_date', $this->utcPlus3Today())
+            ->where('usage_date', $this->utcPlus3WeekStart())
             ->value('count') ?? 0);
     }
 
@@ -70,7 +70,7 @@ class PlanLimitService
     {
         $limit = $this->schemaDoctorLimit($user);
 
-        return $limit !== null && $this->schemaDoctorScansUsedToday($user) >= $limit;
+        return $limit !== null && $this->schemaDoctorScansUsedThisWeek($user) >= $limit;
     }
 
     /**
@@ -79,19 +79,19 @@ class PlanLimitService
     public function schemaDoctorAllowance(User $user): array
     {
         $limit = $this->schemaDoctorLimit($user);
-        $used = $limit === null ? 0 : $this->schemaDoctorScansUsedToday($user);
+        $used = $limit === null ? 0 : $this->schemaDoctorScansUsedThisWeek($user);
 
         return [
             'limited' => $limit !== null,
             'limit' => $limit,
             'used' => $used,
             'remaining' => $limit === null ? null : max(0, $limit - $used),
-            'resets_at' => $limit === null ? null : Carbon::now('Europe/Moscow')->addDay()->startOfDay()->toIso8601String(),
+            'resets_at' => $limit === null ? null : $this->nextWeeklyReset()->toIso8601String(),
         ];
     }
 
     /**
-     * Atomically consumes one UTC+3 daily export allowance when applicable.
+     * Atomically consumes one UTC+3 weekly export allowance when applicable.
      *
      * The conditional upsert makes checking the limit and incrementing the
      * count one PostgreSQL statement, so concurrent requests cannot exceed it.
@@ -112,14 +112,14 @@ class PlanLimitService
                 WHERE export_usages.count < ?
                 RETURNING count
             SQL,
-            [$user->id, $this->utcPlus3Today(), $now, $now, self::EXPORT_DAILY_LIMIT]
+            [$user->id, $this->utcPlus3WeekStart(), $now, $now, self::EXPORT_WEEKLY_LIMIT]
         );
 
         return $result !== [];
     }
 
     /**
-     * Atomically consumes one MSK daily Schema Doctor allowance when applicable.
+     * Atomically consumes one MSK weekly Schema Doctor allowance when applicable.
      */
     public function consumeSchemaDoctorAllowance(User $user): bool
     {
@@ -137,21 +137,31 @@ class PlanLimitService
                 WHERE schema_doctor_usages.count < ?
                 RETURNING count
             SQL,
-            [$user->id, $this->utcPlus3Today(), $now, $now, self::SCHEMA_DOCTOR_DAILY_LIMIT]
+            [$user->id, $this->utcPlus3WeekStart(), $now, $now, self::SCHEMA_DOCTOR_WEEKLY_LIMIT]
         );
 
         return $result !== [];
     }
 
-    private function todaysExportCount(User $user): int
+    public function weeklyResetAt(): string
+    {
+        return $this->nextWeeklyReset()->toIso8601String();
+    }
+
+    private function thisWeeksExportCount(User $user): int
     {
         return (int) (ExportUsage::where('user_id', $user->id)
-            ->where('usage_date', $this->utcPlus3Today())
+            ->where('usage_date', $this->utcPlus3WeekStart())
             ->value('count') ?? 0);
     }
 
-    private function utcPlus3Today(): string
+    private function utcPlus3WeekStart(): string
     {
-        return Carbon::now('Europe/Moscow')->toDateString();    //UTC+3
+        return Carbon::now('Europe/Moscow')->startOfWeek(Carbon::MONDAY)->toDateString();
+    }
+
+    private function nextWeeklyReset(): Carbon
+    {
+        return Carbon::now('Europe/Moscow')->startOfWeek(Carbon::MONDAY)->addWeek();
     }
 }

@@ -3,12 +3,12 @@
 @section('title', 'SQL Designer Features — Free & Pro Database Schema Tool')
 
 @section('head')
-    <meta name="description" content="Visual SQL schema builder with Free and Pro plans: 1 free diagram, 3 daily exports, or unlimited diagrams and exports with Pro.">
+    <meta name="description" content="Visual SQL schema builder with Free and Pro plans: {{ $diagramLimit }} free diagram, {{ $exportWeeklyLimit }} weekly exports, or unlimited diagrams and exports with Pro.">
     <meta name="author" content="SQL Designer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sql-designer.com/features">
     <meta property="og:title" content="SQL Designer Features — Visual SQL Schema Builder">
-    <meta property="og:description" content="Visual SQL schema builder with Free and Pro plans: 1 free diagram, 3 daily exports, or unlimited diagrams and exports with Pro.">
+    <meta property="og:description" content="Visual SQL schema builder with Free and Pro plans: {{ $diagramLimit }} free diagram, {{ $exportWeeklyLimit }} weekly exports, or unlimited diagrams and exports with Pro.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SQL Designer">
     <meta property="og:locale" content="en_US">
@@ -19,7 +19,7 @@
     <meta property="og:image:alt" content="SQL Designer — full feature list for the free database designer and ERD tool">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SQL Designer Features — Visual SQL Schema Builder">
-    <meta name="twitter:description" content="Visual SQL schema builder with Free and Pro plans: 1 free diagram, 3 daily exports, or unlimited diagrams and exports with Pro.">
+    <meta name="twitter:description" content="Visual SQL schema builder with Free and Pro plans: {{ $diagramLimit }} free diagram, {{ $exportWeeklyLimit }} weekly exports, or unlimited diagrams and exports with Pro.">
     <meta name="twitter:image" content="https://sql-designer.com/images/designer_screenshot.webp">
     <script type="application/ld+json">
     @verbatim
@@ -57,7 +57,7 @@
             "Share links with read-only, editable, or approval-based access",
             "Embeddable iframe diagrams",
             "Auto-save to account",
-            "Free plan: 1 diagram and 3 daily combined exports",
+            "Free plan: <?= (int) $diagramLimit ?> diagram and <?= (int) $exportWeeklyLimit ?> weekly combined exports",
             "Pro plan: unlimited diagrams and exports"
         ],
         "sameAs": [
@@ -117,7 +117,7 @@
                 "name": "Is SQL Designer free to use?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. The Free plan includes 1 diagram and 3 daily combined SQL, JSON, migration, or PNG exports, with no credit card required. Pro provides unlimited diagrams and exports."
+                    "text": "Yes. The Free plan includes <?= (int) $diagramLimit ?> diagram and <?= (int) $exportWeeklyLimit ?> weekly combined SQL, JSON, migration, or PNG exports, with no credit card required. Pro provides unlimited diagrams and exports."
                 }
             },
             {
@@ -157,7 +157,7 @@
                 "name": "How many diagrams can I create?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The Free plan includes 1 diagram. Pro includes unlimited diagrams."
+                    "text": "The Free plan includes <?= (int) $diagramLimit ?> diagram. Pro includes unlimited diagrams."
                 }
             },
             {
@@ -709,7 +709,7 @@
                 </div>
                 <div style="background:var(--bg-surface); padding:1.3rem 1.4rem;">
                     <h3 style="font-size:1rem; font-weight:600; margin:0 0 0.5rem; letter-spacing:-0.005em;">The SQL Designer position</h3>
-                    <p style="font-size:1rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">Browser-based so nothing to install. Visual so there's no DSL to learn. The Free plan includes 1 diagram and 3 daily combined exports; Pro removes those limits. Open source so you can inspect exactly what the tool does with your schema.</p>
+                    <p style="font-size:1rem; color:var(--text-secondary); margin:0; max-width:62ch; line-height:1.65; text-wrap:pretty;">Browser-based so nothing to install. Visual so there's no DSL to learn. The Free plan includes {{ $diagramLimit }} diagram and {{ $exportWeeklyLimit }} weekly combined exports; Pro removes those limits. Open source so you can inspect exactly what the tool does with your schema.</p>
                 </div>
             </div>
             <p style="font-size:1rem; color:var(--text-muted);">Full comparison including DrawSQL, ERDPlus, ChartDB, Miro, and Lucidchart: <a href="/blog/best-free-erd-tools" style="color:var(--color-primary-text);">11 Best Free ERD Tools in 2026 →</a></p>

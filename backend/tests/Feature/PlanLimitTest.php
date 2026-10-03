@@ -77,18 +77,18 @@ class PlanLimitTest extends TestCase
         $this->assertSame(3, $this->user->diagrams()->count());
     }
 
-    public function test_sql_json_migration_and_png_exports_share_one_daily_allowance(): void
+    public function test_sql_json_migration_and_png_exports_share_one_weekly_allowance(): void
     {
         $this->setLimitsEnabled(true);
 
         $this->auth()->getJson("/api/diagrams/json/export/{$this->diagram->id}")->assertOk();
         $this->auth()->get("/api/diagrams/migration/export/{$this->diagram->id}")->assertOk();
         $this->auth()->postJson("/api/diagrams/png/export/{$this->diagram->id}")->assertOk();
-        $this->assertSame(3, $this->exportsUsedToday());
+        $this->assertSame(3, $this->exportsUsedThisWeek());
 
         $this->runSqlExport();
         $this->assertSame(ExportStatus::FAILED, $this->diagram->fresh()->export_status);
-        $this->assertSame(3, $this->exportsUsedToday());
+        $this->assertSame(3, $this->exportsUsedThisWeek());
     }
 
     public function test_failed_json_migration_and_sql_exports_do_not_consume_an_allowance(): void
@@ -106,22 +106,22 @@ class PlanLimitTest extends TestCase
             (new ExportDiagramJob($this->diagram->fresh(), $this->user->id))->failed(new \RuntimeException('Invalid schema'));
         }
 
-        $this->assertSame(0, $this->exportsUsedToday());
+        $this->assertSame(0, $this->exportsUsedThisWeek());
     }
 
-    public function test_export_allowance_resets_at_europe_moscow_midnight(): void
+    public function test_export_allowance_resets_at_start_of_moscow_week(): void
     {
         $this->setLimitsEnabled(true);
         $limits = app(PlanLimitService::class);
 
-        Carbon::setTestNow(Carbon::parse('2026-07-20 20:59:59', 'UTC'));
+        Carbon::setTestNow(Carbon::parse('2026-07-19 20:59:59', 'UTC'));
         $this->assertTrue($limits->consumeExportAllowance($this->user));
 
-        Carbon::setTestNow(Carbon::parse('2026-07-20 21:00:00', 'UTC'));
+        Carbon::setTestNow(Carbon::parse('2026-07-19 21:00:00', 'UTC'));
         $this->assertTrue($limits->consumeExportAllowance($this->user));
 
         $this->assertSame(2, ExportUsage::where('user_id', $this->user->id)->count());
-        $this->assertSame(1, $this->exportsUsedToday());
+        $this->assertSame(1, $this->exportsUsedThisWeek());
     }
 
     public function test_pro_bypass_expiration_and_cancelled_access_until_expiry(): void
@@ -142,7 +142,7 @@ class PlanLimitTest extends TestCase
         $active->update(['ends_at' => now()->subSecond()]);
         $this->assertFalse($this->user->fresh()->isPro());
         $this->assertTrue($limits->consumeExportAllowance($this->user->fresh()));
-        $this->assertSame(1, $this->exportsUsedToday());
+        $this->assertSame(1, $this->exportsUsedThisWeek());
     }
 
     public function test_plan_limit_and_export_endpoints_require_their_expected_authorization(): void
@@ -172,9 +172,9 @@ class PlanLimitTest extends TestCase
         Cache::forget('feature_flag:'.PlanLimitService::FLAG_KEY);
     }
 
-    private function exportsUsedToday(): int
+    private function exportsUsedThisWeek(): int
     {
-        return app(PlanLimitService::class)->exportsUsedToday($this->user->fresh());
+        return app(PlanLimitService::class)->exportsUsedThisWeek($this->user->fresh());
     }
 
     private function runSqlExport(): void

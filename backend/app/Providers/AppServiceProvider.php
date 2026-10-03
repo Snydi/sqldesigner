@@ -8,8 +8,10 @@ use App\Models\Diagram;
 use App\Policies\DiagramPolicy;
 use App\Repositories\DiagramRepository;
 use App\Repositories\DiagramRepositoryInterface;
+use App\Services\PlanLimitService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Diagram::class, DiagramPolicy::class);
+
+        View::share([
+            'diagramLimit' => PlanLimitService::DIAGRAM_LIMIT,
+            'exportWeeklyLimit' => PlanLimitService::EXPORT_WEEKLY_LIMIT,
+            'schemaDoctorWeeklyLimit' => PlanLimitService::SCHEMA_DOCTOR_WEEKLY_LIMIT,
+        ]);
 
         // Alpine musl + pcntl_async_signals breaks the first SSL stream_socket_client call.
         // One throwaway attempt initializes OpenSSL state so subsequent connections succeed.

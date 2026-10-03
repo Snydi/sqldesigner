@@ -4,7 +4,7 @@
 
 ## Product Overview
 
-SQL Designer (sql-designer.com) is a browser-based visual database schema designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access. Users drag and drop tables onto a canvas, define columns with real database data types and constraints, connect tables with foreign key relationship lines, and export a ready-to-run CREATE TABLE script for any of the six supported SQL dialects. No installation is required. The Free plan includes 1 diagram and 3 combined SQL, JSON, migration, or PNG exports per day. Pro costs $10 USD per month and provides unlimited diagrams and exports.
+SQL Designer (sql-designer.com) is a browser-based visual database schema designer for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access. Users drag and drop tables onto a canvas, define columns with real database data types and constraints, connect tables with foreign key relationship lines, and export a ready-to-run CREATE TABLE script for any of the six supported SQL dialects. No installation is required. The Free plan includes 1 diagram and 3 combined SQL, JSON, migration, or PNG exports per week. Pro costs $10 USD per month and provides unlimited diagrams and exports.
 
 SQL Designer is open source. The full source code (Laravel backend, Vue 3 frontend, PostgreSQL storage) is available at https://github.com/Snydi/sqldesigner.
 
@@ -69,7 +69,7 @@ MS Access support. Column types mapped to Access field types: Number (Integer, L
 
 ## Pricing
 
-The Free plan requires no credit card and includes 1 saved diagram plus 3 combined SQL, JSON, migration, or PNG exports per day. Pro costs $10 USD per month and removes the diagram and export limits. Real-time multiplayer collaboration is available without an additional collaboration fee. The tool is open source under the GNU Affero General Public License v3.0 (AGPL-3.0) — see the GitHub repository.
+The Free plan requires no credit card and includes 1 saved diagram plus 3 combined SQL, JSON, migration, or PNG exports per week. Pro costs $10 USD per month and removes the diagram and export limits. Real-time multiplayer collaboration is available without an additional collaboration fee. The tool is open source under the GNU Affero General Public License v3.0 (AGPL-3.0) — see the GitHub repository.
 
 ## How to Use SQL Designer
 
@@ -94,7 +94,7 @@ The Free plan requires no credit card and includes 1 saved diagram plus 3 combin
 
 **vs ChartDB**: ChartDB excels at documenting existing databases and AI-assisted schema explanation. SQL Designer is better for designing schemas from scratch visually.
 
-**vs Paid tools (Vertabelo, Lucidchart Pro)**: SQL Designer has a no-credit-card Free plan for 1 diagram and 3 daily combined exports; Pro provides unlimited diagrams and exports.
+**vs Paid tools (Vertabelo, Lucidchart Pro)**: SQL Designer has a no-credit-card Free plan for 1 diagram and 3 weekly combined exports; Pro provides unlimited diagrams and exports.
 
 ## Frequently Asked Questions
 
@@ -111,7 +111,7 @@ Yes. SQL Designer is a free visual alternative to dbdiagram.io. It uses drag-and
 Use SQL Designer at sql-designer.com. Open it in any browser, drag tables onto the canvas, add columns, draw foreign key relationships, and export SQL — no installation needed.
 
 **Is SQL Designer free for students?**
-Yes. Students can use the no-credit-card Free plan for database design coursework, ER diagram assignments, and learning normalization. The same Free plan limits apply: 1 diagram and 3 combined exports per day.
+Yes. Students can use the no-credit-card Free plan for database design coursework, ER diagram assignments, and learning normalization. The same Free plan limits apply: 1 diagram and 3 combined exports per week.
 
 **Can I share a database diagram with my team?**
 Yes. SQL Designer supports real-time multiplayer — share a diagram link and multiple users can edit simultaneously with live cursors.
@@ -160,7 +160,7 @@ Side-by-side comparison of CREATE TABLE syntax across five major databases: auto
 
 ### 10 Best Free ERD Tools in 2026 — Tested and Compared
 URL: https://sql-designer.com/blog/best-free-erd-tools
-Honest comparison of 10 ERD tools tested with a 10-table schema including foreign keys and constraints: SQL Designer (#1 — Free plan with 1 diagram and 3 daily combined exports; unlimited with Pro), DrawSQL (#2 — polished UI, free tier table cap ~15), dbdiagram.io (#3 — text-based DBML, SQL export paywalled), draw.io (#4 — general diagramming, no SQL awareness), ChartDB (#5 — AI-assisted, best for existing databases), ERDPlus (#6 — academic, simple), QuickDBD (#7 — text-to-diagram, 1 diagram free), Lucidchart (#8 — general tool, not SQL-aware), DB Designer (#9 — ~50 object limit), DBeaver (#10 — desktop ERD from live databases). Includes per-tool strengths, limitations, pricing, and use-case guidance. Written by Dmitriy Snyatkov.
+Honest comparison of 10 ERD tools tested with a 10-table schema including foreign keys and constraints: SQL Designer (#1 — Free plan with 1 diagram and 3 weekly combined exports; unlimited with Pro), DrawSQL (#2 — polished UI, free tier table cap ~15), dbdiagram.io (#3 — text-based DBML, SQL export paywalled), draw.io (#4 — general diagramming, no SQL awareness), ChartDB (#5 — AI-assisted, best for existing databases), ERDPlus (#6 — academic, simple), QuickDBD (#7 — text-to-diagram, 1 diagram free), Lucidchart (#8 — general tool, not SQL-aware), DB Designer (#9 — ~50 object limit), DBeaver (#10 — desktop ERD from live databases). Includes per-tool strengths, limitations, pricing, and use-case guidance. Written by Dmitriy Snyatkov.
 
 ### How to Choose Database Design Software for SQL Teams
 URL: https://sql-designer.com/blog/database-designer
