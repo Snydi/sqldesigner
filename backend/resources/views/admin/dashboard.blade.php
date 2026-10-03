@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -379,21 +379,10 @@
         .pagination span.disabled { opacity: .35; cursor: default; }
         .pagination span.dots { border: none; background: none; }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
-    <header>
-        <span>SQL Designer — Admin</span>
-        <div style="display:flex;align-items:center;gap:12px;">
-            <a href="{{ route('admin.library') }}" class="logout-btn" style="text-decoration:none;">Library</a>
-            <a href="{{ route('admin.billing') }}" class="logout-btn" style="text-decoration:none;">Billing</a>
-            <a href="{{ route('admin.promocodes') }}" class="logout-btn" style="text-decoration:none;">Promocodes</a>
-            <a href="{{ route('admin.reviews') }}" class="logout-btn" style="text-decoration:none;">Reviews</a>
-            <form method="POST" action="{{ route('admin.logout') }}">
-                @csrf
-                <button type="submit" class="logout-btn">Sign Out</button>
-            </form>
-        </div>
-    </header>
+    @include('admin.partials.header')
 
     <main>
         <div class="stats">
@@ -553,6 +542,10 @@
     </div>
 
     <script>
+        Chart.defaults.font.family = 'Inter, sans-serif';
+        Chart.defaults.font.size = 16;
+        Chart.defaults.color = '#aaaaaa';
+
         (function () {
             const makeChart = (id, labels, shortLabels, data, color) => new Chart(document.getElementById(id), {
                 type: 'line',
@@ -584,8 +577,8 @@
                     scales: {
                         x: {
                             ticks: {
-                                font: { family: "'JetBrains Mono', monospace", size: 9 },
-                                color: '#aaa',
+                                font: { family: "Inter, sans-serif", size: 16 },
+                                color: '#aaaaaa',
                                 maxRotation: 0,
                                 autoSkip: true,
                                 maxTicksLimit: 20,
@@ -595,11 +588,11 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                font: { family: "'JetBrains Mono', monospace", size: 9 },
-                                color: '#aaa',
+                                font: { family: "Inter, sans-serif", size: 16 },
+                                color: '#aaaaaa',
                                 precision: 0,
                             },
-                            grid: { color: '#f0eded' },
+                            grid: { color: '#484848' },
                         }
                     }
                 }
@@ -607,11 +600,11 @@
 
             const regLabels = @json(array_keys($registrationsByDay));
             const regShort  = regLabels.map(d => { const [,m,day] = d.split('-'); return `${day}/${m}`; });
-            makeChart('regChart', regLabels, regShort, @json(array_values($registrationsByDay)), 'rgba(143,47,47,0.85)');
+            makeChart('regChart', regLabels, regShort, @json(array_values($registrationsByDay)), '#5db583');
 
             const actLabels = @json(array_keys($activityByDay));
             const actShort  = actLabels.map(d => { const [,m,day] = d.split('-'); return `${day}/${m}`; });
-            makeChart('activityChart', actLabels, actShort, @json(array_values($activityByDay)), 'rgba(46,125,82,0.85)');
+            makeChart('activityChart', actLabels, actShort, @json(array_values($activityByDay)), '#7bc99d');
         })();
     </script>
 
@@ -746,9 +739,9 @@
                         labels: shortLabels,
                         datasets: [{
                             data: values,
-                            borderColor: 'rgba(46,125,82,0.85)',
+                            borderColor: '#5db583',
                             borderWidth: 2,
-                            pointBackgroundColor: 'rgba(46,125,82,0.85)',
+                            pointBackgroundColor: '#5db583',
                             pointRadius: 3,
                             pointHoverRadius: 5,
                             fill: false,
@@ -769,13 +762,13 @@
                         },
                         scales: {
                             x: {
-                                ticks: { font: { family: "'JetBrains Mono', monospace", size: 9 }, color: '#aaa', maxRotation: 0, autoSkip: true, maxTicksLimit: 20 },
+                                ticks: { font: { family: "Inter, sans-serif", size: 16 }, color: '#aaaaaa', maxRotation: 0, autoSkip: true, maxTicksLimit: 20 },
                                 grid: { display: false },
                             },
                             y: {
                                 beginAtZero: true,
-                                ticks: { font: { family: "'JetBrains Mono', monospace", size: 9 }, color: '#aaa', precision: 0 },
-                                grid: { color: '#f0eded' },
+                                ticks: { font: { family: "Inter, sans-serif", size: 16 }, color: '#aaaaaa', precision: 0 },
+                                grid: { color: '#484848' },
                             }
                         }
                     }

@@ -6,7 +6,7 @@
     <title>Billing Admin — SQL Designer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         body { margin:0; font-family:'JetBrains Mono',monospace; background:#282828; color:#e0e0e0; font-size:12px; }
@@ -30,18 +30,10 @@
         .empty { padding:16px; color:#aaa; }
         @media (max-width:700px) { .stats { grid-template-columns:1fr 1fr; } main { padding:1rem; } }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
-    <header>
-        <strong>SQL Designer — Billing</strong>
-        <nav>
-            <a href="{{ route('admin.dashboard') }}">Users</a>
-            <a href="{{ route('admin.library') }}">Library</a>
-            <a href="{{ route('admin.reviews') }}">Reviews</a>
-            <a href="{{ route('admin.promocodes') }}">Promocodes</a>
-            <form method="POST" action="{{ route('admin.logout') }}">@csrf<button type="submit">Sign Out</button></form>
-        </nav>
-    </header>
+    @include('admin.partials.header')
     <main>
         <div class="stats">
             <div class="stat"><div class="stat-label">Active Pro</div><div class="stat-value">{{ $activeProUsers }}</div></div>

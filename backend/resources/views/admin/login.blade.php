@@ -6,7 +6,7 @@
     <title>Admin — SQL Designer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -101,10 +101,15 @@
         }
         button[type="submit"]:hover { background: #7a2222; }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
-    <header>
-        <span>SQL Designer — Admin</span>
+    <header class="admin-header">
+        <a class="admin-brand" href="{{ route('admin.login') }}" aria-label="SQL Designer admin login">
+            <span class="admin-brand-mark" aria-hidden="true">SQL</span>
+            <span>SQL Designer</span>
+            <span class="admin-brand-section">Admin</span>
+        </a>
     </header>
 
     <main>

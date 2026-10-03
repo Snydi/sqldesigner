@@ -6,7 +6,7 @@
     <title>Promocodes Admin — SQL Designer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing:border-box; } body { margin:0; background:#282828; color:#e0e0e0; font:12px 'JetBrains Mono',monospace; }
         header { padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; background:#262626; border-bottom:1px solid #3c3c3c; }
@@ -20,15 +20,10 @@
         td input { width:145px; min-height:29px; padding:5px 7px; } td input.months { width:72px; } .muted { color:#999; }
         @media (max-width:700px) { header { align-items:flex-start; flex-direction:column; } nav { flex-wrap:wrap; } main { padding:1rem; } }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
-    <header>
-        <strong>SQL Designer — Promocodes</strong>
-        <nav>
-            <a href="{{ route('admin.dashboard') }}">Users</a><a href="{{ route('admin.library') }}">Library</a><a href="{{ route('admin.billing') }}">Billing</a><a href="{{ route('admin.reviews') }}">Reviews</a>
-            <form method="POST" action="{{ route('admin.logout') }}">@csrf<button type="submit">Sign Out</button></form>
-        </nav>
-    </header>
+    @include('admin.partials.header')
     <main>
         <h1>One-use Pro promo codes</h1>
         <p>Each code grants a fixed Pro period once. Redeeming a code extends an active Pro period instead of replacing it.</p>

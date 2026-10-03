@@ -6,7 +6,7 @@
     <title>Reviews — Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -95,19 +95,10 @@
         .no-message { font-size: 11px; color: #ccc; font-style: italic; text-transform: none; }
         .empty { font-size: 12px; color: #bbb; margin-top: 2rem; }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
-    <header>
-        <span>SQL Designer — Reviews</span>
-        <div class="header-nav">
-            <a href="{{ route('admin.dashboard') }}" class="nav-btn">Dashboard</a>
-            <a href="{{ route('admin.promocodes') }}" class="nav-btn">Promocodes</a>
-            <form method="POST" action="{{ route('admin.logout') }}">
-                @csrf
-                <button type="submit" class="nav-btn">Sign Out</button>
-            </form>
-        </div>
-    </header>
+    @include('admin.partials.header')
 
     <main>
         <div class="stats">

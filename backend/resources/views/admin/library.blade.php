@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -172,20 +172,10 @@
             .url-input { width: 100%; flex: 1 1 auto; min-width: 0; }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
-    <header>
-        <span>SQL Designer — Library</span>
-        <div style="display:flex;align-items:center;gap:12px;">
-            <a href="{{ route('admin.dashboard') }}" class="nav-btn">Dashboard</a>
-            <a href="{{ route('admin.reviews') }}" class="nav-btn">Reviews</a>
-            <a href="{{ route('admin.promocodes') }}" class="nav-btn">Promocodes</a>
-            <form method="POST" action="{{ route('admin.logout') }}">
-                @csrf
-                <button type="submit" class="nav-btn">Sign Out</button>
-            </form>
-        </div>
-    </header>
+    @include('admin.partials.header')
 
     <main>
         <div class="section-heading">Library — {{ $libraryDiagrams->count() }} diagrams</div>
