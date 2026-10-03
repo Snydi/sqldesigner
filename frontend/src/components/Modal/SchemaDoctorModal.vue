@@ -206,6 +206,7 @@ onMounted(loadAllowance)
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    text-align: center;
     color: var(--text-primary);
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
@@ -221,11 +222,12 @@ onMounted(loadAllowance)
 }
 
 .schema-doctor-modal__header {
+    position: relative;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     gap: 1rem;
-    padding: 1.25rem 1.5rem;
+    padding: 1.25rem 4.75rem;
     background: var(--color-primary);
 }
 
@@ -243,7 +245,10 @@ onMounted(loadAllowance)
 }
 
 .schema-doctor-modal__close {
-    flex: 0 0 auto;
+    position: absolute;
+    top: 50%;
+    right: 1.5rem;
+    transform: translateY(-50%);
     display: inline-flex;
     align-items: center;
     justify-content: center;
