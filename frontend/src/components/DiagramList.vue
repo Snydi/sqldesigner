@@ -148,14 +148,16 @@
                                 >Private</button>
                             </div>
                             <template v-if="newDiagramPublic">
-                                <label class="create-modal__checkbox-label">
-                                    <input type="checkbox" class="create-modal__checkbox" v-model="newDiagramInLibrary" />
-                                    <span>Add to Library</span>
-                                </label>
-                                <span class="create-modal__help-icon">
-                                    ?
-                                    <span class="create-modal__tooltip">When enabled, this diagram appears in read-only mode in the public <a href="/library" target="_blank" style="color: var(--color-primary-text); cursor: pointer; text-decoration: underline;">Schema Library</a> for anyone to browse.</span>
-                                </span>
+                                <div class="create-modal__library-option">
+                                    <label class="create-modal__checkbox-label">
+                                        <input type="checkbox" class="create-modal__checkbox" v-model="newDiagramInLibrary" />
+                                        <span>Add to Library</span>
+                                    </label>
+                                    <span class="create-modal__help-icon">
+                                        ?
+                                        <span class="create-modal__tooltip">When enabled, this diagram appears in read-only mode in the public <a href="/library" target="_blank" style="color: var(--color-primary-text); cursor: pointer; text-decoration: underline;">Schema Library</a> for anyone to browse.</span>
+                                    </span>
+                                </div>
                             </template>
                         </div>
                     </div>
@@ -846,6 +848,14 @@ export default {
 }
 
 /* Library checkbox */
+.create-modal__library-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    max-width: 100%;
+}
+
 .create-modal__checkbox-label {
     display: flex;
     align-items: center;
@@ -894,12 +904,13 @@ export default {
     position: absolute;
     bottom: calc(100% + 6px);
     right: 0;
-    width: 220px;
+    width: min(220px, calc(100vw - 4.5rem));
+    box-sizing: border-box;
     background: var(--bg-surface-alt);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 0.5rem 0.65rem;
-    font-size:$11rem;
+    font-size: 16px;
     font-family: inherit;
     color: var(--text-subtle);
     line-height: 1.45;
