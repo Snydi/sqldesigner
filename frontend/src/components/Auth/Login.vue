@@ -1,9 +1,10 @@
 <template>
     <div class="centered-container">
         <div class="auth-card">
+            <AccountRequiredNotice />
             <div class="auth-tabs">
-                <button class="auth-tab auth-tab--active" @click="router.push({ name: 'login' })">Sign in</button>
-                <button class="auth-tab" @click="router.push({ name: 'register' })">Register</button>
+                <button class="auth-tab auth-tab--active" @click="goToAuthTab('login')">Sign in</button>
+                <button class="auth-tab" @click="goToAuthTab('register')">Register</button>
             </div>
 
             <form class="auth-form" @submit.prevent="login">
@@ -57,6 +58,8 @@ import { Auth } from '@/services/Auth.js'
 import { useToast } from 'vue-toast-notification'
 import { useRoute } from 'vue-router'
 import router from '@/router/index.js'
+import AccountRequiredNotice from './AccountRequiredNotice.vue'
+import { consumePostAuthRoute, rememberPostAuthRoute } from '@/js/auth-redirect.js'
 import '@/css/auth.css'
 
 const route = useRoute()
@@ -65,17 +68,16 @@ const $toast = useToast({ position: 'bottom-right' })
 const userData = ref({ email: '', password: '' })
 
 onMounted(() => {
-    if (route.query.redirect === '/billing') sessionStorage.setItem('post_auth_route', 'billing')
+    if (route.query.redirect) rememberPostAuthRoute(route.query.redirect)
     if (route.query.oauth_error) {
         $toast.error('Sign-in was cancelled or failed')
     }
 })
 
 const login = async () => {
-    const redirectTo = route.query.redirect === '/billing' || sessionStorage.getItem('post_auth_route') === 'billing'
-        ? 'billing'
-        : 'diagrams'
-    sessionStorage.removeItem('post_auth_route')
+    const redirectTo = consumePostAuthRoute(route.query.redirect)
     await Auth.login(userData.value, redirectTo)
 }
+
+const goToAuthTab = (name) => router.push({ name, query: route.query })
 </script>
