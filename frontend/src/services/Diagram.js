@@ -143,7 +143,7 @@ export const Diagram = {
     getVisitors: (id) =>
         request(async () => {
             const response = await axios.get(`/api/diagrams/${id}/visitors`)
-            return response.data
+            return response.data.data
         }),
 
     approveVisitor: (diagramId, visitorId) =>
