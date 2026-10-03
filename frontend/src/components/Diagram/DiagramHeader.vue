@@ -13,6 +13,9 @@
             <span v-if="!isOwner && !isDemo" class="dh-name">{{ diagramName }}</span>
         </div>
         <div class="dh-group">
+            <button v-if="canEdit" class="dh-btn" @click="$emit('show-schema-doctor')" title="Schema Doctor">
+                <SvgIcon name="doctor" :size="17" />
+            </button>
             <div v-if="canEdit" class="dh-save-wrap">
                 <button class="dh-btn" @click="$emit('save')" title="Save (Ctrl+S)" :disabled="!isDemo && isSaved">
                     <SvgIcon name="save" :size="17" />
@@ -43,7 +46,7 @@ defineProps({
     diagramName: String,
     hasPendingVisitors: { type: Boolean, default: false },
 })
-defineEmits(['add-table', 'import', 'export', 'save', 'show-share', 'show-changelog'])
+defineEmits(['add-table', 'import', 'export', 'save', 'show-schema-doctor', 'show-share', 'show-changelog'])
 </script>
 
 <style scoped>

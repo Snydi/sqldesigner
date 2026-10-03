@@ -37,6 +37,29 @@ class DiagramPolicy
         return $this->ownsDiagram($user, $diagram);
     }
 
+    public function scan(User $user, Diagram $diagram): bool
+    {
+        if ($this->ownsDiagram($user, $diagram)) {
+            return true;
+        }
+
+        $visitor = DiagramVisitor::where('diagram_id', $diagram->id)
+            ->where('user_id', $user->id)
+            ->where('status', VisitorStatus::APPROVED)
+            ->first();
+
+        if ($diagram->require_approval && $visitor === null) {
+            return false;
+        }
+
+        if ($diagram->share_access === DiagramAccess::WRITE) {
+            return true;
+        }
+
+        return $diagram->share_access === DiagramAccess::PER_USER
+            && $visitor?->access === DiagramAccess::WRITE;
+    }
+
     public function viewChangelog(User $user, Diagram $diagram): bool
     {
         if ($this->ownsDiagram($user, $diagram)) {

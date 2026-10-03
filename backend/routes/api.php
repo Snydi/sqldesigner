@@ -9,6 +9,7 @@ use App\Http\Controllers\DiagramLikeController;
 use App\Http\Controllers\PlanLimitController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RobokassaWebhookController;
+use App\Http\Controllers\SchemaDoctorController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SupportController;
@@ -72,6 +73,8 @@ Route::middleware(['auth:sanctum', 'track.seen'])->group(function () {
         Route::get('/json/export/{diagram}', [DiagramController::class, 'exportJson']);
         Route::get('/migration/export/{diagram}', [DiagramController::class, 'exportMigration']);
         Route::post('/png/export/{diagram}', [DiagramController::class, 'recordPngExport']);
+        Route::post('/{diagram}/schema-doctor/scan', [SchemaDoctorController::class, 'scan'])
+            ->middleware('throttle:10,1');
 
         Route::get('/{diagram}/changelog', [DiagramChangelogController::class, 'index']);
         Route::post('/{diagram}/changelog', [DiagramChangelogController::class, 'store']);
