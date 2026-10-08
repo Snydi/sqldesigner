@@ -1,9 +1,10 @@
 <template>
     <div class="centered-container">
         <div class="auth-card">
+            <AccountRequiredNotice />
             <div class="auth-tabs">
-                <button class="auth-tab" @click="router.push({ name: 'login' })">Sign in</button>
-                <button class="auth-tab auth-tab--active" @click="router.push({ name: 'register' })">Register</button>
+                <button class="auth-tab" @click="goToAuthTab('login')">Sign in</button>
+                <button class="auth-tab auth-tab--active" @click="goToAuthTab('register')">Register</button>
             </div>
 
             <form class="auth-form" @submit.prevent="register">
@@ -54,15 +55,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Auth } from '@/services/Auth.js'
 import { useToast } from 'vue-toast-notification'
+import { useRoute } from 'vue-router'
 import router from '@/router/index.js'
+import AccountRequiredNotice from './AccountRequiredNotice.vue'
+import { rememberPostAuthRoute } from '@/js/auth-redirect.js'
 import '@/css/auth.css'
 
 const $toast = useToast({ position: 'bottom-right' })
+const route = useRoute()
 
 const userData = ref({ email: '', password: '' })
+
+onMounted(() => {
+    if (route.query.redirect) rememberPostAuthRoute(route.query.redirect)
+})
+
+const goToAuthTab = (name) => router.push({ name, query: route.query })
 
 function validatePassword(password) {
     if (password.length < 8) return 'Password must be at least 8 characters'

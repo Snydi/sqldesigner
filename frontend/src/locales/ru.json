@@ -879,5 +879,20 @@
   "Free plan is limited to 3 Schema Doctor scans per week. Try again next Monday (UTC+3) or upgrade to Pro.": "Бесплатный план ограничен 3 проверками Schema Doctor в неделю. Повторите попытку в следующий понедельник (UTC+3) или перейдите на Pro.",
   "Schema Doctor scans per week": "Проверки Schema Doctor в неделю",
   "scans used this week": "проверок использовано на этой неделе",
-  "Your 3 free Schema Doctor scans have been used this week. Upgrade to Pro for unlimited scans.": "Вы использовали 3 бесплатные проверки Schema Doctor на этой неделе. Перейдите на Pro для неограниченных проверок."
+  "Your 3 free Schema Doctor scans have been used this week. Upgrade to Pro for unlimited scans.": "Вы использовали 3 бесплатные проверки Schema Doctor на этой неделе. Перейдите на Pro для неограниченных проверок.",
+  "Free account required": "Требуется бесплатная учётная запись",
+  "This feature requires an account": "Для этой функции требуется учётная запись",
+  "Accessing your saved diagrams requires an account": "Для доступа к сохранённым диаграммам требуется учётная запись",
+  "Managing billing and Pro settings requires an account": "Для управления подпиской и настройками Pro требуется учётная запись",
+  "Opening this diagram requires an account": "Для открытия этой диаграммы требуется учётная запись",
+  "Importing SQL requires an account": "Для импорта SQL требуется учётная запись",
+  "Exporting your diagram requires an account": "Для экспорта диаграммы требуется учётная запись",
+  "Using Schema Doctor requires an account": "Для Schema Doctor требуется учётная запись",
+  "Liking community diagrams requires an account": "Для отметки диаграмм сообщества требуется учётная запись",
+  "Sign in or create a free account to continue. With an account, you can:": "Войдите или создайте бесплатную учётную запись, чтобы продолжить. С учётной записью вы сможете:",
+  "Your demo diagram is saved. It will be added to your account after you sign in or create an account.": "Ваша демо-диаграмма сохранена. Она будет добавлена в вашу учётную запись после входа или регистрации.",
+  "Save diagrams and continue working on them later": "Сохранять диаграммы и продолжать работу позже",
+  "Import schemas and export SQL, JSON, migrations, or PNG": "Импортировать схемы и экспортировать SQL, JSON, миграции или PNG",
+  "Use Schema Doctor and review diagram changes": "Использовать Schema Doctor и просматривать изменения диаграммы",
+  "Share diagrams and collaborate with other people": "Делиться диаграммами и работать над ними вместе с другими"
 }

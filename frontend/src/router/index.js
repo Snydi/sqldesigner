@@ -18,7 +18,14 @@ const SubscriptionCancelled = () => import('../components/Billing/SubscriptionCa
 
 function requireAuth(to, from, next) {
     if (!store.state.auth_token) {
-        next({ name: 'login' });
+        next({
+            name: 'login',
+            query: {
+                reason: 'account-required',
+                feature: to.meta.authFeature ?? 'diagrams',
+                redirect: to.fullPath,
+            },
+        });
     } else {
         axios.get('/api/user', {
             headers: {
@@ -30,7 +37,14 @@ function requireAuth(to, from, next) {
             })
             .catch(() => {
                 store.commit('logout');
-                next({ name: 'login' });
+                next({
+                    name: 'login',
+                    query: {
+                        reason: 'account-required',
+                        feature: to.meta.authFeature ?? 'diagrams',
+                        redirect: to.fullPath,
+                    },
+                });
             });
     }
 }
@@ -46,10 +60,10 @@ const routes = [
             { path: 'logout', name: 'logout', component: Logout },
             { path: 'verify-email', name: 'verify-email', component: VerifyEmail },
             { path: 'auth/callback', name: 'auth.callback', component: GoogleCallback },
-            { path: 'diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth },
-            { path: 'billing', name: 'billing', component: Billing, beforeEnter: requireAuth },
-            { path: 'billing/subscription-started', name: 'subscription.started', component: SubscriptionStarted, beforeEnter: requireAuth },
-            { path: 'billing/subscription-cancelled', name: 'subscription.cancelled', component: SubscriptionCancelled, beforeEnter: requireAuth },
+            { path: 'diagrams', name: 'diagrams', component: DiagramList, beforeEnter: requireAuth, meta: { authFeature: 'diagrams' } },
+            { path: 'billing', name: 'billing', component: Billing, beforeEnter: requireAuth, meta: { authFeature: 'billing' } },
+            { path: 'billing/subscription-started', name: 'subscription.started', component: SubscriptionStarted, beforeEnter: requireAuth, meta: { authFeature: 'billing' } },
+            { path: 'billing/subscription-cancelled', name: 'subscription.cancelled', component: SubscriptionCancelled, beforeEnter: requireAuth, meta: { authFeature: 'billing' } },
             { path: 'diagrams/:token', name: 'diagram.show', component: Diagram },
             { path: 'demo', name: 'demo', component: Diagram, props: { isDemo: true } },
             { path: 'shared/:token', redirect: to => ({ name: 'diagram.show', params: { token: to.params.token } }) },

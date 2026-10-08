@@ -10,20 +10,19 @@ import { useRoute } from 'vue-router'
 import store from '@/store/index.js'
 import router from '@/router/index.js'
 import { useToast } from 'vue-toast-notification'
+import { consumePostAuthRoute, navigateAfterAuth } from '@/js/auth-redirect.js'
 
 const route = useRoute()
 const $toast = useToast({ position: 'bottom-right' })
 
-onMounted(() => {
+onMounted(async () => {
     const token = route.query.token
     const driver = route.query.driver ?? 'provider'
     const label = driver.charAt(0).toUpperCase() + driver.slice(1)
     if (token) {
         store.commit('login', token)
         $toast.success(`Signed in with ${label}`)
-        const redirectTo = sessionStorage.getItem('post_auth_route') || 'diagrams'
-        sessionStorage.removeItem('post_auth_route')
-        router.push({ name: redirectTo })
+        await navigateAfterAuth(router, consumePostAuthRoute())
     } else {
         $toast.error(`${label} sign-in failed`)
         router.push({ name: 'login' })

@@ -37,8 +37,8 @@
             :diagramName="diagramName"
             :hasPendingVisitors="hasPendingVisitors"
             @add-table="addTable"
-            @import="isDemo ? goRegister() : showImportModal = true"
-            @export="isDemo ? goRegister() : openExportModal()"
+            @import="isDemo ? goRegister('import') : showImportModal = true"
+            @export="isDemo ? goRegister('export') : openExportModal()"
             @save="saveDiagram"
             @show-schema-doctor="openSchemaDoctor"
             @show-share="showShareModal = true"
@@ -459,7 +459,7 @@ const prepareSchemaDoctor = async () => {
 
 const openSchemaDoctor = async () => {
     if (props.isDemo) {
-        await goRegister()
+        await goRegister('doctor')
         return
     }
 
@@ -499,10 +499,13 @@ const capturePng = async ({ resolve, reject }) => {
 
 // --- Save ---
 
-const goRegister = async () => {
+const goRegister = async (feature) => {
     saveDemoSchema()
     $toast.info("Don't worry, your diagram is saved — sign up to continue")
-    await router.push({ name: 'register' })
+    await router.push({
+        name: 'register',
+        query: { reason: 'account-required', feature, redirect: '/diagrams' },
+    })
 }
 
 const saveDiagram = async (silent = false) => {
@@ -556,7 +559,14 @@ const getDiagram = async () => {
         }
     } catch {
         loading.value = false
-        await router.push({ name: 'login' })
+        await router.push({
+            name: 'login',
+            query: {
+                reason: 'account-required',
+                feature: 'diagram',
+                redirect: `/diagrams/${token}`,
+            },
+        })
         return
     }
 

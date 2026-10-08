@@ -653,7 +653,7 @@
             <h2>Embed your diagram, get featured.</h2>
             <p>Drop a public diagram into your blog post or docs site with the embed snippet. Diagrams with a live backlink land in the Featured row.</p>
             <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
-                <a class="btn btn-solid" href="/diagrams/new">Make a diagram</a>
+                <a class="btn btn-solid" href="/diagrams">Make a diagram</a>
             </div>
         </div>
         <pre class="submit-code"><span class="tok-com">&lt;!-- paste anywhere --&gt;</span>
@@ -704,7 +704,7 @@
         button.addEventListener('click', async () => {
             const token = localStorage.getItem('auth_token');
             if (!token) {
-                window.location.href = '/login';
+                window.location.href = '/login?reason=account-required&feature=like&redirect=%2Flibrary';
                 return;
             }
 
@@ -722,7 +722,7 @@
 
                 if (response.status === 401) {
                     localStorage.removeItem('auth_token');
-                    window.location.href = '/login';
+                    window.location.href = '/login?reason=account-required&feature=like&redirect=%2Flibrary';
                     return;
                 }
                 if (!response.ok) return;
