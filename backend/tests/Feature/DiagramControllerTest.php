@@ -116,6 +116,13 @@ class DiagramControllerTest extends TestCase
             ->assertStatus(200);
     }
 
+    public function test_invalid_visitor_id_is_rejected_before_model_binding(): void
+    {
+        $this->auth()
+            ->patchJson("/api/diagrams/{$this->diagram->id}/visitors/undefined", ['access' => 'read'])
+            ->assertStatus(405);
+    }
+
     public function test_import_returns_pending(): void
     {
         Queue::fake();

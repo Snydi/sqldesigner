@@ -92,8 +92,12 @@ const submit = async () => {
         })
         success.value = true
         setTimeout(() => emit('close'), 1500)
-    } catch {
-        error.value = 'Something went wrong. Please try again.'
+    } catch (requestError) {
+        if (requestError.response?.status === 429) {
+            error.value = 'Too many requests. Please wait a minute and try again.'
+        } else {
+            error.value = requestError.response?.data?.message ?? 'Something went wrong. Please try again.'
+        }
     } finally {
         loading.value = false
     }

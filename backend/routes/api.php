@@ -22,7 +22,7 @@ Route::middleware('throttle:10,1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
-Route::middleware('throttle:5,1')->post('/support', [SupportController::class, 'send']);
+Route::middleware('throttle:support')->post('/support', [SupportController::class, 'send']);
 
 Route::get('/diagrams/embed/{token}', [DiagramController::class, 'showEmbed']);
 Route::middleware('throttle:60,1')->post('/webhooks/robokassa/result', [RobokassaWebhookController::class, 'result']);
@@ -60,8 +60,10 @@ Route::middleware(['auth:sanctum', 'track.seen'])->group(function () {
         Route::delete('/{diagram}/share', [DiagramController::class, 'unshare']);
         Route::patch('/{diagram}/share', [DiagramController::class, 'updateShareAccess']);
         Route::get('/{diagram}/visitors', [DiagramController::class, 'getVisitors']);
-        Route::post('/{diagram}/visitors/{visitor}/approve', [DiagramController::class, 'approveVisitor']);
-        Route::patch('/{diagram}/visitors/{visitor}', [DiagramController::class, 'updateVisitorAccess']);
+        Route::post('/{diagram}/visitors/{visitor}/approve', [DiagramController::class, 'approveVisitor'])
+            ->whereNumber('visitor');
+        Route::patch('/{diagram}/visitors/{visitor}', [DiagramController::class, 'updateVisitorAccess'])
+            ->whereNumber('visitor');
 
         Route::group(['prefix' => 'sql'], function () {
             Route::post('/import/{diagram}', [DiagramController::class, 'import']);

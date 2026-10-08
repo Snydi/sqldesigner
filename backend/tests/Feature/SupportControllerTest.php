@@ -21,4 +21,19 @@ class SupportControllerTest extends TestCase
             'email' => 'user@example.com',
         ])->assertStatus(200)->assertJson(['status' => true]);
     }
+
+    public function test_support_limit_is_not_consumed_by_stats_requests(): void
+    {
+        Queue::fake();
+        $this->withServerVariables(['REMOTE_ADDR' => '203.0.113.15']);
+
+        for ($attempt = 0; $attempt < 5; $attempt++) {
+            $this->getJson('/api/stats')->assertOk();
+        }
+
+        $this->postJson('/api/support', [
+            'message' => 'I need help with something.',
+            'email' => 'user@example.com',
+        ])->assertOk()->assertJson(['status' => true]);
+    }
 }

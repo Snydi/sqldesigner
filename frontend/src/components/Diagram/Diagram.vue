@@ -297,7 +297,8 @@ const diagramInLibrary = ref(false)
 const ownerIdentity = ref(null)
 const canvasWrapperRef = ref(null)
 
-const canEdit = computed(() => props.isDemo || isOwner.value || diagramShareAccess.value === 'write')
+const isAuthenticated = computed(() => Boolean(store.state.auth_token))
+const canEdit = computed(() => props.isDemo || (isAuthenticated.value && (isOwner.value || diagramShareAccess.value === 'write')))
 
 const { width: canvasWidth, height: canvasHeight } = useElementSize(canvasWrapperRef)
 
@@ -323,7 +324,7 @@ const { startTableResize } = useTableResize({ schema, viewport, whisper, isSaved
 const { startRowDrag } = useRowDrag({ schema, isSaved, whisper, snapshot })
 
 const logAction = (action, details = null) => {
-    if (props.isDemo || !diagramId.value) return
+    if (props.isDemo || !isAuthenticated.value || !diagramId.value) return
     Diagram.addChangelogEntry(diagramId.value, action, details)
 }
 
@@ -511,6 +512,7 @@ const saveDiagram = async (silent = false) => {
         if (!silent) $toast.success('Diagram saved')
         return true
     }
+    if (!isAuthenticated.value) return false
     const saved = await (isOwner.value ? Diagram.save(diagramId.value, schema.value) : Diagram.saveByToken(token, schema.value))
     if (!saved) return false
     isSaved.value = true

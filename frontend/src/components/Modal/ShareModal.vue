@@ -149,7 +149,8 @@ const embedCode = computed(() => `<iframe src="${window.location.origin}/embed/$
 
 const fetchVisitors = async () => {
     visitorsLoading.value = true
-    visitors.value = await Diagram.getVisitors(props.diagramId) ?? []
+    const result = await Diagram.getVisitors(props.diagramId) ?? []
+    visitors.value = result.filter(visitor => Number.isSafeInteger(Number(visitor?.id)) && Number(visitor.id) > 0)
     visitorsLoading.value = false
 }
 
@@ -192,15 +193,25 @@ const toggleApproval = async (event) => {
 }
 
 const approveVisitor = async (visitor) => {
+    const visitorId = Number(visitor?.id)
+    if (!Number.isSafeInteger(visitorId) || visitorId <= 0) {
+        await fetchVisitors()
+        return
+    }
     loading.value = true
-    const result = await Diagram.approveVisitor(props.diagramId, visitor.id)
+    const result = await Diagram.approveVisitor(props.diagramId, visitorId)
     if (result) visitor.status = 'approved'
     loading.value = false
 }
 
 const setVisitorAccess = async (visitor, access) => {
+    const visitorId = Number(visitor?.id)
+    if (!Number.isSafeInteger(visitorId) || visitorId <= 0) {
+        await fetchVisitors()
+        return
+    }
     loading.value = true
-    const result = await Diagram.updateVisitorAccess(props.diagramId, visitor.id, access)
+    const result = await Diagram.updateVisitorAccess(props.diagramId, visitorId, access)
     if (result) {
         visitor.status = result.visitor_status
         visitor.access = result.access

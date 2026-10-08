@@ -9,8 +9,11 @@ use App\Policies\DiagramPolicy;
 use App\Repositories\DiagramRepository;
 use App\Repositories\DiagramRepositoryInterface;
 use App\Services\PlanLimitService;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +27,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Diagram::class, DiagramPolicy::class);
+
+        // Numeric throttle middleware shares one counter between routes for the
+        // same IP. Keep support submissions isolated from unrelated endpoints
+        // such as /api/stats so normal browsing cannot exhaust this limit.
+        RateLimiter::for('support', static fn (Request $request): Limit => Limit::perMinute(5)
+            ->by($request->ip()));
 
         View::share([
             'diagramLimit' => PlanLimitService::DIAGRAM_LIMIT,
