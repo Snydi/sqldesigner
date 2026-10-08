@@ -18,7 +18,7 @@ const SubscriptionCancelled = () => import('../components/Billing/SubscriptionCa
 
 function requireAuth(to, from, next) {
     if (!store.state.auth_token) {
-        next({ name: 'login' });
+        next({ name: 'login', query: { redirect: to.fullPath } });
     } else {
         axios.get('/api/user', {
             headers: {
@@ -30,7 +30,7 @@ function requireAuth(to, from, next) {
             })
             .catch(() => {
                 store.commit('logout');
-                next({ name: 'login' });
+                next({ name: 'login', query: { redirect: to.fullPath } });
             });
     }
 }

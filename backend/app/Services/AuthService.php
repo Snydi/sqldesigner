@@ -99,7 +99,7 @@ class AuthService
 
     public function logout(User $user): true
     {
-        $user->tokens()->delete();
+        $user->currentAccessToken()?->delete();
         Auth::guard('web')->logout();
 
         return true;

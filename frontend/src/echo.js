@@ -17,6 +17,8 @@ export function createEcho() {
         auth: {
             headers: {
                 Authorization: `Bearer ${authToken}`,
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
             },
         },
     })

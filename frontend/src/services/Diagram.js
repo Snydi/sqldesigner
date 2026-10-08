@@ -9,7 +9,8 @@ async function request(fn) {
         return await fn()
     } catch (error) {
         if (isPlanLimitError(error)) throw error
-        $toast.error(error.response?.data.message ?? 'Something went wrong!')
+        if (error.response?.status === 401) return
+        $toast.error(error.response?.data?.message ?? 'Something went wrong!')
     }
 }
 
@@ -31,6 +32,7 @@ export const Diagram = {
             const response = await axios.get(`/api/diagrams/shared/${token}`)
             return response.data.data
         } catch (error) {
+            if (error.response?.status === 401) return null
             if (error.response?.status === 403 && error.response?.data?.pending_approval) {
                 return { pending_approval: true }
             }

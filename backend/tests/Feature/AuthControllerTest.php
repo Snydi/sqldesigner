@@ -35,13 +35,32 @@ class AuthControllerTest extends TestCase
             ->assertJsonStructure(['token']);
     }
 
-    public function test_logout_succeeds(): void
+    public function test_logout_revokes_only_the_current_token(): void
     {
         $user = User::factory()->create();
+        $currentToken = $user->createToken('current session');
+        $otherToken = $user->createToken('other session');
 
-        $this->actingAs($user, 'sanctum')
+        $this->withToken($currentToken->plainTextToken)
             ->postJson('/api/logout')
             ->assertStatus(200);
+
+        $this->assertDatabaseMissing('personal_access_tokens', [
+            'id' => $currentToken->accessToken->id,
+        ]);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'id' => $otherToken->accessToken->id,
+            'tokenable_id' => $user->id,
+        ]);
+    }
+
+    public function test_broadcast_auth_returns_json_unauthenticated_response(): void
+    {
+        $this->postJson('/broadcasting/auth', [
+            'channel_name' => 'presence-diagram.test',
+            'socket_id' => '123.456',
+        ])->assertUnauthorized()
+            ->assertJsonFragment(['message' => 'Unauthenticated.']);
     }
 
     public function test_resend_verification_succeeds(): void

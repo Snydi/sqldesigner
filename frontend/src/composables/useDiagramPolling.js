@@ -16,6 +16,10 @@ export function useDiagramPolling({ diagramId, isOwner, diagramRequireApproval, 
         stopVisitorPolling()
         visitorPollInterval = setInterval(async () => {
             const visitors = await Diagram.getVisitors(diagramId.value)
+            if (!visitors) {
+                stopVisitorPolling()
+                return
+            }
             hasPendingVisitors.value = visitors?.some(v => v.status === 'pending') ?? false
         }, 8000)
     }
@@ -41,7 +45,9 @@ export function useDiagramPolling({ diagramId, isOwner, diagramRequireApproval, 
                 }
             } catch (error) {
                 const data = error.response?.data
-                if (data?.pending_approval) {
+                if (error.response?.status === 401) {
+                    stopGuestAccessPolling()
+                } else if (data?.pending_approval) {
                     pendingApproval.value = true
                     stopGuestAccessPolling()
                 } else if (error.response?.status === 403) {

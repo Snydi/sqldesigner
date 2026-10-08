@@ -16,10 +16,63 @@ if (import.meta.env.PROD) {
 
 store.dispatch('initializeAuth');
 
-// Redirect to verify-email page when diagrams API returns 403 email not verified
+const publicAuthEndpoints = ['/api/login', '/api/register'];
+
+const requestAuthorization = (config) => {
+    const headers = config?.headers;
+    if (typeof headers?.get === 'function') return headers.get('Authorization');
+    return headers?.Authorization;
+};
+
+const redirectToLogin = () => {
+    const currentRoute = router.currentRoute.value;
+    if (['login', 'register', 'auth.callback'].includes(currentRoute.name)) return;
+
+    router.replace({
+        name: 'login',
+        query: { redirect: currentRoute.fullPath },
+    });
+};
+
+window.addEventListener('storage', (event) => {
+    if (event.key !== 'auth_token') return;
+
+    if (event.newValue) {
+        store.commit('login', event.newValue);
+        return;
+    }
+
+    store.commit('logout');
+    redirectToLogin();
+});
+
+// Keep authentication consistent across tabs and recover cleanly from expired tokens.
 axios.interceptors.response.use(
     response => response,
-    error => {
+    async error => {
+        const config = error.config;
+
+        if (error.response?.status === 401 &&
+            !publicAuthEndpoints.some(endpoint => config?.url?.endsWith(endpoint))) {
+            const storedToken = localStorage.getItem('auth_token');
+            const staleAuthorization = requestAuthorization(config);
+            const currentAuthorization = storedToken ? `Bearer ${storedToken}` : null;
+
+            // Another tab may have logged in since this request was created. Retry once
+            // with that tab's current token instead of clearing the valid session.
+            if (storedToken && staleAuthorization !== currentAuthorization && !config.__authRetried) {
+                store.commit('login', storedToken);
+                config.__authRetried = true;
+                config.headers.Authorization = currentAuthorization;
+                return axios(config);
+            }
+
+            if (!storedToken || staleAuthorization === currentAuthorization) {
+                store.commit('logout');
+                redirectToLogin();
+            }
+        }
+
         if (error.response?.status === 403 &&
             error.response?.data?.message === 'Your email address is not verified.') {
             router.push({ name: 'verify-email' });

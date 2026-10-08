@@ -23,7 +23,7 @@ onMounted(() => {
         $toast.success(`Signed in with ${label}`)
         const redirectTo = sessionStorage.getItem('post_auth_route') || 'diagrams'
         sessionStorage.removeItem('post_auth_route')
-        router.push({ name: redirectTo })
+        router.push(redirectTo.startsWith('/') ? redirectTo : { name: redirectTo })
     } else {
         $toast.error(`${label} sign-in failed`)
         router.push({ name: 'login' })

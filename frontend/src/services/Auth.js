@@ -9,7 +9,7 @@ async function authenticate(endpoint, userData, redirectTo) {
         const response = await axios.post(endpoint, { email: userData.email, password: userData.password })
         $toast.success(response.data.message)
         store.commit('login', response.data.token)
-        await router.push({ name: redirectTo })
+        await router.push(redirectTo.startsWith('/') ? redirectTo : { name: redirectTo })
     } catch (error) {
         $toast.error(error.response?.data?.message ?? 'An error occurred')
     }
@@ -21,9 +21,16 @@ export const Auth = {
 
     async logout() {
         const $toast = useToast({ position: 'bottom-right' })
-        const response = await axios.post('/api/logout')
-        store.commit('logout')
-        response.status ? $toast.success(response.data.message) : $toast.error(response.data.message)
-        window.location.href = '/' //TODO potentially will prevent SSR in the future and gives 1 sec of white screen
+        try {
+            const response = await axios.post('/api/logout')
+            $toast.success(response.data.message)
+        } catch (error) {
+            if (error.response?.status !== 401) {
+                $toast.error(error.response?.data?.message ?? 'An error occurred')
+            }
+        } finally {
+            store.commit('logout')
+            window.location.href = '/' //TODO potentially will prevent SSR in the future and gives 1 sec of white screen
+        }
     }
 }
