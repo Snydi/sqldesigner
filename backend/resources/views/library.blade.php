@@ -88,7 +88,7 @@
                 "name": "How do I get my schema featured in the library?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Embed your diagram on your own site using the iframe embed code from the share dialog, then contact SQL Designer. Schemas with a live backlink from an external site are eligible for the Featured row, which includes a dofollow backlink back to your site."
+                    "text": "Featured schemas are selected editorially for clarity, usefulness, originality, and the quality of their database design. Share your diagram in the library, then contact SQL Designer if you would like it to be considered."
                 }
             },
             {
@@ -545,15 +545,14 @@
             <h2 class="section-h2">Featured schemas</h2>
         </div>
         <p class="section-desc">
-            Two ways for you diagram to appear here: <br>
-            1. Use the <em>embed</em> code option in the share dialog, then <a href="mailto:dmitriy@sql-designer.com" style="color: var(--color-primary-text); text-decoration: underline;">contact me</a> and I'll feature your schema here with a DO FOLLOW backlink, leading to your site. <br>
-            2. I just like your diagram and place it here myself, because I think it deserves the spot.
+            Featured schemas are selected editorially for clarity, usefulness, originality, and sound database design.
+            Share your diagram in the library, then <a href="mailto:dmitriy@sql-designer.com" style="color: var(--color-primary-text); text-decoration: underline;">contact me</a> if you would like it to be considered.
         </p>
         @if($featured->isEmpty())
             <div class="lib-empty">
                 <div class="glyph">★</div>
                 <p>No featured schemas yet.</p>
-                <p class="hint">Embed your diagram on your site to get featured here.</p>
+                <p class="hint">Share a useful, well-designed schema to be considered for this section.</p>
             </div>
         @else
             <div class="lib-grid">
@@ -570,7 +569,7 @@
                             <a class="lib-card-name" href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer">{{ $diagram->name }}</a>
                             <div class="lib-card-footer">
                                 @if($diagram->featured_url)
-                                    <a class="lib-card-backlink" href="{{ $diagram->featured_url }}" target="_blank" rel="dofollow noopener noreferrer">
+                                    <a class="lib-card-backlink" href="{{ $diagram->featured_url }}" target="_blank" rel="ugc nofollow noopener noreferrer">
                                         ↗ {{ parse_url($diagram->featured_url, PHP_URL_HOST) }}
                                     </a>
                                 @else
@@ -650,8 +649,8 @@
 <section class="submit-strip">
     <div class="submit-strip-inner">
         <div>
-            <h2>Embed your diagram, get featured.</h2>
-            <p>Drop a public diagram into your blog post or docs site with the embed snippet. Diagrams with a live backlink land in the Featured row.</p>
+            <h2>Share your diagram with the community.</h2>
+            <p>Publish a useful schema in the library to help other database designers. Featured schemas are selected for their clarity, originality, and design quality.</p>
             <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
                 <a class="btn btn-solid" href="/diagrams/new">Make a diagram</a>
             </div>

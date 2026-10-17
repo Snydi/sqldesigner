@@ -128,5 +128,4 @@ return [
     ],
 
     'indexnow_key' => env('INDEXNOW_KEY'),
-    'google_indexing_sa_key_path' => env('GOOGLE_INDEXING_SA_KEY_PATH'),
 ];

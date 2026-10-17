@@ -83,8 +83,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 44px;
-            height: 44px;
+            min-width: 48px;
+            height: 48px;
             padding: 0 0.55rem;
             border: 1px solid var(--border-color);
             border-radius: 7px;
@@ -120,6 +120,7 @@
         .btn-solid { background: var(--color-primary-text); color: #0c1f15; }
         .btn-solid:hover { background: #6dc290; }
         .btn-lg { min-height: 48px; padding: 0.75rem 1.15rem; font-size: 1rem; border-radius: 7px; }
+        .header .btn { min-height: 48px; }
 
         /* ── GitHub star button ──────────────────────────── */
         .gh-star {

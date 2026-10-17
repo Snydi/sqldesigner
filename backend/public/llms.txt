@@ -2,7 +2,7 @@
 
 > Browser-based visual database schema designer with SQL import and export for MySQL, PostgreSQL, SQLite, Oracle, SQL Server, and Microsoft Access.
 
-SQL Designer lets users create tables, columns, constraints, and foreign-key relationships on a visual ERD canvas. The Free plan includes one saved diagram and three combined SQL, JSON, migration, or PNG exports per week. Pro costs $10 USD per month and removes diagram and export limits.
+SQL Designer lets users create tables, columns, constraints, and foreign-key relationships on a visual ERD canvas. The Free plan includes 1 saved diagram, 3 combined exports per week, and 3 Schema Doctor scans per week. Pro costs $10 USD per month and removes usage limits.
 
 ## Primary sources
 
@@ -11,14 +11,14 @@ SQL Designer lets users create tables, columns, constraints, and foreign-key rel
 - [Pricing](https://sql-designer.com/pricing): Current Free and Pro plan limits and price.
 - [About](https://sql-designer.com/about): Product history, operator, authorship, and editorial information.
 - [Schema library](https://sql-designer.com/library): Community-shared database diagram examples.
-- [Full reference](https://sql-designer.com/llms-full.txt): Detailed product, dialect, feature, FAQ, and article summaries.
+- [Full reference](https://sql-designer.com/llms-full.txt): Detailed product, dialect, feature, and content summaries.
 
 ## Guide collections
 
 - [ERD tools and database diagram guides](https://sql-designer.com/blog/erd-tools-guides): Tool selection, comparisons, online workflows, and schema examples.
 - [Relational database design guides](https://sql-designer.com/blog/relational-database-design-guides): Normalization, cardinality, joins, and relationship design.
 - [MySQL and PostgreSQL guides](https://sql-designer.com/blog/mysql-postgresql-guides): Data types, foreign keys, indexes, DDL, and engine differences.
-- [All database design articles](https://sql-designer.com/blog): Complete chronological article index.
+- [All database design resources](https://sql-designer.com/blog): 18 current article and topic-hub pages.
 
 ## Operator, contact, and licensing
 
@@ -28,4 +28,4 @@ SQL Designer lets users create tables, columns, constraints, and foreign-key rel
 - Application source code license: [GNU AGPL-3.0](https://github.com/Snydi/sqldesigner/blob/master/LICENSE).
 - Website editorial content has no separate reuse license stated; contact the operator for reuse permission.
 
-Last updated: 2026-08-03
+Last updated: 2026-09-27

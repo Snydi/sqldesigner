@@ -41,9 +41,7 @@
                             <textarea class="share-modal__link-input share-modal__embed-input" :value="embedCode" readonly rows="3"></textarea>
                             <button class="btn btn-primary share-modal__copy-btn share-modal__embed-copy-btn" @click="copyEmbed">{{ copiedEmbed ? 'Copied!' : 'Copy' }}</button>
                         </div>
-                        <p class="share-modal__hint">The link to my site is optional — but if you include it, your diagram gets featured in the <a href="/library" target="_blank" style="  color: var(--color-primary-text);
-    cursor: pointer;
-    text-decoration: underline;">Schema Library</a> with a backlink to your site.</p>
+                        <p class="share-modal__hint">Use this iframe code to publish an interactive, read-only version of your diagram on another site.</p>
                     </div>
                 </div>
 

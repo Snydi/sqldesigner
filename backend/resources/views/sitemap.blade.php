@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Site Map — SQL Designer')
+@section('title', 'SQL Designer Sitemap — Tools, Guides and Legal Pages')
 
 @section('head')
     <meta name="description" content="Full site map for SQL Designer — links to all pages including the schema designer, blog articles, and account pages.">

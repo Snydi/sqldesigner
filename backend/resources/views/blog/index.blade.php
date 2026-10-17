@@ -36,7 +36,7 @@
         "@type": "Blog",
         "name": "SQL Designer Blog",
         "url": "https://sql-designer.com/blog",
-        "dateModified": "2026-08-03",
+        "dateModified": "2026-09-27",
         "description": "Tutorials and guides on MySQL database design, ER diagrams, and schema best practices.",
         "isPartOf": { "@id": "https://sql-designer.com/#website" },
         "publisher": { "@id": "https://sql-designer.com/#organization" }

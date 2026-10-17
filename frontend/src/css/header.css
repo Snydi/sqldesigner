@@ -22,8 +22,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 44px;
-    height: 44px;
+    min-width: 48px;
+    height: 48px;
     padding: 0 9px;
     border: 1px solid var(--border-color);
     border-radius: 7px;
@@ -48,8 +48,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 7px;
     border: 1px solid transparent;
     background: transparent;
@@ -64,7 +64,7 @@
 }
 
 .hbtn-billing {
-    min-height: 44px;
+    min-height: 48px;
     padding: 0 10px;
     border: 1px solid var(--border-color);
     border-radius: 7px;
@@ -84,7 +84,7 @@
 
 /* Text CTA (Try Demo / Register) */
 .hbtn-cta {
-    min-height: 44px;
+    min-height: 48px;
     padding: 6px 14px;
     border-radius: 7px;
     border: none;
@@ -99,4 +99,24 @@
 
 .hbtn-cta:hover {
     opacity: 0.88;
+}
+
+.hbtn-cta__compact {
+    display: none;
+}
+
+@media (max-width: 400px) {
+    .hbtn-cta {
+        min-width: 82px;
+        padding-inline: 12px;
+        letter-spacing: 0;
+    }
+
+    .hbtn-cta__wide {
+        display: none;
+    }
+
+    .hbtn-cta__compact {
+        display: inline;
+    }
 }

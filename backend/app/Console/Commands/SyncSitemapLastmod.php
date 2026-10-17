@@ -66,7 +66,7 @@ class SyncSitemapLastmod extends Command
         if ($mismatches === []) {
             $this->info('Sitemap lastmod values already match page schema dates.');
 
-            return self::SUCCESS;
+            return $this->syncLlmsFiles();
         }
 
         foreach ($mismatches as $path => $dates) {
@@ -87,7 +87,7 @@ class SyncSitemapLastmod extends Command
 
         $this->info(count($mismatches).' sitemap lastmod value(s) synchronized from page schemas.');
 
-        return self::SUCCESS;
+        return $this->syncLlmsFiles();
     }
 
     private function viewPathForUrl(string $path): ?string
@@ -104,5 +104,13 @@ class SyncSitemapLastmod extends Command
         }
 
         return resource_path('views/'.$view.'.blade.php');
+    }
+
+    private function syncLlmsFiles(): int
+    {
+        return $this->call(
+            'seo:generate-llms',
+            $this->option('check') ? ['--check' => true] : [],
+        );
     }
 }

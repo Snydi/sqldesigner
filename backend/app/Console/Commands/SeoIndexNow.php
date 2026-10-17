@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use Google\Client;
-use Google\Exception;
-use Google\Service\Indexing;
-use Google\Service\Indexing\UrlNotification;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -15,17 +11,23 @@ class SeoIndexNow extends Command
 {
     protected $signature = 'seo:indexnow';
 
-    protected $description = 'Submit all sitemap URLs to IndexNow and Google Indexing API';
+    protected $description = 'Synchronize the sitemap and submit all URLs to IndexNow';
 
-    /**
-     * @throws Exception
-     */
-    public function handle(): void
+    public function handle(): int
     {
+        if ($this->call('seo:sync-sitemap-lastmod') !== self::SUCCESS) {
+            $this->error('IndexNow submission stopped because the sitemap could not be synchronized.');
+
+            return self::FAILURE;
+        }
+
         $xml = simplexml_load_file(public_path('sitemap.xml'));
         $urls = collect(iterator_to_array($xml->url, false))->map(fn ($u) => (string) $u->loc)->values()->all();
         $this->submitToIndexNow($urls);
-        $this->submitToGoogleIndexing($urls);
+
+        // Ordinary product and content pages are discovered through the XML sitemap.
+        // Google's Indexing API is restricted to qualifying job and livestream pages.
+        return self::SUCCESS;
     }
 
     /**
@@ -50,43 +52,4 @@ class SeoIndexNow extends Command
         }
     }
 
-    /**
-     * @param  string[]  $urls
-     *
-     * @throws Exception
-     */
-    private function submitToGoogleIndexing(array $urls): void
-    {
-        $keyPath = config('app.google_indexing_sa_key_path');
-
-        if (! $keyPath || ! file_exists($keyPath)) {
-            $this->warn('Google Indexing: SA key file not configured or not found, skipping.');
-
-            return;
-        }
-
-        $client = new Client;
-        $client->setAuthConfig($keyPath);
-        $client->addScope('https://www.googleapis.com/auth/indexing');
-
-        $service = new Indexing($client);
-
-        $ok = 0;
-        $fail = 0;
-
-        foreach ($urls as $url) {
-            try {
-                $notification = new UrlNotification;
-                $notification->setUrl($url);
-                $notification->setType('URL_UPDATED');
-                $service->urlNotifications->publish($notification);
-                $ok++;
-            } catch (\Exception $e) {
-                $this->error("Google Indexing [{$url}]: ".$e->getMessage());
-                $fail++;
-            }
-        }
-
-        $this->info("Google Indexing: {$ok} submitted, {$fail} failed.");
-    }
 }
