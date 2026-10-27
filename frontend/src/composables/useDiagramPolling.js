@@ -2,7 +2,7 @@ import { ref, watch } from 'vue'
 import { Diagram } from '@/services/Diagram.js'
 import axios from '@/axios.js'
 
-export function useDiagramPolling({ diagramId, isOwner, diagramRequireApproval, token, diagramShareAccess, pendingApproval, notAvailable }) {
+export function useDiagramPolling({ diagramId, isOwner, diagramRequireApproval, token, libraryView, diagramShareAccess, pendingApproval, notAvailable }) {
     const hasPendingVisitors = ref(false)
     let visitorPollInterval = null
     let guestAccessPollInterval = null
@@ -38,7 +38,9 @@ export function useDiagramPolling({ diagramId, isOwner, diagramRequireApproval, 
         stopGuestAccessPolling()
         guestAccessPollInterval = setInterval(async () => {
             try {
-                const response = await axios.get(`/api/diagrams/shared/${token}`)
+                const response = await axios.get(`/api/diagrams/shared/${token}`, {
+                    params: libraryView ? { library: 1 } : {}
+                })
                 const info = response.data.data
                 if (info?.share_access !== diagramShareAccess.value) {
                     diagramShareAccess.value = info.share_access

@@ -11,13 +11,14 @@ export const CURSOR_COLORS = ['#E53935', '#D81B60', '#8E24AA', '#3949AB', '#1E88
  *
  * @param {Object} opts
  * @param {string}      opts.token
+ * @param {boolean}     opts.libraryView
  * @param {import('vue').Ref} opts.ownerIdentity  - { id, name, color }
  * @param {import('vue').Ref} opts.viewport        - VueFlow viewport
  * @param {import('vue').Ref} opts.schema          - diagram schema array
  * @param {import('vue').Ref} opts.canvasWrapperRef
  * @param {Function} opts.onDiagramSaved           - called when a remote user saves
  */
-export function useDiagramPresence({ token, ownerIdentity, viewport, schema, canvasWrapperRef, onDiagramSaved, onVisitorRequested, onAccessChanged }) {
+export function useDiagramPresence({ token, libraryView, ownerIdentity, viewport, schema, canvasWrapperRef, onDiagramSaved, onVisitorRequested, onAccessChanged }) {
     const remoteCursors = reactive({})
     let echo = null
     let presenceChannel = null
@@ -94,7 +95,7 @@ export function useDiagramPresence({ token, ownerIdentity, viewport, schema, can
             })
             .listen('.schema.imported', async ({ imported_by }) => {
                 if (String(imported_by) === ownerIdentity.value?.id) return
-                const result = await Diagram.getByToken(token)
+                const result = await Diagram.getByToken(token, libraryView)
                 if (result?.schema) schema.value = result.schema
             })
             .listen('.visitor.requested', () => {

@@ -27,9 +27,11 @@ export const Diagram = {
             return response.data.data
         }),
 
-    getByToken: async (token) => {
+    getByToken: async (token, libraryView = false) => {
         try {
-            const response = await axios.get(`/api/diagrams/shared/${token}`)
+            const response = await axios.get(`/api/diagrams/shared/${token}`, {
+                params: libraryView ? { library: 1 } : {}
+            })
             return response.data.data
         } catch (error) {
             if (error.response?.status === 401) return null
