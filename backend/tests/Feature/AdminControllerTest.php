@@ -34,6 +34,18 @@ class AdminControllerTest extends TestCase
             ->assertStatus(200);
     }
 
+    public function test_dashboard_can_search_users_by_email(): void
+    {
+        User::factory()->create(['email' => 'search-target@example.com']);
+        User::factory()->create(['email' => 'different-user@example.com']);
+
+        $this->withSession($this->adminSession)
+            ->get('/admin?email=SEARCH-TARGET')
+            ->assertStatus(200)
+            ->assertSee('search-target@example.com')
+            ->assertDontSee('different-user@example.com');
+    }
+
     public function test_library_returns_ok(): void
     {
         $this->withSession($this->adminSession)

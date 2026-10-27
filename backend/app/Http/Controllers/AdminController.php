@@ -26,6 +26,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -58,12 +59,15 @@ class AdminController extends Controller
         return back()->withErrors(['credentials' => 'Неверный логин или пароль.']);
     }
 
-    public function showDashboard(): Factory|View
+    public function showDashboard(Request $request): Factory|View
     {
-        $sort = in_array(request('sort'), ['registered', 'last_action']) ? request('sort') : 'registered';
-        ['users' => $users, 'totalUsers' => $totalUsers, 'registrationsByDay' => $registrationsByDay, 'activityByDay' => $activityByDay, 'returningUsers' => $returningUsers, 'retentionRate' => $retentionRate] = $this->adminService->getDashboardData($sort);
+        $requestedSort = $request->query('sort');
+        $requestedEmail = $request->query('email');
+        $sort = in_array($requestedSort, ['registered', 'last_action'], true) ? $requestedSort : 'registered';
+        $email = is_string($requestedEmail) ? mb_substr(trim($requestedEmail), 0, 255) : '';
+        ['users' => $users, 'totalUsers' => $totalUsers, 'registrationsByDay' => $registrationsByDay, 'activityByDay' => $activityByDay, 'returningUsers' => $returningUsers, 'retentionRate' => $retentionRate] = $this->adminService->getDashboardData($sort, $email);
 
-        return view('admin.dashboard', compact('users', 'totalUsers', 'registrationsByDay', 'activityByDay', 'sort', 'returningUsers', 'retentionRate'));
+        return view('admin.dashboard', compact('users', 'totalUsers', 'registrationsByDay', 'activityByDay', 'sort', 'email', 'returningUsers', 'retentionRate'));
     }
 
     public function showLibrary(): Factory|View

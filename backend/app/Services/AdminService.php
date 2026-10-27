@@ -22,7 +22,7 @@ class AdminService
     }
 
     /** @return array{users: LengthAwarePaginator<int, User>, totalUsers: int, registrationsByDay: array<string, int>, activityByDay: array<string, int>, returningUsers: int, retentionRate: float} */
-    public function getDashboardData(string $sort = 'registered'): array
+    public function getDashboardData(string $sort = 'registered', string $email = ''): array
     {
         $tz = 'Europe/Moscow';
         $cutoff = now($tz)->subDays(59)->startOfDay()->utc();
@@ -57,6 +57,10 @@ class AdminService
         }
 
         $usersQuery = User::with(['diagrams', 'activeSubscription']);
+
+        if ($email !== '') {
+            $usersQuery->where('email', 'ilike', '%'.$email.'%');
+        }
 
         if ($sort === 'last_action') {
             $usersQuery

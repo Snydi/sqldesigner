@@ -179,7 +179,7 @@
         }
         .toast.show { opacity: 1; transform: translateY(0); }
         .toast.error { background: #8f2f2f; }
-        .empty { font-size: 12px; color: #bbb; margin-top: 2rem; }
+        .empty { font-size: 16px; color: #bbb; margin-top: 2rem; }
         .section-heading {
             font-size: 11px;
             font-weight: 600;
@@ -310,6 +310,42 @@
         }
         .sort-btn:hover { border-color: #aaa; color: #555; }
         .sort-btn.active { border-color: #8f2f2f; color: #8f2f2f; background: #fff5f5; }
+        .user-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        .user-search input {
+            flex: 1;
+            min-width: 0;
+            padding: 8px 12px;
+            border: 1px solid #e0dede;
+            border-radius: 4px;
+            color: #2c3e50;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            text-transform: none;
+            outline: none;
+        }
+        .user-search input:focus { border-color: #8f2f2f; }
+        .user-search button,
+        .user-search-clear {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            border: 1px solid #8f2f2f;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .user-search button { background: #8f2f2f; color: #fff; }
+        .user-search-clear { background: #fff; color: #8f2f2f; text-decoration: none; }
         .chart-card {
             background: #fff;
             border-radius: 4px;
@@ -341,6 +377,8 @@
             .section-heading > div { width: 100%; justify-content: flex-start !important; }
 
             .sort-toggle { flex-wrap: wrap; }
+            .user-search { align-items: stretch; flex-wrap: wrap; }
+            .user-search input { flex-basis: 100%; }
 
             .modal { padding: 18px 16px; gap: 12px; }
             .url-input { width: 100%; }
@@ -408,7 +446,7 @@
         </div>
 
         <div class="section-heading" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-            <span>Users — {{ $totalUsers }}</span>
+            <span>Users — {{ $email !== '' ? $users->total().' of '.$totalUsers : $totalUsers }}</span>
             <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
                 <div class="sort-toggle">
                     <a href="{{ request()->fullUrlWithQuery(['sort' => 'registered', 'page' => 1]) }}" class="sort-btn {{ $sort === 'registered' ? 'active' : '' }}">Registered</a>
@@ -417,6 +455,22 @@
                 <button class="feature-btn" style="font-size:10px;padding:5px 12px;" onclick="openBulkEmailModal()">Email All</button>
             </div>
         </div>
+
+        <form class="user-search" method="GET" action="{{ route('admin.dashboard') }}">
+            <input type="hidden" name="sort" value="{{ $sort }}">
+            <input
+                type="search"
+                name="email"
+                value="{{ $email }}"
+                placeholder="Search by email"
+                aria-label="Search users by email"
+                maxlength="255"
+            >
+            <button type="submit">Search</button>
+            @if ($email !== '')
+                <a class="user-search-clear" href="{{ route('admin.dashboard', ['sort' => $sort]) }}">Clear</a>
+            @endif
+        </form>
 
         @forelse ($users as $user)
             <div class="user-card">
@@ -494,7 +548,7 @@
                 </div>
             </div>
         @empty
-            <p class="empty">No users yet.</p>
+            <p class="empty">{{ $email !== '' ? 'No users match that email.' : 'No users yet.' }}</p>
         @endforelse
 
         {{ $users->links('components.pagination', ['navClass' => 'pagination']) }}
