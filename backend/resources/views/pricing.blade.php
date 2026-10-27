@@ -406,7 +406,7 @@
                 <li><span class="mark">✓</span> Multiplayer collaboration</li>
             </ul>
             <div class="plan-cta">
-                <a id="pro-checkout" class="btn btn-solid btn-lg" href="/login?redirect=/billing">Get Pro — $10 USD/month</a>
+                <a id="pro-checkout" class="btn btn-solid btn-lg" href="/login?reason=account-required&amp;feature=billing&amp;redirect=%2Fbilling">Get Pro — $10 USD/month</a>
                 <div id="checkout-message" class="checkout-message" role="alert"></div>
             </div>
         </div>

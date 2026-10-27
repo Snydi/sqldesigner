@@ -3,8 +3,63 @@
     border: 1px solid var(--border-color);
     border-radius: 12px;
     width: 100%;
-    max-width: 380px;
+    max-width: 440px;
     overflow: hidden;
+}
+
+.auth-required {
+    padding: 1.5rem 1.75rem;
+    text-align: left;
+    background: rgba(93, 181, 131, 0.08);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.auth-required__eyebrow {
+    margin: 0 0 0.45rem;
+    color: var(--color-primary-text);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.auth-required__title {
+    margin: 0 0 0.65rem;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    line-height: 1.35;
+}
+
+.auth-required__intro {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.auth-required__saved {
+    margin: 0 0 0.8rem;
+    padding: 0.7rem 0.8rem;
+    color: var(--text-primary);
+    background: rgba(93, 181, 131, 0.12);
+    border-left: 3px solid var(--color-primary-text);
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.auth-required__benefits {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0.8rem 0 0;
+    padding-left: 1.25rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
+.auth-required__benefits li::marker {
+    color: var(--color-primary-text);
 }
 
 /* ── Tabs ─────────────────────────────────────────────────────── */
