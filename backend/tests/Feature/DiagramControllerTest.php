@@ -54,6 +54,53 @@ class DiagramControllerTest extends TestCase
             ->assertJsonPath('data.0.is_owner', false);
     }
 
+    public function test_remove_shared_deletes_only_the_current_users_visitor_record(): void
+    {
+        $shared = Diagram::factory()->create(['share_access' => 'read']);
+        $otherUser = User::factory()->create();
+        DiagramVisitor::factory()->create([
+            'diagram_id' => $shared->id,
+            'user_id' => $this->user->id,
+            'status' => VisitorStatus::APPROVED,
+        ]);
+        DiagramVisitor::factory()->create([
+            'diagram_id' => $shared->id,
+            'user_id' => $otherUser->id,
+            'status' => VisitorStatus::APPROVED,
+        ]);
+
+        $this->auth()
+            ->deleteJson("/api/diagrams/shared-with-me/{$shared->id}")
+            ->assertNoContent();
+
+        $this->assertDatabaseMissing('diagram_visitors', [
+            'diagram_id' => $shared->id,
+            'user_id' => $this->user->id,
+        ]);
+        $this->assertDatabaseHas('diagram_visitors', [
+            'diagram_id' => $shared->id,
+            'user_id' => $otherUser->id,
+        ]);
+    }
+
+    public function test_library_view_does_not_add_diagram_to_shared_with_me(): void
+    {
+        $libraryDiagram = Diagram::factory()->create([
+            'share_access' => 'per_user',
+            'library' => true,
+        ]);
+
+        $this->auth()
+            ->getJson("/api/diagrams/shared/{$libraryDiagram->share_token}?library=1")
+            ->assertOk()
+            ->assertJsonPath('data.share_access', 'read');
+
+        $this->assertDatabaseMissing('diagram_visitors', [
+            'diagram_id' => $libraryDiagram->id,
+            'user_id' => $this->user->id,
+        ]);
+    }
+
     public function test_store_creates_diagram(): void
     {
         $this->auth()

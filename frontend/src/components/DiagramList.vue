@@ -54,10 +54,10 @@
                     <div class="diagram-card__preview">
                         <DiagramPreview :schema="diagram.schema" />
                         <button
-                            v-if="activeView === 'mine'"
                             class="diagram-card__delete"
-                            @click.stop="deleteDiagram(diagram.id)"
-                            title="Delete"
+                            @click.stop="activeView === 'mine' ? deleteDiagram(diagram.id) : removeSharedDiagram(diagram.id)"
+                            :title="activeView === 'mine' ? 'Delete diagram' : 'Remove from Shared with me'"
+                            :aria-label="activeView === 'mine' ? 'Delete diagram' : 'Remove from Shared with me'"
                         >
                             <SvgIcon name="trash" :size="14" />
                         </button>
@@ -269,6 +269,15 @@ export default {
             const response = await axios.delete(`/api/diagrams/${id}`)
             await this.fetchDiagrams()
             response.status ? $toast.success(response.data.message) : $toast.error(response.data.message)
+        },
+        async removeSharedDiagram(id) {
+            try {
+                await axios.delete(`/api/diagrams/shared-with-me/${id}`)
+                await this.fetchDiagrams()
+                $toast.success('Diagram removed from Shared with me.')
+            } catch (error) {
+                $toast.error(error.response?.data?.message ?? 'Could not remove the diagram.')
+            }
         },
         startRename(diagram) {
             this.originalName = diagram.name

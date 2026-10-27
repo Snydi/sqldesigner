@@ -58,6 +58,16 @@ class DiagramController extends Controller
         return DiagramResource::collection($this->crudService->getSharedDiagrams($request->user()));
     }
 
+    #[Subgroup('CRUD')]
+    public function removeShared(Diagram $diagram, Request $request): JsonResponse
+    {
+        /** @var User $user */
+        $user = $request->user();
+        $this->sharingService->removeFromSharedWithMe($diagram, $user);
+
+        return $this->noContent();
+    }
+
     /**
      * @throws AuthorizationException
      */
@@ -381,7 +391,11 @@ class DiagramController extends Controller
     public function showByToken(string $token, Request $request): DiagramResource|JsonResponse
     {
         $diagram = Diagram::where('share_token', $token)->firstOrFail();
-        $result = $this->sharingService->resolveSharedAccess($diagram, $request->user());
+        $result = $this->sharingService->resolveSharedAccess(
+            $diagram,
+            $request->user(),
+            $request->boolean('library'),
+        );
 
         if ($result['status'] === 'not_shared') {
             abort(403, 'This diagram is not shared.');

@@ -558,7 +558,7 @@
             <div class="lib-grid">
                 @foreach($featured as $diagram)
                     <div class="lib-card">
-                        <a href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer" class="lib-card-preview">
+                        <a href="/diagrams/{{ $diagram->share_token }}?library=1" target="_blank" rel="noopener noreferrer" class="lib-card-preview">
                             <iframe
                                 data-src="/embed/{{ $diagram->share_token }}"
                                 title="{{ $diagram->name }} preview"
@@ -566,7 +566,7 @@
                             ></iframe>
                         </a>
                         <div class="lib-card-body">
-                            <a class="lib-card-name" href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer">{{ $diagram->name }}</a>
+                            <a class="lib-card-name" href="/diagrams/{{ $diagram->share_token }}?library=1" target="_blank" rel="noopener noreferrer">{{ $diagram->name }}</a>
                             <div class="lib-card-footer">
                                 @if($diagram->featured_url)
                                     <a class="lib-card-backlink" href="{{ $diagram->featured_url }}" target="_blank" rel="ugc nofollow noopener noreferrer">
@@ -612,7 +612,7 @@
             <div class="lib-grid">
                 @foreach($diagrams as $diagram)
                     <div class="lib-card">
-                        <a class="lib-card-preview" href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer">
+                        <a class="lib-card-preview" href="/diagrams/{{ $diagram->share_token }}?library=1" target="_blank" rel="noopener noreferrer">
                             <iframe
                                 data-src="/embed/{{ $diagram->share_token }}"
                                 title="{{ $diagram->name }} preview"
@@ -620,7 +620,7 @@
                             ></iframe>
                         </a>
                         <div class="lib-card-body">
-                            <a class="lib-card-name" href="/diagrams/{{ $diagram->share_token }}" target="_blank" rel="noopener noreferrer">{{ $diagram->name }}</a>
+                            <a class="lib-card-name" href="/diagrams/{{ $diagram->share_token }}?library=1" target="_blank" rel="noopener noreferrer">{{ $diagram->name }}</a>
                             <div class="lib-card-footer">
                                 <div class="lib-card-meta">
                                     <span>Added {{ $diagram->created_at->diffForHumans() }}</span>
