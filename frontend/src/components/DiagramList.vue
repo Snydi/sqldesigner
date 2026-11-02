@@ -177,7 +177,6 @@
 import axios from 'axios'
 import router from '../router/index.js'
 import { useToast } from 'vue-toast-notification'
-import { Diagram } from '@/services/Diagram.js'
 import { DEMO_SCHEMA_STORAGE_KEY } from '@/services/demoSchema.js'
 import DiagramPreview from './Diagram/DiagramPreview.vue'
 import SvgIcon from './SvgIcon.vue'
@@ -329,27 +328,53 @@ export default {
             }
         },
         async importDemoDiagram() {
-            const stored = localStorage.getItem(DEMO_SCHEMA_STORAGE_KEY)
+            let stored
+            try {
+                stored = localStorage.getItem(DEMO_SCHEMA_STORAGE_KEY)
+            } catch {
+                return false
+            }
             if (!stored) return
-
-            localStorage.removeItem(DEMO_SCHEMA_STORAGE_KEY)
 
             let schema
             try {
                 schema = JSON.parse(stored)
             } catch {
-                return
+                return false
             }
-            if (!Array.isArray(schema) || !schema.length) return
+            if (!Array.isArray(schema) || !schema.length) return false
 
-            const result = await Diagram.create({ name: 'My Demo Diagram', db_type: 'mysql', schema })
-            if (result) $toast.success('Your demo diagram was saved to your account')
+            try {
+                const response = await axios.get('/api/diagrams')
+                const existingNames = new Set(response.data.data.map(diagram => diagram.name))
+                let name = 'My Demo Diagram'
+                let suffix = 2
+
+                while (existingNames.has(name)) {
+                    name = `My Demo Diagram (${suffix})`
+                    suffix += 1
+                }
+
+                await axios.post('/api/diagrams', { name, db_type: 'mysql', schema })
+                localStorage.removeItem(DEMO_SCHEMA_STORAGE_KEY)
+                $toast.success('Your demo diagram was saved to your account')
+                return true
+            } catch (error) {
+                if (isPlanLimitError(error)) {
+                    this.upgradeMessage = error.response?.data?.message ?? 'Upgrade to Pro to create more diagrams.'
+                } else {
+                    $toast.error(error.response?.data?.message ?? 'Your demo diagram could not be transferred. It is still saved in this browser.')
+                }
+                return false
+            }
         }
     },
-    created() {
-        this.importDemoDiagram()
-        this.fetchDiagrams()
-        this.fetchPlanLimits()
+    async created() {
+        await this.importDemoDiagram()
+        await Promise.all([
+            this.fetchDiagrams(),
+            this.fetchPlanLimits(),
+        ])
     }
 }
 </script>
