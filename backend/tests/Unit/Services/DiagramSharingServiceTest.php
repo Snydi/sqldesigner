@@ -94,6 +94,17 @@ class DiagramSharingServiceTest extends TestCase
         $this->assertEquals(VisitorStatus::APPROVED, $visitors[0]['status']);
     }
 
+    public function test_remove_from_shared_with_me_deletes_users_visitor(): void
+    {
+        $user = User::factory()->create();
+        $diagram = Diagram::factory()->create();
+        DiagramVisitor::factory()->create(['diagram_id' => $diagram->id, 'user_id' => $user->id]);
+
+        $this->service->removeFromSharedWithMe($diagram, $user);
+
+        $this->assertDatabaseMissing('diagram_visitors', ['diagram_id' => $diagram->id, 'user_id' => $user->id]);
+    }
+
     // --- approveVisitor ---
 
     public function test_approve_visitor(): void
@@ -252,5 +263,17 @@ class DiagramSharingServiceTest extends TestCase
         $user = User::factory()->create();
         $diagram = Diagram::factory()->create(['share_access' => DiagramAccess::READ, 'require_approval' => false]);
         $this->assertEquals('ok', $this->service->resolveSharedAccess($diagram, $user)['status']);
+    }
+
+    public function test_resolve_library_view_is_read_only_without_creating_visitor(): void
+    {
+        $user = User::factory()->create();
+        $diagram = Diagram::factory()->create(['share_access' => DiagramAccess::PER_USER, 'library' => true]);
+
+        $result = $this->service->resolveSharedAccess($diagram, $user, true);
+
+        $this->assertEquals('ok', $result['status']);
+        $this->assertEquals(DiagramAccess::READ, $result['diagram']->share_access);
+        $this->assertDatabaseMissing('diagram_visitors', ['diagram_id' => $diagram->id, 'user_id' => $user->id]);
     }
 }

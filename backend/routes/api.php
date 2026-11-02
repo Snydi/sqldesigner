@@ -51,6 +51,7 @@ Route::middleware(['auth:sanctum', 'track.seen'])->group(function () {
     Route::group(['prefix' => 'diagrams', 'middleware' => ['verified']], function () {
         Route::get('/', [DiagramController::class, 'index']);
         Route::get('/shared-with-me', [DiagramController::class, 'shared']);
+        Route::delete('/shared-with-me/{diagram}', [DiagramController::class, 'removeShared']);
         Route::get('/{diagram}', [DiagramController::class, 'show']);
         Route::post('/', [DiagramController::class, 'store']);
         Route::put('/{diagram}', [DiagramController::class, 'update']);

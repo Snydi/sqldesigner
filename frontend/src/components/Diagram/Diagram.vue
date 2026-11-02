@@ -275,9 +275,11 @@ const { updateEdge, addEdges, viewport, screenToFlowCoordinate, flowToScreenCoor
 const store = useStore()
 store.dispatch('initializeAuth')
 const router = useRouter()
+const route = useRoute()
 const $toast = useToast()
 
-const token = useRoute().params.token
+const token = route.params.token
+const libraryView = route.query.library === '1'
 const diagramId = ref(null)
 const isOwner = ref(false)
 const notAvailable = ref(false)
@@ -305,12 +307,12 @@ const { width: canvasWidth, height: canvasHeight } = useElementSize(canvasWrappe
 const { snapshot, undo, redo } = useUndoHistory(schema)
 
 const { remoteCursors, whisper, initEcho, cleanupEcho, onCanvasMouseMove, broadcastCursor } = useDiagramPresence({
-    token, ownerIdentity, viewport, schema, canvasWrapperRef,
+    token, libraryView, ownerIdentity, viewport, schema, canvasWrapperRef,
     onDiagramSaved: () => $toast.success('Diagram saved'),
 })
 
 const { hasPendingVisitors, startVisitorPolling, stopVisitorPolling, startGuestAccessPolling, stopGuestAccessPolling } = useDiagramPolling({
-    diagramId, isOwner, diagramRequireApproval, token, diagramShareAccess, pendingApproval, notAvailable,
+    diagramId, isOwner, diagramRequireApproval, token, libraryView, diagramShareAccess, pendingApproval, notAvailable,
 })
 
 const { offScreenCursors } = useOffScreenCursors({ remoteCursors, canvasWidth, canvasHeight })
@@ -566,13 +568,13 @@ const getDiagram = async () => {
             query: {
                 reason: 'account-required',
                 feature: 'diagram',
-                redirect: `/diagrams/${token}`,
+                redirect: libraryView ? `/diagrams/${token}?library=1` : `/diagrams/${token}`,
             },
         })
         return
     }
 
-    const diagramInfo = await Diagram.getByToken(token)
+    const diagramInfo = await Diagram.getByToken(token, libraryView)
 
     if (!diagramInfo) {
         loading.value = false

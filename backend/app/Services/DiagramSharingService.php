@@ -91,6 +91,14 @@ class DiagramSharingService
     }
 
     /**
+     * Remove a diagram from a user's shared list without affecting other visitors.
+     */
+    public function removeFromSharedWithMe(Diagram $diagram, User $user): void
+    {
+        $diagram->visitors()->where('user_id', $user->id)->delete();
+    }
+
+    /**
      * Approve a visitor and broadcast the access change.
      */
     public function approveVisitor(Diagram $diagram, DiagramVisitor $visitor): DiagramVisitor
@@ -159,7 +167,7 @@ class DiagramSharingService
      *
      * @return array{status: string, diagram?: Diagram}
      */
-    public function resolveSharedAccess(Diagram $diagram, User $user): array
+    public function resolveSharedAccess(Diagram $diagram, User $user, bool $libraryView = false): array
     {
         if ($user->id === $diagram->user_id) {
             return ['status' => 'ok', 'diagram' => $diagram];
@@ -167,6 +175,14 @@ class DiagramSharingService
 
         if (! $diagram->share_access) {
             return ['status' => 'not_shared'];
+        }
+
+        // The public library is explicitly read-only. Browsing from it must not
+        // create a visitor record or make the diagram appear in "Shared with me".
+        if ($libraryView && $diagram->library) {
+            $diagram->share_access = DiagramAccess::READ;
+
+            return ['status' => 'ok', 'diagram' => $diagram];
         }
 
         $defaultStatus = $diagram->require_approval ? VisitorStatus::PENDING : VisitorStatus::APPROVED;
