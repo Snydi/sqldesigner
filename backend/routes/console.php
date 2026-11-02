@@ -10,4 +10,4 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::command('subscriptions:renew')->hourly()->withoutOverlapping();
+Schedule::command('subscriptions:renew')->everyFourHours()->withoutOverlapping();
