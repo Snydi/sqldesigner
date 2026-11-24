@@ -481,6 +481,42 @@ class RobokassaPaymentTest extends TestCase
         $this->assertSame(2, $subscription->payments()->count());
     }
 
+    public function test_renewal_stops_after_three_failed_attempts_in_the_current_period(): void
+    {
+        $subscription = Subscription::create([
+            'user_id' => $this->user->id,
+            'plan' => Subscription::PLAN_PRO_MONTHLY,
+            'status' => SubscriptionStatus::ACTIVE,
+            'provider' => 'robokassa',
+            'provider_subscription_id' => '100',
+            'amount_minor' => Subscription::PRO_PRICE_MINOR,
+            'currency' => Subscription::PRO_CURRENCY,
+            'starts_at' => now()->subMonth(),
+            'ends_at' => now(),
+        ]);
+
+        foreach ([PaymentStatus::FAILED, PaymentStatus::SUCCEEDED, PaymentStatus::FAILED, PaymentStatus::FAILED] as $status) {
+            Payment::create([
+                'user_id' => $this->user->id,
+                'subscription_id' => $subscription->id,
+                'provider' => 'robokassa',
+                'status' => $status,
+                'amount_minor' => Subscription::PRO_PRICE_MINOR,
+                'currency' => Subscription::PRO_CURRENCY,
+                'provider_amount_minor' => 100000,
+                'provider_currency' => 'RUB',
+            ]);
+        }
+
+        Http::fake(['https://auth.robokassa.ru/Merchant/Recurring' => Http::response('Rejected', 400)]);
+
+        $this->assertSame(0, app(SubscriptionPaymentService::class)->renewDueSubscriptions());
+        $this->assertSame(5, $subscription->payments()->count());
+        $this->assertSame(0, app(SubscriptionPaymentService::class)->renewDueSubscriptions());
+        $this->assertSame(5, $subscription->payments()->count());
+        Http::assertSentCount(1);
+    }
+
     public function test_a_successful_renewal_is_recovered_from_operation_state(): void
     {
         Carbon::setTestNow(Carbon::parse('2026-07-19 12:00:00 UTC'));

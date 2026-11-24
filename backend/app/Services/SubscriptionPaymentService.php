@@ -21,6 +21,8 @@ use Throwable;
 
 class SubscriptionPaymentService
 {
+    private const MAX_RENEWAL_ATTEMPTS = 3;
+
     public function __construct(private readonly RobokassaService $robokassa) {}
 
     /** @return array{payment: Payment, parameters: array<string, string>, payment_url: string} */
@@ -202,6 +204,17 @@ class SubscriptionPaymentService
             }
 
             if ($subscription->payments()->where('status', PaymentStatus::INITIATED->value)->exists()) {
+                return null;
+            }
+
+            $lastSuccessfulPaymentId = $subscription->payments()
+                ->where('status', PaymentStatus::SUCCEEDED->value)
+                ->max('id') ?? 0;
+            $failedRenewals = $subscription->payments()
+                ->where('id', '>', $lastSuccessfulPaymentId)
+                ->where('status', PaymentStatus::FAILED->value)
+                ->count();
+            if ($failedRenewals >= self::MAX_RENEWAL_ATTEMPTS) {
                 return null;
             }
 
